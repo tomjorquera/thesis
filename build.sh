@@ -1,0 +1,79 @@
+########
+# Usage
+
+USAGE_STRING="$(basename $0) [-l] texfilename(without .tex extension)"
+
+short_usage(){
+  echo "Usage: $USAGE_STRING"
+}
+
+long_usage() {
+  echo "USAGE:"
+  echo "  $USAGE_STRING"
+  echo
+  echo "OPTIONS:"
+  echo "  -l	move the log file to the current folder (if needed by another application for example)"
+  echo
+}
+
+if [ $# = 0 ]; then
+  long_usage
+  exit 0
+fi
+########
+
+
+
+########
+# PATH-related variables
+LIBS="libs"  #dependencies folder name
+OUT="generated"  #output folder name
+########
+
+
+
+######## SCRIPT START ############
+
+########
+# read optionnal arguments
+
+OPT_MOVE_LOG=0 #set to 1 to move log file to current folder
+
+while getopts ":l" OPT; do
+    case $OPT in
+      l) OPT_MOVE_LOG=1;;
+      *) short_usage; exit 1 ;;
+    esac
+done
+shift $((OPTIND-1)) #remove optionnal arguments from arg list
+########
+
+# check if tex file exists
+if [ ! -f $1.tex ]; then
+  echo "file $1.tex does not exists" 1>&2
+  short_usage
+  exit 1
+fi
+
+# add local folders to the latex dependencies path
+export TEXINPUTS=$TEXINPUTS:.:./$LIBS
+
+# check if output folder exists, if not create it
+if [ ! -d $OUT ]; then
+    mkdir $OUT
+fi
+
+########
+# generation workflow (as seen on texmaker)
+pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
+asy ./$OUT/$1.asy
+pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
+########
+
+# show pdf
+evince ./$OUT/$1.pdf &
+
+# move log if relevant option was set
+if [ $OPT_MOVE_LOG = 1 ]; then
+  mv ./$OUT/$1.log ./.
+fi

@@ -1,0 +1,17 @@
+\RequirePackage{fancyhdr}
+\RequirePackage{color}
+
+
+\def\mydoublebox{\VerbBox\@mydoublebox}
+\def\@mydoublebox#1{%
+  \begingroup
+    \setbox\@fancybox\hbox{{#1}}%
+    %\setbox\@fancybox{\colorbox{black}{{\textcolor{white}{#1}}}}
+    \fboxrule=1.75\fboxrule
+    \setbox\@fancybox\hbox{\fbox{\box\@fancybox}}%
+    %\setbox\@fancybox\hbox{\colorbox{black}{{\textcolor{white}{#1}}}}
+    \fboxrule=3\fboxrule
+    \fboxsep=\fboxrule
+    \advance\fboxsep .5pt
+    \fbox{\box\@fancybox}%
+  \endgroup}
