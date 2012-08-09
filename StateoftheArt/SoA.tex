@@ -18,11 +18,11 @@ of time and calculation, instead of finding the best solution, we settle for a s
 \centering
 \includegraphics[width=0.6\paperwidth]{searchSpace}
 \caption{Examples of local and global optimums.}
-\label{Flo:localAndGlobalOptims}
+\label{localAndGlobalOptims}
 \end{figure}
 
 
-In \ref{Flo:localAndGlobalOptims}, we can see different examples of global and local optimums. The points labeled \emph{a} and \emph{b} are both global maximums, as they have the same value. The points
+In \ref{localAndGlobalOptims}, we can see different examples of global and local optimums. The points labeled \emph{a} and \emph{b} are both global maximums, as they have the same value. The points
 \emph{c} and \emph{d} are respectively local minimum and maximum, while \emph{e} is the global minimum.
 
 A formal definition of the most simple and generic optimization problem would be:
@@ -42,7 +42,28 @@ Where \emph{X} is our search space and \emph{f(x)} the objective function we wan
 \subsubsection{Quadratic Programming}
 \subsection{Nonlinear Programming}
 
-\subsection{Multi-criteria Optimization}
+\subsection{Multi-Objective Optimization}
+
+Multi-objective optimization (also called multi-criteria optimization), or MOO, departs significantly from previous categories of optimization in the fact that you have to consider multiple objective functions instead of one. A main aspect of MOO is the way to conciliate these objectives, which are usually contradictory.
+An example of real-world everyday MOO problem could be choosing the mean of transportation for a travel, trying to find a balance between speed and cost. Airplane is the fastest way of transportation, but is expensive. While car is slower, it is cheaper. Train is slower than plane, more expensive than car, but can preferred as the best compromise. There still, however, are solutions which are strictly worse than others (in our example, renting an helicopter would probably be both more expensive and slower than buying a seat on a commercial airplane).
+From this example, we can see that, for a MOO problem, there rarely is a clear-cut "best" solution. And, more importantly, that even some solutions which are not optimum for \emph{any} of the objectives can be deemed satisfying. 
+
+
+[[FORMULATION OF A MOO PROBLEM]]
+
+We will now see which strategies have been proposed to deal with such a type of problem.
+
+\subsubsection{Objectives Aggregation}
+
+The first approach is to transform the MOO problem back to a mono-objective optimization problem, by aggregating the different objectives into one.
+
+[[Different strategies : pondered mean, goal programming, min-max -> See thesis JB Welcomme for ref]]
+
+Whatever the chosen aggregation strategy will be, this approach presents severe limitations. 
+
+\subsubsection{Pareto Dominance}
+
+\subsubsection{\emph{A priory} versus \emph{a posteriori} approaches}
 
 \subsection{Multidisciplinary Optimization}
 
