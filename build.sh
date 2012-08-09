@@ -1,4 +1,11 @@
 ########
+# target directories related variables
+LIBS="libs"  #dependencies folder name
+OUT="generated"  #output folder name
+########
+
+
+########
 # Usage
 
 USAGE_STRING="$(basename $0) [-l] texfilename(without .tex extension)"
@@ -21,16 +28,6 @@ if [ $# = 0 ]; then
   exit 0
 fi
 ########
-
-
-
-########
-# PATH-related variables
-LIBS="libs"  #dependencies folder name
-OUT="generated"  #output folder name
-########
-
-
 
 ######## SCRIPT START ############
 
