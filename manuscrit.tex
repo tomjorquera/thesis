@@ -20,7 +20,19 @@
 \usepackage{amsmath, amsthm, amssymb}
 
 %where to find the figures
-\graphicspath{ {figs/} {StateoftheArt/figs/} } 
+\graphicspath{ {figs/} {StateoftheArt/figs/} }
+
+%%%%%%%%%%%%%%%%%%%
+% custom commands
+
+%Inster a definition =>  \defintion{title}{content}
+\newcommand{\definition}[2]{
+   \begin{quotation}	\parbox{0.82\textwidth}
+		{\textbf{Definition -  #1: }#2}
+  \end{quotation} 
+} 
+
+%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
