@@ -5,14 +5,25 @@
 
 \subsection{Basic Concepts}
 
-Before starting to present the different categories of optimization and some related existing methods, we would like to take some time defining what exactly optimization is. In the more general way, optimizing is \emph{trying to find the best element among an element set} (when finding this best element is not trivial, we can rightfully talk of \emph{solving an optimization problem). }This somewhat simple definition implies in fact quite a lot.
+Before starting to present the different categories of optimization, we would like to take some time defining what exactly optimization is.\\
+In the more general way, optimizing is \emph{trying to find the best element among an element set}. When finding this best element is not trivial, we can rightfully talk of \emph{solving an optimization problem}. This seemingly simple definition implies in fact quite a lot.
 
-First of all it implies we have a defined set of element to choose from. As we will see, the topology of the set is in fact of the utmost importance for solving the problem. This set of element is often named the \emph{search space}, \emph{solution space} or \emph{domain}. In {}``simple'' optimization problems, the search space can be simply defined by a set of elements (for example \{a,b,c\} or \ensuremath{\mathbb{R}}) associated with a set of \emph{constraints}. For large problems, the search space can be defined by calculus-heavy equations, empirical models, complex algorithms ... or even a mix of all of the above.
+First of all it requires we have a defined set of element to choose from. As we will see, the topology of the set is of the utmost importance for choosing the way of solving the problem. This set of element is often named the \emph{search space}, \emph{solution space} or \emph{domain}. In "simple" optimization problems, the search space can be simply defined by a set of elements (for example \{a,b,c\} or \ensuremath{\mathbb{R}}) associated with a set of \emph{constraints}. For large problems, the search space can be defined by calculus-heavy equations, empirical models, complex algorithms ... or even a mix of all of the above.
+
+\definition{Search space}{the set containing all the possible candidates of the optimization problem.}
+
+While we said that the search space can be defined by a set of constraint, It is often more convenient to express the constraints separately. For example, if the search space of an optimization problem is defined over all the real numbers lower than 2, instead of defining the search space as [-\(\infty\) : 2], it will usually be refereed as \mathbb{R}, with the added constraint \(x < 2\). Usually we say the problem to be \emph{subject to (s. t.)} the constraint.\\
+In theory these two formulations should be equivalent. In practice however, these constraints are often the result of a real-world concern, and thus subject to some inherent imprecision. Back to our travel metaphor, we can imagine that we set the maximum travel cost we are ready pay to a price of one thousand euro. Does that really means that a solution which would cost one thousand euro \textbf{and one cent} would be unacceptable ? Obviously not.  In engineering design, this is a common situation, and making these constraints explicits can be advantageous.
 
 Since we want to find the best element of this solution space, we have to determine what make an element better than another. Usually, the possible solutions are compared through a specific function called the \emph{objective function}. Some alternate names are \emph{criterion} or \emph{cost function}. The best element would be the one for which the objective function returns a minimal (or alternatively, maximal\footnote{Obviously we sometimes want to find the \emph{maximal} value which is solution of a problem, however minimizing f(x) is equivalent to maximizing (-f(x)). So maximization problems can be expressed as minimization problems, and vice-versa. Traditionally, optimization problems are often expressed in the terms of finding a \emph{minimal} value since the two possibilities are equivalents.}) value. It should be noted that it is possible for a problem to admit several equivalent solutions in regard of the objective function.
 
+\definition{Objective function}{a function defined over the search space of the optimization problems.}
+
 The least obvious keyword here is \emph{try}. When the search space is very large, or its topology is complicated, it can be really long or difficult to find the best solution and, more important, to be sure that the solution is the best. In fact, in these problems, the only way to find the best solution with certainty is an exhaustive exploration of the search space. Since it can be very costly in terms
-of time and calculation, instead of finding the best solution, we settle for a solution which is {}``good enough'', for example because this solution is the best for a subpart of the search space. The best solution is called the \emph{global optimum}, while a {}``good enough'' solution is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, where methods which search for local optimum are said to be \emph{local optimization methods}.
+of time and calculation, instead of finding the best solution, we settle for a solution which is "good enough", for example because this solution is the best for a subpart of the search space. The best solution is called the \emph{global optimum}, while a "good enough" solution is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, where methods which search for local optimum are said to be \emph{local optimization methods}.
+
+\definition{Optimize}{finding an element of the search space which minimize (or maximize) the value of the objective-function}
+
 
 \begin{figure}
 \centering
@@ -21,17 +32,13 @@ of time and calculation, instead of finding the best solution, we settle for a s
 \label{localAndGlobalOptims}
 \end{figure}
 
-
 In \ref{localAndGlobalOptims}, we can see different examples of global and local optimums. The points labeled \emph{a} and \emph{b} are both global maximums, as they have the same value. The points
 \emph{c} and \emph{d} are respectively local minimum and maximum, while \emph{e} is the global minimum.
 
-A formal definition of the most simple and generic optimization problem would be:
+From all the preceding, we can provide the minimal formulation of an optimization problem as follow 
 
-\begin{equation}
-min\, f(x)\, s.t.\,(x\in X)
-\end{equation}
-
-Where \emph{X} is our search space and \emph{f(x)} the objective function we want to minimize. 
+\definition{Optimization problem}{ \(\text{minimize } f(x) \text{ subject to } (x \in S)\)\\
+Where \emph{S} is the problem search space and \emph{f(x)} the objective function.}
 
 \subsubsection{No Free Lunch Theorem}
 
