@@ -1,0 +1,98 @@
+%-------------------------------------------------------------------
+%                         Page de titre:
+%-------------------------------------------------------------------
+% La page de titre se compose automatiquement avec la commande
+% \MakeThesisTitlePage
+% Certains champs ont des valeurs par d\'efaut (Th\`ese pr\'esent\'ee \`a...),
+% valeur qui d\'epende du style utilis\'e (rennes1, ou brest)
+%
+% l'exemple suivant fait le tour des commandes modifiables
+
+%\newcommand{\MakeThesisSynthesisPage}%
+%{%
+%  \newpage
+%  \@cover@hook
+%  \thispagestyle{empty}
+%  \begin{changemargin}{-1.5cm}{-1cm}
+%    \thesissynthesispgebody
+%  \end{changemargin}
+%  \newpage  
+%  \if@twoside
+%  \thispagestyle{empty}
+%  \hbox{}
+%  \par\vfill
+%  \newpage
+%  \addtocounter{page}{-2}%
+%  \else
+%  \addtocounter{page}{-2}%
+%  \fi
+%  \fontencoding{OT1}\normalfont\selectfont
+%  }%
+%\newcommand\thesissynthesispgebody{%
+% %---------------------------------------------------
+%  \if@doubleinterligne\renewcommand\baselinestretch{1.0}\fi
+%  %\vspace*{2cm} 
+%  %
+%  %POUR DECALER VERS LE BAS LA PAGE DE TITRE%
+%  \begin{center}
+%    \vfill
+%    \Large\@ThesisAuthorFirstName\space\@ThesisAuthorLastName
+%    \vfill
+%    \textsc{\textbf{\@ThesisTitle}}
+%    \vfill
+%    \normalsize\normalfont Directeur de thse :
+%    \vfill
+%    \@ThesisSupervisorFirstName\space\@ThesisSupervisorLastName, \@ThesisSupervisorTitle
+%    \vfill
+%    \textbf{-- Rsum --}
+%    \input{chapitre0/resume}
+%  \end{center}
+% %---------------------------------------------------
+%  }
+
+\NumeroOrdre{}
+
+\ThesisMention{Informatique}
+
+\ThesisTitle{A Multiagent System based Framework for Optimization} 
+
+%\ThesisAbbrv{Le titre court de ma thse}
+
+\ThesisDate{31th Febuary 2012}
+
+\ThesisAuthorFirstName{Tom}
+
+\ThesisAuthorLastName{Jorquera}
+
+\ThesisSupervisorFirstName{Marie-Pierre}
+
+\ThesisSupervisorLastName{Gleizes}
+
+\ThesisSupervisorTitle{DR}
+
+\EquipeAccueil = {Systèmes Multi-Agents Coopératifs}
+
+\LaboratoireAcceuil = {Institut de Recherche en Informatique de
+Toulouse}
+
+\EcoleDoctorale= {Informatique et Télécommunication}
+
+\CompositionDuJury{
+  \begin{center}
+  \UseEntryFont{ThesisCompositionJury}
+
+  \begin{tabular}{lll}
+    \multicolumn{3}{c}{\textsc{Jury}\vspace{0.5em}}\\
+    Michle \textsc{Dupont} & \emph{Professeure, Universit de Toulouse III} & (prsidente du jury)\\
+    \\
+    Anne \textsc{Durand} & \emph{Professeure, Universit de Caen} & (rapporteure)\\
+    \multicolumn{3}{c}{\textsc{Invit}\vspace{0.5em}}\\
+    Marc \textsc{Duval} & \emph{MCF, Universit de Toulouse III} & (co-encadrant)\\
+  \end{tabular}
+  \end{center}
+}
+\def\blanc{\hspace*{.5cm}}
+
+% Creation de la page de titre:
+\MakeThesisTitlePage
+
