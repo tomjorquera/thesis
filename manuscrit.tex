@@ -25,13 +25,15 @@
 %%%%%%%%%%%%%%%%%%%
 % custom commands
 
-%Inster a definition =>  \defintion{title}{content}
+%Insert a definition =>  \defintion{title}{content}
 \newcommand{\definition}[2]{
    \begin{quotation}	\parbox{0.9\textwidth}
 		{\textbf{Definition -  #1: }#2}
   \end{quotation} 
 } 
 
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
 
 \makeindex
@@ -41,7 +43,47 @@
 \begin{document}
 
 \input{Prelude/PageTitre}
+%\input{Prelude/PagesResumes}
+
+%\begin{ThesisDedication}
+%\input{Prelude/Dedicace}
+%\end{ThesisDedication}
+
+%\newpage
+%\thispagestyle{plain}
+%\input{Prelude/Remerciements}
+
+\Sommaire
+
+\Introduction{Introduction} \label{introduction}
+%\input{Prelude/Introduction}
+
+%%%%%%%%%%%%%%%%%%%
+
+%\Partie{Ma première partie}
 
 \input{StateoftheArt/SoA}
+
+%%%%%%%%%%%%%%%%%%%
+
+\Conclusion{Conclusion}
+%\input{Conclusion/Conclusion}
+
+%%%%%%%%%%%%%%%%%%%
+
+\appendix
+\Partie{Annexes}
+
+%\chapter{Une annexe}
+
+%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{plainnat-fr}
+\Bibliographie{example}
+
+%%%%%%%%%%%%%%%%%%%
+
+\ListeFigures{Liste des figures}
+\ListeTables{Liste des tables}
 
 \end{document}
