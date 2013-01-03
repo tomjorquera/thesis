@@ -83,7 +83,11 @@ Concerning the choice of the aggregation function, different strategies can be u
 
 Whatever the chosen aggregation strategy will be, this approach presents severe limitations.  [[give them]]
 
-\subsection{Pareto Dominance}
+\subsection{A Posteriori Methods}
+
+We have seen that, while convenient, \emp{a priori} methods can be quite restrictive. By choosing beforehand a way to aggregate the objectives, we lose in diversity of solutions and influence the result of the optimization process.
+
+\subsubsection{Pareto Dominance}
 
 A radically different approach has be proposed, using the concepts of Pareto dominance and Pareto optimality. These concepts were originally been developed in economical sciences first by Francis Edgeworth and later Vilfredo Pareto. The initial application of the concepts was to propose a minimal definition of "efficiency", regarding allocation of resources inside an economical system.
 
@@ -120,7 +124,7 @@ Historically, evolutionary algorithms are divided in two main categories, based 
 [[  Goldberg and Richardson (1987) =>  Simple Pareto domination scheme. • Sharing on whole population]]
 
 
-\subsubsection{elitist evolutionary algorithms}
+\subsubsection{Elitist evolutionary algorithms}
 
 Different possibilities has been explored to introduce elitism in MOAE. A common approach is to use a second population consisting of elite, non-dominated individuals, which are used as recombination partners for the main population.
 
@@ -136,6 +140,3 @@ Different possibilities has been explored to introduce elitism in MOAE. A common
 A special case of optimization is optimization in dynamic environment.
 
 \subsection{Genetic Algorithms}
-
-
-\end{document}
