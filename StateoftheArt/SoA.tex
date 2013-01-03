@@ -23,7 +23,6 @@ of time and calculation, instead of finding the best solution, we settle for a s
 
 \definition{Optimizing}{finding an element of the search space which minimize (or maximize) the value of the objective-function}
 
-
 \begin{figure}
 \centering
 \includegraphics[width=0.6\paperwidth]{searchSpace}
@@ -135,6 +134,74 @@ Different possibilities has been explored to introduce elitism in MOAE. A common
 \section{Multidisciplinary Optimization}
 
 \section{Optimization under Uncertainties}
+
+In a pure mathematical world, all models are perfectly correct and have an infinite precision. However, in the physical world, our knowledge can be extremely limited. Moreover, high precision models can require a long time to be computed, making them prohibitively costly when used in the context of an optimization process. At last, when the optimization problem is complex, a small approximation can result in large variations of the output, if the system is sensitive to parameters variations.
+[[ILLUSTRATE THE SENSIVITY PROBLEM WITH AN EXAMPLE]]
+
+In order to tackle these issues, several works have been done to take in account uncertainties into the optimization process. We propose to make a quick tour of the different ways which have been propose to model and propagate uncertainties.
+
+\subsection{Several types of uncertainties}
+
+[[TALK ABOUT system vs experimental vs modeling uncertainties ?]]
+
+A distinction is usually made between \emph{aleatory} uncertainties and \emp{epistemic} uncertainties.
+
+Aleatory uncertainties are inherent to the studied system. They can represent for example variability in the material used, a physical variation regarding the manufacturing of some piece, the meteorological conditions to which a device will be exposed etc.
+These uncertainties are \emph{irreducible} as it is impossible to remove them with a better analysis of the system.
+
+Epistemic uncertainties result from an incomplete knowledge regarding the system. These uncertainties can result from a limited set of data or lack of knowledge regarding a physical phenomenon.
+The uncertainties are \emph{reducible} as it is possible to remove them with a better analysis of the system. However, removing epistemic uncertainty can often be too costly or too difficult in practice, thus still need to be taken in account during the optimization process.
+
+\subsection{Uncertainties Modeling Techniques}
+
+\subsubsection{Probability Theory}
+
+Using the probability theory, uncertainty can be modeled using a distribution function. This modeling provides the advantages of a well-studied theoretical foundation, providing combination and propagation techniques.
+
+Aleatory uncertainties can be characterized by obtaining a distribution function from a data sample.
+Well-known statistical techniques can be used to see for example if a data sample follows a known probability distribution, measuring \emph{goodness of fit}, that is, how well a data sample follows a given model, such as the Kolmogorov-Smirnov test [[REF Massey, F. J., The Kolmogorov-Smirnov test for goodness of fit , Journal of the American statistical association, 1951.]]  
+However, care must be taken as these techniques can introduce some more epistemic uncertainties which can lead to misleading results (for example in the case of insufficient data samples).
+
+Concerning epistemic uncertainty, it can be more difficult to estimate a relevant distribution function  [[TO EXPAND]]
+
+\subsubsection{Interval Analysis}
+
+Interval analysis can be an alternative to probability theory when the lack of information impeded modeling with a probability distribution, but where the uncertainty can still be bounded within a certain domain.
+
+[[ TO USE From Delivrable 31, p13      
+      "Sampling based techniques similar to Monte Carlo simulation can also be used as brute
+force approaches in cases where no simplification of the problem (linearization, monotonicity)
+can be done. However, this can be extremely expensive computationally and global
+optimization techniques are usually more efficient (see [13]).
+       A significant drawback of using interval analysis for uncertainty quantification is that
+there is no uncertainty measure in the way we have probability in probabilistic approaches.
+Since the uncertainty is characterized only by the interval bounds we know nothing about the
+likelihood of the values within this interval. In probability theory the likelihood of different
+values is quantified by the PDF, which allows to define the probability of some values lying
+in a certain domain, i.e. to define an uncertainty measure. This is not available in interval
+analysis.
+      We do not detail here any further the arithmetics and uncertainty propagation methods
+for interval analysis due to the lack of uncertainty measure equivalent to probability. This
+decreases the appeal of interval analysis in applications such as reliability based optimization
+or robust design. It is important to note however that in cases where input variables can be
+accurately bounded, interval analysis provides efficient tools for determining the interval of
+the output quantity with absolute certainty (provided we have absolute certainty in the interval
+uncertainty quantification on our input variables). This is especially useful in cases where
+only the worst case needs to be considered."
+]]]
+
+\subsubsection{Fuzzy Sets}
+Fuzzy Sets can be seen as a compromise for when we still lack enough information to use probability theory, but we have more knowledge than just the bounds of the uncertainty.
+
+[[Insert explanations]]
+
+Fuzzy Sets quantification capability to represent vague information make it attractive to model epistemic uncertainty, as it is more precise than interval analysis and well-suited to express expert knowledge. However this modeling is less powerful and expressive than probability theory, lacking for example a mean to represent an uncertainty measure equivalent to the probability of the probability theory.
+To remediate this limitation, the fuzzy set theory was extended into the possibility theory
+
+\subsubsection{Possibility Theory}
+
+\subsubsection{Evidence Theory}
+
 
 \section{Optimization in Dynamic Environments}
 A special case of optimization is optimization in dynamic environment.
