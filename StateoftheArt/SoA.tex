@@ -1,8 +1,8 @@
-\part{State of the Art}
+%\part{State of the Art}
 
-\chapter{Optimization}
+\part{Optimization}
 
-\section{Basic Concepts}
+\chapter{Basic Concepts}
 
 Before starting to present the different categories of optimization, we would like to take some time defining what exactly optimization is.\\
 In the more general way, optimizing is \emph{trying to find the best element among an element set}. When finding this best element is not trivial, we can rightfully talk of \emph{solving an optimization problem}. This seemingly simple definition implies in fact quite a lot.
@@ -38,22 +38,22 @@ From all the preceding, we can provide the minimal formulation of an optimizatio
 \definition{Optimization problem}{ [[NOT GOOD]] \(\text{minimize } f(x) \text{ subject to } (x \in S)\)\\
 Where \emph{S} is the problem search space and \emph{f(x)} the objective function.}
 
-\subsection{No Free Lunch Theorem}
+\section{No Free Lunch Theorem}
 [[AVANT OU APRES LA DESCRIPTION DES DIFFERENTES METHODES ?]]
 
 [[Compromis entre Exploration et Exploitation cf Berro Thesis]]
 
-\subsection{Combinatorial Optimization}
+\section{Combinatorial Optimization}
 
-\section{Numerical Optimization}
-\subsection{Linear Programming}
-\subsection{Quadratic Programming}
+\chapter{Numerical Optimization}
+\section{Linear Programming}
+\section{Quadratic Programming}
 
-\section{Nonlinear Programming}
+\chapter{Nonlinear Programming}
 
-\section{Multi-Objective Optimization}
+\chapter{Multi-Objective Optimization}
 
-Multi-objective optimization (also called multi-criteria optimization), or MOO, departs significantly from previous categories of optimization in the fact that you have to consider multiple objective functions instead of one. A main aspect of MOO is the way to conciliate these objectives, which are usually contradictory.
+Multi-objective optimization (MOO) departs significantly from previous categories of optimization in the fact that you have to consider multiple objective functions instead of one. A main aspect of MOO is the way to conciliate these objectives, which are usually contradictory.
 An example of real-world everyday MOO problem could be choosing the mean of transportation for a travel, trying to find a balance between speed and cost. Airplane is the fastest way of transportation, but is expensive. While car is slower, it is cheaper. Train is slower than plane, more expensive than car, but can preferred as the best compromise. There still, however, are solutions which are strictly worse than others (in our example, renting an helicopter would probably be both more expensive and slower than buying a seat on a commercial airplane).
 From this example we can see that, for a MOO problem, there rarely is a clear-cut "best" solution. And more importantly that even some solutions which are not optimum for \emph{any} of the objectives can be deemed satisfying. Only when each objective is completely independent then a MOO problem can be handled as a set of separated mono-objective optimization problems. 
 
@@ -66,28 +66,72 @@ A third category can also be considered: the \emph{interactive} methods. Basical
 
 We will now see some of the strategies have been proposed to deal with such a type of problem.
 
-\subsection{A Priori Methods - Objectives Aggregation}
+\section{A Priori Methods}
 
-The first approach is to transform the MOO problem back to a mono-objective optimization problem, by aggregating the different objectives into one. This can be expressed as follow : \(f_g = aggr(f_1,f_2,...,f_n)\), where \(f_1, f_2...,f_n\) are the original objectives and \(f_g\) the aggregated one, which will be used with classical mono-objective optimization methods. 
+\subsection{Objectives Aggregation}
+
+The first approach is to transform the MOO problem back to a mono-objective optimization problem, by aggregating the different objectives into one. This can be expressed as follow : \(f_g = aggr(f_1, f_2, ..., f_n)\), where \(f_1, f_2, ..., f_n\) are the original objectives and \(f_g\) the aggregated one, which will be used with classical mono-objective optimization methods.
+
 Concerning the choice of the aggregation function, different strategies can be used.
 
-\begin{itemize}
+Concerning the choice of the aggregation function, the simplest strategy is to use a classical function such as addition, multiplication, mean, max or min of the objectives: these methods present the major drawback of requiring the aggregated values to be comparable.[[ Keeping with our travel example]], is it relevant to simply add duration and cost ?
 
-\item addition, multiplication, mean, max or min of the objectives: these methods present the major drawback of requiring the aggregated values to be comparable.[[ Keeping with our travel example]], is it relevant to simply add duration and cost ?
+A slightly more sophisticated way is to use pondered mean: we attribute a coefficient to each objective when adding them :
 
-\item pondered mean: we attribute a coefficient to each objective when adding them. This method allows to express a preference between different objectives, as well as bringing back on comparable scale different objectives. However, one now has to decide of the coefficients to choose. Also, this method can hide some information concerning the solution, for example an extremely poor result in one of the objectives, compensated by small improvements in all the others.
+\[ f(x) =\sum_{i=1}^n w_i f_i(x) \]
 
-[[parler de goal programming, min-max etc. ? (cf these berro)]]
+Where $w_i$ are the coefficients representing the relative preferences between the objectives.
 
-\end{itemize}
+This method allows to express a preference between different objectives, as well as bringing back on comparable scale different objectives. However, one now has to decide of the coefficients to choose. Also, this method can hide some information concerning the solution, for example an extremely poor result in one of the objectives, compensated by small improvements in all the others.  [[Moreover, this solution present some limitations when the solution space is nonconvex [[EXPAND]]]]
 
-Whatever the chosen aggregation strategy will be, this approach presents severe limitations.  [[give them]]
+[[To get refs which criticize Weighted sum, see "Survey of multi-objective optimization methods for engineering"]]
 
-\subsection{A Posteriori Methods}
+\subsection{Lexicographic Method}
+
+In this method, the objectives functions are arranged and optimized by order of importance. The result of the optimization at a given step become a constraint to satisfy for the following steps.
+
+Formally, the problem become an ordered set of optimization problems expressed as follow:
+
+\[
+\mbox{min } f_i(x)
+\mbox{subject to }f_j(x) \leq f_j(x_j^*), j = 1, ..., i-1
+\]
+
+\subsection{$\epsilon$-constraint Method}
+
+The $\epsilon$-constraint method proposes to change the expression of the problem by keeping only one objective (the one deemed the most important) and transforming the others into inequality constraints.
+
+For example, the problem \[\mbox{min } f_1, f_2, ...,f_n\] where $f_1$ is deemed the most important objective would be transformed in
+\[
+\mbox{min } f_1
+\mbox{subject to } f_2 \leq \epsilon_2, ..., f_n \leq \epsilon_n
+\]
+
+Where $\epsilon_2, ..., \epsilon_n$ must be chosen by the designer.
+Depending of the selection of $\epsilon_2, ..., \epsilon_n$, it is possible to obtain a formulation where no feasible solution exist.
+[["Survey of multi-objective optimization methods for engineering" -> Bounded objective function method for some ref about methods to select \epsilon]]
+
+\subsection{Goal Programming}
+
+[[REF in "Survey of multi-objective optimization methods for engineering"]]
+
+The idea of Goal Programming (also called Target Vector Optimization) is to fix for each objective an associated goal to reach .Each objective can be over- or underachieving its goal, allowing the designer to provide a rough idea of the initial design goals.
+
+The new objective is to minimize the total deviation $\sum_{i=1}^n |f_i - g_i|$ where $g_i$ is the goal associated to objective $f_i$.
+
+\subsection{Min-Max Method}
+
+This method is similar to the Goal Programming. Instead 
+
+[[Talk of weighted min-max and variants]]
+
+[[Give limitations of a priori methods]]
+
+\section{A Posteriori Methods}
 
 We have seen that, while convenient, \emp{a priori} methods can be quite restrictive. By choosing beforehand a way to aggregate the objectives, we lose in diversity of solutions and influence the result of the optimization process.
 
-\subsubsection{Pareto Dominance}
+\subsection{Pareto Dominance}
 
 A radically different approach has be proposed, using the concepts of Pareto dominance and Pareto optimality. These concepts were originally been developed in economical sciences first by Francis Edgeworth and later Vilfredo Pareto. The initial application of the concepts was to propose a minimal definition of "efficiency", regarding allocation of resources inside an economical system.
 
@@ -117,31 +161,31 @@ A widespread strategy to find the Pareto front is to use [[population-based]] me
 
 Historically, evolutionary algorithms are divided in two main categories, based on whether or not they use elitism mechanisms, with some consensus concerning the superiority of elitist algorithms.
 
-\subsubsection{Non-elitist evolutionary algorithms}
+\section{Evolutionary Algorithms}
+\subsection{Non-elitist evolutionary algorithms}
 
 [[Vector Evaluated Genetic Algorithm (VEGA) Schaffer (1985) => Non Pareto]
 
 [[  Goldberg and Richardson (1987) =>  Simple Pareto domination scheme. • Sharing on whole population]]
 
 
-\subsubsection{Elitist evolutionary algorithms}
+\subsection{Elitist evolutionary algorithms}
 
 Different possibilities has been explored to introduce elitism in MOAE. A common approach is to use a second population consisting of elite, non-dominated individuals, which are used as recombination partners for the main population.
 
 [[Signal that evolutionary algorithms have difficulties with more than two objectives ?]]
 
-\subsection{Interactive Methods [[?]]}
+\section{Interactive Methods [[?]]}
 
-\section{Multidisciplinary Optimization}
-
-\section{Optimization under Uncertainties}
+\chapter{Optimization under Uncertainties}
 
 In a pure mathematical world, all models are perfectly correct and have an infinite precision. However, in the physical world, our knowledge can be extremely limited. Moreover, high precision models can require a long time to be computed, making them prohibitively costly when used in the context of an optimization process. At last, when the optimization problem is complex, a small approximation can result in large variations of the output, if the system is sensitive to parameters variations.
+
 [[ILLUSTRATE THE SENSIVITY PROBLEM WITH AN EXAMPLE]]
 
 In order to tackle these issues, several works have been done to take in account uncertainties into the optimization process. We propose to make a quick tour of the different ways which have been propose to model and propagate uncertainties.
 
-\subsection{Several types of uncertainties}
+\section{Several types of uncertainties}
 
 [[TALK ABOUT system vs experimental vs modeling uncertainties ?]]
 
@@ -153,9 +197,9 @@ These uncertainties are \emph{irreducible} as it is impossible to remove them wi
 Epistemic uncertainties result from an incomplete knowledge regarding the system. These uncertainties can result from a limited set of data or lack of knowledge regarding a physical phenomenon.
 The uncertainties are \emph{reducible} as it is possible to remove them with a better analysis of the system. However, removing epistemic uncertainty can often be too costly or too difficult in practice, thus still need to be taken in account during the optimization process.
 
-\subsection{Uncertainties Modeling Techniques}
+\section{Uncertainties Modeling Techniques}
 
-\subsubsection{Probability Theory}
+\subsection{Probability Theory}
 
 Using the probability theory, uncertainty can be modeled using a distribution function. This modeling provides the advantages of a well-studied theoretical foundation, providing combination and propagation techniques.
 
@@ -165,7 +209,7 @@ However, care must be taken as these techniques can introduce some more epistemi
 
 Concerning epistemic uncertainty, it can be more difficult to estimate a relevant distribution function  [[TO EXPAND]]
 
-\subsubsection{Interval Analysis}
+\subsection{Interval Analysis}
 
 Interval analysis can be an alternative to probability theory when the lack of information impeded modeling with a probability distribution, but where the uncertainty can still be bounded within a certain domain.
 
@@ -191,7 +235,7 @@ uncertainty quantification on our input variables). This is especially useful in
 only the worst case needs to be considered."
 ]]]
 
-\subsubsection{Fuzzy Sets}
+\subsection{Fuzzy Sets}
 Fuzzy Sets can be seen as a compromise for when we still lack enough information to use probability theory, but we have more knowledge than just the bounds of the uncertainty.
 
 [[Insert explanations]]
@@ -199,11 +243,13 @@ Fuzzy Sets can be seen as a compromise for when we still lack enough information
 Fuzzy Sets quantification capability to represent vague information make it attractive to model epistemic uncertainty, as it is more precise than interval analysis and well-suited to express expert knowledge. However this modeling is less powerful and expressive than probability theory, lacking for example a mean to represent an uncertainty measure equivalent to the probability of the probability theory.
 To remediate this limitation, the fuzzy set theory was extended into the possibility theory
 
-\subsubsection{Possibility Theory}
+\subsection{Possibility Theory}
 
-\subsubsection{Evidence Theory}
+\subsection{Evidence Theory}
 
-\subsection{Using Uncertainty for Robust Optimization}
+\section{Using Uncertainty for Robust Optimization}
+
+\subsection{Taguchi Method - The firsts steps of Robust Optimization }
 
 Robust optimization tries to provide a solution which is both good and insensible to small variations of the inputs.
 
@@ -231,9 +277,16 @@ This mean can then be used to calculate the standard deviation as follows
  $SN_T$ can then be calculated as
  
  \[ SN_T = 10\mbox{log}\left(\frac{\bar{y}^2}{S^2}\right) \]
+ 
+ To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi use the Design of Experiment, a statistical procedure for determining the effect of multiple inputs on a desired output. [[GIVE A REF ON DOE]]
 
+[[EXPAND ON DOE  ?]]
 
-\section{Optimization in Dynamic Environments}
+\subsection{}
+
+\chapter{Optimization in Dynamic Environments}
 A special case of optimization is optimization in dynamic environment.
 
-\subsection{Genetic Algorithms}
+\section{Genetic Algorithms}
+
+\chapter{Multidisciplinary Optimization}
