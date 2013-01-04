@@ -48,6 +48,7 @@ Where \emph{S} is the problem search space and \emph{f(x)} the objective functio
 \section{Numerical Optimization}
 \subsection{Linear Programming}
 \subsection{Quadratic Programming}
+
 \section{Nonlinear Programming}
 
 \section{Multi-Objective Optimization}
@@ -201,6 +202,35 @@ To remediate this limitation, the fuzzy set theory was extended into the possibi
 \subsubsection{Possibility Theory}
 
 \subsubsection{Evidence Theory}
+
+\subsection{Using Uncertainty for Robust Optimization}
+
+Robust optimization tries to provide a solution which is both good and insensible to small variations of the inputs.
+
+The research on robust optimization has been initiated with Taguchi's robust design methodology[[REF]], aiming at improving the quality of manufactured goods.
+In his methodology, Taguchi proposes a three-stages process :
+\begin{itemize}
+\item System design, where the designers determine the overall structure of the product at a high conceptual level;
+\item Parameter design, where the optimal values of the design variables are determined;
+\tiem Tolerance design,  which focus on reducing the variability of the  various parameters to fix an acceptable limit to the variability of quality for the product.
+\end{itemize}
+
+To help the designers during the parameter design phase, Taguchi introduced several measures, among them the Signal-to-Noise (SN) ratios. These ratios are used to estimate the sensitivity of a performance of the product to variations. Each ratio relate to a possible goal regarding the studied performance: larger the better, smaller the better, on target the best. These ratios are respectively noted $SN_L$, $SN_S$ and $SN_T$.
+By simulation or experimentation, one must first produce a data set.
+
+The $SN_L$ and $SN_S$ can be directly calculated as
+
+\[SN_L = -10\mbox{log}\left( \frac{1}{n} \sum_{i=1}^n \frac{1}{y_i^2} \right)\]
+\[SN_S = -10\mbox{log}\left( \frac{1}{n} \sum_{i=1}^n y_i^2 \right)\]
+
+For $SN_T$, we need first to measure the mean response, given by $\bar{y} = \frac{1}{n}\sum_{i=1}^n y_i$
+This mean can then be used to calculate the standard deviation as follows 
+\[S = \sqrt{\sum_{i=1}^n \frac{(y_i - \bar{y})^2}{n-1}}\]
+[[REALLY GIVE THE FORMULAS OF MEAN AND STD ??]]
+
+ $SN_T$ can then be calculated as
+ 
+ \[ SN_T = 10\mbox{log}\left(\frac{\bar{y}^2}{S^2}\right) \]
 
 
 \section{Optimization in Dynamic Environments}
