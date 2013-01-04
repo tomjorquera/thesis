@@ -35,7 +35,11 @@ In figure \ref{localAndGlobalOptims}, we can see different examples of global an
 
 From all the preceding, we can provide the minimal formulation of an optimization problem as follow 
 
-\definition{Optimization problem}{ [[NOT GOOD]] \(\text{minimize } f(x) \text{ subject to } (x \in S)\)\\
+\definition{Optimization problem}{
+\begin{align*}
+\text{minimize } &f(x) \\
+\text{subject to } &(x \in S)
+\end{align*}
 Where \emph{S} is the problem search space and \emph{f(x)} the objective function.}
 
 \section{No Free Lunch Theorem}
@@ -92,20 +96,21 @@ In this method, the objectives functions are arranged and optimized by order of 
 
 Formally, the problem become an ordered set of optimization problems expressed as follow:
 
-\[
-\mbox{min } f_i(x)
-\mbox{subject to }f_j(x) \leq f_j(x_j^*), j = 1, ..., i-1
-\]
+\begin{align*}
+\text{min } &f_i(x) \\
+\text{subject to } &f_j(x) \leq f_j(x_j^*) \\
+j = &1, ..., i-1
+\end{align*}
 
 \subsection{$\epsilon$-constraint Method}
 
 The $\epsilon$-constraint method proposes to change the expression of the problem by keeping only one objective (the one deemed the most important) and transforming the others into inequality constraints.
 
-For example, the problem \[\mbox{min } f_1, f_2, ...,f_n\] where $f_1$ is deemed the most important objective would be transformed in
-\[
-\mbox{min } f_1
-\mbox{subject to } f_2 \leq \epsilon_2, ..., f_n \leq \epsilon_n
-\]
+For example, the problem \[\text{min } f_1, f_2, ...,f_n\] where $f_1$ is deemed the most important objective would be transformed in
+\begin{align*}
+\text{min } &f_1 \\
+\text{subject to } &f_2 \leq \epsilon_2, ..., f_n \leq \epsilon_n
+\end{align*}
 
 Where $\epsilon_2, ..., \epsilon_n$ must be chosen by the designer.
 Depending of the selection of $\epsilon_2, ..., \epsilon_n$, it is possible to obtain a formulation where no feasible solution exist.
@@ -266,8 +271,8 @@ By simulation or experimentation, one must first produce a data set.
 
 The $SN_L$ and $SN_S$ can be directly calculated as
 
-\[SN_L = -10\mbox{log}\left( \frac{1}{n} \sum_{i=1}^n \frac{1}{y_i^2} \right)\]
-\[SN_S = -10\mbox{log}\left( \frac{1}{n} \sum_{i=1}^n y_i^2 \right)\]
+\[SN_L = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n \frac{1}{y_i^2} \right)\]
+\[SN_S = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n y_i^2 \right)\]
 
 For $SN_T$, we need first to measure the mean response, given by $\bar{y} = \frac{1}{n}\sum_{i=1}^n y_i$
 This mean can then be used to calculate the standard deviation as follows 
@@ -276,7 +281,7 @@ This mean can then be used to calculate the standard deviation as follows
 
  $SN_T$ can then be calculated as
  
- \[ SN_T = 10\mbox{log}\left(\frac{\bar{y}^2}{S^2}\right) \]
+ \[ SN_T = 10\text{log}\left(\frac{\bar{y}^2}{S^2}\right) \]
  
  To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi use the Design of Experiment, a statistical procedure for determining the effect of multiple inputs on a desired output. [[GIVE A REF ON DOE]]
 
