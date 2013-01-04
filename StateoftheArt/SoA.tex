@@ -162,19 +162,41 @@ As a remark, these definitions of efficiency and optimality do not give any info
 These definitions of dominance and optimality can be used to characterize the possibles solutions of MOO problem. In this case, the problem is no more to find an optimal solution, but to find the Pareto front of the problem.
 
 [[TODO: give some example of Pareto methods]]
+
+\subsection{Normal Boundary Intersection Method}
+
+[[
+@article{doi:10.1137/S1052623496307510,
+author = {Das, I. and Dennis, J.},
+title = {Normal-Boundary Intersection: A New Method for Generating the Pareto Surface in Nonlinear Multicriteria Optimization Problems},
+journal = {SIAM Journal on Optimization},
+volume = {8},
+number = {3},
+pages = {631-657},
+year = {1998},
+doi = {10.1137/S1052623496307510},
+
+URL = {http://epubs.siam.org/doi/abs/10.1137/S1052623496307510},
+eprint = {http://epubs.siam.org/doi/pdf/10.1137/S1052623496307510}
+}
+]]
+
+Normal Boundary Intersection (NBI) method provides a even distribution of Pareto-optimal solutions using a parameter vector $w$ provided by the designer.
+
+\subsection{Evolutionary Algorithms}
+
 A widespread strategy to find the Pareto front is to use [[population-based]] metaheuristics, such as Multi-Objective Evolutionary Algorithms (MOEA). 
 
 Historically, evolutionary algorithms are divided in two main categories, based on whether or not they use elitism mechanisms, with some consensus concerning the superiority of elitist algorithms.
 
-\section{Evolutionary Algorithms}
-\subsection{Non-elitist evolutionary algorithms}
+\subsubsection{Non-elitist evolutionary algorithms}
 
 [[Vector Evaluated Genetic Algorithm (VEGA) Schaffer (1985) => Non Pareto]
 
 [[  Goldberg and Richardson (1987) =>  Simple Pareto domination scheme. • Sharing on whole population]]
 
 
-\subsection{Elitist evolutionary algorithms}
+\subsubsection{Elitist evolutionary algorithms}
 
 Different possibilities has been explored to introduce elitism in MOAE. A common approach is to use a second population consisting of elite, non-dominated individuals, which are used as recombination partners for the main population.
 
