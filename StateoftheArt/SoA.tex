@@ -75,6 +75,21 @@ For the method in itself:
 
 \subsection{Using Derivatives}
 
+\subsubsection{Gradient Decent}
+
+A whole family of algorithm is based on the mechanism of gradient descent.
+The basic idea of gradient decent is, from a random starting point $x_0$, to iteratively evaluate a new point using a direction and a step size.
+By adjusting the ways the direction and step size are chosen, we can obtain a whole selection of algorithms with varied behaviors.
+
+Formally, from the point $x_i$, the new point $x_{i+1}$ is calculated with:
+
+\[ x_{i+1} = x_i +s_id_i \]
+
+where $d_i$ is the direction vector and $s_i$ the step size coefficient.
+
+[[Present some strategies ?]]
+
+
 [[
 Gradient decent
 
@@ -85,7 +100,14 @@ Simplex
 SQP
 ]]
 
+\subsubsection{Sequential Quadratic Programming}
+[[SQP can be used with constraint -> separate it ?]]
+
+Sequential Quadratic Programming (SQP) proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
+
 \subsection{Derivative-Free}
+
+Sometimes we cannot use derivatives 
 
 [[
 Nelder Mead Simplex
