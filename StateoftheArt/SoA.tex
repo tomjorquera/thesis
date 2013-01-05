@@ -47,9 +47,33 @@ Where \emph{S} is the problem search space and \emph{f(x)} the objective functio
 
 [[Compromis entre Exploration et Exploitation cf Berro Thesis]]
 
-\section{Combinatorial Optimization}
+\section{Numerical versus Combinatorial Optimization}
 
 \chapter{Numerical Optimization}
+
+A great variety of methods exits in the literature. These methods can be segregated by the type of problems they aim to solve or some inherent properties of the method.
+
+Some possible criteria to discriminate based on the type of problem:
+\begin{itemize}
+\item is the problem constrained ?
+\item is the problem linear (or possibly quadratic) ?
+\item is the problem convex ?
+\end{itemize}
+
+For the method in itself:
+\begin{itemize}
+\item does the method provides a global solution or a local one ?
+\item does the method use derivatives ?
+\item is the method deterministic or stochastic
+\end{itemize}
+
+\section{Local Methods}
+
+\subsection{Linear}
+
+[[simplex]]
+
+\subsection{Using Derivatives}
 
 [[
 Gradient decent
@@ -58,15 +82,40 @@ Convex Hull
 
 Simplex
 
-Nelder Mead
+SQP
+]]
 
+\subsection{Derivative-Free}
+
+[[
+Nelder Mead Simplex
+
+Interpolation model
+]]
+
+\section{Global Method}
+
+\subsection{Deterministic}
+
+[[
+Branch and Bound
+
+Taboo search
+]]
+
+\subsection{Stochastic}
+
+[[
+Simulated Annealing
+
+Monte-Carlo
 ]]
 
 
-\section{Linear Programming}
-\section{Quadratic Programming}
 
-\chapter{Nonlinear Programming}
+\subsection{Deterministic Methods}
+
+\subsection{Stochastic Methods}
 
 \chapter{Multi-Objective Optimization}
 
