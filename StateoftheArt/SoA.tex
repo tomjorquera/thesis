@@ -439,3 +439,47 @@ A special case of optimization is optimization in dynamic environment.
 \section{Genetic Algorithms}
 
 \chapter{Multidisciplinary Optimization}
+
+Multidisciplinary Design Optimization, often abbreviated Multidisciplinary Optimization (MDO), concerns the optimization of complex systems which involves several interacting disciplines. Each discipline in itself can contain this own variables, objectives and constraints. These problems often involves several of the optimization problematics we examined in the previous [[chapters]] (non-linearity, multiples objectives and constraints, uncertainties etc.) and are usually too complex to be handled by classical optimization methods, as evaluating the global function of the problem would be considered too costly.
+These kind of problems are commonplace in the industry, especially in aeronautic and aerospace engineering, where parts of the design are often done by different experts teams. For example [[the designing of]] an aircraft can be formalized as a MDO problem involving several disciplines such as mechanic, aerodynamic, acoustic etc. (see \figurename\ \ref{aero-disc}).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\paperwidth]{Disciplines_Avion}
+\caption{Examples of aeronautics disciplines}
+\label{aero-disc}
+\end{figure}
+
+To handle such complex system, most strategies propose to decompose it into several sub-system of lesser complexity. Concerning engineering, several decomposition strategies have been proposed [[REF Decomposition and Representation Methods in Mechanical Design]]:
+
+\begin{itemize}
+\item product (also called object) decomposition, based on the physical components of the system. This kind of decomposition is not always adequate and often subjective;
+\item process  (also called sequential) decomposition, based on the work-flow of elements/informations involved into the design process. This decomposition is most adequate when the design process is linear.
+\item domain (also called aspect) decomposition, based on the knowledge domains, the disciplines, involved. This kind of decomposition is the basis of MDO methods.
+\end{itemize}
+
+Alexandrov and Lewis illustrated their discussion on Collaborative Optimization [[REF Analytical and Computational Aspects of Collaborative Optimization]] with the following theoretical test case:
+
+\begin{align*}
+a_1 &= A_1(s, l_1, a_2) \\
+a_2 &= A_2(s, l_2, a_1) \\
+\text{minimize } &f(s, a_1, a_2) \\
+\text{subject to } &g1(s, l_1, a_1) \geq 0 \\
+								&g2(s, l_2, a_2) \geq 0
+\end{align*}
+
+[[Add graphical representation]]
+
+It can be noted that this formulation does not differ from the formulation of standard optimization problem.
+
+
+Mono-level methods use a single optimizer and a non hierarchical structure.
+Multi-level methods use a hierarchical structure and possibly several optimizers.
+
+\section{Mono-Level Methods}
+
+[[ MDF, IDF AAO]]
+
+\section{Multi-Level Methods}
+
+[[CO, CSSO, ATC,  BLISS]]
