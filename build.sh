@@ -55,22 +55,38 @@ fi
 # add local folders to the latex dependencies path
 export TEXINPUTS=$TEXINPUTS:.:./$LIBS
 
+#do the same for bibtex
+export BSTINPUTS=$BSTINPUTS:.:./$LIBS
+
 # check if output folder exists, if not create it
 if [ ! -d $OUT ]; then
     mkdir $OUT
 fi
 
+# set output folder of bibtex
+TEXMFOUTPUT=./$OUT
+
 ########
 # generation workflow (as seen on texmaker)
+
+# generate first version (for .aux used by bibtex)
+pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
+
+# generate bib
+bibtex ./$OUT/$1.aux
+
+# generate final pdf (why do pdflatex two times ? Because LateX, that's why)
 pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
 asy ./$OUT/$1.asy
 pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
+
 ########
 
 # show pdf
 evince ./$OUT/$1.pdf &
 
-# move log if relevant option was set
+# move logs if relevant option was set
 if [ $OPT_MOVE_LOG = 1 ]; then
-  mv ./$OUT/$1.log ./.
+  mv ./$OUT/$1.log ./. # latex log
+  mv ./$OUT/$1.blg ./. # bibtex log
 fi
