@@ -463,24 +463,29 @@ a_2 &= A_2(s, l_2, a_1) \\
 [[Add graphical representation]]
 
 It can be noted that this formulation does not differ from the formulation of standard optimization problem. Indeed, as noted by Martin and Lambe\cite{Lambe:2011:A}:
- \begin{quote}" If we ignore the discipline boundaries, an MDO problem is nothing more than a standard constrained nonlinear programming problem: we must find the values of the design variables that maximize or minimize a particular objective
-function, subject to the constraints."
+ \begin{quote}
+ "If we ignore the discipline boundaries, an MDO problem is nothing more than a standard constrained nonlinear programming problem: we must find the values of the design variables that maximize or minimize a particular objective function, subject to the constraints."
 \end{quote}
-[[As we will see later, this point is a funding principle of the work of this thesis.]]
+[[As we will see later, this point is one of the funding principles of the work presented in this thesis.]]
 
-Several specifics terms are in use in the domain of MDO:
+Several specific terms are in use in the domain of MDO:
 
 \begin{itemize}
 
-\item \emph{Design variable}: a variable of the problem which can be chosen by the designer. The goal of the optimization process is to find good values for the design variables of the problem. A design variable is said to be \emph{local} if it is relevant to only one discipline, or \emph{shared} if it is used by several of them.
+\item \emph{Design variable}: a variable of the problem which can be chosen by the designer. The goal of the optimization process is to find good values for the design variables of the problem. A design variable is said to be \emph{local} (or \emph{private}) if it is relevant to only one discipline, or \emph{shared} (or \emph{public}) if it is used by several of them.
 
-\item \emph{Discipline analysis}: 
+\item \emph{Discipline analysis/Analyser/Simulator}: 
 
 \end{itemize}
 
 
 Mono-level methods use a single optimizer and a non hierarchical structure.
 Multi-level methods use a hierarchical structure and possibly several optimizers.
+
+
+[[GENERAL MDO FRAMEWORK of Balling and Sobieszczanski-Sobieski]]
+
+\section{An Illustration of Coupled Systems Problematics: Fixed Point Iteration}
 
 \section{Mono-Level Methods}
 
