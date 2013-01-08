@@ -458,16 +458,13 @@ To handle such complex system, most strategies propose to decompose it into seve
 \item domain (also called aspect) decomposition, based on the knowledge domains, the disciplines, involved. This kind of decomposition is the basis of MDO methods.
 \end{itemize}
 
-[[The AIAA MDO Technical Committee proposed the following definition of MDO\note{\url{https://info.aiaa.org/tac/adsg/MDOTC/Web\%20Pages/aboutmdo.aspx}} [[REF American Institure for Aeronautics and Astronautics Inc. (AIAA). Current
-state of the art on multidisciplinary design optimization. Technical report, MDO
-Technical Committee, January 1991.
-]]:
+[[The AIAA MDO Technical Committee proposed the following definition of MDO\note{\url{https://info.aiaa.org/tac/adsg/MDOTC/Web\%20Pages/aboutmdo.aspx}} [[\cite{american1991current}?]]:
  \begin{quote}
 "A methodology for the design of complex engineering systems and subsystems that coherently exploits the synergism of mutually interacting phenomena."
 \end{quote}]]
-MDO methods are not optimization methods \emp{per se}. Instead they focus on providing a optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as presented above. [[In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to a complex problem. Martin and Lambe [[REF Multidisciplinary Design Optimization: A Survey of Architectures]] note the volumes of different terms which have been used in the literature :  "architecture, "method", "methodology", "problem formulation, "strategy", "procedure" or "algorithm". While these authors choose to use the term "architecture", we will stick in this work to the designation of "method", not as a disregard for their arguments but solely for the sake of  consistency.  ]] 
+MDO methods are not optimization methods \emp{per se}. Instead they focus on providing a optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as presented above. [[In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to a complex problem. Martin and Lambe\cite{Lambe:2011:A} note the volumes of different terms which have been used in the literature :  "architecture, "method", "methodology", "problem formulation, "strategy", "procedure" or "algorithm". While these authors choose to use the term "architecture", we will stick in this work to the designation of "method", not as a disregard for their arguments but solely for the sake of  consistency.  ]] 
 
-Alexandrov and Lewis illustrated their discussion on Collaborative Optimization [[REF Analytical and Computational Aspects of Collaborative Optimization]] with the following theoretical test case:
+Alexandrov and Lewis illustrated their discussion on Collaborative Optimization\cite{NataliaM.:2000:ACA:886733} with the following theoretical test case:
 
 [[Notion of Standard form]]
 
@@ -481,7 +478,7 @@ a_2 &= A_2(s, l_2, a_1) \\
 
 [[Add graphical representation]]
 
-It can be noted that this formulation does not differ from the formulation of standard optimization problem. Indeed, as noted by Martin and Lambe [[REF Multidisciplinary Design Optimization: A Survey of Architectures]]
+It can be noted that this formulation does not differ from the formulation of standard optimization problem. Indeed, as noted by Martin and Lambe\cite{Lambe:2011:A}:
  \begin{quote}" If we ignore the discipline boundaries, an MDO problem is nothing more than a standard constrained nonlinear programming problem: we must find the values of the design variables that maximize or minimize a particular objective
 function, subject to the constraints."
 \end{quote}
