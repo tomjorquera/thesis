@@ -353,7 +353,7 @@ The uncertainties are \emph{reducible} as it is possible to remove them with a b
 Using the probability theory, uncertainty can be modeled using a distribution function. This modeling provides the advantages of a well-studied theoretical foundation, providing combination and propagation techniques.
 
 Aleatory uncertainties can be characterized by obtaining a distribution function from a data sample.
-Well-known statistical techniques can be used to see for example if a data sample follows a known probability distribution, measuring \emph{goodness of fit}, that is, how well a data sample follows a given model, such as the Kolmogorov-Smirnov test [[REF Massey, F. J., The Kolmogorov-Smirnov test for goodness of fit , Journal of the American statistical association, 1951.]]  
+Well-known statistical techniques can be used to see for example if a data sample follows a known probability distribution, measuring \emph{goodness of fit}, that is, how well a data sample follows a given model, such as the Kolmogorov-Smirnov test \cite{Massey_1951}. 
 However, care must be taken as these techniques can introduce some more epistemic uncertainties which can lead to misleading results (for example in the case of insufficient data samples).
 
 Concerning epistemic uncertainty, it can be more difficult to estimate a relevant distribution function  [[TO EXPAND]]
@@ -458,7 +458,18 @@ To handle such complex system, most strategies propose to decompose it into seve
 \item domain (also called aspect) decomposition, based on the knowledge domains, the disciplines, involved. This kind of decomposition is the basis of MDO methods.
 \end{itemize}
 
+[[The AIAA MDO Technical Committee proposed the following definition of MDO\note{\url{https://info.aiaa.org/tac/adsg/MDOTC/Web\%20Pages/aboutmdo.aspx}} [[REF American Institure for Aeronautics and Astronautics Inc. (AIAA). Current
+state of the art on multidisciplinary design optimization. Technical report, MDO
+Technical Committee, January 1991.
+]]:
+ \begin{quote}
+"A methodology for the design of complex engineering systems and subsystems that coherently exploits the synergism of mutually interacting phenomena."
+\end{quote}]]
+MDO methods are not optimization methods \emp{per se}. Instead they focus on providing a optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as presented above. [[In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to a complex problem. Martin and Lambe [[REF Multidisciplinary Design Optimization: A Survey of Architectures]] note the volumes of different terms which have been used in the literature :  "architecture, "method", "methodology", "problem formulation, "strategy", "procedure" or "algorithm". While these authors choose to use the term "architecture", we will stick in this work to the designation of "method", not as a disregard for their arguments but solely for the sake of  consistency.  ]] 
+
 Alexandrov and Lewis illustrated their discussion on Collaborative Optimization [[REF Analytical and Computational Aspects of Collaborative Optimization]] with the following theoretical test case:
+
+[[Notion of Standard form]]
 
 \begin{align*}
 a_1 &= A_1(s, l_1, a_2) \\
@@ -470,7 +481,21 @@ a_2 &= A_2(s, l_2, a_1) \\
 
 [[Add graphical representation]]
 
-It can be noted that this formulation does not differ from the formulation of standard optimization problem.
+It can be noted that this formulation does not differ from the formulation of standard optimization problem. Indeed, as noted by Martin and Lambe [[REF Multidisciplinary Design Optimization: A Survey of Architectures]]
+ \begin{quote}" If we ignore the discipline boundaries, an MDO problem is nothing more than a standard constrained nonlinear programming problem: we must find the values of the design variables that maximize or minimize a particular objective
+function, subject to the constraints."
+\end{quote}
+[[As we will see later, this point is a funding principle of the work of this thesis.]]
+
+Several specifics terms are in use in the domain of MDO:
+
+\begin{itemize}
+
+\item \emph{Design variable}: a variable of the problem which can be chosen by the designer. The goal of the optimization process is to find good values for the design variables of the problem. A design variable is said to be \emph{local} if it is relevant to only one discipline, or \emph{shared} if it is used by several of them.
+
+\item \emph{Discipline analysis}: 
+
+\end{itemize}
 
 
 Mono-level methods use a single optimizer and a non hierarchical structure.
@@ -478,8 +503,8 @@ Multi-level methods use a hierarchical structure and possibly several optimizers
 
 \section{Mono-Level Methods}
 
-[[ MDF, IDF AAO]]
+[[ MDF -> ASO?, IDF AAO]]
 
 \section{Multi-Level Methods}
 
-[[CO, CSSO, ATC,  BLISS]]
+[[CO/ECO, CSSO, ATC,  BLISS, EPD/IPD, MDOIS, QSD]]
