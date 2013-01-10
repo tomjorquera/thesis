@@ -476,7 +476,7 @@ Several specific terms are in use in the domain of MDO:
 
 \item \emph{Discipline analysis/Analyser/Simulator}: 
 
-\item \emph{Multidisciplinary Analysis (MDA)}: 
+\item \emph{Multidisciplinary Analysis (MDA)}: [[Say that the models can need to be evaluated potentially SEVERAL TIMES during one MDA, to find consistent set of variables]]
 
 \item \emph{Optimizer/Solver}: 
 
@@ -491,7 +491,13 @@ Mono-level methods use a single optimizer and a non hierarchical structure, whil
 
 => GENERAL MDO FRAMEWORK of Balling and Sobieszczanski-Sobieski
 
-=> recent works
+=> recent works "Multidisciplynary Design Optimization: A Survey of Architectures" says : 
+
+"We now introduce a new approach to classifying MDO architectures. Some of the previous classifications were based on which constraints could be controlled by the optimizer [77, 121]. Alexandrov and Lewis [121] used the term “closed” to indicate that a set of constraints cannot be satisfied via explicit action of the optimizer, and “open” to indicate that it can.
+[...]
+Tosserams et al. [84] expanded on this classification
+scheme by discussing whether distributed architectures used open or closed local design constraints in the system subproblem. Closure of the constraints is an important consideration when selecting an architecture, because most robust optimization software will permit the exploration of infeasible regions of the design space. Such exploration can result in faster solution via fewer optimization iterations, but this must be weighed against the increased problem size and the risk of terminating the optimization at an infeasible point."
+
 
 [[Do it after presenting the methods but say you will before]]
 ]]
@@ -504,14 +510,20 @@ Mono-level methods use a single optimizer and a non hierarchical structure, whil
 
 \subsection{Multidisciplinary Feasible}
 
-Multidisciplinary Feasible (MDF), is the most basic and classical MDO method. This approach ensure at each optimization step that the design is consistent as a whole, taking in account all the disciplines together (hence the name).
+Multidisciplinary Feasible (MDF), is the most basic and classical MDO method. This approach ensure at each optimization step that the design is consistent as a whole, taking in account all the disciplines together (hence the name). The optimizer only use the design variables, objective functions and constraints.
 Basically, MDF alternates between a MDA and a [[global]] optimization phase, ensuring the design to be globally consistent at each optimization step. At each step, the result proposed by the optimizer is used to do a full MDF whose results are used in return for the next optimization iteration.
 
-As it is so straightforward, MDF requires no reformulation of the problem, unlike most of the others MDO methods, and in so is really easy to use. However, since MDA is supposed to be costly, MDF is often considered to be quite inefficient, since it never exploits the parallelization opportunities dues to the separation of the disciplines. MDF does not provide any guarantee of convergence.
+As it is so straightforward, MDF requires no reformulation of the problem, unlike most of the others MDO methods, and in so is really easy to use. As the design is consistent at each step, the optimization process can provide a solution at any time (but it will not guarantee that the proposed solution will satisfy the constraints, as this concerns depend on the optimization technique used). However, since MDA is supposed to be costly, MDF is often considered to be quite inefficient, since it never exploits the parallelization opportunities dues to the separation of the disciplines. MDF does not provide any guarantee of convergence.
 
 [[formulation + Diagram to illustrate the method]]
 
-[[ASO ?]]
+
+\subsubsection{Asymmetric Subspace Optimization}
+
+Asymmetric Subspace Optimization (ASO) is a relatively recent work of Chittick and Martins\cite{Chittick:2007:B} to improve on MDF for MDO problems where some the disciplines are specifically more costly to analyze than the others. The classical illustration given is the one of high-fidelity aerostructural optimization, where the analysis of the aerodynamic is significantly more heavier than the structural analysis. An intermediate optimization phase for the structure is introduced during the MDA, in order to reduce the number of iterations needed at the global level.
+This approach can lead to significant improvement over MDF in the context of disciplines with significant analysis costs. However when the analysis costs of the disciplines are comparable, this is approach is less efficient than MDF, as it introduce extraneous optimization step.
+
+It should be noted that this approach is not mono-level as it introduces several optimizers and a hierarchical structure. [[Then why put it here and not in multilevel ?]] 
 
 \subsection{Individual Discipline Feasible}
 
