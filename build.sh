@@ -8,7 +8,7 @@ OUT="generated"  #output folder name
 ########
 # Usage
 
-USAGE_STRING="$(basename $0) [-l] texfilename(without .tex extension)"
+USAGE_STRING="$(basename $0) [-ls] texfilename(without .tex extension)"
 
 short_usage(){
   echo "Usage: $USAGE_STRING"
@@ -19,7 +19,8 @@ long_usage() {
   echo "  $USAGE_STRING"
   echo
   echo "OPTIONS:"
-  echo "  -l	move the log file to the current folder (if needed by another application for example)"
+  echo "  -l	move the log files to the current folder (if needed by another application for example)"
+  echo "  -s	show the generated pdf at the end of generation)"
   echo
 }
 
@@ -34,15 +35,17 @@ fi
 ########
 # read optionnal arguments
 
-OPT_MOVE_LOG=0 #set to 1 to move log file to current folder
+OPT_MOVE_LOG=0 # set to 1 to move log file to current folder
+OPT_SHOW_PDF=0 # set to 1 to show the pdf at the end of generation
 
-while getopts ":l" OPT; do
+while getopts ":ls" OPT; do
     case $OPT in
       l) OPT_MOVE_LOG=1;;
+      s) OPT_SHOW_PDF=1;;
       *) short_usage; exit 1 ;;
     esac
 done
-shift $((OPTIND-1)) #remove optionnal arguments from arg list
+shift $((OPTIND-1)) # remove optionnal arguments from arg list
 ########
 
 # check if tex file exists
@@ -82,8 +85,11 @@ pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
 
 ########
 
-# show pdf
-evince ./$OUT/$1.pdf &
+# show pdf if the option is set
+if [ $OPT_SHOW_PDF = 1 ]; then
+  evince ./$OUT/$1.pdf &
+fi
+
 
 # move logs if relevant option was set
 if [ $OPT_MOVE_LOG = 1 ]; then
