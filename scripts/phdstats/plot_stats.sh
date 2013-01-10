@@ -1,8 +1,5 @@
 #!/bin/sh
 
-#needed for me as the scala installed in bin is too old
-export PATH=/home/jorquera/Documents/scala/scala-2.10.0-RC5/bin/:$PATH
-
 OUTPUT_PATH=".."
 OUTPUT="phd_progress.pdf"
 
