@@ -476,20 +476,55 @@ Several specific terms are in use in the domain of MDO:
 
 \item \emph{Discipline analysis/Analyser/Simulator}: 
 
+\item \emph{Multidisciplinary Analysis (MDA)}: 
+
+\item \emph{Optimizer/Solver}: 
+
 \end{itemize}
 
 
-Mono-level methods use a single optimizer and a non hierarchical structure.
-Multi-level methods use a hierarchical structure and possibly several optimizers.
 
+The classical approach to categorize MDO methods was to separate mono- and multi-level methods.
+Mono-level methods use a single optimizer and a non hierarchical structure, while Multi-level methods use a hierarchical structure and possibly several optimizers.
 
-[[GENERAL MDO FRAMEWORK of Balling and Sobieszczanski-Sobieski]]
+[[introduce others ways to separate
+
+=> GENERAL MDO FRAMEWORK of Balling and Sobieszczanski-Sobieski
+
+=> recent works
+
+[[Do it after presenting the methods but say you will before]]
+]]
 
 \section{An Illustration of Coupled Systems Problematics: Fixed Point Iteration}
 
 \section{Mono-Level Methods}
 
-[[ MDF -> ASO?, IDF AAO]]
+[[MDF -> ASO?, IDF AAO]]
+
+\subsection{Multidisciplinary Feasible}
+
+Multidisciplinary Feasible (MDF), is the most basic and classical MDO method. This approach ensure at each optimization step that the design is consistent as a whole, taking in account all the disciplines together (hence the name).
+Basically, MDF alternates between a MDA and a [[global]] optimization phase, ensuring the design to be globally consistent at each optimization step. At each step, the result proposed by the optimizer is used to do a full MDF whose results are used in return for the next optimization iteration.
+
+As it is so straightforward, MDF requires no reformulation of the problem, unlike most of the others MDO methods, and in so is really easy to use. However, since MDA is supposed to be costly, MDF is often considered to be quite inefficient, since it never exploits the parallelization opportunities dues to the separation of the disciplines. MDF does not provide any guarantee of convergence.
+
+[[formulation + Diagram to illustrate the method]]
+
+[[ASO ?]]
+
+\subsection{Individual Discipline Feasible}
+
+Individual Discipline Feasible (IDF) differs from MDF in the way that it ensure at each step consistency for each discipline separately, but not consistency between disciplines. The global consistency of the system is not ensured until convergence.
+Instead of a full MDA (as in MDF), IDF alternates the optimization with independent disciplines analysis.
+However, as the variables shared among the disciplines are not guaranteed to to be consistent, IDF need to introduce a reformulation of the problem where the shared variable are duplicated among the disciplines and several equality constraints need to be added to ensure the eventual consistency.
+
+\subsection{All-at-Once}
+
+All-at-Once (AAO) can be seen a the opposite extreme of MDF, given that it does not try to maintain consistency neither at the global or discipline level during the optimization process until convergence.
+All variables are considered as design variable for the optimizer, and the analysis equations are transformed into equality constraints.
+This transformation allows the analysis phase to be very quick, as we only need to evaluate the residuals of the equality constraints representing the equations.
+However, the drawbacks of IDF are even more important, as AAO requires an even bigger reformulation of the problem, introducing a lot of duplicated variables and consistency  constraints to the problem. This reformulation also complicates the optimization phase.
 
 \section{Multi-Level Methods}
 
