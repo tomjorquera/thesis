@@ -1,7 +1,5 @@
 unset key #turn of legend
 
-set terminal pdfcairo
-
 set datafile separator ";"
 
 set xdata time

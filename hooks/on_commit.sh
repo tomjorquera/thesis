@@ -22,6 +22,6 @@ PATH_TO_PUBLIC_FOLDER="../../../Public/thesis"
 
 cd "-" >/dev/null #discard stdout
 cp ./generated/manuscrit.pdf $PATH_TO_PUBLIC_FOLDER/.
-cp ./scripts/phdstats/phd_progress.pdf $PATH_TO_PUBLIC_FOLDER/. 
+cp ./scripts/phdstats/phd_progress.* $PATH_TO_PUBLIC_FOLDER/. 
 
 } &
