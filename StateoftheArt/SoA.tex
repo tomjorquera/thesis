@@ -506,8 +506,6 @@ scheme by discussing whether distributed architectures used open or closed local
 
 \section{Mono-Level Methods}
 
-[[MDF -> ASO?, IDF AAO]]
-
 \subsection{Multidisciplinary Feasible}
 
 Multidisciplinary Feasible (MDF), is the most basic and classical MDO method. This approach ensure at each optimization step that the design is consistent as a whole, taking in account all the disciplines together (hence the name). The optimizer only use the design variables, objective functions and constraints.
@@ -539,5 +537,28 @@ This transformation allows the analysis phase to be very quick, as we only need 
 However, the drawbacks of IDF are even more important, as AAO requires an even bigger reformulation of the problem, introducing a lot of duplicated variables and consistency  constraints to the problem. This reformulation also complicates the optimization phase.
 
 \section{Multi-Level Methods}
+
+\subsection{Concurrent Subspace Optimization}
+
+Concurrent Subspace Optimization (CSSO) is one of the firsts multi-levels MDO methods. Before the optimization, the problem is decomposed in several subspaces related to the different disciplines. Each optimization iteration then start by a system analysis, followed by a series of subspaces optimization (possibly concurrently), where each optimization tries to solve the global problem by using approximate models of the rest of the system. After the subspaces optimizations, a complete MDA is done to perform a global optimization and update the approximate models.
+
+Originally, CSSO was developed for single-objective optimization problems. However several efforts have been made to extend CSSO to multi-objectives problems.
+
+[[From Concurrent Subspace Optimization for Aircraft System Design -  Ke-shi Zhang:
+"In recent years more work (Aute & Azarm, 2006; Huang & Bloebaum, 2004; McAllister et al., 2000; McAllister et al., 2004; Orr & Hajela, 2005; Parashar & Bloebaum, 2006; Tappeta & Renaud, 1997; Zhang et al., 2008) has focused on extending existing MDO method to handle such multi-objective MDO problems, by means of integrating a multi-objective optimization method within the MDO framework. This kind of method can be called a multi-objective MDO method.
+It is an effective way to integrate multi-objective optimization method within the CSSO framework to develop the multi-objective MDO method. CSSO was extended to solve multi - objective MDO problems, including the Multi-objective Pareto CSSO (MOPCSSO) method, Aeronautics and Astronautics the Multi-objective Range CSSO (MORCSSO) method, the Multi-objective Target CSSO (MOTCSSO) method, the Multi-objective Genetic Algorithm CSSO (MOGACSSO) method and Adaptive Weighted Sum based CSSO (AWSCSSO). In MOPCSSO the Constraint method is integrated within CSSO framework (Huang & Bloebaum, 2007). In MORCSSO and MOTCSSO the concept of designer preference is introduced (Huang & Bloebaum, 2004). In MOGACSSO the Genetic Algorithm is combined with CSSO and in the hope of improving the computational efficiency (Parashar & Bloebaum, 2006). In AWSCSSO the Adaptive Weighted Sum method is introduced into CSSO (Zhang et al., 2008). "]]
+
+\subsection{Collaborative Optimization}
+
+Collaborative Optimization (CO) \cite{Ilan:1994:MOM:887207} reformulate the problem by replacing  dependencies between disciplines by equalities constraints. This transformation allows to solve in parallel discipline-level optimizations problems. A system-level optimizer is then used to minimize the discrepancies (via the added equalities constraints), while maintaining the satisfaction of the disciplines constraints.
+CO is best-suited for MDO problems with a low coupling between disciplines. The authors have argued that one advantage of CO is that it closely matches the discipline decomposition of the problem, as the scope domain-specific variables and constraints are limited to the related disciplines. Thus, the discipline optimizations can be done by domain experts  who have a strong understanding of the subproblems.
+
+\subsubsection{ECO}
+
+\subsection{Bilevel Integrated System Synthesis}
+
+\subsubsection{BLISS 2000}
+
+
 
 [[CO/ECO, CSSO, ATC,  BLISS, EPD/IPD, MDOIS, QSD]]
