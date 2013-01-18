@@ -47,19 +47,26 @@ Where \emph{S} is the problem search space and \emph{f(x)} the objective functio
 
 [[Compromis entre Exploration et Exploitation cf Berro Thesis]]
 
-The No Free Lunch (NFL) Theorem for optimization is a very important result of the field, formalized by Wolpert and Macready [[REF]]. The basic idea behind the theorem is that no optimization method outperform the others when regarding the class of all the possible problems or, as the authors themselves say 
+The No Free Lunch (NFL) Theorems for optimization is a very important result of the field, formalized by Wolpert and Macready \cite{585893}. The basic idea behind these theorems is that no optimization method outperform the others when regarding the class of all the possible problems or, as the authors themselves say,s
 \begin{quote}
 "any two algorithms are equivalent when their performance is averaged across all possible problems." [[give ref on coevolutionnary free lunches]]
 \end{quote}
-If an algorithm outperforms another on a certain types of optimization problems, there must be another class of problem where this algorithm performs worse.
+If an algorithm outperforms another on certain types of optimization problems, there must be others classes of problems where this algorithm performs worse.
 
 
-Of course, the NFL theorem considers \emph{all the possible objective-functions}. One could argue that the "interesting" problems (at least from en engineering point of view) are not distributed evenly over such a space, but correspond to a subset for which some optimization methods are more efficient than others. This is why optimization as a scientific research domain make sense. 
-This distinction has been formalized by differentiating \emph{incompressible} from \emph{compressible} objective-functions. Incompressible objective-functions are random and it thus impossible to develop an optimization method to find the solution efficiently, since good and bad values are evenly distributed. Of course, such "impossible" objectives function make for the major part of all the possible objective-functions \cite{English:3-540-45356-3_7}?.:.
+Of course, the NFL theorems consider \emph{all the possible objective-functions}. One could argue that the "interesting" problems (at least from en engineering point of view) are not distributed evenly over such a space, but correspond to a subset for which some optimization methods are more efficient than others. This is why optimization as a scientific research domain make sense. 
+
+This distinction has been formalized by differentiating \emph{incompressible} from \emph{compressible} objective-functions. Incompressible objective-functions are random and it thus impossible to develop an optimization method to find the solution efficiently, since good and bad values are evenly distributed. Of course, such "impossible" objectives function make for the major part of all the possible objective-functions \cite{English:3-540-45356-3_7}.
+As we said, the set of "interesting" objective-functions, or even the set of real-world related ones is much much more restrained. And for this specific category, some optimizers are better than others. 
 However, as we will see in the next sections, the variety of "interesting" optimization problems is still important enough to have resulted in a great variety of specific optimization techniques.
+
 One consequence of the NFL is that selecting an efficient optimization method for a given problem requires to have at least a minimum insight on the properties of the problem. No algorithm can be deemed most efficient for the general case.
 
-[[Talk about coevolutionary Free Luches]].
+[[Talk about coevolutionary Free Luches \cite{1545946}]].
+
+One example which can be connected to the NFL is the compromise between exploration and exploitation. Basically, an optimization method must often make a compromise between using the previous results to converge toward a region of the search space and exploring the remaining of the search space to find a better region.
+For example: some gradient-based methods will use the evaluated points to converge toward a local optimum, but can miss a better solution as they insufficiently explored the search space. On the opposite, some others methods can make a throughout exploration of the search space (by partitioning or random drawing points), but will be slow to converge towards the exact optimum.
+It is often possible to parametrize the method to tune the compromise between exploration and exploitation regarding the nature of the problem at hand but, once more, a relevant parametrization requires a sufficient knowledge of the properties of the problem.
 
 \section{Numerical versus Combinatorial Optimization}
 
@@ -156,7 +163,7 @@ A solution vector which would be optimum for each objective is sometimes called 
 
 [[FORMULATION OF A MOO PROBLEM]]
 
-MOO problems are quite a radical departure from previous optimization problems type we have seen. Many approaches have proposed, the majority of which can be separated in to categories: \emph{a priori} and \emph{a posteriori} approaches. A priori approaches aims to discriminate between the objectives \emph{before} the optimization process. This often consist into combining the different objectives into one, before applying a classical optimization method on the new, aggregated objective.
+MOO problems are quite a radical departure from previous optimization problems type we have seen. Many approaches have been proposed, the majority of which can be separated in to categories: \emph{a priori} and \emph{a posteriori} approaches. A priori approaches aims to discriminate between the objectives \emph{before} the optimization process. This often consist into combining the different objectives into one, before applying a classical optimization method on the new, aggregated objective.
 On the opposite, a posteriori methods tries to provide a set of efficient solutions among which the decider will choose.
 A priori approaches are considered easier, but not very efficient, whereas a posteriori approaches provides more diversity of solutions as well as more insight about the nature of the problem.
 A third category can also be considered: the \emph{interactive} methods. Basically, these methods iterates between decision and search phases. For example, an interactive  method could work by quickly providing intermediate solutions to the decision-maker, which would in return refine the search using them.
