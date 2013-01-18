@@ -75,25 +75,29 @@ However, as we will see in the next sections, the variety of "interesting" optim
 
 One consequence of the NFL is that selecting an efficient optimization method for a given problem requires to have at least a minimum insight on the properties of the problem. No algorithm can be deemed most efficient for the general case.
 
-On a side note, it can be added that, in addition of the case of continous optimization, the possible existence of free lunches has been demonstrated for coevolutionary \cite{1545946} as well as multiobjective optimization \cite{1299403}.
+On a side note, it can be added that, in addition of the case of continuous optimization, the possible existence of free lunches has been demonstrated for coevolutionary \cite{1545946} as well as multiobjective optimization \cite{1299403}.
 
 \chapter{Numerical Optimization}
 
-A great variety of methods exits in the literature. These methods can be segregated by the type of problems they aim to solve or some inherent properties of the method.
+As we have seen at the end of the last chapter, optimization methods have to make various compromises regarding applicability versus efficiency.  A great variety of methods exits in the literature, from generic methods applicable to a great variety of optimization problems to very specialized methods designed to be efficient in a specific context. These methods can be segregated by the type of problems they aim to solve or some inherent properties of the method.
 
 Some possible criteria to discriminate based on the type of problem:
 \begin{itemize}
-\item is the problem constrained ?
-\item is the problem linear (or possibly quadratic) ?
-\item is the problem convex ?
+\item can we obtain derivatives of the functions defined?
+\item is the problem linear (or possibly quadratic)?
+\item is the problem convex?
 \end{itemize}
 
 For the method in itself:
 \begin{itemize}
-\item does the method provides a global solution or a local one ?
-\item does the method use derivatives ?
-\item is the method deterministic or stochastic
+\item is the method able to take in account constraints on the problem?
+\item does the method provides a global solution or a local one?
+\item is the method deterministic or stochastic?
 \end{itemize}
+
+Based on the shape of the search space and our requirements regarding the method, we will try to choose the most adequate optimization method. As always, the more information known regarding the problem, the more we would be able to select a specialized method with a great efficiency. If very few information is known, it could be necessary to use black-box optimization methods, that is methods which do not make assumption regarding the nature of the problem. These techniques can suffice in themselves to get a good-enough result, or can be used as a prelude of more specialized techniques if enough information is gathered.
+
+We will now present some of the most well-known numerical optimization techniques.
 
 \section{Local Methods}
 
