@@ -42,30 +42,40 @@ From all the preceding, we can provide the minimal formulation of an optimizatio
 \end{align*}
 Where \emph{S} is the problem search space and \emph{f(x)} the objective function.}
 
+\section{Numerical versus Combinatorial Optimization}
+
 \section{No Free Lunch Theorem}
 
-The No Free Lunch (NFL) Theorems for optimization is a very important result of the field, formalized by Wolpert and Macready \cite{585893}. The basic idea behind these theorems is that no optimization method outperform the others when regarding the class of all the possible problems or, as the authors themselves say,s
+The No Free Lunch (NFL) Theorems for optimization is a very important result of the field, formalized by Wolpert and Macready \cite{585893}. The basic idea behind these theorems is that no optimization method outperform the others when regarding the class of all the possible problems or, as the authors themselves say,
 \begin{quote}
 "any two algorithms are equivalent when their performance is averaged across all possible problems." [[give ref on coevolutionnary free lunches]]
 \end{quote}
 If an algorithm outperforms another on certain types of optimization problems, there must be others classes of problems where this algorithm performs worse.
 
+The NFL theorems are based on several assumptions:
+\begin{itemize}
 
-Of course, the NFL theorems consider \emph{all the possible objective-functions}. One could argue that the "interesting" problems (at least from en engineering point of view) are not distributed evenly over such a space, but correspond to a subset for which some optimization methods are more efficient than others. This is why optimization as a scientific research domain make sense. 
+\item the search space is finite
 
-This distinction has been formalized by differentiating \emph{incompressible} from \emph{compressible} objective-functions. Incompressible objective-functions are random and it thus impossible to develop an optimization method to find the solution efficiently, since good and bad values are evenly distributed. Of course, such "impossible" objectives function make for the major part of all the possible objective-functions \cite{English:3-540-45356-3_7}.
-As we said, the set of "interesting" objective-functions, or even the set of real-world related ones is much much more restrained. And for this specific category, some optimizers are better than others. 
-However, as we will see in the next sections, the variety of "interesting" optimization problems is still important enough to have resulted in a great variety of specific optimization techniques.
+\item the optimization algorithms never re-evaluate the same point
 
-One consequence of the NFL is that selecting an efficient optimization method for a given problem requires to have at least a minimum insight on the properties of the problem. No algorithm can be deemed most efficient for the general case.
+\end{itemize}
 
-[[Talk about coevolutionary Free Luches \cite{1545946}]].
+The first assumption limit the scope of NFL theorems to the realm of combinatorial optimization, as continuous optimization problems contain by nature an infinity of elements. Indeed, it has been shown that, in the context of continuous optimization, free lunches were indeed possible \cite{Auger-s00453-008-9244-5} (but possibly at the cost of very big memory footprint). Thus this result does not impact directly the scope of this work, but we believe that it is still a good illustration of one of the main problematics of the optimization research field, which is that one must often compromise between [[généralité]] and efficiency. Even in the context of continuous optimization, where the existence of free lunches has been demonstrated, it is probable that we will never find a be-all and end-all optimization technique. This point is for example discussed in \cite{Doe05}.
 
 One example which can be connected to the NFL is the compromise between exploration and exploitation. Basically, an optimization method must often make a compromise between using the previous results to converge toward a region of the search space and exploring the remaining of the search space to find a better region.
 For example: some gradient-based methods will use the evaluated points to converge toward a local optimum, but can miss a better solution as they insufficiently explored the search space. On the opposite, some others methods can make a throughout exploration of the search space (by partitioning or random drawing points), but will be slow to converge towards the exact optimum.
 It is often possible to parametrize the method to tune the compromise between exploration and exploitation regarding the nature of the problem at hand but, once more, a relevant parametrization requires a sufficient knowledge of the properties of the problem.
 
-\section{Numerical versus Combinatorial Optimization}
+Of course, the NFL theorems consider \emph{all the possible objective-functions}. One could argue that "interesting" problems (at least from en engineering point of view) are not distributed evenly over such a space, but correspond to a subset for which some optimization methods are more efficient than others. This is why optimization as a scientific research domain make sense. 
+
+This distinction has been formalized by differentiating \emph{incompressible} from \emph{compressible} objective-functions. Incompressible objective-functions are random and it is thus impossible to develop an optimization method to find the solution efficiently, since good and bad values are randomly distributed. Of course, such "impossible" objectives function make for the major part of all the possible objective-functions \cite{English:3-540-45356-3_7}.
+As we said, the set of "interesting" objective-functions, or even the set of real-world related ones is much much more restrained. And for this specific category, some optimizers are better than others. 
+However, as we will see in the next sections, the variety of "interesting" optimization problems is still important enough to have resulted in a great variety of specific optimization techniques.
+
+One consequence of the NFL is that selecting an efficient optimization method for a given problem requires to have at least a minimum insight on the properties of the problem. No algorithm can be deemed most efficient for the general case.
+
+On a side note, it can be added that, in addition of the case of continous optimization, the possible existence of free lunches has been demonstrated for coevolutionary \cite{1545946} as well as multiobjective optimization \cite{1299403}.
 
 \chapter{Numerical Optimization}
 
@@ -308,6 +318,9 @@ One drawback of NBI is that it can produce solutions sets which contain non Pare
 Normal Constraint (NC) method tries to improve on NBI by introducing a Pareto filter to avoid the selection of non Pareto-optimal points.
 
 \subsection{Evolutionary Algorithms}
+
+[[Talk about scalability problems -> "Techniques for Highly Multiobjective Optimisation: Some Nondominated Points are Better than Others" by David Corne and Joshua Knowles]]
+
 
 A widespread strategy to find the Pareto front is to use [[population-based]] metaheuristics, such as Multi-Objective Evolutionary Algorithms (MOEA). 
 
