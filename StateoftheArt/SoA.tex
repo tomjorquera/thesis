@@ -412,10 +412,20 @@ only the worst case needs to be considered."
 \subsection{Fuzzy Sets}
 Fuzzy Sets can be seen as a compromise for when we still lack enough information to use probability theory, but we have more knowledge than just the bounds of the uncertainty.
 
-[[Insert explanations]]
+Basically, fuzzy sets are sets where the membership of an element to the set is not absolute but gradual.
+In classical set theory, an element is or is not a member of a set. This notion can be formalized as a function $f_S: X \rightarrow \{0,1\}$ where 
+$\left\{
+ 		 \begin{array}{rcr}
+			f_S(x) = 0 \Leftrightarrow x \not\in S\\
+			f_S(x) = 1 \Leftrightarrow x \in S
+		\end{array}
+	\right. $
 
-Fuzzy Sets quantification capability to represent vague information make it attractive to model epistemic uncertainty, as it is more precise than interval analysis and well-suited to express expert knowledge. However this modeling is less powerful and expressive than probability theory, lacking for example a mean to represent an uncertainty measure equivalent to the probability of the probability theory.
-To remediate this limitation, the fuzzy set theory was extended into the possibility theory
+In the context of fuzzy sets, the equivalent function could be formalized as $f_S: X \rightarrow [0, 1]$, where $f_S(x)$ represents the degree of membership of $x$ to $S$. 
+In this regard, fuzzy sets can be seen as a generalization of classical sets.
+
+Fuzzy Sets quantification capability to represent vague information make it attractive to model epistemic uncertainty, as it is more precise than interval analysis and well-suited to express expert knowledge. However this modeling is less powerful and expressive than probability theory, lacking for example a mean to represent an uncertainty measure equivalent to the probability of the probability theory. Indeed, the membership function is insufficient to characterize the likelihood of non-connected events.
+To overcome this limitation, the fuzzy set theory was extended into the possibility theory
 
 \subsection{Possibility Theory}
 
@@ -509,6 +519,25 @@ It can be noted that this formulation does not differ from the formulation of st
 \end{quote}
 [[As we will see later, this point is one of the funding principles of the work presented in this thesis.]]
 
+A very common strategy used by most MDO methods is to reformulate the problem to \emph{decouple} variables which are shared among the disciplines. 
+For example, the following optimization problem:
+
+\begin{align*}
+\text{Minimize } f(f_1(x), f_2(x))
+\end{align*}
+
+(where $f_1$ and $f_2$ represent two disciplines depending on $x$)
+
+could become :
+
+\begin{align*}
+\text{Minimize } &f(f_1(x_1), f_2(x_2))\\
+\text{s.t. } &x_1=x_2
+\end{align*}
+
+The shared variable $x$ has been replaced by two independent variables $x_1$ and $x_2$, and a new constraint $x_1=x_2$ has been added to ensure the consistency of the design.
+
+
 Several specific terms are in use in the domain of MDO:
 
 \begin{itemize}
@@ -519,7 +548,7 @@ Several specific terms are in use in the domain of MDO:
 
 \item \emph{Multidisciplinary Analysis (MDA)}: [[Say that the models can need to be evaluated potentially SEVERAL TIMES during one MDA, to find consistent set of variables]]
 
-\item \emph{Optimizer/Solver}: 
+\item \emph{Optimizer/Solver}: A classical optimization technique, such as the ones we have seen in the previous chapters. These optimizers can be applied to the problem as a whole or to specific parts.
 
 \end{itemize}
 
