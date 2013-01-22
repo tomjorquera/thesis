@@ -18,7 +18,7 @@ def hgShowRevisionOfFile(fileName:String, revNb:Int)= if(hgShowRevisionOfFileCod
 val lastRevNumber = (hgCmd + " id -n" !!).trim.replace("+", "").toInt
 
 def countNbWords(text:String, removeNotes:Boolean = true) = {
-  val note = """\[\[[^(\[\[)(\]\])]*\]\]""" //regex for notes between double braces
+  val note = """\[[^\]\[]*\]""" //regex for notes between double braces
   val newText = if(removeNotes) {
 			recursiveRegexTrim(text, note)
 		} else text
@@ -27,8 +27,8 @@ def countNbWords(text:String, removeNotes:Boolean = true) = {
 
 def recursiveRegexTrim(text:String, regex:String) = {
 
-  //val exampleText = "Ceci est [[teztfzetgze]]un test[[]][[[[]]]] pour supprimer[[zezfzef[[zefzef[[]][[zfzef]]]]]] les notes[[zefzfef]]"
-  // => recursiveRegexTrim(exampleText, note) should give "Ceci est un test pour supprimer les notes"
+  //val exampleText = "Ceci est [[teztfzetgze]]un test[[]][[\n[[blablabla\nblablabla\n]]\n\n\n]] pour\nsupprimer[[zezfzef[[zefzef[[]][[zfzef]]]]]] les notes[[zefzfef]]"
+  // => recursiveRegexTrim(exampleText, note) should give "Ceci est un test pour\nsupprimer les notes"
 
   var trimmed = text
   var oldText = ""
@@ -49,6 +49,9 @@ for (	rev <- 0 to lastRevNumber;
 	res = res + (hgShowDateOfRev(rev).->(updated))
 
 }
+
+//val resList = (k, v) <- res.map( kv => (kv._1-> kv._2.fold(-1)(math.max(_,_)))).List.sortBy(_._1)
+//resList.foldLeft(List[Tuple2[String, Int])((curr, elem) => if)
 
 for( (k, v) <- res.map( kv => (kv._1-> kv._2.fold(-1)(math.max(_,_)))).toSeq.sortBy(_._1) ){
   println(k+";"+v)
