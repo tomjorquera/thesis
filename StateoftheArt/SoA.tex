@@ -428,7 +428,7 @@ Let's take the basic example of a door which can be either open or closed. If we
 
 In the context of possibility theory, if we state that the possibility of "the door is closed" is 1, it is not incompatible withthe possibility of the door to be open to be, for example, 0.4.
 
-The intuition behind this difference is that probability theory applies to the reality, while possibility theory applies to the knowledge one has regarding the reality. To cite the definition proposed by Nikolaidis et al. \cite{nikolaidis:386}:
+The intuition behind this difference is that probability theory applies to the reality, while possibility theory applies to the knowledge one has regarding the reality, taking in account the "fuzzyness" of one's knowledge. To cite the definition proposed by Nikolaidis et al. \cite{nikolaidis:386}:
 \begin{quote}
 "Possibility measures the degree to which: a) A person considers that an event can
 occur, or b) The degree to which the available evidence does not contradict the
@@ -446,9 +446,40 @@ Nec(U) + \Pi(\bar{U}) = 1\\
 \end{array}
 \right.$
 
+Necessity and possibility of an event $e$ can be viewed a lower and upper bounds to the probability of $e$.
+
 Possiblity theory offers numerous tools similar to the ones of probability theory (so much that it was debated if the two theories are really different or if possibility theory was just a variation on probability theory). However, the capability of this theory to model expert knowledge specifically has made it quite popular in the context of uncertainty modeling.
 
 \subsection{Evidence Theory}
+
+Evidence theory, also known as Dempster-Shafer theory (DST), takes in account available evidences to provide a degree of belief concerning a fact.
+The basic idea of this theory is to represent the notion that, the more evidences seems to confirm a proposition, the more we can belive the proposition is true.
+
+Evidence theory represents a proposition as a set of elements. Thus some propositions can includes others propositions (following the basic set inclusion definition). To these sets are assigned a basic belief assignment (BBA), also called \emph{mass}.
+
+From this mass can be calculated two measures:
+
+\begin{itemize}
+\item \emph{Belief:} $bel(S) = \sum_{S'\subseteq{S}} mass(S')$
+\item \emph{Plausibility:} $pl(S) = \sum_{S'|S' \cap S \neq \emptyset} mass(S')$
+\end{itemize}
+
+The mass measurement represents the amount of evidences which support the proposition, the likelihood of $S$. The belief and plausibility can be seen as lower and upper bounds to this likelihood.
+
+Once again we can obtain some interesting properties regarding these measures:
+
+$\left\{
+\begin{array}{l}
+bel(S) \leq mass(S) \leq pl(S)\\
+pl(S) = 1 - bel(\bar{S})\\
+bl(S) + bl(\bar{s}) \leq 1\\
+pl(S) + pl(\bar{s}) \geq 1\\
+\end{array}
+\right.$
+
+As with possibility theory, belief and plausibility can be used as lower and upper bounds for probability.
+
+Several rules have been proposed to combine informations coming from different (potentially conflicting) sources. To see an overview of these proposals, the reader can refer to \cite{sentz2002combination}.
 
 \section{Using Uncertainty for Robust Optimization}
 
@@ -481,7 +512,7 @@ This mean can then be used to calculate the standard deviation as follows
  
  \[ SN_T = 10\text{log}\left(\frac{\bar{y}^2}{S^2}\right) \]
  
- To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi use the Design of Experiment, a statistical procedure for determining the effect of multiple inputs on a desired output. [[GIVE A REF ON DOE]]
+To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi use the Design of Experiment, a statistical procedure for determining the effect of multiple inputs on a desired output. [[GIVE A REF ON DOE]]
 
 [[EXPAND ON DOE  ?]]
 
