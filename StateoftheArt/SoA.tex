@@ -358,6 +358,7 @@ In a pure mathematical world, all models are perfectly correct and have an infin
 [[ILLUSTRATE THE SENSIVITY PROBLEM WITH AN EXAMPLE]]
 
 In order to tackle these issues, several works have been done to take in account uncertainties into the optimization process. We propose to make a quick tour of the different ways which have been propose to model and propagate uncertainties.
+A major concern regarding the modeling of uncertainties is the uncertainties \emph{propagation}. 
 
 \section{Several types of uncertainties}
 
@@ -371,11 +372,16 @@ These uncertainties are \emph{irreducible} as it is impossible to remove them wi
 Epistemic uncertainties result from an incomplete knowledge regarding the system. These uncertainties can result from a limited set of data or lack of knowledge regarding a physical phenomenon.
 The uncertainties are \emph{reducible} as it is possible to remove them with a better analysis of the system. However, removing epistemic uncertainty can often be too costly or too difficult in practice, thus still need to be taken in account during the optimization process.
 
+For example, let's suppose we work on a model taking two variables as input and producing an output: $z=f(x,y)$.
+Based on known uncertainties on the inputs and the model, how easy it is to combine and propagate these information to determine the uncertainty regarding the output ? Or more formally, can we provide a propagator $P$ such as $u_z = P(u_x, u_y, u_f)$ (where $u_i$ is the uncertainty associated with the element $i$)? As we will see, the ease to obtain such a propagator $P$ depends on the chosen way to model the uncertainties.
+
 \section{Uncertainties Modeling Techniques}
 
 \subsection{Probability Theory}
 
-Using the probability theory, uncertainty can be modeled using a distribution function. This modeling provides the advantages of a well-studied theoretical foundation, providing combination and propagation techniques.
+[[Dans la mise en oeuvre, dire qu'on a utilisé celle là comme exemple parce que c'est la plus commune, qu'elle est bien comprise, et qu'il est facile de trouver des outils pour la manipuler]]
+
+Using the probability theory, uncertainty can be modeled using a distribution function. This modeling provides the advantages of a well-studied theoretical foundation, providing well-known combination and propagation techniques.
 
 Aleatory uncertainties can be characterized by obtaining a distribution function from a data sample.
 Well-known statistical techniques can be used to see for example if a data sample follows a known probability distribution, measuring \emph{goodness of fit}, that is, how well a data sample follows a given model, such as the Kolmogorov-Smirnov test \cite{Massey_1951}. 
@@ -386,30 +392,14 @@ Concerning epistemic uncertainty, it can be more difficult to estimate a relevan
 \subsection{Interval Analysis}
 
 Interval analysis can be an alternative to probability theory when the lack of information impeded modeling with a probability distribution, but where the uncertainty can still be bounded within a certain domain.
+How easy it is to propagate intervals depends on the involved models. For example in the case of a monotonic function the lower and upper bounds can be determined easily. In the general case, determining the boundaries is equivalent to solving an optimization problem and can thus be solved by using optimization algorithms. In the most extreme cases, one can apply sampling techniques, but this can become quite expensive.
+For some examples of existing techniques, one can refer to \cite{Kreinovich_2008}.
 
-[[ TO USE From Delivrable 31, p13      
-      "Sampling based techniques similar to Monte Carlo simulation can also be used as brute
-force approaches in cases where no simplification of the problem (linearization, monotonicity)
-can be done. However, this can be extremely expensive computationally and global
-optimization techniques are usually more efficient (see [13]).
-       A significant drawback of using interval analysis for uncertainty quantification is that
-there is no uncertainty measure in the way we have probability in probabilistic approaches.
-Since the uncertainty is characterized only by the interval bounds we know nothing about the
-likelihood of the values within this interval. In probability theory the likelihood of different
-values is quantified by the PDF, which allows to define the probability of some values lying
-in a certain domain, i.e. to define an uncertainty measure. This is not available in interval
-analysis.
-      We do not detail here any further the arithmetics and uncertainty propagation methods
-for interval analysis due to the lack of uncertainty measure equivalent to probability. This
-decreases the appeal of interval analysis in applications such as reliability based optimization
-or robust design. It is important to note however that in cases where input variables can be
-accurately bounded, interval analysis provides efficient tools for determining the interval of
-the output quantity with absolute certainty (provided we have absolute certainty in the interval
-uncertainty quantification on our input variables). This is especially useful in cases where
-only the worst case needs to be considered."
-]]]
+A limit of interval analysis is the lack of a measure equivalent to probability, which limit the [[interest]] of this representation in the general case. This modeling can still prove useful in the context of worst case studies where inputs variables can be bounded with accuracy.
 
 \subsection{Fuzzy Sets}
+
+[[MORE REFS]]
 Fuzzy Sets can be seen as a compromise for when we still lack enough information to use probability theory, but we have more knowledge than just the bounds of the uncertainty.
 
 Basically, fuzzy sets are sets where the membership of an element to the set is not absolute but gradual.
