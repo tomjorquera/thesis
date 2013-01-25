@@ -684,11 +684,25 @@ CO is best-suited for MDO problems with a low coupling between disciplines. The 
 
 Bi-Level Integrated System Synthesis (BLISS) \cite{J.:1998:BIS:886310} has been developed to separate local and shared variables, in order to ease the distribution of the optimization process (be it in regard of expert teams or computational resources).
 BLISS shares similarities with CSSO [[explain]]. However, local variables are assigned to the disciplines optimizations while the global variables are assigned to the global system optimization.
+
 For each discipline optimization problem, an approximation of the global objective-functions and constraints is build using linear approximation considering only the variables of the discipline.
+
 The optimization process cycle alternates as follow: First a system-wide analysis is done (which includes the analysis of each subsystem) and used to provide the approximate objective-functions. Then a discipline-level optimization of the objective-functions approximations, which is used for a system optimization concerning the shared variables. These results are then used by the new system analysis at the start of the next step.
 
 \subsubsection{BLISS 2000}
+[[DELETE susbusbsection ? => NOPE it is different, see Musltidisciplinary Design Optimization: A survey of Architectures:
+"    A radically different formulation called BLISS-2000 was developed by Sobieski et al; . Because BLISS-2000
+does not require an MDA to restore the feasibility of the design, we have separated it from the other BLISS variants
+in the classification shown in Fig. 7. In fact, like other IDF-derived architectures, BLISS-2000 uses coupling variable
+copies to enforce consistency at the optimum. Information exchange between the system and discipline subproblems
+occurs through surrogate models of the discipline optima"
+]]
 
+\subsection{MDO based on Independent Subspaces}
 
+MDO based on Independent Subspaces (MDOIS) \cite{NME:NME1380} has been developed for handling problems where the different disciplines are coupled (i.e. some outputs of one discipline are used as inputs by the others and vice versa) but they do not share any design variable or criterion.
+MDOIS decomposes the system in separate subsystems, for each an optimization problem is defined, with its own design variables, objective-function and constraints. The coupling variables are considered constant for these subproblems. After each subsystem has solved its optimization problem, the new values of its variables are used in a system-wide analysis to be re-injected for the next iteration of subsystem optimization.
+
+\subsection{Quasiseparable Subsystems Decomposition}
 
 [[CO/ECO, CSSO, ATC,  BLISS, EPD/IPD, MDOIS, QSD]]
