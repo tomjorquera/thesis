@@ -697,12 +697,14 @@ in the classification shown in Fig. 7. In fact, like other IDF-derived architect
 copies to enforce consistency at the optimum. Information exchange between the system and discipline subproblems
 occurs through surrogate models of the discipline optima"
 ]]
-
+   
 \subsection{MDO based on Independent Subspaces}
 
 MDO based on Independent Subspaces (MDOIS) \cite{NME:NME1380} has been developed for handling problems where the different disciplines are coupled (i.e. some outputs of one discipline are used as inputs by the others and vice versa) but they do not share any design variable or criterion.
 MDOIS decomposes the system in separate subsystems, for each an optimization problem is defined, with its own design variables, objective-function and constraints. The coupling variables are considered constant for these subproblems. After each subsystem has solved its optimization problem, the new values of its variables are used in a system-wide analysis to be re-injected for the next iteration of subsystem optimization.
 
 \subsection{Quasiseparable Subsystems Decomposition}
+
+Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420} is another specialized method for systems which can be decomposed into subproblems which only depends on local variables and global design variable but not on values produced by others subsystems. 
 
 [[CO/ECO, CSSO, ATC,  BLISS, EPD/IPD, MDOIS, QSD]]
