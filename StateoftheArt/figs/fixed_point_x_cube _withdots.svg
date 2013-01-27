@@ -13,7 +13,7 @@
    inkscape:version="0.48.3.1 r9886"
    width="100%"
    height="100%"
-   sodipodi:docname="fixed_point_x_cube (copy).svg">
+   sodipodi:docname="fixed_point_x_cube _withdots.svg">
   <metadata
      id="metadata63">
     <rdf:RDF>
@@ -41,8 +41,8 @@
      id="namedview59"
      showgrid="false"
      inkscape:zoom="1.0215385"
-     inkscape:cx="815.99445"
-     inkscape:cy="357.24303"
+     inkscape:cx="-85.118402"
+     inkscape:cy="122.55659"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -230,4 +230,9 @@
      sodipodi:ry="3.6709337"
      d="m 328.4262,200.79066 a 3.7932982,3.6709337 0 1 1 -7.58659,0 3.7932982,3.6709337 0 1 1 7.58659,0 z"
      transform="translate(-64.241337,92.752257)" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1.069;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.42982456000000002;stroke-miterlimit:4;stroke-dasharray:4.276,2.138;stroke-dashoffset:0"
+     d="M 187.74145,401.18927 462.99271,1.6157143"
+     id="path3012"
+     inkscape:connector-curvature="0" />
 </svg>
