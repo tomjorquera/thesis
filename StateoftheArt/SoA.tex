@@ -708,3 +708,26 @@ MDOIS decomposes the system in separate subsystems, for each an optimization pro
 Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420} is another specialized method for systems which can be decomposed into subproblems which only depends on local variables and global design variable but not on values produced by others subsystems. 
 
 [[CO/ECO, CSSO, ATC,  BLISS, EPD/IPD, MDOIS, QSD]]
+
+\chapter{Conclusion on Optimization}
+
+We have seen in this part how different types of optimization problems have been defined over time, depending on their topology, their complexity, their specificities.
+
+Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure.
+Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. A multi-disciplinary problem is basically a optimization problem so complex that standard optimization techniques fail.
+These distinctions where made because of the limitations of the optimization techniques, which have to choose between being applicable in the general case and being efficient.
+
+An interesting observation concerning MDO techniques is the fact that, to evaluate their performances, they are sometimes applied to simple optimization problems, solvable by numerical optimization techniques (see for example \cite{Kroo:1994:MOM} for an application of CO to the Rosenbrock's valley problem). This observation illustrates the fact that all optimization problems share a common structure and differ only in their complexity. Of course these examples are usually only used as illustration, as MDO methods are too heavy to be interesting to use for such problems.
+
+These conclusions raise an interesting question: could it be possible to create an optimization technique which would scale from simple optimization problems to complex ones?
+
+In itself this statement seems to be contradicted by the intuition provided by the NFL theorems. However we have also seen how at the extreme end of complexity, the concern is not so much about finding an efficient optimization technique, but finding an efficient \emph{organization} to apply specialized optimization techniques to the different parts of the problem, while keeping a global coherence.
+At this level, the actual optimization processes can be abstracted as black boxes, which are handled behind the scene by experts or automated processes.
+
+Thus we can reformulate our question as: could it be possible to create a technique which would provide an adequate organization for each type of problem, adapted both to simple problems which need to be solved quickly and to large-scale optimization problem involving whole disciplines?
+
+Currently, only MDO techniques could be seen as being applicable to the whole range of optimization problems, but their strict structure make them to cumbersome for for such a task.
+An ideal solution for such a problem would be a method able to adapt itself to the problem at hand, in order to scale with the needs of the engineers.
+
+The next parts of this thesis concentrate on providing such a method.
+
