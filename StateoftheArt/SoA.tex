@@ -631,6 +631,43 @@ scheme by discussing whether distributed architectures used open or closed local
 
 \section{An Illustration of Coupled Systems Problematics: Fixed Point Iteration}
 
+To illustrate the difficulties caused by coupled system, let's introduce the problematic of Fixed Point.
+
+\subsection{The Problematic of Fixed Point}
+
+Initially, the problematic of fixed point is the following:
+
+\begin{quote}{"Considering a function $f(x)$, does a $x_{fp}$ for which $f(x_{fp}) = x_{fp}$ ?"\end{quote}
+
+If such $x_{fp}$ exists, then it is called a \emph{fixed point} of $f$
+
+\definition{fixed point}{$x_{fp}$ is a fixed point of $f \Leftrightarrow f(x_{fp}) = x_{fp}$}
+
+Not every function has a fixed point, and some functions can have more than one. For example the function
+
+$$f(x)=x+1$$
+
+has no fixed point (there is no $x$ for which $x = x+1$), while the function
+
+$$f(x) = x^3$$
+
+has three fixed points: -1, 0 and 1 (cf figure \ref{fixed_points_x^3}).
+
+An obvious property of fixed points is that $x_{fp} = f(x_{fp}) = f(f(x_{fp}))$ ...
+
+A fixed point can be \emph{attracting} or \emph{repelling}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\paperwidth]{fixed_point_x_cube_withdots}
+\caption{$f(x)=x^3$ with its fixed points}
+\label{fixed_points_x^3}
+\end{figure}
+
+\subsection{Fixed Point with Two Functions}
+
+
+
 \section{Mono-Level Methods}
 
 \subsection{Multidisciplinary Feasible}
