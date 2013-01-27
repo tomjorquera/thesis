@@ -118,7 +118,7 @@ This class has been inspired from thesegauthier, Gauthier Picard, IRIT]
 \setcounter{minitocdepth}{2}
 
 \usepackage{indentfirst}
-\RequirePackage[latin1]{inputenc}
+\RequirePackage[utf8]{inputenc}
 \RequirePackage{color}
 \RequirePackage{fancybox}
 

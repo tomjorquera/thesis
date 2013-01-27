@@ -16,7 +16,7 @@ In theory these two formulations should be equivalent. In practice however, thes
 
 Since we want to find the best element of this solution space, we have to determine what make an element better than another. Usually, the possible solutions are compared through a specific function called the \emph{objective function}. Some alternate names are \emph{criterion} or \emph{cost function}. The best element would be the one for which the objective function returns a minimal (or alternatively, maximal\footnote{Obviously we sometimes want to find the \emph{maximal} value which is solution of a problem, however minimizing f(x) is equivalent to maximizing (-f(x)). So maximization problems can be expressed as minimization problems, and vice-versa. Traditionally, optimization problems are often expressed in the terms of finding a \emph{minimal} value since the two possibilities are equivalents.}) value. It should be noted that it is possible for a problem to admit several equivalent solutions in regard of the objective function.
 
-\definition{Objective function}{a function defined over the search space of the optimization problems.}
+definition{Objective function}{a function defined over the search space of the optimization problems.}
 
 The least obvious keyword here is \emph{try}. When the search space is very large, or its topology is complicated, it can be really long or difficult to find the best solution and, more important, to be sure that the solution is the best. In fact, in these problems, the only way to find the best solution with certainty is an exhaustive exploration of the search space. Since it can be very costly in terms
 of time and calculation, instead of finding the best solution, we settle for a solution which is "good enough", for example because this solution is the best for a subpart of the search space. The best solution is called the \emph{global optimum}, while a "good enough" solution is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, where methods which search for local optimum are said to be \emph{local optimization methods}.
@@ -278,7 +278,7 @@ Moreover, aggregations techniques tend to break when the objectives are not comp
 
 \section{A Posteriori Methods}
 
-We have seen that, while convenient, \emp{a priori} methods can be quite restrictive. By choosing beforehand a way to aggregate the objectives, we lose in diversity of solutions and influence the result of the optimization process.
+We have seen that, while convenient, \emph{a priori} methods can be quite restrictive. By choosing beforehand a way to aggregate the objectives, we lose in diversity of solutions and influence the result of the optimization process.
 
 \subsection{Pareto Dominance}
 
@@ -364,7 +364,7 @@ A major concern regarding the modeling of uncertainties is the uncertainties \em
 
 [[TALK ABOUT system vs experimental vs modeling uncertainties ?]]
 
-A distinction is usually made between \emph{aleatory} uncertainties and \emp{epistemic} uncertainties.
+A distinction is usually made between \emph{aleatory} uncertainties and \emph{epistemic} uncertainties.
 
 Aleatory uncertainties are inherent to the studied system. They can represent for example variability in the material used, a physical variation regarding the manufacturing of some piece, the meteorological conditions to which a device will be exposed etc.
 These uncertainties are \emph{irreducible} as it is impossible to remove them with a better analysis of the system.
@@ -548,11 +548,11 @@ To handle such complex system, most strategies propose to decompose it into seve
 \item domain (also called aspect) decomposition, based on the knowledge domains, the disciplines, involved. This kind of decomposition is the basis of MDO methods.
 \end{itemize}
 
-[[The AIAA MDO Technical Committee proposed the following definition of MDO\note{\url{https://info.aiaa.org/tac/adsg/MDOTC/Web\%20Pages/aboutmdo.aspx}} [[\cite{american1991current}?]]:
+[[The AIAA MDO Technical Committee proposed the following definition of MDO\footnote{\url{https://info.aiaa.org/tac/adsg/MDOTC/Web\%20Pages/aboutmdo.aspx}} [[\cite{american1991current}?]]:
  \begin{quote}
 "A methodology for the design of complex engineering systems and subsystems that coherently exploits the synergism of mutually interacting phenomena."
 \end{quote}]]
-MDO methods are not optimization methods \emp{per se}. Instead they focus on providing a optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as presented above. [[In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to a complex problem. Martin and Lambe\cite{Lambe:2011:A} note the volumes of different terms which have been used in the literature :  "architecture, "method", "methodology", "problem formulation, "strategy", "procedure" or "algorithm". While these authors choose to use the term "architecture", we will stick in this work to the designation of "method", not as a disregard for their arguments but solely for the sake of  consistency.  ]] 
+MDO methods are not optimization methods \emph{per se}. Instead they focus on providing a optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as presented above. [[In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to a complex problem. Martin and Lambe\cite{Lambe:2011:A} note the volumes of different terms which have been used in the literature :  "architecture, "method", "methodology", "problem formulation, "strategy", "procedure" or "algorithm". While these authors choose to use the term "architecture", we will stick in this work to the designation of "method", not as a disregard for their arguments but solely for the sake of  consistency.  ]] 
 
 Alexandrov and Lewis illustrated their discussion on Collaborative Optimization\cite{NataliaM.:2000:ACA:886733} with the following theoretical test case:
 
@@ -670,8 +670,8 @@ Concurrent Subspace Optimization (CSSO) is one of the firsts multi-levels MDO me
 Originally, CSSO was developed for single-objective optimization problems. However several efforts have been made to extend CSSO to multi-objectives problems.
 
 [[From Concurrent Subspace Optimization for Aircraft System Design -  Ke-shi Zhang:
-"In recent years more work (Aute & Azarm, 2006; Huang & Bloebaum, 2004; McAllister et al., 2000; McAllister et al., 2004; Orr & Hajela, 2005; Parashar & Bloebaum, 2006; Tappeta & Renaud, 1997; Zhang et al., 2008) has focused on extending existing MDO method to handle such multi-objective MDO problems, by means of integrating a multi-objective optimization method within the MDO framework. This kind of method can be called a multi-objective MDO method.
-It is an effective way to integrate multi-objective optimization method within the CSSO framework to develop the multi-objective MDO method. CSSO was extended to solve multi - objective MDO problems, including the Multi-objective Pareto CSSO (MOPCSSO) method, Aeronautics and Astronautics the Multi-objective Range CSSO (MORCSSO) method, the Multi-objective Target CSSO (MOTCSSO) method, the Multi-objective Genetic Algorithm CSSO (MOGACSSO) method and Adaptive Weighted Sum based CSSO (AWSCSSO). In MOPCSSO the Constraint method is integrated within CSSO framework (Huang & Bloebaum, 2007). In MORCSSO and MOTCSSO the concept of designer preference is introduced (Huang & Bloebaum, 2004). In MOGACSSO the Genetic Algorithm is combined with CSSO and in the hope of improving the computational efficiency (Parashar & Bloebaum, 2006). In AWSCSSO the Adaptive Weighted Sum method is introduced into CSSO (Zhang et al., 2008). "]]
+"In recent years more work (Aute \& Azarm, 2006; Huang \& Bloebaum, 2004; McAllister et al., 2000; McAllister et al., 2004; Orr \& Hajela, 2005; Parashar \& Bloebaum, 2006; Tappeta \& Renaud, 1997; Zhang et al., 2008) has focused on extending existing MDO method to handle such multi-objective MDO problems, by means of integrating a multi-objective optimization method within the MDO framework. This kind of method can be called a multi-objective MDO method.
+It is an effective way to integrate multi-objective optimization method within the CSSO framework to develop the multi-objective MDO method. CSSO was extended to solve multi - objective MDO problems, including the Multi-objective Pareto CSSO (MOPCSSO) method, Aeronautics and Astronautics the Multi-objective Range CSSO (MORCSSO) method, the Multi-objective Target CSSO (MOTCSSO) method, the Multi-objective Genetic Algorithm CSSO (MOGACSSO) method and Adaptive Weighted Sum based CSSO (AWSCSSO). In MOPCSSO the Constraint method is integrated within CSSO framework (Huang \& Bloebaum, 2007). In MORCSSO and MOTCSSO the concept of designer preference is introduced (Huang \& Bloebaum, 2004). In MOGACSSO the Genetic Algorithm is combined with CSSO and in the hope of improving the computational efficiency (Parashar \& Bloebaum, 2006). In AWSCSSO the Adaptive Weighted Sum method is introduced into CSSO (Zhang et al., 2008). "]]
 
 \subsection{Collaborative Optimization}
 
