@@ -19,7 +19,7 @@ Since we want to find the best element of this solution space, we have to determ
 definition{Objective function}{a function defined over the search space of the optimization problems.}
 
 The least obvious keyword here is \emph{try}. When the search space is very large, or its topology is complicated, it can be really long or difficult to find the best solution and, more important, to be sure that the solution is the best. In fact, in these problems, the only way to find the best solution with certainty is an exhaustive exploration of the search space. Since it can be very costly in terms
-of time and calculation, instead of finding the best solution, we settle for a solution which is "good enough", for example because this solution is the best for a subpart of the search space. The best solution is called the \emph{global optimum}, while a "good enough" solution is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, where methods which search for local optimum are said to be \emph{local optimization methods}.
+of time and calculation, instead of finding the best solution, we settle for a solution which is "good enough", for example because this solution is the best of its neighborhood for a subset of the search space. The best solution is called the \emph{global optimum}, while a "good enough" solution is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, where methods which search for local optimum are said to be \emph{local optimization methods}.
 
 \definition{Optimizing}{finding an element of the search space which minimize (or maximize) the value of the objective-function}
 
@@ -133,12 +133,14 @@ While the simplex algorithm is considered to be very efficient for most cases, s
 
 \section{Local Methods}
 
+Local optimization methods concentrate on finding local optimums either because the search space is too big or to complex to find a global optimum in a reasonable time, or because we prefer to quickly find a good enough solution to spend more time to find the best one.
+
 \subsection{Using Derivatives}
 
-\subsubsection{Gradient Decent}
+Local optimization methods using derivatives can be mostly classified in to broad families: line search and Trust region.
+Both families are iterative approaches but differ in the information they use to select the next search point.
 
-A whole family of algorithm is based on the mechanism of gradient descent.
-The basic idea of gradient decent is, from a random starting point $x_0$, to iteratively evaluate a new point using a direction and a step size.
+The general idea is, from a random starting point $x_0$, to iteratively evaluate a new point using a direction and a step size.
 By adjusting the ways the direction and step size are chosen, we can obtain a whole selection of algorithms with varied behaviors.
 
 Formally, from the point $x_i$, the new point $x_{i+1}$ is calculated with:
@@ -146,6 +148,9 @@ Formally, from the point $x_i$, the new point $x_{i+1}$ is calculated with:
 \[ x_{i+1} = x_i +s_id_i \]
 
 where $d_i$ is the direction vector and $s_i$ the step size coefficient.
+
+\subsubsection{Line search}
+
 
 [[Present some strategies ?]]
 
@@ -160,10 +165,14 @@ Simplex
 SQP
 ]]
 
-\subsubsection{Sequential Quadratic Programming}
 [[SQP can be used with constraint -> separate it ?]]
 
 Sequential Quadratic Programming (SQP) proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
+
+\subsubsection{Trust region}
+
+Trust region methods use the neighborhood of the current point to approximate the shape of the objective-function.
+
 
 \subsection{Derivative-Free}
 
