@@ -97,6 +97,14 @@ For the method in itself:
 
 Based on the shape of the search space and our requirements regarding the method, we will try to choose the most adequate optimization method. As always, the more information known regarding the problem, the more we would be able to select a specialized method with a great efficiency. If very few information is known, it could be necessary to use black-box optimization methods, that is methods which do not make assumption regarding the nature of the problem. These techniques can suffice in themselves to get a good-enough result, or can be used as a prelude of more specialized techniques if enough information is gathered.
 
+A rough proposal of organization of the different types of numerical optimization can bee seen in \ref{numerical_optim_tree}.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{numerical_optim-crop}
+\caption{Types of numerical optimization methods}
+\label{numerical_optim_tree}
+\end{figure}
+
 We will now present some of the most well-known numerical optimization techniques.
 
 \section{Local Methods}
@@ -237,7 +245,7 @@ For example, the problem \[\text{min } f_1, f_2, ...,f_n\] where $f_1$ is deemed
 
 Where $\epsilon_2, ..., \epsilon_n$ must be chosen by the designer.
 Depending of the selection of $\epsilon_2, ..., \epsilon_n$, it is possible to obtain a formulation where no feasible solution exist.
-[["Survey of multi-objective optimization methods for engineering" -> Bounded objective function method for some ref about methods to select \epsilon]]
+[["Survey of multi-objective optimization methods for engineering" -> Bounded objective function method for some ref about methods to select $\epsilon$]]
 
 \subsection{Goal Programming}
 
@@ -304,6 +312,18 @@ It is also possible to classify the solutions by rank: a solution which is domin
 As a remark, these definitions of efficiency and optimality do not give any information about the fairness of the allocation, or the well-being of the involved parties. From this point of view, a monopolistic situation where one actor would control all the available resources is as optimal as a situation where all the resources are equally divided between the individuals.
 
 These definitions of dominance and optimality can be used to characterize the possibles solutions of MOO problem. In this case, the problem is no more to find an optimal solution, but to find the Pareto front of the problem.
+
+An illustration of Pareto front can be seen on figure \ref{Front_Pareto}. The elements A and B are Pareto-optimal, while C is not.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\paperwidth]{Front_pareto}\\
+%\hfill\includegraphics[width=6em]{by-sa} \href{http://en.wikipedia.org/wiki/File:Front_pareto.svg}{\begin{small}Johann Dréo\end{small}}
+\caption{Illustration of the notion of Pareto Front (CC-BY-SA \href{http://en.wikipedia.org/wiki/File:Front_pareto.svg}{Johann Dréo)}}
+
+\label{Front_Pareto}
+\end{figure}
 
 [[TODO: give some example of Pareto methods]]
 
@@ -662,7 +682,7 @@ has three fixed points: -1, 0 and 1 (cf figure \ref{fixed_points_x_3}).
 
 An obvious property of fixed points is that $x_{fp} = f(x_{fp}) = f(f(x_{fp}))$ ...
 
-A fixed point can be \emph{attracting} or \emph{repelling}. A fixed point is said to be attracting when when we converge toward it when iterating over $f$ in its neighborhood. Conversely, a fixed point is repelling if we diverge while doing so. A fixed point which is neither attracting nor repelling is said to be \emp{neutral}.
+A fixed point can be \emph{attracting} or \emph{repelling}. A fixed point is said to be attracting when when we converge toward it when iterating over $f$ in its neighborhood. Conversely, a fixed point is repelling if we diverge while doing so. A fixed point which is neither attracting nor repelling is said to be \emph{neutral}.
 
 [[insert diagram of attractive and repelling fixed points]]
 
