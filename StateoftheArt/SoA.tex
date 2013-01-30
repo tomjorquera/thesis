@@ -105,19 +105,33 @@ A rough proposal of organization of the different types of numerical optimizatio
 \label{numerical_optim_tree}
 \end{figure}
 
-We will now present some of the most well-known numerical optimization techniques.
+Presenting all the numerical optimization techniques would be far outside the scope of this work. In this part we will focus on presenting briefly the different optimization categories we identified on figure \ref{numerical_optim_tree} as well as referencing some of the most representatives techniques.
 
-\section{Local Methods}
 
-\subsection{Linear}
+
+\section{Linear Optimization}
 
 Linear optimization focus on the solving of problems where the objective-function and constraints are linear (that is, $f(x+y) = f(x)+f(y)$ and $f(ax) = af(x)$) an the search space convex.
 
 [[Show what do we mean by convex search space]]
 
-\subsubsection{Simplex}
+A linear problem with $n$ variables and $m$ constraints can be expressed as:
+\begin{align*}
+\text{min } & c_1x_1 + c_2x_2... + c_nx_n\\
+\text{subject to } &x_i \geq 0, \forall i \in 0,n\\
+&a_{11}x_1 + a_{12}x_2 + ... + a_{1n}x_n + b_1 \geq 0\\
+&...\\
+&a_{m1}x_1 + a_{m2}x_2 + ... + a_{mn}x_n + b_m \geq 0
+\end{align*}
 
-The simplest method is one of the very first numerical optimization methods, proposed by Dantzig. This method is considered to be very efficient for solving linear problems.
+This kind of problems is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm\cite{dantzig2003linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a numerical optimization problem and to be one of the founding works to the field.
+
+The basic idea of the simplex algorithm is to that the solution space is the convex polyhedron, and the optimal solution is necessarily on one of its vertices. Another property is that a vertice which is not the optimal solution will have at least an edge leading toward a better vertice.
+The simplex algorithm starts on one of the vertices, and tries to follow an edge to a vertice which improves the objective-function. The algorithm iterates until it has found a vertex with no edge leading toward a better point (the optimal solution) or until it reaches an unbound edge (in this case the problem is not bounded).
+
+While the simplex algorithm is considered to be very efficient for most cases, some alternatives has been proposed. The most noteworthy is the interior point method and its derivative. Contrary to the simplex method, this methods actually traverses the interior of the solution space (hence its name). The original method proposed by Karmarkar\cite{Karmarkar:1984:NPA:800057.808695} travels through the search space by iteratively finding the best solution over a restricted region delimited by a sphere around the current point.
+
+\section{Local Methods}
 
 \subsection{Using Derivatives}
 
@@ -657,7 +671,7 @@ To illustrate the difficulties caused by coupled system, let's introduce the pro
 
 Initially, the problematic of fixed point is the following:
 
-\begin{quote}{"Considering a function $f(x)$, does a $x_{fp}$ for which $f(x_{fp}) = x_{fp}$ ?"\end{quote}
+\begin{quote}"Considering a function $f(x)$, does a $x_{fp}$ for which $f(x_{fp}) = x_{fp}$ ?"\end{quote}
 
 If such $x_{fp}$ exists, then it is called a \emph{fixed point} of $f$
 
