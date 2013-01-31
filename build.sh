@@ -79,9 +79,9 @@ pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
 bibtex ./$OUT/$1.aux
 
 # generate final pdf (why do pdflatex two times ? Because LateX, that's why)
-pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
+pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex	# first one to insert reference indicators
 asy ./$OUT/$1.asy
-pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
+pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex	# second one to refine citation ref and other cross-ref
 
 ########
 
