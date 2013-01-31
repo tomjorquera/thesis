@@ -107,11 +107,9 @@ A rough proposal of organization of the different types of numerical optimizatio
 
 Presenting all the numerical optimization techniques would be far outside the scope of this work. In this part we will focus on presenting briefly the different optimization categories we identified on figure \ref{numerical_optim_tree} as well as referencing some of the most representatives techniques.
 
-
-
 \section{Linear Optimization}
 
-Linear optimization focus on the solving of problems where the objective-function and constraints are linear (that is, $f(x+y) = f(x)+f(y)$ and $f(ax) = af(x)$) an the search space convex.
+Linear optimization focus on the solving of problems where the objective-function and constraints are linear (that is, $f(x+y) = f(x)+f(y)$ and $f(ax) = af(x)$) and the search space convex.
 
 [[Show what do we mean by convex search space]]
 
@@ -126,16 +124,30 @@ A linear problem with $n$ variables and $m$ constraints can be expressed as:
 
 This kind of problems is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm\cite{dantzig2003linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a numerical optimization problem and to be one of the founding works to the field.
 
-The basic idea of the simplex algorithm is to that the solution space is the convex polyhedron, and the optimal solution is necessarily on one of its vertices. Another property is that a vertice which is not the optimal solution will have at least an edge leading toward a better vertice.
-The simplex algorithm starts on one of the vertices, and tries to follow an edge to a vertice which improves the objective-function. The algorithm iterates until it has found a vertex with no edge leading toward a better point (the optimal solution) or until it reaches an unbound edge (in this case the problem is not bounded).
+The basic idea of the simplex algorithm is to that the solution space is the convex polyhedron, and the optimal solution is necessarily on one of its vertices. Another property is that a vertex which is not the optimal solution will have at least an edge leading toward a better vertex.
+The simplex algorithm starts on one of the vertices, and tries to follow an edge to a vertex which improves the objective-function. The algorithm iterates until it has found a vertex with no edge leading toward a better point (the optimal solution) or until it reaches an unbound edge (in this case the problem is not bounded).
 
 While the simplex algorithm is considered to be very efficient for most cases, some alternatives has been proposed. The most noteworthy is the interior point method and its derivative. Contrary to the simplex method, this methods actually traverses the interior of the solution space (hence its name). The original method proposed by Karmarkar\cite{Karmarkar:1984:NPA:800057.808695} travels through the search space by iteratively finding the best solution over a restricted region delimited by a sphere around the current point.
 
 \section{Local Methods}
 
-Local optimization methods concentrate on finding local optimums either because the search space is too big or to complex to find a global optimum in a reasonable time, or because we prefer to quickly find a good enough solution to spend more time to find the best one.
+Unconstrained local optimization methods concentrate on finding local optimums either because the search space is too big or to complex to find a global optimum in a reasonable time, or because we prefer to quickly find a good enough solution to spend more time to find the best one.
+ Moreover, if the objective-function is convex, the local optimum is also the global optimum, in this context local methods can be an easy mean to obtain the best solution.
 
 \subsection{Using Derivatives}
+
+If the derivatives are available, it is possible to propose very efficient optimization techniques to converge toward a local optimum.
+
+In some case, even if the derivatives are not available, it is possible to obtain an approximation of the derivatives using for example a finite difference method. The basic idea of finite difference is to estimate the derivative from the ratio between the variation of the input and the variation of the output of the function.
+Basically, if we make the following assumption:
+
+\begin{equation*}f(x + d) \approx f(x) +df'(x)\end{equation*}
+
+then we can estimate the derivative as follow:
+
+\begin{equation*}f'(x) \approx \frac{f(x + d)  - f(x)}{d}\end{equation*}
+
+\subsubsection{Without Constraint}
 
 Local optimization methods using derivatives can be mostly classified in to broad families: line search and Trust region.
 Both families are iterative approaches but differ in the information they use to select the next search point.
@@ -149,34 +161,25 @@ Formally, from the point $x_i$, the new point $x_{i+1}$ is calculated with:
 
 where $d_i$ is the direction vector and $s_i$ the step size coefficient.
 
-\subsubsection{Line search}
+\paragraph{Line search}
 
+Linear search is the most basic approach. It first determine  which direction would improve the objective function, then decide of a step size to move toward it.
+Some of the most well-known linear search methods are gradient descent, Newton's and Quasi-Newton methods. The gradient method simply uses a step size proportional to the value of the gradient. The Newton's and Quasi-Newton methods however try to find a solution to the equation $\nabla f(x)=0$. The Newton's method use the gradient  and the Hessian matrix of $f$ to estimate a good step size, while the Quasi-Newton method avoid the disadvantages of using the Hessian (which can involve costly operations) by replacing it with an approximation based on the variation of the gradient.
 
-[[Present some strategies ?]]
+\paragraph{Trust region}
 
+Trust region methods use the neighborhood of the current point to approximate the shape of the objective-function in the neighborhood of the current point. This approximation is the used to find the minimum in a localized region around the current point. These methods are the dual of Line search ones as they start by selecting a step size (the size of the region around the current point) and only after choose the direction.
+For example, the Levenberg-Marquardt algorithm, which primary application is least squares problems, uses the Jacobian matrix conjugated with a damping factor to iteratively refine the approximate functions.
 
-[[
-Gradient decent
-
-Convex Hull
-
-Simplex
-
-SQP
-]]
-
+\subsubsection{With Constraints}
 [[SQP can be used with constraint -> separate it ?]]
 
 Sequential Quadratic Programming (SQP) proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
 
-\subsubsection{Trust region}
-
-Trust region methods use the neighborhood of the current point to approximate the shape of the objective-function.
-
 
 \subsection{Derivative-Free}
 
-Sometimes we cannot use derivatives 
+Sometimes we cannot use derivatives in the optimization process, either because the derivatives are not available or too costly to compute.
 
 [[
 Nelder Mead Simplex
