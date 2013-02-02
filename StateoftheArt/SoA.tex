@@ -212,11 +212,16 @@ The SQP can be viewed as an equivalent of Newton's method to the KKT conditions 
 
 Sometimes we cannot use derivatives in the optimization process, either because the derivatives are not available or too costly to compute.
 
-[[
-Nelder Mead Simplex
+A very popular method is the Nelder-Mead algorithm. This algorithm places a simplex\footnote{The concept of simplex is a generalization of the concept of triangle in arbitrary dimension. A triangle is a simplex in 2 dimensions, a tetrahedron a simplex in 3 dimensions.It should be noted that the Simplex algorithm, presented in \ref{linear_optim} does not actually use simplices, during solving.} on the search space and applies to it a sequence of transformations by moving its edges.
 
-Interpolation model
-]]
+[[TODO: Picture of Nelder Mead ]]
+
+At each iteration, a new test point is calculated (for example the symmetric of the worst vertex of the simplex regarding the gravity center of the others points). If this point is better than every vertices, then the simplex is stretched toward it. If this point is worse than the current vertices, then we suppose we are stepping over the valley which contain an optimum. In this case the simplex is contracted to be able to explore the valley. Else, we simply replace the worst vertex by the new point.
+The iterations stop when the simplex has reach a specified size.
+
+
+Several derivative-free algorithms interpolate the objective-function with a simpler one. Starting with several evaluation points of the objective-function, we build a simpler function to which we can apply a known optimization method. Based on the result of the optimization, we can update the interpolation model and reiterate.
+[[Talk about possible interpolations methods ?]]
 
 \section{Global Method}
 
