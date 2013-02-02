@@ -105,9 +105,9 @@ A rough proposal of organization of the different types of numerical optimizatio
 \label{numerical_optim_tree}
 \end{figure}
 
-Presenting all the numerical optimization techniques would be far outside the scope of this work. In this part we will focus on presenting briefly the different optimization categories we identified on figure \ref{numerical_optim_tree} as well as referencing some of the most representatives techniques.
+Presenting all the numerical optimization techniques would be far outside the scope of this work. In this part we will focus on presenting briefly the different optimization categories we identified on figure \ref{numerical_optim_tree}. We will reference some of the most representatives techniques to illustrate his presentation, but without going into the details of the the techniques. To get a more throughout view of the different techniques, the reader can see reference works such as [[REFS]].
 
-\section{Linear Optimization}
+\section{Linear Optimization}\label{linear_optim}
 
 Linear optimization focus on the solving of problems where the objective-function and constraints are linear (that is, $f(x+y) = f(x)+f(y)$ and $f(ax) = af(x)$) and the search space convex.
 
@@ -149,7 +149,7 @@ then we can estimate the derivative as follow:
 
 \subsubsection{Without Constraint}
 
-Local optimization methods using derivatives can be mostly classified in to broad families: line search and Trust region.
+Methods of this kind can be mostly classified in to broad families: line search and Trust region.
 Both families are iterative approaches but differ in the information they use to select the next search point.
 
 The general idea is, from a random starting point $x_0$, to iteratively evaluate a new point using a direction and a step size.
@@ -172,9 +172,40 @@ Trust region methods use the neighborhood of the current point to approximate th
 For example, the Levenberg-Marquardt algorithm, which primary application is least squares problems, uses the Jacobian matrix conjugated with a damping factor to iteratively refine the approximate functions.
 
 \subsubsection{With Constraints}
-[[SQP can be used with constraint -> separate it ?]]
 
-Sequential Quadratic Programming (SQP) proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
+One of the first proposal for solving constrained problems with derivative is a generalization of interiors points (presented in \ref{linear_optim}). The idea is that a linear function with a non-convex search space can be transformed into a linear function over a convex search space (which is a requirement for applying interiors points techniques), using \emph{self-concordant barrier functions}.
+[[BARRIER FUNCTION - WE WILL TALK ABOUT THIS LATER -> MENTION IT ?]]
+[[PICTURE OF BARRIER FUNCTION ??]]
+
+A barrier function is a function whose value increases to infinity when its input approaches a fixed boundary.
+The idea is to replace the constraint with a barrier function, which is composed to the objective-function. The barrier function is thus used as a penalty for a point which violate the constraint.
+
+For example, taking the following constrained optimization problem:
+
+\begin{align*}
+\text{minimize } &f(x)\\
+\text{ subject to } &x > 0
+\end{align*}
+
+Suppose we are provided a barrier function $b_c(x)$ those value increase toward infinity as x decreases toward 0 ($\lim_{x \to 0^+}b_c(x) = \infty$). We can now use the new unconstrained optimization problem:
+
+$$\text{minimize } (f_{obj}(x) + b_c(x))$$
+
+Another method, which had for some time dominated this part of the numerical optimization field is Sequential Quadratic Programming (SQP). SQP proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
+SQP is based on a very powerful result of numerical optimization, the Karush-Kuhn-Tucker (KKT) conditions. The KKT conditions are necessary conditions for a solution $x*$ in a nonlinear optimization problem to be a local optimum. They state that, for $x*$ to be a local optimum to an optimization problem with $i$ inequality constraints $gi$ and $j$ equality constraints $h_j$, there must exist some $\mu_i$ and $\lambda_j$ such as:
+
+$\left\{
+ 		 \begin{array}{l}
+			\nabla f(x*) + \sum \mu_i \nabla g_i(x*) + \sum \lambda_j \nabla h_j(x*) = 0 \\
+			g_i(x*) \leq 0 \;\forall i \\
+			h_j(x*) = 0 \;\forall j \\
+			\mu_i \geq 0 \;\forall i\\
+			\mu_ig_i(x*) = 0 \;\forall i
+		\end{array}
+	\right. $
+	
+The SQP can be viewed as an equivalent of Newton's method to the KKT conditions of the problem.
+
 
 
 \subsection{Derivative-Free}
@@ -204,6 +235,12 @@ Simulated Annealing
 
 Monte-Carlo
 ]]
+
+\section{Conclusion on Numerical Optimization}
+
+This overview of numerical optimization illustrate how the different optimization techniques range from very efficient but highly specialized methods to board scope methods with slower and more costly strategies.
+
+[[Two axis: Local <-> Global; Specialized <-> Generic]]
 
 \chapter{Multi-Objective Optimization}
 
