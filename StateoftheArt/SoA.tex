@@ -277,8 +277,13 @@ Some others stochastic techniques which can be applied, but are not restricted t
 \section{Conclusion on Numerical Optimization}
 
 This overview of numerical optimization illustrate how the different optimization techniques range from very efficient but highly specialized methods to board scope methods with slower and more costly strategies.
+We have seen how the intuition provided by the NFL theorems is illustrated by the progression of the optimization techniques in general applicability and complexity.
 
-[[Two axis: Local <-> Global; Specialized <-> Generic]]
+An interesting observation is how specialized methods can concentrate on exploitation of the solutions, while generic methods are concerned with exploration of the search space. Indeed, the more we known about the structure of the problem, the easier it is to select a new search point. When lacking knowledge about the topology of the system, we need to be more concerned about exploring the search space.
+
+From this basic compromise we can see how numerical optimization has given birth to such a plethora of methods, as every optimization technique is torn between this basic compromise.
+
+[[Two axis: Local <-> Global; Specialized <-> Generic => Do a diagram ?]]
 
 \chapter{Multi-Objective Optimization}
 
