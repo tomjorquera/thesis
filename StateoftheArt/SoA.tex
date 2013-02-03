@@ -122,7 +122,7 @@ A linear problem with $n$ variables and $m$ constraints can be expressed as:
 &a_{m1}x_1 + a_{m2}x_2 + ... + a_{mn}x_n + b_m \geq 0
 \end{align*}
 
-This kind of problems is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm\cite{dantzig2003linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a numerical optimization problem and to be one of the founding works to the field.
+This kind of problems is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm\cite{dantzig1998linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a numerical optimization problem and to be one of the founding works to the field.
 
 The basic idea of the simplex algorithm is to that the solution space is the convex polyhedron, and the optimal solution is necessarily on one of its vertices. Another property is that a vertex which is not the optimal solution will have at least an edge leading toward a better vertex.
 The simplex algorithm starts on one of the vertices, and tries to follow an edge to a vertex which improves the objective-function. The algorithm iterates until it has found a vertex with no edge leading toward a better point (the optimal solution) or until it reaches an unbound edge (in this case the problem is not bounded).
@@ -247,19 +247,32 @@ These methods aims to provide a guarantee about the optimality of the solution. 
 
 For example, as we said before, if an optimization problem is convex than a local solution is also a global solution. Consequently for convex problem local optimization methods can be used with the guarantee that the solution found will be the best one.
 
-[[
-Branch and Bound
+As with linear programming, a specific class of problems belong to the field of \emph{Quadratic Programming}(QP), and it extension \emph{Quadratic Constrained Quadratic Programming}(QCQP). QP concerns (non-convex\footnote{if the problem is convex, then we can use simple convex optimization techniques}) problems where the objective-function is quadratic (that is, a polynomial of degree 2) and all the constraints are linear. QCQP, as its name implies, concerns quadratic objectives and constraints.
 
-Taboo search
-]]
+Several adaptations of the Simplex method (presented is \ref{linear_optim}) for QP have been proposed (see for example \cite{wolfe1959simplex, dantzig1998linear, van1964simplicial}).
 
-\subsection{Stochastic Methods}
+It is also very common to use relaxation techniques (\emph{Reformulation-Linearizion Techniques} or \emph{Semidefinite Programming}) to approximate the quadratic problem with a linear one. A widespread technique is to use a Branch & Cut, starting by replacing each non-linear term of the problem by a (linear) variable (for example, the term $x_ix_j$ would be replaced by the variable $v_{ij}$). For each replacement, a new constraint is added to maintain consistency of the solution (in our example, the new constraint would be $v_{ij} = x_ix_j$). Then these new constraints are themselves replaced by linear approximation.
+To see more details on the different relaxations strategies, see \cite{audet2000branch}.
 
-[[
-Simulated Annealing
+\subsection{Heuristic Methods}
 
-Monte-Carlo
-]]
+When exact methods are to costly or non-applicable, it is often sufficient to get a good-enough solution. To this end it is possible to use heuristics to shorten the search space and ensure we obtain a solution in a reasonable time.
+
+For example, a simple strategy can be to run a local optimization technique several times with different initialization points, in order to increase the coverage of the search space.
+
+Expanding on this strategy is the \emph{Tabu search} metaheuristic. The idea of Taboo Search is to execute the same algorithm several times. To avoid converging  toward the same point, the previous solutions are memorized and are not allowed to be revisited. Thus the method has less chances to be quickly trapped in local optima.
+The tabu search can be extended with several levels of memory to influence the search toward the most interesting regions of the search space.
+
+Another class of heuristics introduces randomization into the search process in order to obtain a good coverage of the search space.  These strategies are said to be \emph{stochastic}.
+
+A very simple example of stochastic method is Monte-Carlo algorithm. We start by choosing a point at random. Then we iteratively draw new points around the old one until we cannot improve the solution. Then we start again from another random point of the search space and continue until we reach an arbitrary termination criterion.
+This method is very easy to put in practice, but can be quite costly in number of evaluation.
+
+Another well-known technique is Simulated Annealing. This method is inspired from the annealing technique in metallurgy used to control the heating and cooling of a material in order to increase its properties.
+Simulated annealing associate a global temperature and an energy measure to the state of the system (which represent the objective-function). Consequently the goal of the system is to minimize its energy. At each step, the method considers moving to one of the neighbors of the current point. The higher the temperature of the system, the more susceptible the system be to move, even if the neighbor is worse than the current point. As the temperature decreases, the system will favor more and more consistently solutions which decrease its energy.
+The temperature of the system is reduce over time following a specific cooling schedule. For example the temperature could be decreased a each step, or could be reduced only when the system reached an equilibrium.
+
+Some others stochastic techniques which can be applied, but are not restricted to, these kind of optimization problems are population-based algorithms, which will be presented in \ref{[[INDICATE SECTION]]}.
 
 \section{Conclusion on Numerical Optimization}
 
