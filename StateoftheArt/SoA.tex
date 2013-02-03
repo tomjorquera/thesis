@@ -225,7 +225,27 @@ Several derivative-free algorithms interpolate the objective-function with a sim
 
 \section{Global Method}
 
-\subsection{Deterministic Methods}
+While local optimization methods aim only at finding an optimum into a limited part of the search space, global optimization methods aim to find the globally best solution of the problem. Global optimization methods concentrate on providing strategies to explore the search space.
+
+Depending on the nature of the problem, it may be impossible to guarantee that the best solution will be found by any mean other than a complete exploration of the search space (which is in itself an impossible task in the context of continuous optimization).
+
+For example, suppose the following problem:
+
+Minimize $f(x) =$ \begin{cases}
+ 		 					0& \text{if } x = 1 \times 10^{-9}\\
+ 		 					1& \text{otherwise} 
+ 		 			\end{cases}
+ 		 			
+There is no efficient strategy to find the global optimum to such a problem (unless knowing the equations, a thus the solution, beforehand).
+
+Consequently, obtaining the global optimum of an optimization problem with certainty will be possible or not depending on the properties of the problem.
+As with local optimization methods, several kinds of approaches have been proposed to solve problems with different properties.
+
+\subsection{Exact Methods}
+
+These methods aims to provide a guarantee about the optimality of the solution. These methods cannot used for any optimization problem, as they need to use some properties of the problem to prove that the solution is a global optimum.
+
+For example, as we said before, if an optimization problem is convex than a local solution is also a global solution. Consequently for convex problem local optimization methods can be used with the guarantee that the solution found will be the best one.
 
 [[
 Branch and Bound
@@ -575,6 +595,8 @@ As with possibility theory, belief and plausibility can be used as lower and upp
 Several rules have been proposed to combine informations coming from different (potentially conflicting) sources. To see an overview of these proposals, the reader can refer to \cite{sentz2002combination}.
 
 \section{Using Uncertainty for Robust Optimization}
+
+[[GIVE EXAMPLE OF SEQUENTIAL OPTIMIZATION (AS DONE WITH ICA), FOR A SIMPLE OPTIM UNDER UNCERTAINTY TECHNIQUE]]
 
 \subsection{Taguchi Method - The firsts steps of Robust Optimization }
 
