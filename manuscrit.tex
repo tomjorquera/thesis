@@ -5,21 +5,20 @@
 \usepackage{FontsThese}
 \usepackage{UtilsThese}
 
-\usepackage{eurofont} 	%used to generate the € symbol
+
 %%%%%%%%%%%%%%%%%%%
 \usepackage[french, english]{babel}
-\usepackage[pdftex]{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{eurofont} 	%used to generate the € symbol
 
 \usepackage{float}
-\usepackage{url}
+\usepackage{url, hyperref} %for urls and all hyperlinks
 \usepackage{makeidx}
 
-\usepackage[T1]{fontenc}
-
 \usepackage{amsmath, amsthm, amssymb}	%draw nice maths
+\usepackage[ruled,vlined]{algorithm2e} %for algorithms
 
-\usepackage{hyperref} %for urls
-
+\usepackage[pdftex]{graphicx}
 %where to find the figures
 \graphicspath{ {figs/} {StateoftheArt/figs/} {MAS4Optim/figs/} }
 
@@ -81,7 +80,7 @@
 
 %%%%%%%%%%%%%%%%%%%
 
-\bibliographystyle{plainnat-fr}
+\bibliographystyle{alpha}
 %\nocite{*} %for to include all bibtex, even non-cited articles
 \Bibliographie{StateoftheArt/SoA}
 
