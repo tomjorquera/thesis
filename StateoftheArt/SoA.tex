@@ -664,11 +664,28 @@ Classical optimization techniques fail to solve this kind of problems as they ar
 
 The main filed concerning solving optimization problems in dynamic environment is population-based optimization (also called \emph{evolutionary computation}). Population-based optimization is a very prolific and diversified field, whose algorithms are often based on the observation of nature. The underlying principle of this kind of algorithms is use a population of entities which are spread within the search space, with specific strategies in order to iteratively progress toward the solution. These strategies involve transformations applied to the entities which compose the population (moving, creating or destroying or otherwise altering them).
 
-\subsubsection{Evolutionary Algorithms}
+\subsection{Evolutionary Algorithms}
 
-Evolutionary algorithms are based on a Darwinist section process. The main idea is to maintain a population of solutions which is iteratively improved by selecting, crossing and mutating the best individuals.
+Evolutionary Algorithms (EA) are based on a Darwinist section process. The main idea is to maintain a population of solutions which is iteratively improved by selecting, crossing and mutating the best individuals.
 
-\subsubsection{Swarm Algorithms}
+For the scope of this work, we will concentrate on \emph{genetic algorithms}, by far the most often used type of EA in optimization.
+
+In the context of genetic algorithms, each individual entity is defined by a specific \emph{genotype}, which represent a possible solution to the problem.
+A global \emph{fitness function} is defined, which is used to evaluate the solutions represented by these individuals.
+
+In the context of a numerical optimization problem, the genotype of an entity would be a set of values assigned to the inputs of the problem, while the fitness function would be the objective-function.
+
+The optimization process iterates over two phases: \emph{selection} and \emph{generation of a new population}.
+In the selection phase, a subset of the current population is selected to be used in the generation of the new population. In the most basic approach, the selected individuals are the ones which obtain the best scores on the fitness function.
+The second phase generates a new population, based on the selected individuals. To produce the new population, a set of biology-inspired genetic operators is used. Two of the most common genetic operators are \emph{crossover} and \emph{mutation}. The crossover is the creation of a new individual, whose genotype is based on the combination  of two randomly selected "parents". The mutation consists in randomly changing a part of the genotype of an individual.
+
+Together, these two operators can be seen a representatives of the exploitation versus exploration dilemma. The crossover operation is an attempt to exploit the best solutions found so far, while the mutation is done to maintain some diversity in the population. 
+
+Most genetic algorithms proposals work on variations on these two phases. For example, some techniques will select not only the best fitted individuals, but also a small part of low fitted ones in order to increase the exploration of the search space. Some variants also modify the genetic operators or introduce additional ones. For example it is possible to do the crossover using more than two parents, or to introduce the notions of groups and migration.
+
+[[give the pseudo-algo]]
+
+\subsection{Swarm Algorithms}
 
 Swarm algorithms focus on the decentralized exploration of the search space by a population of entities (commonly called \emph{agents} or \emph{boids}). These entities usually have only a local perception of the search space and individually decide how to move using simple rules.
 
@@ -722,7 +739,11 @@ Ant Colony Optimization (ACO) is an algorithm proposed by [[REF]] inspired from 
 
 \subsection{Conclusion on Population-Based Algorithms}
 
-Population-based algorithms tackle the problem of a dynamic environment by maintaining a diverse population of solutions. Of course this kind of algorithm does not avoid the dilemma of exploration versus exploitation, having to choose between maintaining a high diversity of solutions and concentrating the population around the most promising regions. Most of these techniques includes specific parameters to adjust the solving process toward more exploration or more exploitation (for example the coefficients regarding current velocity, local and global optima in PSO). The choice of finding the best parameters once again 
+Population-based algorithms tackle the problem of a dynamic environment by maintaining a diverse population of solutions. Of course this kind of algorithm does not avoid the dilemma of exploration versus exploitation, having to choose between maintaining a high diversity of solutions and concentrating the population around the most promising regions. Most of these techniques includes specific parameters to adjust the solving process toward more exploration or more exploitation (for example the coefficients regarding current velocity, local and global optima in PSO). The choice of finding the best parameters is once again handed down to the person which applies the method.
+
+Another inconvenient of Population-based approaches is the high number of evaluations they need to make. Indeed, each individual will require at least one evaluation of the whole problem. If the problem is very costly to evaluate, this kind of methods may not be worth considering.
+
+At last, this kind of methods often has some difficulties to scale with the complexity of the problem. Genetic algorithms will often have difficulties solving problems where the search space is very important, and swarm algorithms will present difficulties when the search space has a high number of dimensions.
 
 \chapter{Multidisciplinary Optimization}
 
