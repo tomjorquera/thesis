@@ -927,7 +927,7 @@ However, the drawbacks of IDF are even more important, as AAO requires an even b
 
 \subsection{Concurrent Subspace Optimization}
 
-Concurrent Subspace Optimization (CSSO) is one of the firsts multi-levels MDO methods. Before the optimization, the problem is decomposed in several subspaces related to the different disciplines. Each optimization iteration then start by a system analysis, followed by a series of subspaces optimization (possibly concurrently), where each optimization tries to solve the global problem by using approximate models of the rest of the system. After the subspaces optimizations, a complete MDA is done to perform a global optimization and update the approximate models.
+Concurrent Subspace Optimization (CSSO) is one of the firsts multi-levels MDO methods. Before the optimization, the problem is decomposed in several subspaces related to the different disciplines. Each optimization iteration then start by a system analysis, followed by a series of subspaces optimization (possibly concurrently), where each optimization tries to solve the global problem by using approximate models of the rest of the system. After the subspaces optimizations, a complete MDA is done (using only the approximate models) to perform a global optimization. the result of the global optimization in then used in the next system analysis.
 
 Originally, CSSO was developed for single-objective optimization problems. However several efforts have been made to extend CSSO to multi-objectives problems.
 
