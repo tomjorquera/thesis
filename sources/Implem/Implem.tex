@@ -2,6 +2,8 @@
 
 \chapter{MAY Architecture}
 
+[[First generic AMAS architecture ??]]
+
 To implement the MAS, we used the Make Agents Yourself (MAY) framework. MAY is a component-based framework which automatically generate an implementation of an agent architecture from a given description.
 
 [[PROVIDE SOME REF -> ASK VICTOR]]
@@ -75,4 +77,27 @@ In order to provide its capabilities, the monitor agent need to be informed by t
 \section{Integration into the prototype}
 
 [[OSGI and EMF]]
+
+This implementation of the MAS was part of a collective development effort to provide a functional prototype. The goal of this prototype is to be a proof-of-concept tool of the possibilities offered by agent-based continuous optimization.
+
+The development of the prototype was carried mainly by three partners[[cite them?]], each in charge of a different aspect.
+
+The prototype can be divided in three parts: The Graphical User Interface (GUI), the core module (CORE) and the Multi-Agent Système (MAS). The CORE provides a common representation of the manipulated data and is in charge of maintaining consistency between the GUI and the MAS.
+
+These three modules communicate using the OSGi framework\footnote{\url{http://www.osgi.org}}.
+
+\subsection{MAS}
+
+We already presented the implementation of the MAS in the previous parts. The only additional work was to encapsulate the implementation into an OSGi [[service]].
+
+\subsection{CORE}
+
+The CORE module is responsible of maintaining consistency of the manipulated data. It serves as a middle-man between the MAS and the GUI.
+
+[[Insert full Data Model and comment]]
+
+\subsection{GUI}
+
+The GUI was build using the [[Eclipse Framework]].
+
 
