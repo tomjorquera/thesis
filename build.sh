@@ -1,5 +1,6 @@
 ########
 # target directories related variables
+SOURCES="sources" #sources folder name
 LIBS="libs"  #dependencies folder name
 OUT="generated"  #output folder name
 ########
@@ -52,17 +53,18 @@ shift $((OPTIND-1)) # remove optionnal arguments from arg list
 ########
 
 # check if tex file exists
-if [ ! -f $1.tex ]; then
+if [ ! -f ./$SOURCES/$1.tex ]; then
   echo "file $1.tex does not exists" 1>&2
   short_usage
   exit 1
 fi
 
 # add local folders to the latex dependencies path
-export TEXINPUTS=$TEXINPUTS:.:./$LIBS
+export TEXINPUTS=$TEXINPUTS:./$SOURCES:./$LIBS
 
 #do the same for bibtex
-export BSTINPUTS=$BSTINPUTS:.:./$LIBS
+export BIBINPUTS=$BIBINPUTS:./$SOURCES	#where to find bib files
+export BSTINPUTS=$BSTINPUTS:./$LIBS	#where to find bib style files
 
 # check if output folder exists, if not create it
 if [ ! -d $OUT ]; then
@@ -76,16 +78,16 @@ TEXMFOUTPUT=./$OUT
 # generation workflow (as seen on texmaker)
 
 # generate first version (for .aux used by bibtex)
-pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex
+pdflatex -interaction=nonstopmode -output-directory=./$SOURCES/$OUT $1.tex
 
 if [ $OPT_FAST_BUILD = 0 ]; then	#full build
 	# generate bib
 	bibtex ./$OUT/$1.aux
 
 	# generate final pdf (why do pdflatex two times ? Because LateX, that's why)
-	pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex	# first one to insert reference indicators
+	pdflatex -interaction=nonstopmode -output-directory=./$OUT ./$SOURCES/$1.tex	# first one to insert reference indicators
 	asy ./$OUT/$1.asy
-	pdflatex -interaction=nonstopmode -output-directory=./$OUT $1.tex	# second one to refine citation ref and other cross-ref
+	pdflatex -interaction=nonstopmode -output-directory=./$OUT ./$SOURCES/$1.tex	# second one to refine citation ref and other cross-ref
 fi
 ########
 

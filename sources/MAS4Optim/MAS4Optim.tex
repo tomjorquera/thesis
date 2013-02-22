@@ -1,6 +1,9 @@
 \part{A Multi-Agent System for Optimization}
 
-\chapter{Agent-Based Modeling of an Optimization Problem}
+\chapter{Agent-Based Modeling and Simulation of an Optimization Problem}
+
+[[Insister sur le découpage inhérent au problème (pas de réductionnisme)]]
+[[utiliser un exemple en fil rouge -> Turbofan ?]]
 
 \section{Problem Modeling with NDMO}\label{modeling}
 
@@ -257,86 +260,46 @@ The most important point is that each agent only has a local strategy. No agent 
 
 
 
-\chapter{Simulation Rules}
+\section{Simulation Behavior}
 
-\chapter{Solving Rules}
+\chapter{Collective Solving}
 
-\chapter{Implementation}
+\section{Cooperative Trajectories}
 
-\section{MAY Architecture}
+\subsection{For Model Agents}
 
-To implement the MAS, we used the Make Agents Yourself (MAY) framework. MAY is a component-based framework which automatically generate an implementation of an agent architecture from a given description.
+Let $M(I,O)$ be a model agent with a set of inputs $I$ and a set of output $O$.
 
-[[PROVIDE SOME REF -> ASK VICTOR]]
+Let $\{r= <\Delta_{o_{\in O}}^{r}, crit>\}$ be a set of  requests received for outputs $\{o\} \in O$. By hypothesis, at most one request can concerns the same output.
+Using an external optimizer, the agent obtains for each $r_k$ a set of corresponding input variations $\{\Delta_i^{r_k}\}_{i \in I}$.
 
-The Adelfe methodology proposes an abstract agent architecture (represented in \fig{[[TODO]]}), which we translated into the MAY architecture description language, SpeADL. [[As our agents only act and communicate using message-passing, we could make some simplification concerning the modeling of the communication and action capabilities.]]
-All our agents use the same AMAS architecture. They are differentiated by specific implementations of the components. For example, \emph{Model} and \emph{Variable} agents will have different implementations of the \emph{Behavior} component.
+For each input $i$ of the model, we need to select a variation.
+First of all, we only keep the requested variations with the maximum criticality:  $\{\Delta_i^{r_{max}}\} = \{\Delta_i^r / crit_r = max \{crit_{r \in R}\}\}$.
+$|\{\Delta_i^{r_{max}}\}| = 1$, then the agent knows which variation to request to the input agent.
 
-For the sake of clarity, the agent architecture is separated in three views: the \emph{behavior}, \emph{communication} and \emph{monitoring} views.
+Otherwise, the model agent will discriminate using the relative influence [[it learned | given by the analyser]] of the input on the outputs concerned by the requests: 
+$\Delta_i^* = \left\{ \Delta_i^{r_{max}} / r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_{i \in I} inf_{i,o}} \right\}$
 
-\subsection{Behavior}
+If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i^*$ is selected.
 
-The \emph{behavior} view (\figurename{} \ref{Arch-behavior}) contains the components related to the behavior of the agent. 
+\begin{algorithm}
+\DontPrintSemicolon
+\caption{Cooperative trajectory - Model agent}
+\label{algo_cooperative_trajectory_model}
+\begin{algorithmic}
+\SetAlgoLined
+	\ForEach{$i \in I_M$}{
+		 $\{\Delta_i^{r_{max}}\} = \{\Delta_i^r / crit_r = max \{crit_{r \in R}\}\}$\;
+		 \eIf{$|\{\Delta_i^{r_{max}}\}| = 1$}{
+		 	$\Delta_i^{r_{max}}$ is the variation requested to the input\;
+		 }
+		 {
+			$\{\Delta_i^*\} = \left\{ \Delta_i^{r_{max}} / r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_ {i \in I} inf_{i,o}} \right\}$\;
+		 }
+	}
+\end{algorithmic}
+\end{algorithm}
 
-\begin{figure}
-\centering
-\includegraphics[width=0.6\paperwidth]{ID4CS_Speadl_behav}
-\caption{Agent Architecture - Behavior view.}
-\label{Arch-behavior}
-\end{figure}
 
-The \emph{Behavior} component contains the rules which dictate the behavior of the agent. This component can be seen as the [[chef d'orchestre]] of the architecture. This component exposes to the outside of the environment the \emph{Step} port, which is used to make the agent execute a step. During a step the \emph{Behavior} component executes the agent rules. These rules will in return make use of the others components of the agent.
-
-[[DIRE QUE LES RULES ONT ETE PRESENTEES DANS UN CHAPITRE PRECEDENT]]
-
-The \emph{State Vault} contains the state of the agent. It is used by the components which need to save and read some state variables. Centralizing all the states variables into one component provides several benefits. First it is easier to save and restore the state of the agent, as we just need to save the content of the vault. It is also simple to share some data between components, as long as these components have access to the vault. And it is easy to provide a view of the agent state by just reading the State Vault.
-This approach has however several drawbacks. It adds some boilerplate code when writing code using the agent state, as we need to explicitly read the value from the vault (and possibly store it to the vault if modified). It make more difficult to track side-effects, as it is not obvious to know which component uses which value. At last there is no way to strictly enforce that components only use the State Vault for storing state values, as neither Java nor MAY can provide such guarantee.
-
-The \emph{Skills} component contains the skills of the agents. Skills are [[skill definition]]. Each agent type has its own skills set, and skills can require to read and modify the agent state (thus the link between this component and the \emph{State Vault}).
-Some skills are used directly from the \emph{Behavior} rules but some skills can also be used by others skills.
-Some examples of skills are: for a \emph{Variable agent}, the capability to change its value based on the requests it received and its old value. For a model agent, the capability to translate a request it received to change one of its outputs into a set of requests to send to its inputs.
-
-[[PARLER DU FAIT QUE LES SKILLS ONT LEUR PROPRE ARCHITECTURE ??]]
-
-The \emph{Aptitudes} component contains the aptitudes accessible to the agents. Aptitudes are [[Aptitude definition]]. Unlike skills, aptitudes are general capabilities which do not rely on the state of the agent. Consequently, all agent types have access to the same aptitudes, and there is only one implementation of the \emph{Aptitudes} component.
-Some aptitudes are used directly from the \emph{Behavior} rules but some aptitudes can also be used by skills or others aptitudes.
-Some examples of aptitudes are: ordering a set of requests from the most to the least important. Make some manipulations on the exchanged values (adding, calculate the norm etc.).
-
-\subsection{Communication}
-
-The \emph{communication} view (\figurename{} \ref{Arch-comm}) presents the components related to the communication capabilities of the agent. 
-
-\begin{figure}
-\centering
-\includegraphics[width=0.6\paperwidth]{ID4CS_Speadl_comm}
-\caption{Agent Architecture - Communication view.}
-\label{Arch-comm}
-\end{figure}
-
-This view contains the new component \emph{Message Box}, which contains the messages sent to the agent. The \emph{Message Box} stores the messages into the \emph{State Vault} and provides a direct access to the \emph{Skills} and {Behavior} components.
-
-This figure presents several ports which need to be provided from the environment to the agent. The environment must give an unique \emph{Reference} to the agent, which will be used by the others agent to communicate with it. The environment must also provides some ports to communicate with the others agents and outside of the system.
-[[PARLER DE L'AGENT FINDER ??]]
-
-\subsection{Monitoring}
-
-The \emph{monitoring} view (\figurename{} \ref{Arch-monitor}) presents the components related to the monitoring of the agent. 
-
-The new component introduced in this view is the \emph{Monitor}. The \emph{Monitor} provides to the environment to ports. The first port is used for external monitoring interfaces to subscribe to be informed of changes in the state of the agent. The second is used to provide informations concerning changes of a specific part of the agent. Thus, an external monitoring interface can subscribe to be notified when the state of the agent changed using the first port, and then use the second port to access to the specific informations it want to monitor.
-
-In order to provide its capabilities, the monitor agent need to be informed by the \emph{Behavior} component before and after each step, to read and compare the monitored informations into the \emph{State Vault}.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.6\paperwidth]{ID4CS_Speadl_monitoring}
-\caption{Agent Architecture - Monitoring view.}
-\label{Arch-monitor}
-\end{figure}
-
-\section{MAS Architecture}
-
-\section{Integration into the prototype}
-
-[[OSGI and EMF]]
 
 \chapter{Analysis - Collective Solving Patterns}

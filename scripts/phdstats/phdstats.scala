@@ -6,7 +6,7 @@ import scala.sys.process._
 import language.postfixOps //to remove warnings
 
 val repoLocation = "../.././"
-val files = Seq("MAS4Optim/MAS4Optim.tex", "StateoftheArt/SoA.tex")
+val files = Seq("sources/MAS4Optim/MAS4Optim.tex", "sources/StateoftheArt/SoA.tex", "sources/Implem/Implem.tex")
 
 val hgCmd = "hg --repository "+repoLocation+ " "
 
