@@ -78,7 +78,7 @@ TEXMFOUTPUT=./$OUT
 # generation workflow (as seen on texmaker)
 
 # generate first version (for .aux used by bibtex)
-pdflatex -interaction=nonstopmode -output-directory=./$SOURCES/$OUT $1.tex
+pdflatex -interaction=nonstopmode -output-directory=./$OUT ./$SOURCES/$1.tex
 
 if [ $OPT_FAST_BUILD = 0 ]; then	#full build
 	# generate bib
