@@ -10,7 +10,7 @@
 # can be removed is installed version of scala is recent enough
 export PATH=/home/jorquera/Documents/scala/scala-2.10.0-RC5/bin/:$PATH
 
-# generate new pdf (discard stdout, and stderr also else else very wierd as non blocking)
+# generate new pdf (discard stdout and stderr else very wierd as non blocking)
 ./build.sh -l manuscrit >/dev/null 2>&1
 
 # generate stats
