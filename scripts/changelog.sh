@@ -30,6 +30,5 @@ NEXT=$(date +%F)
 hg log -d -$OPT_LAST_N_DAYS --template '{date|shortdate}\n' | sort -u -r | while read DATE ; do
 	echo
 	echo [$DATE]
-	hg log -d "$DATE to $NEXT" --no-merges --template '\t{desc}\n' | cat
-	NEXT=$DATE
+	hg log -d "$DATE" --no-merges --template '\t{desc}\n' | cat
 done
