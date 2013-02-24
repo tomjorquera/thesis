@@ -25,9 +25,41 @@ In this regard, CPSP are less generic than Design Patterns. Indeed the latter ca
 
 These two kinds of patterns should be seen as complementary. First the designer could use design pattern to design the structure of the MAS according to the needs of the application domain. Then he could use CPSP to identify and solve specific problems resulting from such modeling.
 
+As we want a description of our patterns which is domain-free, we cannot re-use the formalism we introduced in [[REF]]. The NDMO formalism is indeed bound to the domain of numerical optimization.
+Consequently, we will now introduce a higher-level formalism, which concentrates on the relations between the agents of the system. to keep this formalism short and simple, we will make some assumptions about the functioning of the system.
+
+We will consider systems composed of autonomous agents and resources. An agent may needs for one or more resources to be in a specific state to accomplish its local goal. We will suppose that a resource is controlled by one agent and one agent only. We believe that this simplifying assumption does not impede on the generality of the formalism (for example a system where two agents share the control of a resource can be viewed as equivalent to a system where both agents send requests to a third one solely in charge of it).
+
+[[are these assumptions correct ??]]
+To formalize the resources, we will consider each resource as a variable which can be assigned a number from a set representing its different possibles states. As most multi-agent systems manipulate numeric values, or data which can be represented by numeric values, this representation can be translated quite straightforwardly to most specifics cases.
+The states represented by these numbers can be inherent to the resource, such as a color assigned to it in the graph coloring problem, or indicate the fact that the usage of the resource is attributed to a specific agent as in auction-based systems.
+
+We will suppose that agents interact among themselves by message passing.
+
 \section{Description of a Problem Solving Pattern}
 
+
 \subsection{Agent Roles}
+
+Concerning the patterns we present in this article, we identified three different types of agent \emph{roles}: Provider, Solicitor and Transformer.
+
+The \emph{Provider} role represents the fact that the agent is in charge of a given resource, which can be of use to others agents in the system. The agent is responsible of choosing the state of the resource or giving access to it based on solicitations of others.
+
+The \emph{Solicitor} role represents the fact that the agent requires some resource(s) which it does not control to be in a specific state, in order to accomplish its goal. Consequently, the agent needs to solicit the agent(s) controlling the relevant resource(s).
+
+The \emph{Transformer} role is a combination of the Provider and Solicitor roles. The transformer agent controls a resource but the state of the resource is dependent of some other resources not controlled by the agent. While this role can be represented by assigning both Provider and Solicitor roles to the agent, we found it common enough to be worth of a specific representation. As we will see, transformer agents sometimes play a specific role in the CPSP, as they can be a source of delay or obfuscation of information.
+
+In the \figurename{} \ref{cpsp_class_diag} is shown the very simple class diagram representing the relationships between these three roles.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{cpsp_class_diag-crop}
+\caption{class diagram of the Provider-Solicitor modeling}
+\label{cpsp_class_diag}
+\end{figure}
+
+It is important to understand that an agent is not limited to one role only. For a given system an agent can, depending on the context, assume any combination of these roles. Thus an agent can both solicit others agents regarding a resource, while providing a controlled resource to others agents.
+
 
 \subsection{Problem Pattern}
 
