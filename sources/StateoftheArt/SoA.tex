@@ -4,15 +4,17 @@
 
 \chapter{Basic Concepts}
 
+[[TODO: Ajouter quelques refs]]
+
 Before starting to present the different categories of optimization, we would like to take some time defining what exactly optimization is.\\
 In the more general way, optimizing is \emph{trying to find the best element among an element set}. When finding this best element is not trivial, we can rightfully talk of \emph{solving an optimization problem}. This seemingly simple definition implies in fact quite a lot.
 
-First of all it requires we have a defined set of element to choose from. As we will see, the topology of the set is of the utmost importance for choosing the way of solving the problem. This set of element is often named the \emph{search space}, \emph{solution space} or \emph{domain}. In "simple" optimization problems, the search space can be simply defined by a set of elements (for example \{a,b,c\} or \ensuremath{\mathbb{R}}) associated with a set of \emph{constraints}. For large problems, the search space can be defined by calculus-heavy equations, empirical models, complex algorithms ... or even a mix of all of the above.
+First of all it requires we have a defined set of elements to choose from. As we will see, the topology of the set is of the utmost importance for choosing the way of solving the problem. This set of elements is often named the \emph{search space}, \emph{solution space} or \emph{domain}. In "simple" optimization problems, the search space can be simply defined by a set of elements (for example \{a,b,c\} or \ensuremath{\mathbb{R}}) associated with a set of \emph{constraints}. For large problems, the search space can be defined by calculus-heavy equations, empirical models, complex algorithms ... or even a mix of all of the above.
 
 \definition{Search space}{the set containing all the possible candidates of the optimization problem.}
 
 While we said that the search space can be defined by a set of constraints, it is often more convenient to express the constraints separately. For example, if the search space of an optimization problem is defined over all the real numbers lower than 2, instead of defining the search space as [-\(\infty\) : 2], it will usually be refereed as \(\mathbb{R}\), with the added constraint \(x < 2\). Usually we say the problem to be \emph{subject to (s. t.)} the constraint \(x < 2\).\\
-In theory these two formulations should be equivalent. In practice however, these constraints are often the result of a real-world concern, and thus subject to some inherent imprecision. [[WHAT ?? THE TRAVEL IS INTRODUCED AFTER]] Back to our travel metaphor, we can imagine that we set the maximum travel cost we are ready pay to a price of one thousand euro. Does that really means that a solution which would cost one thousand euro \textbf{and one cent} would be unacceptable ? Obviously not.  In engineering design, this is a common situation, and making these constraints explicits can be advantageous.
+In theory these two formulations should be equivalent. In practice however, these constraints are often the result of a real-world concern, and thus subject to some inherent imprecision. [[WHAT ?? THE TRAVEL IS INTRODUCED AFTER]] Back to our travel metaphor, we can imagine that we set the maximum travel cost we are ready pay to a price of one thousand euro. Does that really means that a solution which would cost one thousand euro \textbf{and one cent} would be unacceptable ? Obviously not.  In engineering design, this is a common situation, and making these constraints explicit can be advantageous.
 
 Since we want to find the best element of this solution space, we have to determine what make an element better than another. Usually, the possible solutions are compared through a specific function called the \emph{objective function}. Some alternate names are \emph{criterion} or \emph{cost function}. The best element would be the one for which the objective function returns a minimal (or alternatively, maximal\footnote{Obviously we sometimes want to find the \emph{maximal} value which is solution of a problem, however minimizing f(x) is equivalent to maximizing (-f(x)). So maximization problems can be expressed as minimization problems, and vice-versa. Traditionally, optimization problems are often expressed in the terms of finding a \emph{minimal} value since the two possibilities are equivalents.}) value. It should be noted that it is possible for a problem to admit several equivalent solutions in regard of the objective function.
 
@@ -21,7 +23,7 @@ Since we want to find the best element of this solution space, we have to determ
 The least obvious keyword here is \emph{try}. When the search space is very large, or its topology is complicated, it can be really long or difficult to find the best solution and, more important, to be sure that the solution is the best. In fact, in these problems, the only way to find the best solution with certainty is an exhaustive exploration of the search space. Since it can be very costly in terms
 of time and calculation, instead of finding the best solution, we settle for a solution which is "good enough", for example because this solution is the best of its neighborhood for a subset of the search space. The best solution is called the \emph{global optimum}, while a "good enough" solution is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, where methods which search for local optimum are said to be \emph{local optimization methods}.
 
-\definition{Optimizing}{finding an element of the search space which minimize (or maximize) the value of the objective-function}
+\definition{Optimizing}{finding an element of the search space which minimizes (or maximizes) the value of the objective-function}
 
 \begin{figure}
 \centering
@@ -33,7 +35,7 @@ of time and calculation, instead of finding the best solution, we settle for a s
 In figure \ref{localAndGlobalOptims}, we can see different examples of global and local optimums. The points labeled \emph{a} and \emph{b} are both global maximums, as they have the same value. The points
 \emph{c} and \emph{d} are respectively local minimum and maximum, while \emph{e} is the global minimum.
 
-From all the preceding, we can provide the minimal formulation of an optimization problem as follow 
+From all the preceding, we can provide the minimal formulation of an optimization problem as follow:
 
 \definition{Optimization problem}{
 \begin{align*}
@@ -91,7 +93,7 @@ Some possible criteria to discriminate based on the type of problem:
 For the method in itself:
 \begin{itemize}
 \item is the method able to take in account constraints on the problem?
-\item does the method provides a global solution or a local one?
+\item does the method provide a global solution or a local one?
 \item is the method deterministic or stochastic?
 \end{itemize}
 
@@ -130,6 +132,8 @@ The simplex algorithm starts on one of the vertices, and tries to follow an edge
 While the simplex algorithm is considered to be very efficient for most cases, some alternatives has been proposed. The most noteworthy is the interior point method and its derivative. Contrary to the simplex method, this methods actually traverses the interior of the solution space (hence its name). The original method proposed by Karmarkar\cite{Karmarkar:1984:NPA:800057.808695} travels through the search space by iteratively finding the best solution over a restricted region delimited by a sphere around the current point.
 
 \section{Local Methods}
+
+[[TODO: Manque de refs]]
 
 Unconstrained local optimization methods concentrate on finding local optimums either because the search space is too big or to complex to find a global optimum in a reasonable time, or because we prefer to quickly find a good enough solution to spend more time to find the best one.
  Moreover, if the objective-function is convex, the local optimum is also the global optimum, in this context local methods can be an easy mean to obtain the best solution.
@@ -287,23 +291,25 @@ From this basic compromise we can see how numerical optimization has given birth
 
 \chapter{Multi-Objective Optimization}
 
-Multi-objective optimization (MOO) departs significantly from previous categories of optimization in the fact that you have to consider multiple objective functions instead of one. A main aspect of MOO is the way to conciliate these objectives, which are usually contradictory.
+Multi-Objective Optimization (MOO) departs significantly from previous categories of optimization in the fact that you have to consider multiple objective functions instead of one. A main aspect of MOO is the way to conciliate these objectives, which are usually contradictory.
 An example of real-world everyday MOO problem could be choosing the mean of transportation for a travel, trying to find a balance between speed and cost. Airplane is the fastest way of transportation, but is expensive. While car is slower, it is cheaper. Train is slower than plane, more expensive than car, but can preferred as the best compromise. There still, however, are solutions which are strictly worse than others (in our example, renting an helicopter would probably be both more expensive and slower than buying a seat on a commercial airplane).
 From this example we can see that, for a MOO problem, there rarely is a clear-cut "best" solution. And more importantly that even some solutions which are not optimum for \emph{any} of the objectives can be deemed satisfying. Only when each objective is completely independent, or when no objective is contradictory to another, then a MOO problem can be handled as a set of separated mono-objective optimization problems.
 A solution vector which would be optimum for each objective is sometimes called \emph{utopia point}, or \emph{shadow minimum}, and is used as a reference comparison in some of the MOO techniques we present.
 
 [[FORMULATION OF A MOO PROBLEM]]
 
-MOO problems are quite a radical departure from previous optimization problems type we have seen. Many approaches have been proposed, the majority of which can be separated in to categories: \emph{a priori} and \emph{a posteriori} approaches. A priori approaches aims to discriminate between the objectives \emph{before} the optimization process. This often consist into combining the different objectives into one, before applying a classical optimization method on the new, aggregated objective.
-On the opposite, a posteriori methods tries to provide a set of efficient solutions among which the decider will choose.
-A priori approaches are considered easier, but not very efficient, whereas a posteriori approaches provides more diversity of solutions as well as more insight about the nature of the problem.
-A third category can also be considered: the \emph{interactive} methods. Basically, these methods iterates between decision and search phases. For example, an interactive  method could work by quickly providing intermediate solutions to the decision-maker, which would in return refine the search using them.
+MOO problems are quite a radical departure from previous optimization problems type we have seen. Many approaches have been proposed, the majority of which can be separated in two categories: \emph{a priori} and \emph{a posteriori} approaches. A priori approaches aim to discriminate between the objectives \emph{before} the optimization process. This often consists into combining the different objectives into one, before applying a classical optimization method on the new, aggregated objective.
+On the opposite, a posteriori methods try to provide a set of efficient solutions among which the decider will choose.
+A priori approaches are considered easier, but not very efficient, whereas a posteriori approaches provide more diversity of solutions as well as more insight about the nature of the problem.
+A third category can also be considered: the \emph{interactive} methods. Basically, these methods iterate between decision and search phases. For example, an interactive  method could work by quickly providing intermediate solutions to the decision-maker, which would in return refines the search using them.
 
 We will now see some of the strategies have been proposed to deal with such a type of problem.
 
 \section{A Priori Methods}
 
 \subsection{Objectives Aggregation}
+
+[[NEED REF]]
 
 The first approach is to transform the MOO problem back to a mono-objective optimization problem, by aggregating the different objectives into one. This can be expressed as follow : \(f_g = aggr(f_1, f_2, ..., f_n)\), where \(f_1, f_2, ..., f_n\) are the original objectives and \(f_g\) the aggregated one, which will be used with classical mono-objective optimization methods.
 
@@ -317,15 +323,15 @@ A slightly more sophisticated way is to use pondered mean: we attribute a coeffi
 
 Where $w_i$ are the coefficients representing the relative preferences between the objectives.
 
-This method allows to express a preference between different objectives, as well as bringing back on comparable scale different objectives. However, one now has to decide of the coefficients to choose. Also, this method can hide some information concerning the solution, for example an extremely poor result in one of the objectives, compensated by small improvements in all the others.  [[Moreover, this solution present some limitations when the solution space is nonconvex [[EXPAND]]]]
+This method enables to express a preference between different objectives, as well as bringing back on comparable scale different objectives. However, one now has to decide of the coefficients to choose. Also, this method can hide some information concerning the solution, for example an extremely poor result in one of the objectives, compensated by small improvements in all the others.  [[Moreover, this solution present some limitations when the solution space is nonconvex [[EXPAND]]]]
 
 [[To get refs which criticize Weighted sum, see "Survey of multi-objective optimization methods for engineering"]]
 
 \subsection{Lexicographic Method}
 
-In this method, the objectives functions are arranged and optimized by order of importance. The result of the optimization at a given step become a constraint to satisfy for the following steps.
+In this method, the objectives functions are arranged and optimized by order of importance. The result of the optimization at a given step becomes a constraint to satisfy for the following steps.
 
-Formally, the problem become an ordered set of optimization problems expressed as follow:
+Formally, the problem becomes an ordered set of optimization problems expressed as follow:
 
 \begin{align*}
 \text{min } &f_i(x) \\
@@ -340,6 +346,8 @@ Another variation, sometimes called hierarchical, introduces a constraint relaxa
 \[ f_j(x) \leq \left(1 + \frac{\delta_j}{100}\right) f_j(x_j^*) \]
 
 \subsection{$\epsilon$-constraint Method}
+
+[[NEED REF]]
 
 The $\epsilon$-constraint method proposes to change the expression of the problem by keeping only one objective (the one deemed the most important) and transforming the others into inequality constraints.
 
@@ -365,7 +373,9 @@ Goal Programming is very easy to use and quite popular, and can work even when t
 
 \subsection{Min-Max Method}
 
-This method use the separately attainable minima of the objectives (the so-called \emph{utopia point}) and try to minimize the maximum deviation of the objectives relative to those minima:
+[[NEED REF]]
+
+This method uses the separately attainable minima of the objectives (the so-called \emph{utopia point}) and try to minimize the maximum deviation of the objectives relative to those minima:
 
 \[ \text{min } f = \text{ max } \left( \frac{f_i - f_i^0}{f_i^0} \right) \]
 
@@ -396,7 +406,7 @@ We have seen that, while convenient, \emph{a priori} methods can be quite restri
 
 \subsection{Pareto Dominance}
 
-A radically different approach has be proposed, using the concepts of Pareto dominance and Pareto optimality. These concepts were originally been developed in economical sciences first by Francis Edgeworth and later Vilfredo Pareto. The initial application of the concepts was to propose a minimal definition of "efficiency", regarding allocation of resources inside an economical system.
+A radically different approach has been proposed, using the concepts of Pareto dominance and Pareto optimality. These concepts were originally been developed in economical sciences first by Francis Edgeworth and later Vilfredo Pareto[[NEED REF]]. The initial application of the concepts was to propose a minimal definition of "efficiency", regarding allocation of resources inside an economical system.
 
 The main idea is that a state where it is impossible to improve the resources allocation for an individual without worsening the situation of at least another is described as \emph{Pareto efficient}, or \emph{Pareto optimal}.
 
@@ -417,7 +427,7 @@ It is also possible to classify the solutions by rank: a solution which is domin
 
 As a remark, these definitions of efficiency and optimality do not give any information about the fairness of the allocation, or the well-being of the involved parties. From this point of view, a monopolistic situation where one actor would control all the available resources is as optimal as a situation where all the resources are equally divided between the individuals.
 
-These definitions of dominance and optimality can be used to characterize the possibles solutions of MOO problem. In this case, the problem is no more to find an optimal solution, but to find the Pareto front of the problem.
+These definitions of dominance and optimality can be used to characterize the possible solutions of MOO problem. In this case, the problem is no more to find an optimal solution, but to find the Pareto front of the problem.
 
 An illustration of Pareto front can be seen on figure \ref{Front_Pareto}. The elements A and B are Pareto-optimal, while C is not.
 
@@ -443,7 +453,7 @@ A first possibility is to use an a priory method and iterating over it while var
 
 Normal Boundary Intersection (NBI)\cite{S1052623496307510} method provides a even distribution of Pareto-optimal solutions using a parameter vector $w$ provided by the designer.
 
-The method use 
+The method uses
 
 [[Explain it]]
 
