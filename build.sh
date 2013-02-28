@@ -60,11 +60,11 @@ if [ ! -f ./$SOURCES/$1.tex ]; then
 fi
 
 # add local folders to the latex dependencies path
-export TEXINPUTS=$TEXINPUTS:./$SOURCES:./$LIBS
+export TEXINPUTS=./$SOURCES:./$LIBS:$TEXINPUTS
 
 #do the same for bibtex
-export BIBINPUTS=$BIBINPUTS:./$SOURCES	#where to find bib files
-export BSTINPUTS=$BSTINPUTS:./$LIBS	#where to find bib style files
+export BIBINPUTS=./$SOURCES:$BIBINPUTS	#where to find bib files
+export BSTINPUTS=./$LIBS:$BSTINPUTS	#where to find bib style files
 
 # check if output folder exists, if not create it
 if [ ! -d $OUT ]; then
