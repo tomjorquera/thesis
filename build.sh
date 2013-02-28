@@ -20,7 +20,7 @@ long_usage() {
   echo "  $USAGE_STRING"
   echo
   echo "OPTIONS:"
-  echo "  -l	move the log files to the current folder (if needed by another application for example)"
+  echo "  -l	move the log files to the source folder (if needed by another application for example)"
   echo "  -s	show the generated pdf at the end of generation)"
   echo "  -f	fast build - only do one pdflatex run"
   echo
@@ -99,8 +99,8 @@ fi
 
 # move logs if relevant option was set
 if [ $OPT_MOVE_LOG = 1 ]; then
-  mv ./$OUT/$1.log ./. # latex log
+  mv ./$OUT/$1.log ./$SOURCES/. # latex log
   if [ $OPT_FAST_BUILD = 0 ]; then	#if full build was done, move bibtex log
-  	mv ./$OUT/$1.blg ./. # bibtex log
+  	mv ./$OUT/$1.blg ./$SOURCES/. # bibtex log
   fi
 fi
