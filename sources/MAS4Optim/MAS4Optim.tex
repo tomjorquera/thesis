@@ -206,10 +206,10 @@ The most important point is that each agent only has a local strategy. No agent 
 \caption{Agents Behaviors}\label{agent_algo}
 \begin{algorithmic}
 
-\SetKwProg{Bv}{}{ Behavior}{end}
+\SetKwProg{Bv}{behavior of }{}{}
 
 \Bv{Model Agent}{
-	\Repeat{stop}{
+	\Repeat{resolution end}{
 		analyze received messages\;
 		\If{received new information messages}{
 	        recalculate outputs\;
@@ -222,8 +222,8 @@ The most important point is that each agent only has a local strategy. No agent 
 	}
 }
 
-\Bv{Variable Agent Behavior}{
-	\Repeat{end}{
+\Bv{Variable Agent}{
+	\Repeat{resolution end}{
 		analyze received messages\;
 		\If{received new requests}{
 	       select most important\;
@@ -233,8 +233,8 @@ The most important point is that each agent only has a local strategy. No agent 
 	}
 }
 
-\Bv{Output Agent Behavior}{
-	\Repeat{end}{
+\Bv{Output Agent}{
+	\Repeat{resolution end}{
 		analyze received messages\;
 		\If{received new information messages}{
 	        update its value\;
@@ -247,8 +247,8 @@ The most important point is that each agent only has a local strategy. No agent 
     }
 }
 
-\Bv{Constraint/Objective Agent Behavior}{
-	\Repeat{end}{
+\Bv{Constraint/Objective Agent}{
+	\Repeat{resolution end}{
 		analyze received messages\;
 		\If{received new information messages}{
 	        update its value\;
@@ -261,17 +261,54 @@ The most important point is that each agent only has a local strategy. No agent 
 \end{algorithm}
 
 
+\chapter{Agents Behavior}
 
+We will now discuss the behavior the the five agent types identified in the previous chapter. The functioning of the system can be divided into two main tasks: problem simulation and collective solving.
 
-\section{Simulation Behavior}
+Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the the propagation of the design variables values to the models and criteria based on the value. For this part, the agents will exchange \emph{inform} messages which contains calculated values. The "message flow" is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents.
 
-\chapter{Collective Solving}
+Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contains desired variations of values. The "message flow" is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents.
 
-\section{Conflicting Requests}
+\begin{figure}[h]
+	\subfloat[Informs flow for simulation]{\begin{minipage}{0.4\textwidth}%
+		\centering
+		\includegraphics[width=\textwidth]{testcases-Turbofan-informs}
+		\label{messages_flow:req}
+	\end{minipage}}
+	\hfill
+  	\subfloat[Requests flow for solving]{\begin{minipage}{0.4\textwidth}%
+		\centering
+		\includegraphics[width=\textwidth]{testcases-Turbofan-requests}
+		\label{messages_flow:req}
+	\end{minipage}}
 
-\section{Cooperative Trajectories}
+	%new line
+	\centering
+	 \subfloat[Effective message flow]{\begin{minipage}{0.4\textwidth}%
+		\includegraphics[width=\textwidth]{testcases-Turbofan-informs_requests}
+		\label{messages_flow:eff}
+	\end{minipage}}
+	
+	\caption{Messages flow for simulation and solving}
+	\label{messages_flow}
 
-\subsection{For Model Agents}
+\end{figure}
+
+The agents behaviors regarding these two parts can be studied quite independently, we will thus present them separately.  It is however important to remember that these two parts are not executed separately. At runtime the agents will simulate the problem and solve it in parallel.
+
+\section{Problem Simulation}
+
+\section{Collective Solving}
+
+During solving, the criteria agents will try to improve their local goal 
+
+\subsection{Conflicting Requests}
+
+\subsection{Cooperative Trajectories}
+
+\subsubsection{For Model Agents}
+
+Models agents try to 
 
 Let $M(I,O)$ be a model agent with a set of inputs $I$ and a set of output $O$.
 
@@ -303,10 +340,10 @@ If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{For Variable Agents}
+\subsubsection{For Variable Agents}
 
-\section{Cycle Solving}
+\subsection{Cycle Solving}
 
-\section{Hidden Dependencies}
+\subsection{Hidden Dependencies}
 
-\section{Asynchronous Requests}
+\subsection{Asynchronous Requests}
