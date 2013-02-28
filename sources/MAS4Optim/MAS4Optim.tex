@@ -275,15 +275,15 @@ The most important point is that each agent only has a local strategy. No agent 
 
 Let $M(I,O)$ be a model agent with a set of inputs $I$ and a set of output $O$.
 
-Let $\{r= <\Delta_{o_{\in O}}^{r}, crit>\}$ be a set of  requests received for outputs $\{o\} \in O$. By hypothesis, at most one request can concerns the same output.
+Let $\{r = <\Delta_{o_{\in O}}^{r}, crit>\}$ be a set of  requests received for outputs $\{o\} \in O$, where $\Delta_{o}^{r}$ is the variation of output $o$ requested by $r$ and $crit$ the criticality of the request. By hypothesis, at most one request can concerns the same output.
 Using an external optimizer, the agent obtains for each $r_k$ a set of corresponding input variations $\{\Delta_i^{r_k}\}_{i \in I}$.
 
 For each input $i$ of the model, we need to select a variation.
-First of all, we only keep the requested variations with the maximum criticality:  $\{\Delta_i^{r_{max}}\} = \{\Delta_i^r / crit_r = max \{crit_{r \in R}\}\}$.
-$|\{\Delta_i^{r_{max}}\}| = 1$, then the agent knows which variation to request to the input agent.
+First of all, we only keep the requested variations with the maximum criticality:  $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$.
+If $|\{\Delta_i^{r_{max}}\}| =  1$, then the agent knows which variation to request to the input agent.
 
 Otherwise, the model agent will discriminate using the relative influence [[it learned | given by the analyser]] of the input on the outputs concerned by the requests: 
-$\Delta_i^* = \left\{ \Delta_i^{r_{max}} / r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_{i \in I} inf_{i,o}} \right\}$
+$\Delta_i^* \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_{i \in I} inf_{i,o}} \right\}$
 
 If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i^*$ is selected.
 
@@ -292,12 +292,12 @@ If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i
 \label{algo_cooperative_trajectory_model}
 \begin{algorithmic}
 	\ForEach{$i \in I_M$}{
-		 $\{\Delta_i^{r_{max}}\} = \{\Delta_i^r / crit_r = max \{crit_{r \in R}\}\}$\;
+		 $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$\;
 		 \eIf{$|\{\Delta_i^{r_{max}}\}| = 1$}{
 		 	$\Delta_i^{r_{max}}$ is the variation requested to the input\;
 		 }
 		 {
-			$\{\Delta_i^*\} = \left\{ \Delta_i^{r_{max}} / r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_ {i \in I} inf_{i,o}} \right\}$\;
+			$\{\Delta_i^*\} \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_ {i \in I} inf_{i,o}} \right\}$\;
 		 }
 	}
 \end{algorithmic}
