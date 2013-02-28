@@ -203,14 +203,13 @@ The most important point is that each agent only has a local strategy. No agent 
 
 
 \begin{algorithm}
-\caption{Agents Behaviors}
-\label{algo_cooperative_trajectory_model}\label{agent_algo}
+\caption{Agents Behaviors}\label{agent_algo}
 \begin{algorithmic}
 
 \SetKwProg{Bv}{}{ Behavior}{end}
 
 \Bv{Model Agent}{
-	\Repeat{end}{
+	\Repeat{stop}{
 		analyze received messages\;
 		\If{received new information messages}{
 	        recalculate outputs\;
