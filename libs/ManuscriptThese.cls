@@ -122,7 +122,7 @@ This class has been inspired from thesegauthier, Gauthier Picard, IRIT]
 \RequirePackage{color}
 \RequirePackage{fancybox}
 
-\usepackage[lined,algoruled,algochapter,titlenumbered]{algorithm2e}%,commentsnumbered,linesnumbered]
+\usepackage[lined,algoruled,algochapter,titlenumbered,nosemicolon]{algorithm2e}%,commentsnumbered,linesnumbered]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  Page de Titre                                 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

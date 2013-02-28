@@ -200,60 +200,64 @@ This agent uses an external optimizer to estimate input values which would impro
 \paragraph*{}
 The most important point is that each agent only has a local strategy. No agent is in charge of the optimization of the system as a whole, or even of a subset of the other agents. Contrary to the classical MDO methods presented earlier, the solving of the problem is not directed by a predefined methodology, but by the structure of the problem itself. The emerging global strategy is unique and adapted to the problem.
 
+
+
 \begin{algorithm}
 \caption{Agents Behaviors}
-\label{agent_algo}
-\begin{algorithmic}[[TODO: correct algo formatting]]
+\label{algo_cooperative_trajectory_model}\label{agent_algo}
+\begin{algorithmic}
 
-\Procedure{Model Agent Behavior}{}
-\Loop
-	\State analyze received messages
-	\If{received new information messages}
-        \State recalculate outputs
-        \State inform depending agents
-    \EndIf      
-	\If{received new requests}
-       \State  use optimizer to find adequate inputs
-        \State propagate requests to input agents
-    \EndIf
-\EndLoop
-\EndProcedure
-\\
-\Procedure{Variable Agent Behavior}{}
-\Loop
-	\State analyze received messages
-	\If{received new requests}
-       \State select most important
-       \State adjust value
-       \State inform depending agents
-    \EndIf
-\EndLoop
-\EndProcedure
-\\
-\Procedure{Output Agent Behavior}{}
-\Loop
-	\State analyze received messages
-	\If{received new information messages}
-        \State update its value
-        \State inform depending agents
-    \EndIf      
-	\If{received new requests}
-       \State  select most important
-        \State transmit selected request to model agent
-    \EndIf
-\EndLoop
-\EndProcedure
-\\
-\Procedure{Constraint/ Objective Agent Behavior}{}
-\Loop
-	\State analyze received messages
-	\If{received new information messages}
-        \State update its value
-        \State use optimizer to find adequate inputs
-        \State send new requests to variable/output agents
-    \EndIf      
-\EndLoop
-\EndProcedure
+\SetKwProg{Bv}{}{ Behavior}{end}
+
+\Bv{Model Agent}{
+	\Repeat{end}{
+		analyze received messages\;
+		\If{received new information messages}{
+	        recalculate outputs\;
+	        inform depending agents\;
+	    }     
+		\If{received new requests}{
+	        use optimizer to find adequate inputs\;
+	        propagate requests to input agents\;
+	   }
+	}
+}
+
+\Bv{Variable Agent Behavior}{
+	\Repeat{end}{
+		analyze received messages\;
+		\If{received new requests}{
+	       select most important\;
+	       adjust value\;
+	       inform depending agents\;
+	    }
+	}
+}
+
+\Bv{Output Agent Behavior}{
+	\Repeat{end}{
+		analyze received messages\;
+		\If{received new information messages}{
+	        update its value\;
+	        inform depending agents\;
+	    }      
+		\If{received new requests}{
+	        select most important\;
+	        transmit selected request to model agent\;
+	    }
+    }
+}
+
+\Bv{Constraint/Objective Agent Behavior}{
+	\Repeat{end}{
+		analyze received messages\;
+		\If{received new information messages}{
+	        update its value\;
+	        use optimizer to find adequate inputs\;
+	        send new requests to variable/output agents\;
+	    }
+	}
+}
 \end{algorithmic}
 \end{algorithm}
 
@@ -285,11 +289,9 @@ $\Delta_i^* = \left\{ \Delta_i^{r_{max}} / r_{max} = argmax \frac{inf_{i,o_{r_{m
 If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i^*$ is selected.
 
 \begin{algorithm}
-\DontPrintSemicolon
 \caption{Cooperative trajectory - Model agent}
 \label{algo_cooperative_trajectory_model}
 \begin{algorithmic}
-\SetAlgoLined
 	\ForEach{$i \in I_M$}{
 		 $\{\Delta_i^{r_{max}}\} = \{\Delta_i^r / crit_r = max \{crit_{r \in R}\}\}$\;
 		 \eIf{$|\{\Delta_i^{r_{max}}\}| = 1$}{

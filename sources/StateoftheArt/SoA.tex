@@ -700,11 +700,10 @@ Most genetic algorithms proposals work on variations on these two phases. For ex
 Swarm algorithms focus on the decentralized exploration of the search space by a population of entities (commonly called \emph{agents} or \emph{boids}). These entities usually have only a local perception of the search space and individually decide how to move using simple rules.
 
 \begin{algorithm}
-\DontPrintSemicolon
 \caption{PSO iteration}\label{PSO_algo}
 \begin{algorithmic}
-\SetAlgoLined
-	compute overall fitness of the population;
+
+	compute overall fitness of the population\;
 	\ForEach{individual}{
 	
 	}
@@ -723,10 +722,9 @@ At each step, a particle updates its velocity based on the current velocity, its
 The summary of an iteration of PSO in shown on algorithm \ref{PSO_algo}.
 
 \begin{algorithm}
-\DontPrintSemicolon
 \caption{PSO iteration}\label{PSO_algo}
 \begin{algorithmic}
-\SetAlgoLined
+
 	\ForEach{particle}{
 		$\overrightarrow{v_i}(t) = w.\overrightarrow{v_i}(t-1) + c_l.rnd(x_i^*(t-1)-x_i(t-1)) + c_g.rnd(x_g^*(t-1)-x_i(t-1))$\;
 		$x_i(t) = x_i(t-1)+\overrightarrow{v_i}(t)$\;
