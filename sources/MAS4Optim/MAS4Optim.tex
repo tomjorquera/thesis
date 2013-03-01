@@ -7,7 +7,7 @@
 
 \section{Problem Modeling with NDMO}\label{modeling}
 
-In answer to the previous shortcomings, we propose a generic approach called Natural Domain Modeling for Optimization (NDMO) that relies on a natural or intrinsic description of the problem (\textit{i.e.} close to the reality being described).
+[[A CHANGER: In answer to the previous shortcomings, we propose a generic approach called Natural Domain Modeling for Optimization (NDMO) that relies on a natural or intrinsic description of the problem (\textit{i.e.} close to the reality being described).]]
 
 \begin{figure}[]
 	\centering
@@ -80,17 +80,16 @@ Regarding the Turbofan, the two \emph{constraints} are $s <= 155$ and $fr >=4$.
 \subsubsection*{Objectives.}
 
 The goals to be optimized. In the general case, different objectives are often contradictory.
-The two  \emph{objectives} of the Turbofan problems are to maximize $Tdm0$ and to minimize $s$.
+The two \emph{objectives} of the Turbofan problems are to maximize $Tdm0$ and to minimize $s$.
 
-%Constraints and objectives are usually regrouped under the more general term of optimization criteria. 
-
-%TODO what about the fact that constraints are more "important" (critical) than objectives and that objectives are all equivalent
+Constraints and objectives are usually regrouped under the more general term of optimization criteria. 
 
 \paragraph*{}
 An interesting and important point is that both models, constraints and objectives involve computation. Often the most heavyweight calculus is encapsulated inside a model and the calculi concerning criteria tend to be simple equations, but this is neither an absolute requirement nor a discriminating characteristic.
 
 The NDMO modeling aims to provide the most complete and natural representation of the problem. This modeling preserves the relations between the domain entities and is completely independent of the solving process. 
-Since we now have a way to model optimization problems as graphs of entities, we now present the multi-agent algorithm proposed to solve them.
+
+[[SAY IT IS A BIPARTITE GRAPH BETWEEN VALUES ENTITIES AND INTERNAL MODEL ENTITIES]]
 
 \section{From an Optimization Problem to a Multi-Agent System}
 
@@ -197,10 +196,102 @@ The  \emph{objective agent} is in charge of an objective of the problem. This ag
 
 This agent uses an external optimizer to estimate input values which would improve the objective, as the model and constraint agents.
 
-\paragraph*{}
+
+
+
+\chapter{Agents Behavior}
+
+We will now discuss the behavior the the five agent types identified in the previous chapter. The functioning of the system can be divided into two main tasks: problem simulation and collective solving.
+
+Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the propagation of the values of design variables to the models and criteria based on the value. For this part, the agents will exchange \emph{inform} messages which contains calculated values. The "message flow" is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents. The illustration of the messages flow of simulation is shown on \figurename{} \ref{messages_flow:inf}.
+
+Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contains desired variations of values. The "message flow" is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents. The illustration of the messages flow of solving is shown on \figurename{} \ref{messages_flow:req}.
+
+\begin{figure}[h]
+	\subfloat[Informs flow for simulation]{\begin{minipage}{0.4\textwidth}%
+		\centering
+		\includegraphics[width=\textwidth]{testcases-Turbofan-informs}
+		\label{messages_flow:inf}
+	\end{minipage}}
+	\hfill
+  	\subfloat[Requests flow for solving]{\begin{minipage}{0.4\textwidth}%
+		\centering
+		\includegraphics[width=\textwidth]{testcases-Turbofan-requests}
+		\label{messages_flow:req}
+	\end{minipage}}
+
+	%new line
+	\centering
+	 \subfloat[Effective messages flow]{\begin{minipage}{0.4\textwidth}%
+		\includegraphics[width=\textwidth]{testcases-Turbofan-informs_requests}
+		\label{messages_flow:eff}
+	\end{minipage}}
+	
+	\caption{Messages flow for simulation and solving}
+	\label{messages_flow}
+
+\end{figure}
+
+The agents behaviors regarding these two parts can be studied quite independently, we will thus present them separately.  It is however important to remember that these two parts are not executed separately. At runtime the agents will simulate the problem and solve it in parallel. Moreover, the different parts of the system will not necessarily work in a synchronous fashion. The effective messages flow of the system will more probably be akin to the \figurename{} \ref{messages_flow:eff}.
+
+\section{Problem Simulation}
+
+In this section we will present the agents behavior related to the simulation of the problem. Regarding this part, the main concern of the agents is to ensure consistency between the values of the design variables and the produced output. To this end, the agents will propagate \emph{Inform} messages through the system.
+
+An inform message carry a value variation, noted $\Delta_v$, the exact semantic of this field depends on the agents which exchange 
+
+\section{Collective Solving}
+
+During solving, the criteria agents will try to improve their local goal 
+
+\subsection{Conflicting Requests}
+
+\subsection{Cooperative Trajectories}
+
+\subsubsection{For Model Agents}
+
+Models agents try to 
+
+Let $M(I,O)$ be a model agent with a set of inputs $I$ and a set of output $O$.
+
+Let $\{r = <\Delta_{o_{\in O}}^{r}, crit>\}$ be a set of  requests received for outputs $\{o\} \in O$, where $\Delta_{o}^{r}$ is the variation of output $o$ requested by $r$ and $crit$ the criticality of the request. By hypothesis, at most one request can concerns the same output.
+Using an external optimizer, the agent obtains for each $r_k$ a set of corresponding input variations $\{\Delta_i^{r_k}\}_{i \in I}$.
+
+For each input $i$ of the model, we need to select a variation.
+First of all, we only keep the requested variations with the maximum criticality:  $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$.
+If $|\{\Delta_i^{r_{max}}\}| =  1$, then the agent knows which variation to request to the input agent.
+
+Otherwise, the model agent will discriminate using the relative influence [[it learned | given by the analyser]] of the input on the outputs concerned by the requests: 
+$\Delta_i^* \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_{i \in I} inf_{i,o}} \right\}$
+
+If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i^*$ is selected.
+
+\begin{algorithm}
+\caption{Cooperative trajectory - Model agent}
+\label{algo_cooperative_trajectory_model}
+\begin{algorithmic}
+	\ForEach{$i \in I_M$}{
+		 $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$\;
+		 \eIf{$|\{\Delta_i^{r_{max}}\}| = 1$}{
+		 	$\Delta_i^{r_{max}}$ is the variation requested to the input\;
+		 }
+		 {
+			$\{\Delta_i^*\} \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_ {i \in I} inf_{i,o}} \right\}$\;
+		 }
+	}
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{For Variable Agents}
+
+\subsection{Cycle Solving}
+
+\subsection{Hidden Dependencies}
+
+\subsection{Asynchronous Requests}
+
+\section*{}
 The most important point is that each agent only has a local strategy. No agent is in charge of the optimization of the system as a whole, or even of a subset of the other agents. Contrary to the classical MDO methods presented earlier, the solving of the problem is not directed by a predefined methodology, but by the structure of the problem itself. The emerging global strategy is unique and adapted to the problem.
-
-
 
 \begin{algorithm}
 \caption{Agents Behaviors}\label{agent_algo}
@@ -259,91 +350,3 @@ The most important point is that each agent only has a local strategy. No agent 
 }
 \end{algorithmic}
 \end{algorithm}
-
-
-\chapter{Agents Behavior}
-
-We will now discuss the behavior the the five agent types identified in the previous chapter. The functioning of the system can be divided into two main tasks: problem simulation and collective solving.
-
-Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the the propagation of the design variables values to the models and criteria based on the value. For this part, the agents will exchange \emph{inform} messages which contains calculated values. The "message flow" is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents.
-
-Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contains desired variations of values. The "message flow" is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents.
-
-\begin{figure}[h]
-	\subfloat[Informs flow for simulation]{\begin{minipage}{0.4\textwidth}%
-		\centering
-		\includegraphics[width=\textwidth]{testcases-Turbofan-informs}
-		\label{messages_flow:req}
-	\end{minipage}}
-	\hfill
-  	\subfloat[Requests flow for solving]{\begin{minipage}{0.4\textwidth}%
-		\centering
-		\includegraphics[width=\textwidth]{testcases-Turbofan-requests}
-		\label{messages_flow:req}
-	\end{minipage}}
-
-	%new line
-	\centering
-	 \subfloat[Effective message flow]{\begin{minipage}{0.4\textwidth}%
-		\includegraphics[width=\textwidth]{testcases-Turbofan-informs_requests}
-		\label{messages_flow:eff}
-	\end{minipage}}
-	
-	\caption{Messages flow for simulation and solving}
-	\label{messages_flow}
-
-\end{figure}
-
-The agents behaviors regarding these two parts can be studied quite independently, we will thus present them separately.  It is however important to remember that these two parts are not executed separately. At runtime the agents will simulate the problem and solve it in parallel.
-
-\section{Problem Simulation}
-
-\section{Collective Solving}
-
-During solving, the criteria agents will try to improve their local goal 
-
-\subsection{Conflicting Requests}
-
-\subsection{Cooperative Trajectories}
-
-\subsubsection{For Model Agents}
-
-Models agents try to 
-
-Let $M(I,O)$ be a model agent with a set of inputs $I$ and a set of output $O$.
-
-Let $\{r = <\Delta_{o_{\in O}}^{r}, crit>\}$ be a set of  requests received for outputs $\{o\} \in O$, where $\Delta_{o}^{r}$ is the variation of output $o$ requested by $r$ and $crit$ the criticality of the request. By hypothesis, at most one request can concerns the same output.
-Using an external optimizer, the agent obtains for each $r_k$ a set of corresponding input variations $\{\Delta_i^{r_k}\}_{i \in I}$.
-
-For each input $i$ of the model, we need to select a variation.
-First of all, we only keep the requested variations with the maximum criticality:  $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$.
-If $|\{\Delta_i^{r_{max}}\}| =  1$, then the agent knows which variation to request to the input agent.
-
-Otherwise, the model agent will discriminate using the relative influence [[it learned | given by the analyser]] of the input on the outputs concerned by the requests: 
-$\Delta_i^* \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_{i \in I} inf_{i,o}} \right\}$
-
-If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i^*$ is selected.
-
-\begin{algorithm}
-\caption{Cooperative trajectory - Model agent}
-\label{algo_cooperative_trajectory_model}
-\begin{algorithmic}
-	\ForEach{$i \in I_M$}{
-		 $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$\;
-		 \eIf{$|\{\Delta_i^{r_{max}}\}| = 1$}{
-		 	$\Delta_i^{r_{max}}$ is the variation requested to the input\;
-		 }
-		 {
-			$\{\Delta_i^*\} \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_ {i \in I} inf_{i,o}} \right\}$\;
-		 }
-	}
-\end{algorithmic}
-\end{algorithm}
-
-\subsubsection{For Variable Agents}
-
-\subsection{Cycle Solving}
-
-\subsection{Hidden Dependencies}
-
-\subsection{Asynchronous Requests}
