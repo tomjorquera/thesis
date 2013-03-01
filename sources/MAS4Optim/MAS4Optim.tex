@@ -238,9 +238,63 @@ The agents behaviors regarding these two parts can be studied quite independentl
 
 In this section we will present the agents behavior related to the simulation of the problem. Regarding this part, the main concern of the agents is to ensure consistency between the values of the design variables and the produced output. To this end, the agents will propagate \emph{Inform} messages through the system.
 
-An inform message carry a value variation, noted $\Delta_v$, the exact semantic of this field depends on the agents which exchange 
+An inform message carry a new value $v$. The exact semantic of this information slightly changes depending on which agents are involved:
 
-\section{Collective Solving}
+\begin{itemize}
+\item If the message is sent from a value agent (variable or output) to a model or criterion agent, it indicates to the receiving agent that the sending agent has changed value.
+
+\item If the message is sent from a model agent to an output agent, it indicates to the receiving agent that the model has calculated its new value.
+\end{itemize}
+
+In practice this distinction is not fundamentally important to understand the functioning of the system.
+
+\subsection{Variable Agent}
+
+Regarding problem simulation, the role of the variable agent is to ensure that the agents to which it is connected know its current value.
+A variable agent has to send new Inform messages when:
+\begin{compactitem}
+\item new agents are connected to it (typically at the creation of the system)
+\item it decided to change its value based on received requests (see \ref{collective_solv}[[CHANGE TO POINT DIRECTLY TO VARIABLE AGENT]])
+\item the designer changed its value
+\end{compactitem}
+
+The behavior of the variable agent is resumed in algorithm \ref{algo_solving_variable}.
+
+\begin{algorithm}
+\caption{Problem Simulation -Variable Agent Behavior}
+\label{algo_solving_variable}
+\begin{algorithmic}
+	$C \leftarrow$ previously connected agents\;
+	$C^* \leftarrow$  newly connected agents\;
+		
+	$v \leftarrow$ previous value\;
+	$v^* \leftarrow$ new value\;
+	
+	\If{$v \neq v^*$}{
+		\ForEach{agent $a \in C$}{
+			send($a$, new Inform($v^*$))\;
+		}
+		$v \leftarrow v^*$\;
+	}
+	\If{$C_n \neq \emptyset$}{
+		\ForEach{agent $a \in C^*$}{
+			send($a$, new Inform($v$))\;
+		}
+		$C \leftarrow C + C^*$\;
+	}
+	
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{Model Agent}
+
+\subsection{Output Agent}
+
+\subsection{Constraint/Objective Agent}
+
+\section{Collective Solving}\label{collective_solv}
 
 During solving, the criteria agents will try to improve their local goal 
 
