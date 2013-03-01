@@ -265,28 +265,29 @@ The behavior of the variable agent is resumed in algorithm \ref{algo_solving_var
 \label{algo_solving_variable}
 \begin{algorithmic}
 	$C \leftarrow$ previously connected agents\;
-	$C^* \leftarrow$  newly connected agents\;
+	$C' \leftarrow$  newly connected agents\;
 		
 	$v \leftarrow$ previous value\;
-	$v^* \leftarrow$ new value\;
+	$v' \leftarrow$ new value\;
 	
-	\If{$v \neq v^*$}{
+	\tcp{Notify contacts of value change}
+	\If{$v \neq v'$}{
+		$v \leftarrow v'$\;
 		\ForEach{agent $a \in C$}{
-			send($a$, new Inform($v^*$))\;
-		}
-		$v \leftarrow v^*$\;
-	}
-	\If{$C_n \neq \emptyset$}{
-		\ForEach{agent $a \in C^*$}{
 			send($a$, new Inform($v$))\;
 		}
-		$C \leftarrow C + C^*$\;
+	}
+	
+	\tcp{Send its value to new contacts}
+	\If{$C' \neq \emptyset$}{
+		\ForEach{agent $a \in C'$}{
+			send($a$, new Inform($v$))\;
+		}
+		$C \leftarrow C + C'$\;
 	}
 	
 \end{algorithmic}
 \end{algorithm}
-
-
 
 \subsection{Model Agent}
 
@@ -296,7 +297,7 @@ The behavior of the variable agent is resumed in algorithm \ref{algo_solving_var
 
 \section{Collective Solving}\label{collective_solv}
 
-During solving, the criteria agents will try to improve their local goal 
+During solving, the criteria agents try to improve their local goal. That is, the constraints agents try to keep their constraint satisfied, while the objective agents try to improve their objective. To this end they send \emph{Request} messages to the agents controlling their inputs, asking them to change value. The others agents have to propagate these requests toward the variable agents in the most adequate way.
 
 \subsection{Conflicting Requests}
 
