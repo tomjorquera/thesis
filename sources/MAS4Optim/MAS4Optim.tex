@@ -262,19 +262,19 @@ A variable agent has to send new Inform messages when:
 \item the designer changed its value
 \end{compactitem}
 
-The behavior of the variable agent is resumed in algorithm \ref{algo_solving_variable}.
+The behavior of the variable agent is resumed in algorithm \ref{algo_simulating_variable}.
 
 \begin{algorithm}
 \caption{Problem Simulation -Variable Agent Behavior}
-\label{algo_solving_variable}
+\label{algo_simulating_variable}
 \begin{algorithmic}
-	$C \leftarrow$ previously connected agents\;
-	$C' \leftarrow$  newly connected agents\;
+	$C \leftarrow$ previously connected output agents\;
+	$C'\leftarrow$  newly connected output agents\;
 		
 	$v \leftarrow$ previous value\;
-	$v' \leftarrow$ new value\;
+	$v'\leftarrow$ new value\;
 	
-	\tcp{Notify contacts of value change}
+	\tcp{notify contacts of value change}
 	\If{$v \neq v'$}{
 		$v \leftarrow v'$\;
 		\ForEach{agent $a \in C$}{
@@ -282,12 +282,12 @@ The behavior of the variable agent is resumed in algorithm \ref{algo_solving_var
 		}
 	}
 	
-	\tcp{Send its value to new contacts}
+	\tcp{send its value to new contacts}
 	\If{$C' \neq \emptyset$}{
 		\ForEach{agent $a \in C'$}{
 			send($a$, new Inform($v$))\;
 		}
-		$C \leftarrow C + C'$\;
+		$C \leftarrow C + C'$\tcp{memorize new outputs agents}
 	}
 	
 \end{algorithmic}
@@ -301,6 +301,37 @@ All outputs of a model agent are not necessary associated with an ouput agent. F
 
 However, as the problem is dynamic, the designer can decide at any time to connect a new output agent to a previously unconnected output. In this case, the model agent must send to the output agent the last value it calculated for this output.
 
+The behavior of the variable agent is resumed in algorithm \ref{algo_simulating_model}.
+
+\begin{algorithm}
+\caption{Problem Simulation -Variable Agent Behavior}
+\label{algo_simulating_model}
+\begin{algorithmic}
+	$C \leftarrow$ previously connected output agents\;
+	$C'\leftarrow$  newly connected output agents\;
+	
+	$\{v_i\} \leftarrow$ new input values\;
+			
+	\If{$\{v_i\} \neq \emptyset$}{
+		$\{v_o\} \leftarrow$ previous output values\;
+		$\{v'_o\}\leftarrow Model(\{v_i\})$\tcp{use internal model to recalculate outputs}
+		\ForEach{agent $o \in C$}{
+			\tcp{inform output agents of their new value}
+			send($o$, new Inform($v'_o$))\;
+		}
+	}
+	
+	\tcp{Send their value to new outputs}
+	\If{$C' \neq \emptyset$}{
+		\ForEach{agent $o \in C'$}{
+			send($o$, new Inform($v'_o$))\;
+		}
+		$C \leftarrow C + C'$\tcp{memorize new outputs agents}
+	}
+	
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{Output Agent}
 
 \subsection{Constraint/Objective Agent}
@@ -308,6 +339,8 @@ However, as the problem is dynamic, the designer can decide at any time to conne
 \section{Collective Solving}\label{collective_solv}
 
 During solving, the criteria agents try to improve their local goal. That is, the constraints agents try to keep their constraint satisfied, while the objective agents try to improve their objective. To this end they send \emph{Request} messages to the agents controlling their inputs, asking them to change value. The others agents have to propagate these requests toward the variable agents in the most adequate way.
+
+\section{Non-Cooperative Situations}
 
 \subsection{Conflicting Requests}
 
