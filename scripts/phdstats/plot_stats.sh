@@ -20,3 +20,7 @@ DATE_30DAYS=$(date +"%Y-%m-%d" --date="31 days ago") #add a day before for same 
 echo "$DATA" | gnuplot config.gnuplot -e "set format x \"%d/%m\";set xrange [\"$DATE_7DAYS\":\"$CURR_DATE\"];set terminal png; set output \""$OUTPUT".7days.png\"; plot '-' using 1:2"
 echo "$DATA" | gnuplot config.gnuplot -e "set format x \"%d/%m\";set xrange [\"$DATE_14DAYS\":\"$CURR_DATE\"];set terminal png; set output \""$OUTPUT".14days.png\"; plot '-' using 1:2"
 echo "$DATA" | gnuplot config.gnuplot -e "set format x \"%d/%m\";set xrange [\"$DATE_30DAYS\":\"$CURR_DATE\"];set terminal png; set output \""$OUTPUT".30days.png\"; plot '-' using 1:2"
+
+#draw png from the begining of the year
+DATE_YEAR=$(date +"%Y-%m-%d" --date="01/01/2013") #add a day before for same reason
+echo "$DATA" | gnuplot config.gnuplot -e "set format x \"%d/%m\";set xrange [\"$DATE_YEAR\":\"$CURR_DATE\"];set terminal png; set output \""$OUTPUT".year.png\"; plot '-' using 1:2"
