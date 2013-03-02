@@ -95,6 +95,12 @@ The NDMO modeling aims to provide the most complete and natural representation o
 
 Based on the NDMO modeling in section \ref{modeling}, we propose a multi-agent system where each domain entity is associated with an agent. Thus the multi-agent system is the representation of the problem to be solved with the links and communication between agents reflecting the natural structure of the problem. It is worth underlining the fact that this transformation (\textit{i.e.} the agentification) can be completely automatic as it is fully derived from the expression of the problem.
 
+\begin{figure}
+\includegraphics[width=\textwidth]{agent_class_diag}
+\caption{System class diagram}\label{SMA_class_diagram}
+
+\end{figure}
+
 The solving process - constituted by the collective behavior of the agents - basically relies, on change-value requests sent by the criteria agents resulting in cooperatively decided adjustments done by the \emph{design variables} and on new values computed by the models resulting on the satisfaction or dissatisfaction of the criteria agents. 
 In the same way we presented the different elements of NDMO, we now detail the behaviors of our five agent types: \emph{model}, \emph{variable}, \emph{output}, \emph{constraint} and \emph{objective} agents.
 A summary of the basic principles of each agent type is given in Algorithm \ref{agent_algo}.
@@ -197,8 +203,6 @@ The  \emph{objective agent} is in charge of an objective of the problem. This ag
 This agent uses an external optimizer to estimate input values which would improve the objective, as the model and constraint agents.
 
 
-
-
 \chapter{Agents Behavior}
 
 We will now discuss the behavior the the five agent types identified in the previous chapter. The functioning of the system can be divided into two main tasks: problem simulation and collective solving.
@@ -290,6 +294,12 @@ The behavior of the variable agent is resumed in algorithm \ref{algo_solving_var
 \end{algorithm}
 
 \subsection{Model Agent}
+
+A model agent must maintain consistency between its inputs and outputs. When receiving an Inform message from one of the agents controlling its inputs, the model agent reevaluates its internal model taking the new value in account. Using the new values produced by the internal model, the model agents then send Informs messages to the agents responsible of its outputs.
+
+All outputs of a model agent are not necessary associated with an ouput agent. For example, if the designer is not interested by the value represented by one of the outputs, he is not required to represent it by an agent. In this case the model agent will silently calculate the new value of the output at the same time than the others, but will not propagate it\footnote{Remember that the internal model of the agent is a black box, consequently the agent cannot choose to evaluate it partially. If the evaluation of the output could has been done independently from the others, it could be preferable to create to separate models}.
+
+However, as the problem is dynamic, the designer can decide at any time to connect a new output agent to a previously unconnected output. In this case, the model agent must send to the output agent the last value it calculated for this output.
 
 \subsection{Output Agent}
 
