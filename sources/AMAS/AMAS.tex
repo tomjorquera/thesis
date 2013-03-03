@@ -18,4 +18,41 @@ In parallel to the developments of AI, another field of knowledge emerged in the
 
 It is interesting to note the conflicting nature of AI and cybernetics. AI initially based itself the  on the analytical study of knowledge, using symbol manipulation coming from algebra and logics. Cybernetics was part of the more general [[epistemic/epistemological ??]] upheaval of constructivism.
 
-It is in the mists of this contradiction that was born the study of Multi-Agents Systems
+It is a the conjunction of these two seemingly contradictory fields that was born the study of Multi-Agents Systems.
+
+\subsection{Principles of Multi-Agents Systems}
+
+[[Say we concentrate on Problem Solving]]
+
+\subsection{The Adaptive Multi-Agents Systems Theory}
+
+The conception of MAS for problem solving is not an easy endeavor. Suffice to observe that most of the multi-agents systems algorithms dedicated to problem solving proposed by the scientific community are nature-inspired (ants, flocks, bees, bats etc.). Indeed, Nature had a long time to experiment on several arduous problem and a lost of subjects at hand. Why would we not take advantage of that? However, such a strategy presents a severe limitation, as it can bring us existing solutions to apply to potential problems, but ultimately cannot help us to find potential solution to some existing problems. By restricting ourself to nature-inspired mechanisms we are bound to their application field.
+The inspiration for the internal combustion engine was not found in nature, as no animal ever bothered with trying to reach for the Moon\footnote{In total honesty, it is possible that some animals tried to reach for the Moon. But it seems such behavior did not give them enough significant evolutionary advantage to be noteworthy (except of course for a specific cow in the popular nursery rhyme [[put a ref ?]]).}.
+
+In order to overcome this limitation, we need to rely on a more theoretical approach which would help us in the conception of MAS for which we do not know any existing applicable mechanisms. Such an approach is provided by the Adaptive Multi-Agents Systems (AMAS) theory.
+
+The AMAS theory was developed by the SMAC team and formalized in \cite{glize2001adaptation} and focus on cooperation as the fundamental mechanism of MAS design.
+
+At the basis of the theory is the modeling of a system as a set of entities, the agents, interacting among themselves and with their environment. This modeling is holonic[[?]] at its core, since the agents themselves can also be viewed as systems for which the environment consists of the other agents as well as the environment of the encompassing system[[TRUE ?]].
+
+
+The system can be deemed to be \emph{functionally adequate} by an external observer if this latter judges that the system as a whole correctly accomplishes its function in regard of the environment\footnote{It is important to understand that, from a theoretical point of view, the notion of functional adequacy is inherently subjective, and depends on the observer. In practice it is however usually more easier to attain a reasonable consensus. For example a natural system will usually be deemed adequate if it survives and thrives in a sustainable way. For an artificial system it is even easier since the functional adequacy correspond to the function expected by the designer of the system.}.
+
+The AMAS theory then identifies three categories of interactions between a system and its environment (we indicated in parenthesis some analogs found in biological interaction theory [[REF]]) :
+\begin{compactitem}
+\item Cooperative action: the acting entity is beneficial to the other (mutualism)
+\item Antinomic [[?Antagonistic?]] action: the acting entity is detrimental to the other (competition/amensalism)
+\item Neutral action: the acting entity has no effect on the other (neutralism/commensalism)
+\end{compactitem}
+
+From this categorization, the AMAS theory draws its formal definition of functional adequacy (and fundamental axiom):
+
+\definition{Functional adequacy}{A functionally adequate system has no antinomic[[?]] interaction with its environment}
+
+[[PUT DIAGRAM OF A FUNCTIONALLY ADEQUATE SYSTEM]]
+
+Using this axiom, two fundamental lemma has been demonstrated:
+
+\definition{Lemme 1}{The set of cooperative systems is included in the set of functionally adequate systems}
+
+\definition{Lemme 2}{For all functionally adequate system, there exists a cooperative system which is also functionally adequate in the same environment}
