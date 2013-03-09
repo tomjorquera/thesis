@@ -24,48 +24,76 @@ It is a the conjunction of these two seemingly contradictory fields that was bor
 
 [[Say we concentrate on Problem Solving]]
 
-\subsection{The Adaptive Multi-Agents Systems Theory}
+\section{The Adaptive Multi-Agents Systems Theory}
+
+\subsection{Theorem of Functional Adequacy}
 
 The conception of MAS for problem solving is not an easy endeavor. Suffice to observe that most of the multi-agents systems algorithms dedicated to problem solving proposed by the scientific community are nature-inspired (ants, flocks, bees, bats etc.). Indeed, Nature had a long time to experiment on several arduous problem and a lost of subjects at hand. Why would we not take advantage of that? However, such a strategy presents a severe limitation, as it can bring us existing solutions to apply to potential problems, but ultimately cannot help us to find potential solution to some existing problems. By restricting ourself to nature-inspired mechanisms we are bound to their application field.
 The inspiration for the internal combustion engine was not found in nature, as no animal ever bothered with trying to reach for the Moon\footnote{In total honesty, it is possible that some animals tried to reach for the Moon. But it seems such behavior did not give them enough significant evolutionary advantage to be noteworthy (except of course for a specific cow in the popular nursery rhyme [[put a ref ?]]).}.
 
 In order to overcome this limitation, we need to rely on a more theoretical approach which would help us in the conception of MAS for which we do not know any existing applicable mechanisms. Such an approach is provided by the Adaptive Multi-Agents Systems (AMAS) theory.
 
-The AMAS theory was developed by the SMAC team and formalized in \cite{glize2001adaptation} and focus on cooperation as the fundamental mechanism of MAS design.
+The AMAS theory was developed by the SMAC team and formalized in \cite{glize2001adaptation}. It focuses on cooperation as the fundamental mechanism of MAS design.
 
-At the basis of the theory is the modeling of a system as a set of entities, the agents, interacting among themselves and with their environment. This modeling is holonic[[?]] at its core, since the agents themselves can also be viewed as systems for which the environment consists of the other agents as well as the environment of the encompassing system[[TRUE ?]].
+At the basis of the theory is the modeling of a system as a set of entities, the agents, interacting with each others and with their environment. This modeling is holonic[[?]] at its core, since the agents themselves can also be viewed as systems for which the environment consists of the other agents and the environment of the encompassing system.
 
+The system can be deemed to be \emph{functionally adequate} by an external observer if this latter judges that the system as a whole correctly accomplishes its function in regard of the environment. This external observer can be considered to be a perfect oracle, in a way similar to the Laplace's demon, knowing exactly which will be the consequences of each interactions between the system and its environment\footnote{It is important to understand that, from a theoretical point of view, the notion of functional adequacy is inherently subjective, and depends on the observer. In practice it is however usually more easier to attain a reasonable consensus. For example a natural system will usually be deemed adequate if it survives and thrives in a sustainable way. For an artificial system it is often even easier since the functional adequacy correspond to the function expected by the designer of the system.}.
 
-The system can be deemed to be \emph{functionally adequate} by an external observer if this latter judges that the system as a whole correctly accomplishes its function in regard of the environment\footnote{It is important to understand that, from a theoretical point of view, the notion of functional adequacy is inherently subjective, and depends on the observer. In practice it is however usually more easier to attain a reasonable consensus. For example a natural system will usually be deemed adequate if it survives and thrives in a sustainable way. For an artificial system it is even easier since the functional adequacy correspond to the function expected by the designer of the system.}.
-
-The AMAS theory then identifies three categories of interactions between a system and its environment (we indicated in parenthesis some analogs found in biological interaction theory [[REF]]) :
+The AMAS theory identifies three categories of interactions between a system and its environment:
 \begin{compactitem}
-\item Cooperative action: the acting entity is beneficial to the other (mutualism)
-\item Antinomic [[?Antagonistic?]] action: the acting entity is detrimental to the other (competition/amensalism)
-\item Neutral action: the acting entity has no effect on the other (neutralism/commensalism)
+\item Cooperative action: the acting entity is beneficial to the other.
+\item Antinomic [[?Antagonistic?]] action: the acting entity is detrimental to the other.
+\item Neutral action: the acting entity has no effect on the other.
 \end{compactitem}
 
-From this categorization, the AMAS theory draws its formal definition of functional adequacy (and fundamental axiom):
+From this categorization, the theory draws its formal definition (and fundamental axiom) of functional adequacy:
 
 \definition{Functional adequacy}{A functionally adequate system has no antinomic[[?]] interaction with its environment}
 
 [[PUT DIAGRAM OF A FUNCTIONALLY ADEQUATE SYSTEM]]
 
-Using this axiom, several properties has been demonstrated concerning the set of \emph{internal cooperative medium systems}, that is, systems in which the agents do not have any antinomic[[?]] or neutral interaction.
 
-\definition{Internal cooperative medium system}{A system in which the agents only have cooperative interactions with each others or their environment[[?]]}
+%\definition{Internal cooperative medium system}{A system in which the agents only have cooperative interactions with each others or their environment[[?]]}
 
-%two fundamental lemma has been demonstrated:
-%
-%\definition{Lemme 1}{The set of cooperative systems is included in the set of functionally adequate systems}
-%
-%\definition{Lemme 2}{For all functionally adequate system, there exists a cooperative system which is also functionally adequate in the same environment}
-
-These properties lead to the central theorem of functional adequacy:
+Using this axiom, several properties has been demonstrated concerning a specific set of \emph{internal cooperative medium systems}, defined as systems in which the agents do not have any antinomic[[?]] or neutral interaction. We will not enter here into the details of these properties and demonstration
+, the interested reader can refers to [[REF]]. Suffice to say that these properties lead to the central theorem of functional adequacy:
 
 \definition{Theorem of Functional Adequacy}{For each functionally adequate system there exists a internal cooperative medium system also functionally adequate in the same environment}
 
-This theorem is at the core of the AMAS approach of system design. We know that for each problem there is possibly an infinity of equivalent systems producing the same adequate functioning. Using the theorem of functional adequacy we can concentrate on designing an internal cooperative medium system, that is, designing a system were the agents cooperate among themselves and with their environment.
+This theorem is at the core of the AMAS approach of system design. We already know that for each problem there is possibly an infinity of equivalent systems producing the same adequate functioning. Using the theorem of functional adequacy we can concentrate on designing an internal cooperative medium system, that is, designing a system were the agents cooperate among themselves and with their environment.
 
 In addition to providing us with a theoretical context, this approach gives us another interesting property: as the design of the system is focused on the local interactions of the agents, we do not need to explicitly take into account the global function of the system. This property is extremely significant. If the global function is complex, it can be extremely difficult to successfully design a system which explicitly tries to achieve the global function (top-down approach). By concentrating on the local functions of the agents, we can spread the complexity and ease the design of the system (bottom-up approach).
 
+\subsection{Cooperative Agents and Non Cooperatives Situations}
+
+To guide the designer during the building of such a internal cooperative medium system, the conditions of what make an agent a \emph{cooperative agent} have been further formalized. An agent is said to be cooperative if it satisfies three conditions:
+\begin{compactitem}
+\item $C_{perception}$ Every perceived signal can be understood without ambiguity
+\item $C_{decision}$ Every interpretation must produces useful information
+\item $C_{action}$ Every action done based on the decision must be useful
+\end{compactitem}
+
+Based on these condition, a set of \emph{Non Cooperative Situations}(NCS) has been identified. These NCS correspond to interactions which are not cooperative and must be removed for the system to be an internal cooperative medium system. The NCS are classified based on the condition they violate. The table in \figurename{} \ref{NCS} shows this classification.
+
+\begin{figure}
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Violated condition}	& \textbf{Corresponding NCS} \\
+\hline
+$C_{perception}$     & Incomprehension, Ambiguity     \\
+\hline
+$C_{decision}$      & Incompetence, Improductivity[[?]] \\
+\hline
+$C_{action}$     & Uselessness, Competition, Conflict\\
+\hline
+\end{tabular}
+\caption{The conditions for cooperation and corresponding NCS}
+\label{NCS}
+\end{figure}
+
+\subsubsection{Perception NCS}
+
+\subsubsection{Decision NCS}
+
+\subsubsection{Action NCS}
