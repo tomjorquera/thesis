@@ -11,7 +11,7 @@ Multi-Agents Systems (MAS) are a relatively recent field which can be seen as th
 
 [[TO PUT? Several specific subfield subfields of AI have been defined, among which we can find automated problem solving, machine learning, robotics, knowledge engineering, planning, affective computing \emph{etc.}]]
 
-This "disgrace" period of the IA field was ended with the success of expert systems in the 80s. These systems aim to emulate the ability of a human being to take decisions based on expert knowledge, using inference mechanisms (via an \emph{inference engine}) and a rules database.
+This disgrace period of the IA field ended with the success of expert systems in the 80s. These systems aim to emulate the ability of a human being to take decisions based on expert knowledge, using inference mechanisms (via an \emph{inference engine}) and a rules database.
 However, even expert systems cannot avoid the complexity of modeling knowledge, and are still ultimately limited by the growth of their rules database. This concern, among others (such as privacy of informations) lead to a new field of IA named Distributed Artificial Intelligence (DAI)[[REF?]], where several expert systems collaborate to provide a collective diagnostic of a situation.
 
 In parallel to the developments of AI, another field of knowledge emerged in the beginning of the century, Cybernetics (also called System Theory), the study of self-regulating systems. Interestingly, this field had radically different origins from AI, taking root in social and natural sciences. These two disciplines had a somewhat uneasy coexistence for some times during the 50s, after which AI took the lead and cybernetics[[see on the importance of being emergent - Peter Cariani]].The field knew a revival in the 70s with the "new cybernetics", or "second-order cybernetics", which introduces the study of self-organizing systems and the notion of observer.
@@ -23,6 +23,20 @@ It is a the conjunction of these two seemingly contradictory fields that was bor
 \subsection{Principles of Multi-Agents Systems}
 
 [[Say we concentrate on Problem Solving]]
+
+Before talking about Multi-Agents Systems (MAS), we must explain the notion of \emph{agent}. Several conflicting definitions of what is an agent have been proposed. We keep here the (mostly) consensual one proposed by Wooldridge in \cite{wei1999mutiagent}:
+
+\definition{Agent}{"An \emph{agent} is a computer system that is \emph{situated} in some \emph{environment}, and that is capable of \emph{autonomous action} in this environment in order to meet its design objectives."}
+
+Based on this definition, a MAS is a system composed of several agents, interacting among each other and with their environment.
+
+The \emph{autonomy} of an agent is the fundamental characteristic which differentiates it from, for example, the concept of object. While an object is a passive entity encapsulating some data and functions, waiting to be solicited, an agent is capable of acting and reacting to changes in its environment. From this comparison it should be clear that the concept of agent is, like the concept of object, the building brick of a paradigm which can be used to model a complex reality. And indeed, agents have been used in a great variety of fields, a fact which can contribute to explaining the difficulty to produce an unified definition of the concept.
+
+In the context of this thesis, we will concentrate on the application of MAS in the specific context of problem solving. However it can be useful to bear in mind the others possibles application fields: social simulation, biological modeling, systems control, robotics \emph{etc.} and agent-oriented modeling as a programming paradigm in general.
+
+[[Agent, Environment, Interaction]]
+
+\subsection{Multi-Agents Systems for Problem Solving}
 
 \section{The Adaptive Multi-Agents Systems Theory}
 
@@ -101,7 +115,7 @@ Using this axiom, several properties has been demonstrated concerning a specific
 
 This theorem is at the core of the AMAS approach of system design. We already know that for each problem there is possibly an infinity of equivalent systems producing the same adequate functioning. Using the theorem of functional adequacy we can concentrate on designing an internal cooperative medium system, that is, designing a system were the agents cooperate among themselves and with their environment.
 
-In addition to providing us with a theoretical context, this approach gives us another interesting property: as the design of the system is focused on the local interactions of the agents, we do not need to explicitly take into account the global function of the system. This property is extremely significant. If the global function is complex, it can be extremely difficult to successfully design a system which explicitly tries to achieve the global function (top-down approach). By concentrating on the local functions of the agents, we can spread the complexity and ease the design of the system (bottom-up approach).
+In addition to providing us with a theoretical context, this approach gives us another interesting property: as the design of the system is focused on the local interactions of the agents, we do not need to explicitly take into account the global function of the system. This property is extremely significant. If the global function is complex, it can be extremely difficult to successfully design a system which explicitly tries to achieve the global function (top-down approach). By concentrating on the local functions of the agents, we can spread the complexity and ease the design of the system (bottom-up approach). [[PARLER D'EMERGENCE ? SI OUI QUAND ?]]
 
 \subsection{Cooperative Agents and Non Cooperative Situations}
 
@@ -149,5 +163,9 @@ A cooperative agent actively tries to avoid these NCS and, should this fail, to 
 
 The order of these mechanisms usually correspond to their level of disruption (\textit{i.e.}, adjusting its parameters usually has less consequences than creating and removing agents). In general, it is preferable to make the less disruptive possible adjustment. One can for example design the agents based on an escalation model, where the agents try to solve NCS first by using tuning, escalating to more a disruptive mechanism only when the previous ones failed to solve the NCS. Of course, a NCS situation being by itself disruptive, it is sometime more efficient to immediately make a more radical adjustment in order to solve the NCS more quickly. The designer will have to balance these concerns according to the specificities of the system.
 
+\subsection{The Importance of Locality}
+[[Explain how locality is important to scale to big problems and in the concept of emergence => To put in the section A Multi-Agent System for
+Optimization ??]]
+
 \subsection{ADELFE - A Method for Designing AMAS} 
-[[TODO ?]]
+[[TODO ? AND MAY ? HERE OR IN THE IMPLEMENTATION PART ?]]
