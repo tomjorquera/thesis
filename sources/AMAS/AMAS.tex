@@ -1,5 +1,7 @@
 \part{Multi-Agents Systems and AMAS Theory}
 
+[[NO CHAPTER ??]
+
 As we said at the end of the last part, providing a method able to scale to the needs of the full range of optimization problems would require to it to be capable of adapting itself to the problem at hand.
 The main theme of the SMAC team\footnote{\emph{Systèmes Multi-Agents Coopératifs} (Cooperative Multi-Agents Systems)}, in which this thesis has been realized, in the Adaptive Multi-Agent Systems (AMAS) Theory. This theory relates to the design of agent-based complex systems with self-adaptive capabilities.
 
@@ -22,8 +24,6 @@ It is a the conjunction of these two seemingly contradictory fields that was bor
 
 \subsection{Principles of Multi-Agents Systems}
 
-[[Say we concentrate on Problem Solving]]
-
 Before talking about Multi-Agents Systems (MAS), we must explain the notion of \emph{agent}. Several conflicting definitions of what is an agent have been proposed. We keep here the (mostly) consensual one proposed by Wooldridge in \cite{wei1999mutiagent}:
 
 \definition{Agent}{"An \emph{agent} is a computer system that is \emph{situated} in some \emph{environment}, and that is capable of \emph{autonomous action} in this environment in order to meet its design objectives."}
@@ -32,11 +32,47 @@ Based on this definition, a MAS is a system composed of several agents, interact
 
 The \emph{autonomy} of an agent is the fundamental characteristic which differentiates it from, for example, the concept of object. While an object is a passive entity encapsulating some data and functions, waiting to be solicited, an agent is capable of acting and reacting to changes in its environment. From this comparison it should be clear that the concept of agent is, like the concept of object, the building brick of a paradigm which can be used to model a complex reality. And indeed, agents have been used in a great variety of fields, a fact which can contribute to explaining the difficulty to produce an unified definition of the concept.
 
-In the context of this thesis, we will concentrate on the application of MAS in the specific context of problem solving. However it can be useful to bear in mind the others possibles application fields: social simulation, biological modeling, systems control, robotics \emph{etc.} and agent-oriented modeling as a programming paradigm in general.
-
 [[Agent, Environment, Interaction]]
 
-\subsection{Multi-Agents Systems for Problem Solving}
+\subsection{Multi-Agents Systems for Distributed Problem Solving}
+[[PARLER DE MASCODE]]
+
+In the context of this thesis, we will concentrate on the application of MAS in the specific context of distributed problem solving (DPS). However it can be useful to bear in mind the others possibles application fields: social simulation, biological modeling, systems control, robotics \emph{etc.} and agent-oriented modeling as a programming paradigm in general.
+
+The major part of the literature on the application of MAS to \emph{combinatorial} optimization, mainly in the context of DPS concerns Distributed Constraint Satisfaction Problems (DCSP, or DisCSP) and their extension, Distributed Constrained Optimization Problems (DCOP, or DisCOP).
+
+DCSP is a formalism to model Constraint Satisfactions Problems (CSP) using agents. A CSP is defined as a triplet <$X,D,C$> where:
+\begin{compactitem}
+\item $X = {x_1, ..., x_n}$ is the set of variables.
+\item $D = {D_1, ..., D_n}$ where $D_i$ is the definition domain of $x_i$.
+\item $C ={c_1, ..., c_m}$ the set of constraints to satisfy.
+\end{compactitem}
+
+The goal is to find an assignment to a set of variables which:
+\begin{compactitem}
+\item comply with their definition domains.
+\item satisfy a set of constraints.
+\end{compactitem}
+
+In general, CSP are NP-complete[[REF?]].
+
+Usually, the constraints of a CSP are binary. In this case, the CSP can be represented as a graph for which each vertex is a variable and each constraint an edge.
+
+[[MATH FORMULATION -> GRAPH REPRESENTATION]]
+
+Based from this graph representation the DCSP formalism model a CSP  
+
+
+In DCOP, the agents try to minimize a global cost function (or alternatively, maximize a global satisfaction) which depends on the states of a set of design variables. Each design variable of the optimization problem is associated to an agent. The agent controls the value which is assigned to the variable.
+The global cost function is divided into a set of local cost functions, representing the cost associated with the conjoint state of two specific variables.
+An agent is only aware of the cost functions which involve the variable it is responsible for.
+
+[[Put a picture of DCOP]]
+
+While some works successfully used DCOP in the context of continuous optimization\cite{stranders2009decentralised}, this formalism is not adequate to handle the full range of problems considered here. DCOP problems are supposed to be easily decomposable into several cost functions, where the cost values associated to the variables states are supposed to be known. This major assumption does not stand for complex problems (such as MDO problems for example), where the complexity of the models and their interdependencies cause this information to be unavailable in most cases. Trying to model such problems with DCOP would result in a system where most agents are related to every other agent, with unknown cost functions.
+
+[[Change this]]
+Moreover, the existing agent-based optimization techniques for DCOP often present similar shortcomings to MDO methods, in the sense that they require a strong expertise to be efficiently applied\cite{Ka2011.6}.
 
 \section{The Adaptive Multi-Agents Systems Theory}
 
@@ -161,7 +197,7 @@ A cooperative agent actively tries to avoid these NCS and, should this fail, to 
 \definition{2. Reorganization}{The agent can change its relationship with its environment (\textit{e.g.}, removing or creating new links with others agents)}
 \definition{3. Evolution}{The agent can change the nature of its environment (\textit{e.g.}, removing or creating new agents)}
 
-The order of these mechanisms usually correspond to their level of disruption (\textit{i.e.}, adjusting its parameters usually has less consequences than creating and removing agents). In general, it is preferable to make the less disruptive possible adjustment. One can for example design the agents based on an escalation model, where the agents try to solve NCS first by using tuning, escalating to more a disruptive mechanism only when the previous ones failed to solve the NCS. Of course, a NCS situation being by itself disruptive, it is sometime more efficient to immediately make a more radical adjustment in order to solve the NCS more quickly. The designer will have to balance these concerns according to the specificities of the system.
+The order of these mechanisms usually correspond to their level of disruption (\textit{i.e.}, adjusting its parameters usually has less consequences than creating and removing agents). In general, it is preferable to make the less disruptive possible adjustment. One can for example design the agents based on an escalation principle, where the agents try to solve NCS first by using tuning, escalating to a more disruptive mechanism only when the previous ones failed to solve the NCS. Of course, a NCS situation being by itself disruptive, it is sometime more efficient to immediately make a more radical adjustment in order to solve the NCS more quickly. The designer will have to balance these concerns according to the specificities of the system.
 
 \subsection{The Importance of Locality}
 [[Explain how locality is important to scale to big problems and in the concept of emergence => To put in the section A Multi-Agent System for
