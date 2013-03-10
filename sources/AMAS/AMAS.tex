@@ -29,7 +29,7 @@ It is a the conjunction of these two seemingly contradictory fields that was bor
 \subsection{Theorem of Functional Adequacy}
 
 The conception of MAS for problem solving is not an easy endeavor. Suffice to observe that most of the multi-agents systems algorithms dedicated to problem solving proposed by the scientific community are nature-inspired (ants, flocks, bees, bats etc.). Indeed, Nature had a long time to experiment on several arduous problem and a lost of subjects at hand. Why would we not take advantage of that? However, such a strategy presents a severe limitation, as it can bring us existing solutions to apply to potential problems, but ultimately cannot help us to find potential solution to some existing problems. By restricting ourself to nature-inspired mechanisms we are bound to their application field.
-The inspiration for the internal combustion engine was not found in nature, as no animal ever bothered with trying to reach for the Moon\footnote{In total honesty, it is possible that some animals tried to reach for the Moon. But it seems such behavior did not give them enough significant evolutionary advantage to be noteworthy (except of course for a specific cow in the popular nursery rhyme [[put a ref ?]]).}.
+The inspiration for the internal combustion engine was not found in nature, as no other biological organism than men ever bothered with trying to reach for the Moon\footnote{In total honesty, it is possible that some other organisms already tried to reach for the Moon. But it seems such behavior did not give them enough significant evolutionary advantage to be noteworthy (except of course for a specific cow in the popular nursery rhyme [[put a ref ?]]).}.
 
 In order to overcome this limitation, we need to rely on a more theoretical approach which would help us in the conception of MAS for which we do not know any existing applicable mechanisms. Such an approach is provided by the Adaptive Multi-Agents Systems (AMAS) theory.
 
@@ -122,7 +122,7 @@ Based on these condition, a set of \emph{Non Cooperative Situations}(NCS) has be
 \hline
 $C_{perception}$     & Incomprehension, Ambiguity     \\
 \hline
-$C_{decision}$      & Incompetence, Improductivity[[?]] \\
+$C_{decision}$      & Incompetence, Unproductiveness[[?]] \\
 \hline
 $C_{action}$     & Uselessness, Competition, Conflict\\
 \hline
@@ -130,3 +130,24 @@ $C_{action}$     & Uselessness, Competition, Conflict\\
 \caption{The conditions for cooperation and corresponding NCS}
 \label{NCS}
 \end{figure}
+
+The different NCS are:
+
+\definition{Incomprehension}{The agent is not able to extract information from a received message.}
+\definition{Ambiguity} {The exact meaning of a message cannot be determined, or lacks required informations.}
+\definition{Incompetence}{The agent does not have the capabilities to handle a received information.}
+\definition{Unproductiveness[[?]]}{A received information does not lead to any useful conclusion.}
+\definition{Conflict}{The action of the agent is incompatible with an action from its environment.}
+\definition{Competition}{The action of the agent leads to the same result than an action from its environment.}
+\definition{Uselessness}{The action of the agent has no effect on itself or its environment.}
+
+A cooperative agent actively tries to avoid these NCS and, should this fail, to solve them to the best of its capabilities. To this end, three distinct mechanisms can be used\cite{bonjean2009engineering}:
+
+\definition{1. Tuning}{The agent can change one or several of its internal parameters (\textit{e.g.}, adjusting the priorities of its behavior rules)}
+\definition{2. Reorganization}{The agent can change its relationship with its environment (\textit{e.g.}, removing or creating new links with others agents)}
+\definition{3. Evolution}{The agent can change the nature of its environment (\textit{e.g.}, removing or creating new agents)}
+
+The order of these mechanisms usually correspond to their level of disruption (\textit{i.e.}, adjusting its parameters usually has less consequences than creating and removing agents). In general, it is preferable to make the less disruptive possible adjustment. One can for example design the agents based on an escalation model, where the agents try to solve NCS first by using tuning, escalating to more a disruptive mechanism only when the previous ones failed to solve the NCS. Of course, a NCS situation being by itself disruptive, it is sometime more efficient to immediately make a more radical adjustment in order to solve the NCS more quickly. The designer will have to balance these concerns according to the specificities of the system.
+
+\subsection{ADELFE - A Method for Designing AMAS} 
+[[TODO ?]]
