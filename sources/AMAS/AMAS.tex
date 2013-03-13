@@ -48,10 +48,10 @@ DCSP is a formalism to model Constraint Satisfactions Problems (CSP) using agent
 \item $C ={c_1, ..., c_m}$ the set of constraints to satisfy.
 \end{compactitem}
 
-The goal is to find an assignment to a set of variables which:
+The goal is to find an assignment to the set of variables $X$ which:
 \begin{compactitem}
-\item comply with their definition domains.
-\item satisfy a set of constraints.
+\item comply with their definition domains $D$.
+\item satisfy the set of constraints $C$.
 \end{compactitem}
 
 In general, CSP are NP-complete[[REF?]].
@@ -60,12 +60,15 @@ Usually, the constraints of a CSP are binary. In this case, the CSP can be repre
 
 [[MATH FORMULATION -> GRAPH REPRESENTATION]]
 
-Based from this graph representation the DCSP formalism model a CSP  
+From this graph representation, the DCSP formalism\cite{yokoo1998distributed} models a CSP  as an agent graph, with each agent in charge of assigning a value to a variable based on local and shared constraints. A DCSP is described as a quadruplet <$X, D, C, A$>. $X, D$ and $C$ have the same meaning than in the CSP formalism, while $A$ is the set of agents. For each each agent in $A$ has the responsibility of a subset of $X$ and knows the constraints related to the variables in its care. The most common assumption is that each agent has the responsibility for one and only one variable.
 
+An extension of DCSP has been proposed for formalizing Distributed Constrained Optimization Problems (DCOP, or DisCOP). DCOP can be seen to DCSP as the equivalent of COP to CSP.
 
-In DCOP, the agents try to minimize a global cost function (or alternatively, maximize a global satisfaction) which depends on the states of a set of design variables. Each design variable of the optimization problem is associated to an agent. The agent controls the value which is assigned to the variable.
+In DCOP, in addition to satisfying the constraints, the agents try to minimize a global cost function (or alternatively, maximize a global satisfaction) which depends on the states of a set of design variables. Each design variable of the optimization problem is associated to an agent. The agent controls the value which is assigned to the variable.
 The global cost function is divided into a set of local cost functions, representing the cost associated with the conjoint state of two specific variables.
 An agent is only aware of the cost functions which involve the variable it is responsible for.
+
+Formally, in addition to $X, D, C$ and $A$, DCOP adds the global objective-function $F(X) = \sum_{x_i, x_j \in X} f_{ij}(x_i,x_j)$ where $f_{ij}$ is a local cost function associated with the states of $x_i$ and $x_j$.
 
 [[Put a picture of DCOP]]
 
