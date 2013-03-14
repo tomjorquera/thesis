@@ -35,9 +35,10 @@ The \emph{autonomy} of an agent is the fundamental characteristic which differen
 [[Agent, Environment, Interaction]]
 
 \subsection{Multi-Agents Systems for Distributed Problem Solving}
-[[PARLER DE MASCODE]]
 
 In the context of this thesis, we will concentrate on the application of MAS in the specific context of distributed problem solving (DPS). However it can be useful to bear in mind the others possibles application fields: social simulation, biological modeling, systems control, robotics \emph{etc.} and agent-oriented modeling as a programming paradigm in general.
+
+\subsubsection{Multi-Agents Systems for Combinatorial Optimization}
 
 The major part of the literature on the application of MAS to \emph{combinatorial} optimization, mainly in the context of DPS concerns Distributed Constraint Satisfaction Problems (DCSP, or DisCSP) and their extension, Distributed Constrained Optimization Problems (DCOP, or DisCOP).
 
@@ -62,20 +63,32 @@ Usually, the constraints of a CSP are binary. In this case, the CSP can be repre
 
 From this graph representation, the DCSP formalism\cite{yokoo1998distributed} models a CSP  as an agent graph, with each agent in charge of assigning a value to a variable based on local and shared constraints. A DCSP is described as a quadruplet <$X, D, C, A$>. $X, D$ and $C$ have the same meaning than in the CSP formalism, while $A$ is the set of agents. For each each agent in $A$ has the responsibility of a subset of $X$ and knows the constraints related to the variables in its care. The most common assumption is that each agent has the responsibility for one and only one variable.
 
-An extension of DCSP has been proposed for formalizing Distributed Constrained Optimization Problems (DCOP, or DisCOP). DCOP can be seen to DCSP as the equivalent of COP to CSP.
+An extension of DCSP has been proposed for formalizing Distributed Constrained Optimization Problems (DCOP, or DisCOP). DCOP is to COP the equivalent of DCSP to CSP. While a DCOP is described in the same way than a DCSP, the semantic and goal are different.
+In DCOP, the constraints in $C$ represent a decomposition of a global cost function, which the agents try to minimize (or alternatively, maximize). Each constraint is now seen as a local cost function giving the cost associated with each state of two variables (in the context of DCOP, the term \emph{constraint} is sometimes replaced by the terms \emph{cost function} or \emph{soft constraint}). Formally, DCOP consider the global objective-function $F(X) = \sum_{x_i, x_j \in X} c_{ij}(x_i,x_j)$ where $c_{ij}$ is a local cost function associated with the states of $x_i$ and $x_j$.
 
-In DCOP, in addition to satisfying the constraints, the agents try to minimize a global cost function (or alternatively, maximize a global satisfaction) which depends on the states of a set of design variables. Each design variable of the optimization problem is associated to an agent. The agent controls the value which is assigned to the variable.
-The global cost function is divided into a set of local cost functions, representing the cost associated with the conjoint state of two specific variables.
-An agent is only aware of the cost functions which involve the variable it is responsible for.
-
-Formally, in addition to $X, D, C$ and $A$, DCOP adds the global objective-function $F(X) = \sum_{x_i, x_j \in X} f_{ij}(x_i,x_j)$ where $f_{ij}$ is a local cost function associated with the states of $x_i$ and $x_j$.
+A notable use of DCOP is unsolvable CSP, that is, problems where there is no solution which satisfy all the constraints. In these cases the problem can be changed into a DCOP with the new objective to minimize the number of violated constraints.
 
 [[Put a picture of DCOP]]
+
+In the context of this framework, several techniques have been proposed. One of the most successful to date is the Asynchronous Distributed Optimization Algorithm (ADOPT)[[REF]]. In order to work, ADOPT needs to reformulate the problem by introducing a total ordering on the agents. This ordering allows to create a tree representation of the problem, where each agent has a single parent and multiple children. The algorithm in itself is articulated on two main ideas:
+\begin{compactitem}
+\item each agent asynchronously changes states when it perceives a possible better solution.
+\item the agents can backtrack to previously explored solutions, but only if this current state is worse than a specific \emph{backtrack threshold} determined by its parent agent.
+\end{compactitem}
+
+Another weel-known algorithm is Optimal Asynchronous Partial Overlay (OptAPO)[[REF]]. 
+
+ One of the earliest is Asynchronous Backtracking (ABT)[[REF: M. Yokoo. Distributed Constraint Satisfaction:Foundation of Cooperation in Multi-agent Systems. Springer, 2001.]], while the original algorithm was initially proposed for solving CSP, it has been extended to deal with optimization concerns [[REF: K. Hirayama and M. Yokoo. An approach to over-constrain ed distributed constraint satisfaction problems: Distributed hierarchical constraint satisfaction. In Proceedings of International Conference on Multiagent Systems, 2000.]]. ABT creates a total ordering on the agents and models the relations between 
 
 While some works successfully used DCOP in the context of continuous optimization\cite{stranders2009decentralised}, this formalism is not adequate to handle the full range of problems considered here. DCOP problems are supposed to be easily decomposable into several cost functions, where the cost values associated to the variables states are supposed to be known. This major assumption does not stand for complex problems (such as MDO problems for example), where the complexity of the models and their interdependencies cause this information to be unavailable in most cases. Trying to model such problems with DCOP would result in a system where most agents are related to every other agent, with unknown cost functions.
 
 [[Change this]]
 Moreover, the existing agent-based optimization techniques for DCOP often present similar shortcomings to MDO methods, in the sense that they require a strong expertise to be efficiently applied\cite{Ka2011.6}.
+
+\subsubsection{Multi-Agents Systems for Continuous Optimization}
+
+[[PARLER DE MASCODE]]
+[[Signaler PSO ?]]
 
 \section{The Adaptive Multi-Agents Systems Theory}
 
