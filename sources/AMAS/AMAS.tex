@@ -165,7 +165,7 @@ Using this axiom, several properties has been demonstrated concerning a specific
 \label{internal_cooperative_comp}
 \end{figure}
 
-This theorem is at the core of the AMAS approach of system design. We already know that for each problem there is possibly an infinity of equivalent systems producing the same adequate functioning. Using the theorem of functional adequacy we can concentrate on designing an internal cooperative medium system, that is, designing a system were the agents cooperate among themselves and with their environment.
+This theorem is at the core of the AMAS approach of system design. We already know that for each problem there is possibly an infinity of equivalent systems producing the same adequate functioning. Using the theorem of functional adequacy we can concentrate on designing an internal cooperative medium system, that is, designing a system were the agents cooperate among themselves and with their environment. The goal of a designer using this approach is thus to study the nature of the interactions between the entities of the problem domain, and to see how the non-cooperatives situations could be corrected in order to obtain an internal cooperative medium system.
 
 In addition to providing us with a theoretical context, this approach gives us another interesting property: as the design of the system is focused on the local interactions of the agents, we do not need to explicitly take into account the global function of the system. This property is extremely significant. If the global function is complex, it can be extremely difficult to successfully design a system which explicitly tries to achieve the global function (top-down approach). By concentrating on the local functions of the agents, we can spread the complexity and ease the design of the system (bottom-up approach). [[PARLER D'EMERGENCE ? SI OUI QUAND ?]]
 
@@ -216,8 +216,21 @@ A cooperative agent actively tries to avoid these NCS and, should this fail, to 
 The order of these mechanisms usually correspond to their level of disruption (\textit{i.e.}, adjusting its parameters usually has less consequences than creating and removing agents). In general, it is preferable to make the less disruptive possible adjustment. One can for example design the agents based on an escalation principle, where the agents try to solve NCS first by using tuning, escalating to a more disruptive mechanism only when the previous ones failed to solve the NCS. Of course, a NCS situation being by itself disruptive, it is sometime more efficient to immediately make a more radical adjustment in order to solve the NCS more quickly. The designer will have to balance these concerns according to the specificities of the system.
 
 \subsection{The Importance of Locality}
-[[Explain how locality is important to scale to big problems and in the concept of emergence => To put in the section A Multi-Agent System for
-Optimization ??]]
+[[Explain how locality is important to scale to big problems and in the concept of emergence => To put in the section A Multi-Agent System for Optimization ??]]
 
 \subsection{ADELFE - A Method for Designing AMAS} 
 [[TODO ? AND MAY ? HERE OR IN THE IMPLEMENTATION PART ?]]
+
+\subsection{Conclusion on the Adaptive Multi-Agents Systems Theory}
+
+We presented here the AMAS theory. This theory proposes 
+
+An interesting aspect of this theory  is that it provides a guidance to build a multi-agent system based on the problem to solve. Classical solving methods often use a very rigid formalism which needs to be followed. For example, genetic algorithms are a very powerful technique, but they require the problem to fit the genetic representation/fitness function model. To use these kinds of methods, one would now be presented to a whole new problem: "how to express my problem to fit the solution I want to employ ?"
+
+[[These methods can be said to be "solutions looking for problems"]]
+
+While a non-negligible part of real-world problems are more or less straightforwardly translated in such formalisms, there is still a whole range of problems for which this translation is not so easy. This can be either because no method adequate enough for the domain was proposed, or because there is no consensual representation of the domain. For these problems, the AMAS theory can provides an interesting asset as the design of the MAS is based on the problem domain. The solution is adapted to the problem, instead of requiring the problem to be adapted to the solution.
+
+We can say that, while the AMAS approach can be applied to any kind of problem, it seems to be especially adequate when trying to solve problems which are still in an exploratory phase, where no "clear-cut" solution exists.
+
+
