@@ -32,7 +32,13 @@ Based on this definition, a MAS is a system composed of several agents, interact
 
 The \emph{autonomy} of an agent is the fundamental characteristic which differentiates it from, for example, the concept of object. While an object is a passive entity encapsulating some data and functions, waiting to be solicited, an agent is capable of acting and reacting to changes in its environment. From this comparison it should be clear that the concept of agent is, like the concept of object, the building brick of a paradigm which can be used to model a complex reality. And indeed, agents have been used in a great variety of fields, a fact which can contribute to explaining the difficulty to produce an unified definition of the concept.
 
-[[Agent, Environment, Interaction]]
+\subsection{Self-* capabilities}
+
+While it is not true for all MAS, some interesting properties can be achieved when taking advantage of the autonomy of the agents. This autonomy, coupled with an adequate behavior of the agents, can lead to systems which are able to adjust, organize, react to changes \emph{etc.} without the need for an external authority to guide them. These properties are regrouped under the term self-* capabilities (self-\emph{tuning}, self-\emph{organizing}, self-\emph{steering} ...).
+
+Not all MAS necessarily present all of these self-* capabilities, but, as a result of building a system from autonomous and locally situated agents, many MAS will exhibit them to some degree. Consequently, MAS are often very good at dynamically taking in account changes into their environment. For example, a multi-agent system in charge of regulating the traffic of packets in a network could be able to react efficiently to the disappearance of some of the relay nodes.
+
+
 
 \subsection{Multi-Agents Systems for Distributed Problem Solving}
 
@@ -59,16 +65,41 @@ In general, CSP are NP-complete[[REF?]].
 
 Usually, the constraints of a CSP are binary. In this case, the CSP can be represented as a graph for which each vertex is a variable and each constraint an edge.
 
-[[MATH FORMULATION -> GRAPH REPRESENTATION]]
+\begin{figure}[]
+\centering
+\subfloat[mathematical formulation.]{\begin{minipage}{0.4\textwidth}
+%		\begin{tabular}{|c|c|}
+%	\hline
+%	\textbf{Violated condition}	& \textbf{Corresponding NCS} \\
+%	\hline
+%	$C_{perception}$     & Incomprehension, Ambiguity     \\
+%	\hline
+%	$C_{decision}$      & Incompetence, Unproductiveness[[?]] \\
+%	\hline
+%	$C_{action}$     & Uselessness, Competition, Conflict\\
+%	\hline
+%	\end{tabular}
+%	\label{dcsp:math}
+\end{minipage}}\hfill%
+\subfloat[{corresponding agent graph.}]{\begin{minipage}{0.6\textwidth}%
+		\centering
+		\label{dcsp:graph}
+		%\includegraphics[width=\textwidth]{testcases-Turbofan-annoted}
+\end{minipage}}
+
+\caption{DCSP representation.}
+\label{dcsp}
+
+\end{figure}
 
 From this graph representation, the DCSP formalism\cite{yokoo1998distributed} models a CSP  as an agent graph, with each agent in charge of assigning a value to a variable based on local and shared constraints. A DCSP is described as a quadruplet <$X, D, C, A$>. $X, D$ and $C$ have the same meaning than in the CSP formalism, while $A$ is the set of agents. For each each agent in $A$ has the responsibility of a subset of $X$ and knows the constraints related to the variables in its care. The most common assumption is that each agent has the responsibility for one and only one variable.
+
+One classical example of DCSP solver is Asynchronous Backtracking (ABT)[[REF: M. Yokoo. Distributed Constraint Satisfaction: Foundation of Cooperation in Multi-agent Systems. Springer, 2001.]]. ABT creates a total ordering on the agents and models the relations between agents as directed links, in order to make the network cycle-free. In ABT agents exchange \emph{nogoods}, which are conditional constraints (the constraint is valid as long as some other agents do not change states). When an agent detects a no-good, it checks if it can change its state in order to solve it. If it is possible it does so and informs the agents it is linked to. Else it propagate it to the lowest priority agent its known (based on the ordering) involved in the no-good, creating new links if necessary.
 
 An extension of DCSP has been proposed for formalizing Distributed Constrained Optimization Problems (DCOP, or DisCOP). DCOP is to COP the equivalent of DCSP to CSP. While a DCOP is described in the same way than a DCSP, the semantic and goal are different.
 In DCOP, the constraints in $C$ represent a decomposition of a global cost function, which the agents try to minimize (or alternatively, maximize). Each constraint is now seen as a local cost function giving the cost associated with each state of two variables (in the context of DCOP, the term \emph{constraint} is sometimes replaced by the terms \emph{cost function} or \emph{soft constraint}). Formally, DCOP consider the global objective-function $F(X) = \sum_{x_i, x_j \in X} c_{ij}(x_i,x_j)$ where $c_{ij}$ is a local cost function associated with the states of $x_i$ and $x_j$.
 
 A notable use of DCOP is unsolvable CSP, that is, problems where there is no solution which satisfy all the constraints. In these cases the problem can be changed into a DCOP with the new objective to minimize the number of violated constraints.
-
-[[Put a picture of DCOP]]
 
 In the context of this framework, several techniques have been proposed. One of the most successful to date is the Asynchronous Distributed Optimization Algorithm (ADOPT)[[REF]]. In order to work, ADOPT needs to reformulate the problem by introducing a total ordering on the agents. This ordering allows to create a tree representation of the problem, where each agent has a single parent and multiple children. The algorithm in itself is articulated on two main ideas:
 \begin{compactitem}
@@ -76,9 +107,7 @@ In the context of this framework, several techniques have been proposed. One of 
 \item the agents can backtrack to previously explored solutions, but only if this current state is worse than a specific \emph{backtrack threshold} determined by its parent agent.
 \end{compactitem}
 
-Another weel-known algorithm is Optimal Asynchronous Partial Overlay (OptAPO)[[REF]]. 
-
- One of the earliest is Asynchronous Backtracking (ABT)[[REF: M. Yokoo. Distributed Constraint Satisfaction:Foundation of Cooperation in Multi-agent Systems. Springer, 2001.]], while the original algorithm was initially proposed for solving CSP, it has been extended to deal with optimization concerns [[REF: K. Hirayama and M. Yokoo. An approach to over-constrain ed distributed constraint satisfaction problems: Distributed hierarchical constraint satisfaction. In Proceedings of International Conference on Multiagent Systems, 2000.]]. ABT creates a total ordering on the agents and models the relations between 
+Another well-known algorithm is Optimal Asynchronous Partial Overlay (OptAPO)[[REF]]. this algorithm is an adaptation of Asynchronous Partial Overlay (APO), which was proposed for solving DCSP. OptAPO, as APO, is based on the principle of \emph{Cooperative Mediation}, where the agents try to identify parts of the problems which can be solved in a centralized way (using centralized solvers such as Branch-and-Bound). During solving, some of the agents take the role of mediator during \emph{mediator sessions}, where they compute a solution to a part of the whole problem and propose solution to the others agents involved into the mediation.
 
 While some works successfully used DCOP in the context of continuous optimization\cite{stranders2009decentralised}, this formalism is not adequate to handle the full range of problems considered here. DCOP problems are supposed to be easily decomposable into several cost functions, where the cost values associated to the variables states are supposed to be known. This major assumption does not stand for complex problems (such as MDO problems for example), where the complexity of the models and their interdependencies cause this information to be unavailable in most cases. Trying to model such problems with DCOP would result in a system where most agents are related to every other agent, with unknown cost functions.
 
@@ -223,7 +252,7 @@ The order of these mechanisms usually correspond to their level of disruption (\
 
 \subsection{Conclusion on the Adaptive Multi-Agents Systems Theory}
 
-We presented here the AMAS theory. This theory proposes 
+We presented here the AMAS theory. This theory presents a way to models systems by their interactions with their environment and identify the special category of internal cooperative medium systems.
 
 An interesting aspect of this theory  is that it provides a guidance to build a multi-agent system based on the problem to solve. Classical solving methods often use a very rigid formalism which needs to be followed. For example, genetic algorithms are a very powerful technique, but they require the problem to fit the genetic representation/fitness function model. To use these kinds of methods, one would now be presented to a whole new problem: "how to express my problem to fit the solution I want to employ ?"
 
