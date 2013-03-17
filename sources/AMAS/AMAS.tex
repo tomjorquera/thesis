@@ -38,8 +38,6 @@ While it is not true for all MAS, some interesting properties can be achieved wh
 
 Not all MAS necessarily present all of these self-* capabilities, but, as a result of building a system from autonomous and locally situated agents, many MAS will exhibit them to some degree. Consequently, MAS are often very good at dynamically taking in account changes into their environment. For example, a multi-agent system in charge of regulating the traffic of packets in a network could be able to react efficiently to the disappearance of some of the relay nodes.
 
-
-
 \subsection{Multi-Agents Systems for Distributed Problem Solving}
 
 In the context of this thesis, we will concentrate on the application of MAS in the specific context of distributed problem solving (DPS). However it can be useful to bear in mind the others possibles application fields: social simulation, biological modeling, systems control, robotics \emph{etc.} and agent-oriented modeling as a programming paradigm in general.
@@ -67,41 +65,71 @@ Usually, the constraints of a CSP are binary. In this case, the CSP can be repre
 
 \begin{figure}[]
 \centering
-\subfloat[mathematical formulation.]{\begin{minipage}{0.4\textwidth}
-%		\begin{tabular}{|c|c|}
-%	\hline
-%	\textbf{Violated condition}	& \textbf{Corresponding NCS} \\
-%	\hline
-%	$C_{perception}$     & Incomprehension, Ambiguity     \\
-%	\hline
-%	$C_{decision}$      & Incompetence, Unproductiveness[[?]] \\
-%	\hline
-%	$C_{action}$     & Uselessness, Competition, Conflict\\
-%	\hline
-%	\end{tabular}
-%	\label{dcsp:math}
-\end{minipage}}\hfill%
-\subfloat[{corresponding agent graph.}]{\begin{minipage}{0.6\textwidth}%
+\subfloat[formal definition.]{\begin{minipage}{0.5\textwidth}
+
+	\begin{align*}
+		X &= {x1, x2, x3}\\
+		D &= \{\{0,1\}, \{1,2\}, \{0,1,2\}\}\\
+		C &= \{(x1 \neq x3), (x2 \neq x3)\}
+	\end{align*}
+\end{minipage}}
+\hfill
+\subfloat[{corresponding agent graph.}]{\begin{minipage}{0.5\textwidth}%
 		\centering
 		\label{dcsp:graph}
-		%\includegraphics[width=\textwidth]{testcases-Turbofan-annoted}
+		\includegraphics[width=0.7\textwidth]{DCSP}
 \end{minipage}}
 
-\caption{DCSP representation.}
+\caption{An example of DCSP representation.}
 \label{dcsp}
 
 \end{figure}
 
-From this graph representation, the DCSP formalism\cite{yokoo1998distributed} models a CSP  as an agent graph, with each agent in charge of assigning a value to a variable based on local and shared constraints. A DCSP is described as a quadruplet <$X, D, C, A$>. $X, D$ and $C$ have the same meaning than in the CSP formalism, while $A$ is the set of agents. For each each agent in $A$ has the responsibility of a subset of $X$ and knows the constraints related to the variables in its care. The most common assumption is that each agent has the responsibility for one and only one variable.
+From this graph representation, the DCSP formalism\cite{yokoo1998distributed} models a CSP  as an agent graph, with each agent in charge of assigning a value to a variable based on local and shared constraints. A DCSP is described as a quadruplet <$X, D, C, A$>. $X, D$ and $C$ have the same meaning than in the CSP formalism, while $A$ is the set of agents. For each each agent in $A$ has the responsibility of a subset of $X$ and knows the constraints related to the variables in its care. The most common assumption is that each agent has the responsibility for one and only one variable. See \figurename{} \ref{dcsp} for an illustration of the graph transformation of a DCSP.
 
 One classical example of DCSP solver is Asynchronous Backtracking (ABT)[[REF: M. Yokoo. Distributed Constraint Satisfaction: Foundation of Cooperation in Multi-agent Systems. Springer, 2001.]]. ABT creates a total ordering on the agents and models the relations between agents as directed links, in order to make the network cycle-free. In ABT agents exchange \emph{nogoods}, which are conditional constraints (the constraint is valid as long as some other agents do not change states). When an agent detects a no-good, it checks if it can change its state in order to solve it. If it is possible it does so and informs the agents it is linked to. Else it propagate it to the lowest priority agent its known (based on the ordering) involved in the no-good, creating new links if necessary.
 
 An extension of DCSP has been proposed for formalizing Distributed Constrained Optimization Problems (DCOP, or DisCOP). DCOP is to COP the equivalent of DCSP to CSP. While a DCOP is described in the same way than a DCSP, the semantic and goal are different.
 In DCOP, the constraints in $C$ represent a decomposition of a global cost function, which the agents try to minimize (or alternatively, maximize). Each constraint is now seen as a local cost function giving the cost associated with each state of two variables (in the context of DCOP, the term \emph{constraint} is sometimes replaced by the terms \emph{cost function} or \emph{soft constraint}). Formally, DCOP consider the global objective-function $F(X) = \sum_{x_i, x_j \in X} c_{ij}(x_i,x_j)$ where $c_{ij}$ is a local cost function associated with the states of $x_i$ and $x_j$.
 
-A notable use of DCOP is unsolvable CSP, that is, problems where there is no solution which satisfy all the constraints. In these cases the problem can be changed into a DCOP with the new objective to minimize the number of violated constraints.
+A classical use of DCOP is unsolvable CSP, that is, problems where there is no solution which satisfy all the constraints. In these cases the problem can be changed into a DCOP with the new objective to minimize the number of violated constraints. If we wanted to transform problem shown in \figurename{} \ref{dcsp} (ignoring the fact that this DCSP is in itself solvable), we could replace the constraints in $C$ by the function $c_{13}$ and $c_{23}$ defined as follow:
 
-In the context of this framework, several techniques have been proposed. One of the most successful to date is the Asynchronous Distributed Optimization Algorithm (ADOPT)[[REF]]. In order to work, ADOPT needs to reformulate the problem by introducing a total ordering on the agents. This ordering allows to create a tree representation of the problem, where each agent has a single parent and multiple children. The algorithm in itself is articulated on two main ideas:
+\begin{center}
+\begin{tabular}{ccc}
+\textbf{$x_1$}	& \textbf{$x_3$} & \textbf{$c_{13}(x_1,x_3)$}\\
+\hline
+0   & 0	& 1\\
+\hline
+1   & 0	& 0\\
+\hline
+0   & 1	& 0\\
+\hline
+1   & 1	& 1\\
+\hline
+0   & 2	& 0\\
+\hline
+1   & 2	& 0\\
+\end{tabular}
+\quad
+\begin{tabular}{ccc}
+\textbf{$x_2$}	& \textbf{$x_3$} & \textbf{$c_{23}(x_2,x_3)$}\\
+\hline
+1   & 0	& 0\\
+\hline
+2   & 0	& 0\\
+\hline
+1   & 1	& 1\\
+\hline
+2   & 1	& 0\\
+\hline
+1   & 2	& 0\\
+\hline
+2   & 2	& 1\\
+\end{tabular}
+\end{center}
+
+In the context of this framework, many techniques have been proposed. One of leading algorithms to date is the Asynchronous Distributed Optimization Algorithm (ADOPT)[[REF]].In order to work, ADOPT needs to reformulate the problem by introducing a total ordering on the agents. This ordering allows to create a tree representation of the problem, where each agent has a single parent and multiple children. The algorithm in itself is articulated on two main ideas:
+
 \begin{compactitem}
 \item each agent asynchronously changes states when it perceives a possible better solution.
 \item the agents can backtrack to previously explored solutions, but only if this current state is worse than a specific \emph{backtrack threshold} determined by its parent agent.
@@ -109,22 +137,23 @@ In the context of this framework, several techniques have been proposed. One of 
 
 Another well-known algorithm is Optimal Asynchronous Partial Overlay (OptAPO)[[REF]]. this algorithm is an adaptation of Asynchronous Partial Overlay (APO), which was proposed for solving DCSP. OptAPO, as APO, is based on the principle of \emph{Cooperative Mediation}, where the agents try to identify parts of the problems which can be solved in a centralized way (using centralized solvers such as Branch-and-Bound). During solving, some of the agents take the role of mediator during \emph{mediator sessions}, where they compute a solution to a part of the whole problem and propose solution to the others agents involved into the mediation.
 
-While some works successfully used DCOP in the context of continuous optimization\cite{stranders2009decentralised}, this formalism is not adequate to handle the full range of problems considered here. DCOP problems are supposed to be easily decomposable into several cost functions, where the cost values associated to the variables states are supposed to be known. This major assumption does not stand for complex problems (such as MDO problems for example), where the complexity of the models and their interdependencies cause this information to be unavailable in most cases. Trying to model such problems with DCOP would result in a system where most agents are related to every other agent, with unknown cost functions.
-
-[[Change this]]
-Moreover, the existing agent-based optimization techniques for DCOP often present similar shortcomings to MDO methods, in the sense that they require a strong expertise to be efficiently applied\cite{Ka2011.6}.
+The DCOP formalism is very popular in its own right as it allows a clear framework on how to represent this type combinatorial problems without putting too much restriction on how the problem  is solved. The exact information shared by the agents, and the way they communicate among themselves is not constrained. However this formalism is not without limitations.\\
+While some works successfully used DCOP in the context of continuous optimization\cite{stranders2009decentralised}, this formalism is not adequate to handle the full range of problems we would like to consider here. DCOP was conceived for a specific type of problems where the difficulty resides in the combination of multiple constraints. These problems are supposed to be easily decomposable into several cost functions, where the cost values associated to the variables states are supposed to be known. This major assumption does not stand for complex continuous optimization problems (such as MDO problems for example), where the complexity of the models and their interdependencies cause this information to be unavailable in most cases. Modeling such problems with DCOP would be impossible in most case, as most agents would potentially be related to every other agent and the cost functions would be unknown.\\
+One a side note, it is interesting to notice how many methods requires non-trivial changes to topology of the agent graph to apply (acyclic graph, tree structure ...), both in the context of DCSP and DCOP. These changes can potentially be extensive operations in themselves, and must be applied carefully lest the relevance of the result be compromised. Consequently, existing agent-based optimization techniques for DCOP can require a strong expertise to be efficiently applied\cite{Ka2011.6}.
 
 \subsubsection{Multi-Agents Systems for Continuous Optimization}
 
-[[PARLER DE MASCODE]]
+While MAS are a very popular approach for solving combinatorial optimization problems, their application to continuous optimization problems is scarce at best. One could explain this discrepancy by the fact that continuous optimization problems are in general more difficult to decompose than combinatorial ones.\\
+One notable work on this subject is the MASCODE algorithm[[REF?]], which concentrates on MOO and MDO problems.
+
 [[Signaler PSO ?]]
 
 \section{The Adaptive Multi-Agents Systems Theory}
 
 \subsection{Theorem of Functional Adequacy}
 
-The conception of MAS for problem solving is not an easy endeavor. Suffice to observe that most of the multi-agents systems algorithms dedicated to problem solving proposed by the scientific community are nature-inspired (ants, flocks, bees, bats etc.). Indeed, Nature had a long time to experiment on several arduous problem and a lost of subjects at hand. Why would we not take advantage of that? However, such a strategy presents a severe limitation, as it can bring us existing solutions to apply to potential problems, but ultimately cannot help us to find potential solution to some existing problems. By restricting ourself to nature-inspired mechanisms we are bound to their application field.
-The inspiration for the internal combustion engine was not found in nature, as no other biological organism than men ever bothered with trying to reach for the Moon\footnote{In total honesty, it is possible that some other organisms already tried to reach for the Moon. But it seems such behavior did not give them enough significant evolutionary advantage to be noteworthy (except of course for a specific cow in the popular nursery rhyme [[put a ref ?]]).}.
+The conception of MAS for problem solving is not an easy endeavor. Suffice to observe that most of the multi-agents systems algorithms dedicated to problem solving proposed by the scientific community are nature-inspired (ants, flocks, bees, bats etc.). Indeed, Nature had a long time to experiment on several arduous problem and a lost of subjects at hand. Why would we not take advantage of that? However, such a strategy presents a severe limitation, as it can bring us existing solutions to apply to potential problems, but ultimately cannot help us to find potential solution to some existing problems. By restricting ourself to nature-inspired mechanisms we are bound to their application field.\\
+The inspiration for things such as the internal combustion engine was not found in nature, since no other biological organism than men ever bothered with something in appearance so foolish as trying to reach for the Moon\footnote{In total honesty, it is possible that some other organisms already tried to reach for the Moon. But it seems such behavior did not give them enough significant evolutionary advantage to be noteworthy (except of course for a specific cow in the popular nursery rhyme [[put a ref ?]]).}.
 
 In order to overcome this limitation, we need to rely on a more theoretical approach which would help us in the conception of MAS for which we do not know any existing applicable mechanisms. Such an approach is provided by the Adaptive Multi-Agents Systems (AMAS) theory.
 
