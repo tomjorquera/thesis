@@ -254,6 +254,9 @@ An inform message carry a new value $v$. The exact semantic of this information 
 
 In practice this distinction is not fundamentally important to understand the functioning of the system.
 
+As stated in section \ref{modeling}, models, constraints and objectives involve a specific calculation operation. For example the constraint $x -y \geq 0$ implies the very basic calculation $x - y$. We regroup these operations under the term \emph{internal models}. As we said, no specific hypothesis is done concerning the nature of an internal model and, more importantly, no distinction is done regarding the internal model used by a model agent and the one used by an objective or a constraint agent.\\
+While in some cases specific informations can be known regarding the nature of an internal model, in the most general case these internal models can be seen as black boxes and are handled as such by the agents.
+
 \subsection{Variable Agent}
 
 Regarding problem simulation, the role of the variable agent is to ensure that the agents to which it is connected know its current value.
@@ -264,14 +267,14 @@ A variable agent has to send new Inform messages when:
 \item the designer changed its value
 \end{compactitem}
 
-The behavior of the variable agent is resumed in algorithm \ref{algo_simulating_variable}.
+The behavior of the variable agent is summarized in algorithm \ref{algo_simulating_variable}.
 
 \begin{algorithm}
-\caption{Problem Simulation -Variable Agent Behavior}
+\caption{Problem Simulation - Variable Agent Behavior}
 \label{algo_simulating_variable}
 \begin{algorithmic}
-	$C \leftarrow$ previously connected output agents\;
-	$C'\leftarrow$  newly connected output agents\;
+	$C \leftarrow$ previously connected agents\;
+	$C'\leftarrow$  newly connected agents\;
 		
 	$v \leftarrow$ previous value\;
 	$v'\leftarrow$ new value\;
@@ -289,7 +292,7 @@ The behavior of the variable agent is resumed in algorithm \ref{algo_simulating_
 		\ForEach{agent $a \in C'$}{
 			send($a$, new Inform($v$))\;
 		}
-		$C \leftarrow C + C'$\tcp{memorize new outputs agents}
+		$C \leftarrow C + C'$\tcp{memorize new connected agents}
 	}
 	
 \end{algorithmic}
@@ -303,10 +306,10 @@ All outputs of a model agent are not necessary associated with an ouput agent. F
 
 However, as the problem is dynamic, the designer can decide at any time to connect a new output agent to a previously unconnected output. In this case, the model agent must send to the output agent the last value it calculated for this output.
 
-The behavior of the variable agent is resumed in algorithm \ref{algo_simulating_model}.
+The behavior of the variable agent is summarized in algorithm \ref{algo_simulating_model}.
 
 \begin{algorithm}
-\caption{Problem Simulation -Variable Agent Behavior}
+\caption{Problem Simulation - Model Agent Behavior}
 \label{algo_simulating_model}
 \begin{algorithmic}
 	$C \leftarrow$ previously connected output agents\;
@@ -316,7 +319,7 @@ The behavior of the variable agent is resumed in algorithm \ref{algo_simulating_
 			
 	\If{$\{v_i\} \neq \emptyset$}{
 		$\{v_o\} \leftarrow$ previous output values\;
-		$\{v'_o\}\leftarrow Model(\{v_i\})$\tcp{use internal model to recalculate outputs}
+		$\{v'_o\}\leftarrow Internal\_Model(\{v_i\})$\tcp{use internal model to recalculate outputs}
 		\ForEach{agent $o \in C$}{
 			\tcp{inform output agents of their new value}
 			send($o$, new Inform($v'_o$))\;
@@ -336,11 +339,104 @@ The behavior of the variable agent is resumed in algorithm \ref{algo_simulating_
 
 \subsection{Output Agent}
 
+For the problem simulation, the output agent has a very similar role to the variable agent. It too tries to ensure that the agents to which it is connected know its current value. It has to change new Inform messages when:
+\begin{compactitem}
+\item new agents are connected to it
+\item it receives an Inform message from its model agent, indicating it its new value
+\end{compactitem}
+
+Unlike the variable agent, the output agent value should not be directly changed by the designer, as it represents a non-free variable.
+
+The behavior of the output agent is summarized in algorithm \ref{algo_simulating_output}.
+
+\begin{algorithm}
+\caption{Problem Simulation - Output Agent Behavior}
+\label{algo_simulating_output}
+\begin{algorithmic}
+	$C \leftarrow$ previously connected agents\;
+	$C'\leftarrow$  newly connected agents\;
+		
+	$v \leftarrow$ previous value\;
+	$v'\leftarrow$ new value\;
+	
+	\tcp{notify contacts of value change}
+	\If{$v \neq v'$}{
+		$v \leftarrow v'$\;
+		\ForEach{agent $a \in C$}{
+			send($a$, new Inform($v$))\;
+		}
+	}
+	
+	\tcp{send its value to new contacts}
+	\If{$C' \neq \emptyset$}{
+		\ForEach{agent $a \in C'$}{
+			send($a$, new Inform($v$))\;
+		}
+		$C \leftarrow C + C'$\tcp{memorize new connected agents}
+	}
+	
+\end{algorithmic}
+\end{algorithm}
+
+At runtime the designer can interact with the MAS. Among the possible interactions, the designer can remove the model calculating an output. In this case the output agent would become a variable agent and change its behavior accordingly. The inverse transformation is also possible, a variable agent could suddenly be "plugged" in output of a model and would become an output agent.
+
 \subsection{Constraint/Objective Agent}
+
+In regard to problem simulation, constraint and objectives agents sole role is to update their value based on the Inform they receive from their inputs.
+
+Their behavior is summarized in algorithm \ref{algo_simulating_criterion}.
+
+\begin{algorithm}
+\caption{Problem Simulation - Constraint/objective Agent Behavior}
+\label{algo_simulating_criterion}
+\begin{algorithmic}
+	$\{v_i\} \leftarrow$ new input values\;
+			
+	\If{$\{v_i\} \neq \emptyset$}{
+		$\{v'_o\}\leftarrow Internal\_Model(\{v_i\})$\tcp{use internal model to recalculate outputs}
+	}
+\end{algorithmic}
+\end{algorithm}
 
 \section{Collective Solving}\label{collective_solv}
 
 During solving, the criteria agents try to improve their local goal. That is, the constraints agents try to keep their constraint satisfied, while the objective agents try to improve their objective. To this end they send \emph{Request} messages to the agents controlling their inputs, asking them to change value. The others agents have to propagate these requests toward the variable agents in the most adequate way.
+
+However a specific difficulty arises. As explained in the previous section, model, constraint and objective agents manipulate the underlying equations (or algorithms, or responses surfaces \emph{etc.}) of the problem through internal models, which are in most cases black boxes. In this case, how can constraint agents know which values to ask to satisfy their constraint, how can objective agents know which values improve their objective, how can model agents know which values for their outputs could produce the values required by their outputs?\\
+For the internal models agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer is very simple: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by a classical optimization method . As the agents manipulate black boxes, it is (nearly\footnote{We will see in [[SECTION]] how can the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which have a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them.
+An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
+
+\begin{figure}
+\centering
+\subfloat[The model agent receives a request.]{\begin{minipage}{0.32\textwidth}
+		\centering
+		\label{optim_use:1}
+		\includegraphics[height=5cm]{optim_use_1}
+\end{minipage}}
+\hfill
+\subfloat[The model agent resolves the request using an external optimizer.]{\begin{minipage}{0.32\textwidth}
+		\centering
+		\label{optim_use:2}
+		\includegraphics[height=5cm]{optim_use_2}
+\end{minipage}}
+\hfill
+\subfloat[The model agent transmits the new requests to its inputs.]{\begin{minipage}{0.32\textwidth}
+		\centering
+		\label{optim_use:3}
+		\includegraphics[height=5cm]{optim_use_3}
+\end{minipage}}
+\caption{Use of an external optimizer.}\label{optim_use}
+\end{figure}
+
+\subsection{Variable Agent}
+
+\subsection{Model Agent}
+
+\subsection{Output Agent}
+
+\subsection{Constraint Agent}
+
+\subsection{Objective Agent}
 
 \section{Non-Cooperative Situations}
 
@@ -450,3 +546,5 @@ The most important point is that each agent only has a local strategy. No agent 
 }
 \end{algorithmic}
 \end{algorithm}
+
+\chapter{Extending the Multi-Agent System for Uncertainties}
