@@ -714,6 +714,8 @@ Swarm algorithms focus on the decentralized exploration of the search space by a
 
 [[REF PSO ??]]
 
+[[Dire qu'on verra plus en details les algos a base d'agent plus tard ?]]
+
 Particle Swarm Optimization (PSO) is inspired from the flocking behavior of social animals (such as birds, fish or bees). PSO consists of a swarm of particles initially spread across the search space. Each particle $i$ can perceive its neighborhood and moves according to its current position $x_i$ and velocity vector $\overrightarrow{v_i}$.
 During solving, each particle memorizes the best solution it found so far $x_i^*$. Based this information, a global best $x_g^*$ is calculated and provided to each particles for the next iteration.
 At each step, a particle updates its velocity based on the current velocity, its local best value and the global best value found. Then it moves according to its current position and velocity. The influence of these various parameters can be modulated using the coefficients $w$, representing the inertia, $c_l$ representing the influence of the local best solution and $c_g$, representing the influence of the global best solution.
@@ -1042,9 +1044,7 @@ The basic idea is to assign to each subsystem a value for the global variables. 
 
 We have seen in this part how different types of optimization problems have been defined over time, depending on their topology, their complexity, their specificities.
 
-Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure.
-Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. A multi-disciplinary problem is basically a optimization problem so complex that standard optimization techniques fail.
-These distinctions where made because of the limitations of the optimization techniques, which have to choose between being applicable in the general case and being efficient.
+Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure. Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. A multi-disciplinary problem is basically a optimization problem so complex that standard optimization techniques fail. These distinctions were made because of the limitations of the optimization techniques, which have to choose between being applicable in the general case and being efficient.
 
 An interesting observation concerning MDO techniques is the fact that, to evaluate their performances, they are sometimes applied to simple optimization problems, solvable by numerical optimization techniques (see for example \cite{Kroo:1994:MOM} for an application of CO to the Rosenbrock's valley problem). This observation illustrates the fact that all optimization problems share a common structure and differ only in their complexity. Of course these examples are usually only used as illustration, as MDO methods are too heavy to be interesting to use for such problems.
 
