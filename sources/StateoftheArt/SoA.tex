@@ -227,9 +227,9 @@ Several derivative-free algorithms interpolate the objective-function with a sim
 
 \section{Global Method}
 
-While local optimization methods aim only at finding an optimum into a limited part of the search space, global optimization methods aim to find the globally best solution of the problem. Global optimization methods concentrate on providing strategies to explore the search space.
+While local optimization methods aim only for an optimum into a limited part of the search space, global optimization methods aim for the globally best solution of the problem. Global optimization methods concentrate on providing strategies to explore the search space.
 
-Depending on the nature of the problem, it may be impossible to guarantee that the best solution will be found by any mean other than a complete exploration of the search space (which is in itself an impossible task in the context of continuous optimization).
+Depending on the nature of the problem, it may be impossible to guarantee that the best solution will be found by any means other than a complete exploration of the search space (which is in itself an impossible task in the context of continuous optimization).
 
 For example, suppose the following problem:
 
@@ -245,47 +245,49 @@ As with local optimization methods, several kinds of approaches have been propos
 
 \subsection{Exact Methods}
 
-These methods aims to provide a guarantee about the optimality of the solution. These methods cannot used for any optimization problem, as they need to use some properties of the problem to prove that the solution is a global optimum.
+These methods aims at providing a guarantee about the optimality of the solution. These methods cannot be used for every optimization problem, as they need to use some properties of the problem to prove that the solution is a global optimum.
 
-For example, as we said before, if an optimization problem is convex than a local solution is also a global solution. Consequently for convex problem local optimization methods can be used with the guarantee that the solution found will be the best one.
+For example, as we said before, if an optimization problem is convex then a local solution is also a global solution. Consequently, for convex problems local optimization methods can be used with the guarantee that the solution found will be the best one.
 
-As with linear programming, a specific class of problems belong to the field of \emph{Quadratic Programming}(QP), and it extension \emph{Quadratic Constrained Quadratic Programming}(QCQP). QP concerns (non-convex\footnote{if the problem is convex, then we can use simple convex optimization techniques}) problems where the objective-function is quadratic (that is, a polynomial of degree 2) and all the constraints are linear. QCQP, as its name implies, concerns quadratic objectives and constraints.
+As with linear programming, a specific class of problems belongs to the field of \emph{Quadratic Programming} (QP), and its extension \emph{Quadratic Constrained Quadratic Programming} (QCQP). QP concerns (non-convex\footnote{if the problem is convex, then we can use simple convex optimization techniques}) problems where the objective-function is quadratic (that is, a polynomial of degree 2) and all the constraints are linear. QCQP, as its name implies, concerns quadratic objectives and constraints.
 
 Several adaptations of the Simplex method (presented is \ref{linear_optim}) for QP have been proposed (see for example \cite{wolfe1959simplex, dantzig1998linear, van1964simplicial}).
 
-It is also very common to use relaxation techniques (\emph{Reformulation-Linearizion Techniques} or \emph{Semidefinite Programming}) to approximate the quadratic problem with a linear one. A widespread technique is to use a Branch and Cut, starting by replacing each non-linear term of the problem by a (linear) variable (for example, the term $x_ix_j$ would be replaced by the variable $v_{ij}$). For each replacement, a new constraint is added to maintain consistency of the solution (in our example, the new constraint would be $v_{ij} = x_ix_j$). Then these new constraints are themselves replaced by linear approximation.
-To see more details on the different relaxations strategies, see \cite{audet2000branch}.
+It is also very common to use relaxation techniques (\emph{Reformulation-Linearizion Techniques} or \emph{Semidefinite Programming}) to approximate the quadratic problem with a linear one. A widespread technique is to use a Branch and Cut, starting by replacing each non-linear term of the problem by a (linear) variable (for example, the term $x_ix_j$ would be replaced by the variable $v_{ij}$). For each replacement, a new constraint is added to maintain consistency of the solution (in our example, the new constraint would be $v_{ij} = x_ix_j$). Then these new constraints are themselves replaced by linear approximations.
+To see more details on the different relaxations strategies, refer to \cite{audet2000branch}.
 
 \subsection{Heuristic Methods}
 
-When exact methods are to costly or non-applicable, it is often sufficient to get a good-enough solution. To this end it is possible to use heuristics to shorten the search space and ensure we obtain a solution in a reasonable time.
+When exact methods are too costly or non-applicable, it is often sufficient to get a good-enough solution. To this end it is possible to use heuristics to shorten the search space and ensure we obtain a solution in a reasonable time.
 
 For example, a simple strategy can be to run a local optimization technique several times with different initialization points, in order to increase the coverage of the search space.
 
 Expanding on this strategy is the \emph{Tabu search} metaheuristic. The idea of Taboo Search is to execute the same algorithm several times. To avoid converging  toward the same point, the previous solutions are memorized and are not allowed to be revisited. Thus the method has less chances to be quickly trapped in local optima.
 The tabu search can be extended with several levels of memory to influence the search toward the most interesting regions of the search space.
 
-Another class of heuristics introduces randomization into the search process in order to obtain a good coverage of the search space.  These strategies are said to be \emph{stochastic}.
+Another class of heuristics introduces randomization into the search process in order to obtain a good coverage of the search space. These strategies are said to be \emph{stochastic}.
 
-A very simple example of stochastic method is Monte-Carlo algorithm. We start by choosing a point at random. Then we iteratively draw new points around the old one until we cannot improve the solution. Then we start again from another random point of the search space and continue until we reach an arbitrary termination criterion.
-This method is very easy to put in practice, but can be quite costly in number of evaluation.
+A very simple example of stochastic method is the Monte-Carlo algorithm. We start by choosing a point at random. Then we iteratively draw new points around the old one until we cannot improve the solution. Then we start again from another random point of the search space and continue until we reach an arbitrary termination criterion.
+This method is very easy to put in practice, but can be quite costly in number of evaluations.
 
 Another well-known technique is Simulated Annealing. This method is inspired from the annealing technique in metallurgy used to control the heating and cooling of a material in order to increase its properties.
-Simulated annealing associate a global temperature and an energy measure to the state of the system (which represent the objective-function). Consequently the goal of the system is to minimize its energy. At each step, the method considers moving to one of the neighbors of the current point. The higher the temperature of the system, the more susceptible the system be to move, even if the neighbor is worse than the current point. As the temperature decreases, the system will favor more and more consistently solutions which decrease its energy.
-The temperature of the system is reduce over time following a specific cooling schedule. For example the temperature could be decreased a each step, or could be reduced only when the system reached an equilibrium.
+Simulated annealing associate a global temperature and an energy measure to the state of the system (which represent the objective-function). Consequently the goal of the system is to minimize its energy. At each step, the method considers moving to one of the neighbors of the current point. The higher the temperature of the system, the more the system is susceptible to move, even if the neighbor is worse than the current point. As the temperature decreases, the system will favor more and more consistently solutions that decrease its energy.
+The temperature of the system is reduced over time following a specific cooling schedule. For example the temperature could be decreased a each step, or could be reduced only when the system reached an equilibrium.
 
-Some others stochastic techniques which can be applied, but are not restricted to, these kind of optimization problems are population-based algorithms, which will be presented in \ref{[[INDICATE SECTION]]}.
+Some others stochastic techniques which can be applied, but are not restricted to, these kind of optimization problems are population-based algorithms, which will be presented in section \ref{population_based}.
 
 \section{Conclusion on Numerical Optimization}
 
-This overview of numerical optimization illustrate how the different optimization techniques range from very efficient but highly specialized methods to board scope methods with slower and more costly strategies.
+This overview of numerical optimization illustrates how the different optimization techniques range from very efficient but highly specialized methods to broad scope methods with slower and more costly strategies.
 We have seen how the intuition provided by the NFL theorems is illustrated by the progression of the optimization techniques in general applicability and complexity.
 
-An interesting observation is how specialized methods can concentrate on exploitation of the solutions, while generic methods are concerned with exploration of the search space. Indeed, the more we known about the structure of the problem, the easier it is to select a new search point. When lacking knowledge about the topology of the system, we need to be more concerned about exploring the search space.
+An interesting observation is how specialized methods can concentrate on exploitation of the solutions, while generic methods are concerned with exploration of the search space. Indeed, the more we know about the structure of the problem, the easier it is to select a new search point. When lacking knowledge about the topology of the system, we need to be more concerned about exploring the search space.
 
 From this basic compromise we can see how numerical optimization has given birth to such a plethora of methods, as every optimization technique is torn between this basic compromise.
 
 [[Two axis: Local <-> Global; Specialized <-> Generic => Do a diagram ?]]
+
+[[Insister sur la centralisation + global]]
 
 \chapter{Multi-Objective Optimization}
 
@@ -672,7 +674,7 @@ Classical optimization techniques fail to solve this kind of problems as they ar
 
 The main filed concerning solving optimization problems in dynamic environment is population-based optimization (also called \emph{evolutionary computation}). Population-based optimization is a very prolific and diversified field, whose algorithms are often based on the observation of nature. The underlying principle of this kind of algorithms is use a population of entities which are spread within the search space, with specific strategies in order to iteratively progress toward the solution. These strategies involve transformations applied to the entities which compose the population (moving, creating or destroying or otherwise altering them).
 
-\subsection{Evolutionary Algorithms}
+\subsection{Evolutionary Algorithms}\label{population_based}
 
 Evolutionary Algorithms (EA) are based on a Darwinist section process. The main idea is to maintain a population of solutions which is iteratively improved by selecting, crossing and mutating the best individuals.
 
