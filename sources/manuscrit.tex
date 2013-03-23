@@ -26,12 +26,22 @@
 %%%%%%%%%%%%%%%%%%%
 % custom commands
 
+%TODO see if I can automatically number the def => package listings?
+
 %Insert a definition =>  \defintion{title}{content}
 \newcommand{\definition}[2]{
-   \begin{quotation}	\parbox{0.9\textwidth}
-		{\textbf{#1 - }#2}
-  \end{quotation} 
+  \begin{quotation}
+  	\parbox{0.8\textwidth}{\textbf{#1} - \textit{#2}}
+  \end{quotation}
 } 
+
+%Same one but with a frame around the definition
+%\newcommand{\definition}[2]{
+%  \begin{quotation}
+%  	\fbox{\parbox{0.8\textwidth}{\textbf{#1} - \textit{#2}}}
+%  \end{quotation}
+%} 
+
 
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
