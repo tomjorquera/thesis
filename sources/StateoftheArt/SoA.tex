@@ -46,7 +46,7 @@ Where \emph{S} is the problem search space and \emph{f(x)} the objective functio
 
 \section{No Free Lunch Theorem}
 
-The No Free Lunch (NFL) Theorems for optimization are an important result in the field, formalized by Wolpert and Macready\cite{585893}. The basic idea behind these theorems is that no optimization method outperforms the others when regarding the class of all the possible problems or, as the authors themselves say:
+The No Free Lunch (NFL) Theorems for optimization are an important result in the field, formalized by Wolpert and Macready \cite{585893}. The basic idea behind these theorems is that no optimization method outperforms the others when regarding the class of all the possible problems or, as the authors themselves say:
 \begin{quote}
 "any two algorithms are equivalent when their performance is averaged across all possible problems."
 \end{quote}
@@ -122,12 +122,12 @@ A linear problem with $n$ variables and $m$ constraints can be expressed as:
 &a_{m1}x_1 + a_{m2}x_2 + ... + a_{mn}x_n + b_m \geq 0
 \end{align*}
 
-This kind of problem is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm\cite{dantzig1998linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a numerical optimization problem and to be one of the founding works of the field.
+This kind of problem is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm \cite{dantzig1998linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a numerical optimization problem and to be one of the founding works of the field.
 
 The basic idea of the simplex algorithm is that the solution space is the convex polyhedron, and the optimal solution is necessarily on one of its vertices. Another property is that a vertex which is not the optimal solution will have at least an edge leading toward a better vertex.
 The simplex algorithm starts on one of the vertices, and tries to follow an edge to a vertex which improves the objective-function. The algorithm iterates until it has found a vertex with no edge leading toward a better point (the optimal solution) or until it reaches an unbound edge (in this case the problem is not bounded).
 
-While the simplex algorithm is considered to be very efficient for most cases, some alternatives have been proposed. The most noteworthy is the interior point method and its derivatives. Contrary to the simplex method, this method actually traverses the interior of the solution space (hence its name). The original method proposed by Karmarkar\cite{Karmarkar:1984:NPA:800057.808695} travels through the search space by iteratively finding the best solution over a restricted region delimited by a sphere around the current point.
+While the simplex algorithm is considered to be very efficient for most cases, some alternatives have been proposed. The most noteworthy is the interior point method and its derivatives. Contrary to the simplex method, this method actually traverses the interior of the solution space (hence its name). The original method proposed by Karmarkar \cite{Karmarkar:1984:NPA:800057.808695} travels through the search space by iteratively finding the best solution over a restricted region delimited by a sphere around the current point.
 
 \section{Local Methods}
 
@@ -456,7 +456,7 @@ A first possibility is to use an a priory method and iterating over it while var
 
 \subsection{Normal Boundary Intersection Method}
 
-Normal Boundary Intersection (NBI)\cite{S1052623496307510} method provides an even distribution of Pareto-optimal solutions using a parameter vector $w$ provided by the designer.
+Normal Boundary Intersection (NBI) \cite{S1052623496307510} method provides an even distribution of Pareto-optimal solutions using a parameter vector $w$ provided by the designer.
 
 The method uses
 
@@ -775,21 +775,23 @@ Finally, this kind of method often has some difficulties to scale with the compl
 
 \chapter{Multidisciplinary Optimization}
 
-Multidisciplinary Design Optimization, often abbreviated Multidisciplinary Optimization (MDO), concerns the optimization of complex systems which involves several interacting disciplines. Each discipline in itself can contain this own variables, objectives and constraints. These problems often involves several of the optimization problematics we examined in the previous [[chapters]] (non-linearity, multiples objectives and constraints, uncertainties etc.) and are usually too complex to be handled by classical optimization methods, as evaluating the global function of the problem would be considered too costly.
-These kinds of problems are commonplace in the industry, especially in aeronautic and aerospace engineering, where parts of the design are often done by different experts teams. For example [[the designing of]] an aircraft can be formalized as a MDO problem involving several disciplines such as mechanic, aerodynamic, acoustic etc. (see \figurename\ \ref{aero-disc}).
+[[Plus insister sur les aspects difficiles (qu'on va traiter) : conflits, representation du probleme, complexité (pronfondeur) => difficile d'estimer l'impact de quelle variable sur quoi, != disciplines]]
+
+Multidisciplinary Design Optimization (MDO), often abbreviated Multidisciplinary Optimization , concerns the optimization of complex systems which involves several interacting disciplines. Each discipline in itself can contain this own variables, objectives and constraints. These problems often involve several of the optimization problematics we examined in the previous [[chapters]] (non-linearity, multiples objectives and constraints, uncertainties etc.) and are usually too complex to be handled by classical optimization methods, as evaluating the global function of the problem would be considered too costly.
+These kinds of problems are commonplace in the industry, especially in complex systems design such as aeronautic and aerospace engineering, where parts of the design are often done by different experts teams. For example designing an aircraft can be formalized as a MDO problem involving several disciplines such as mechanics, aerodynamics, acoustics etc. (see \figurename\ \ref{aero-disc}).
 
 \begin{figure}
 \centering
 \includegraphics[width=0.4\paperwidth]{Disciplines_Avion}
-\caption{Examples of aeronautics disciplines}
+\caption{Examples of aeronautics disciplines [[SOURCE]]}
 \label{aero-disc}
 \end{figure}
 
-To handle such complex system, most strategies propose to decompose it into several sub-system of lesser complexity. Concerning engineering, several decomposition strategies have been proposed [[REF Decomposition and Representation Methods in Mechanical Design]]:
+To handle such complex systems, most strategies propose to decompose it into several sub-systems of lesser complexity. Concerning engineering, several decomposition strategies have been proposed [[REF Decomposition and Representation Methods in Mechanical Design]]:
 
 \begin{itemize}
 \item product (also called object) decomposition, based on the physical components of the system. This kind of decomposition is not always adequate and often subjective;
-\item process  (also called sequential) decomposition, based on the work-flow of elements/informations involved into the design process. This decomposition is most adequate when the design process is linear.
+\item process  (also called sequential) decomposition, based on the workflow of elements/informations involved into the design process. This decomposition is most adequate when the design process is linear.
 \item domain (also called aspect) decomposition, based on the knowledge domains, the disciplines, involved. This kind of decomposition is the basis of MDO methods.
 \end{itemize}
 
@@ -797,9 +799,9 @@ To handle such complex system, most strategies propose to decompose it into seve
  \begin{quote}
 "A methodology for the design of complex engineering systems and subsystems that coherently exploits the synergism of mutually interacting phenomena."
 \end{quote}]]
-MDO methods are not optimization methods \emph{per se}. Instead they focus on providing a optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as presented above. [[In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to a complex problem. Martin and Lambe\cite{Lambe:2011:A} note the volumes of different terms which have been used in the literature :  "architecture, "method", "methodology", "problem formulation, "strategy", "procedure" or "algorithm". While these authors choose to use the term "architecture", we will stick in this work to the designation of "method", not as a disregard for their arguments but solely for the sake of  consistency.  ]] 
+MDO methods are not optimization methods \emph{per se}. Instead they focus on providing an optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as presented above. In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to a complex problem. Martin and Lambe \cite{Lambe:2011:A} note several other terms have been used in the literature:  "architecture, "method", "methodology", "problem formulation, "strategy", "procedure" or "algorithm".
 
-Alexandrov and Lewis illustrated their discussion on Collaborative Optimization\cite{NataliaM.:2000:ACA:886733} with the following theoretical test case:
+Alexandrov and Lewis illustrated their discussion on Collaborative Optimization \cite{NataliaM.:2000:ACA:886733} with the following theoretical test case:
 
 [[Notion of Standard form]]
 
@@ -813,7 +815,7 @@ a_2 &= A_2(s, l_2, a_1) \\
 
 [[Add graphical representation]]
 
-It can be noted that this formulation does not differ from the formulation of standard optimization problem. Indeed, as noted by Martin and Lambe\cite{Lambe:2011:A}:
+It can be noted that this formulation does not differ from the standard optimization problem formulation. Indeed, as noted by Martin and Lambe \cite{Lambe:2011:A}:
  \begin{quote}
  "If we ignore the discipline boundaries, an MDO problem is nothing more than a standard constrained nonlinear programming problem: we must find the values of the design variables that maximize or minimize a particular objective function, subject to the constraints."
 \end{quote}
@@ -844,7 +846,7 @@ Several specific terms are in use in the domain of MDO:
 
 \item \emph{Design variable}: a variable of the problem which can be chosen by the designer. The goal of the optimization process is to find good values for the design variables of the problem. A design variable is said to be \emph{local} (or \emph{private}) if it is relevant to only one discipline, or \emph{shared} (or \emph{public}) if it is used by several of them.
 
-\item \emph{Discipline analysis/Analyser/Simulator}: 
+\item \emph{Discipline analysis/Analyser/Simulator}: [[TODO]]
 
 \item \emph{Multidisciplinary Analysis (MDA)}: [[Say that the models can need to be evaluated potentially SEVERAL TIMES during one MDA, to find consistent set of variables]]
 
@@ -855,7 +857,7 @@ Several specific terms are in use in the domain of MDO:
 
 
 The classical approach to categorize MDO methods was to separate mono- and multi-level methods.
-Mono-level methods use a single optimizer and a non hierarchical structure, while Multi-level methods use a hierarchical structure and possibly several optimizers.
+Mono-level methods use a single optimizer and a non hierarchical structure, while multi-level methods use a hierarchical structure and possibly several optimizers.
 
 [[introduce others ways to separate
 
@@ -863,7 +865,7 @@ Mono-level methods use a single optimizer and a non hierarchical structure, whil
 
 => recent works "Multidisciplynary Design Optimization: A Survey of Architectures" says : 
 
-"We now introduce a new approach to classifying MDO architectures. Some of the previous classifications were based on which constraints could be controlled by the optimizer [77, 121]. Alexandrov and Lewis [121] used the term “closed” to indicate that a set of constraints cannot be satisfied via explicit action of the optimizer, and “open” to indicate that it can.
+"Some of the previous classifications were based on which constraints could be controlled by the optimizer [77, 121]. Alexandrov and Lewis [121] used the term “closed” to indicate that a set of constraints cannot be satisfied via explicit action of the optimizer, and “open” to indicate that it can.
 [...]
 Tosserams et al. [84] expanded on this classification
 scheme by discussing whether distributed architectures used open or closed local design constraints in the system subproblem. Closure of the constraints is an important consideration when selecting an architecture, because most robust optimization software will permit the exploration of infeasible regions of the design space. Such exploration can result in faster solution via fewer optimization iterations, but this must be weighed against the increased problem size and the risk of terminating the optimization at an infeasible point."
@@ -874,13 +876,15 @@ scheme by discussing whether distributed architectures used open or closed local
 
 \section{An Illustration of Coupled Systems Problematics: Fixed Point Iteration}
 
-To illustrate the difficulties caused by coupled system, let's introduce the problematic of Fixed Point.
+[[What tot do with this ??]]
 
-\subsection{The Problematic of Fixed Point}
+To illustrate the difficulties caused by coupled system, let's introduce the Fixed Point problem.
+
+\subsection{Fixed Point problem}
 
 Initially, the problematic of fixed point is the following:
 
-\begin{quote}"Considering a function $f(x)$, does a $x_{fp}$ for which $f(x_{fp}) = x_{fp}$ ?"\end{quote}
+\begin{quote}"Considering a function $f(x)$, does a $x_{fp}$ exists for which $f(x_{fp}) = x_{fp}$ ?"\end{quote}
 
 If such $x_{fp}$ exists, then it is called a \emph{fixed point} of $f$
 
@@ -905,28 +909,30 @@ has three fixed points: -1, 0 and 1 (cf figure \ref{fixed_points_x_3}).
 
 An obvious property of fixed points is that $x_{fp} = f(x_{fp}) = f(f(x_{fp}))$ ...
 
-A fixed point can be \emph{attracting} or \emph{repelling}. A fixed point is said to be attracting when when we converge toward it when iterating over $f$ in its neighborhood. Conversely, a fixed point is repelling if we diverge while doing so. A fixed point which is neither attracting nor repelling is said to be \emph{neutral}.
+A fixed point can be \emph{attracting} or \emph{repelling}. A fixed point is said to be attracting when the system converges towards it when iterating over $f$ in its neighborhood. Conversely, a fixed point is repelling if we diverge while doing so. A fixed point which is neither attracting nor repelling is said to be \emph{neutral}.
 
 [[insert diagram of attractive and repelling fixed points]]
 
 A fixed point $x_{fp}$ will be attracting if $|f'(x_{fp}| < 0$.\\
 If $|f'(x_{fp}| > 0$ then the fixed point is repelling.\\
-At last is $|f'(x_{fp}| = 0$ then $x_{fp}$ is neutral.
+Finally if $|f'(x_{fp}| = 0$ then $x_{fp}$ is neutral.
 
 
 \subsection{Fixed Point with Coupled Functions}
 
-The notion of fixed point can be extended to coupled functions.
+The notion of fixed point can be extended to coupled functions. [[TODO?]]
 
 
 \section{Mono-Level Methods}
+
+[[Missing REFS]]
 
 [[add mathematical formulation of methods ?]]
 
 \subsection{Multidisciplinary Feasible}
 
-Multidisciplinary Feasible (MDF), represented in \figurename{} \ref{mdf_graph}, is the most basic and classical MDO method. This approach ensure at each optimization step that the design is consistent as a whole, taking into account all the disciplines together (hence the name). The optimizer only use the design variables, objective functions and constraints.
-Basically, MDF alternates between a MDA and a [[global]] optimization phase, ensuring the design to be globally consistent at each optimization step. At each step, the result proposed by the optimizer is used to do a full MDF whose results are used in return for the next optimization iteration.
+MultiDisciplinary Feasible (MDF), represented in \figurename{} \ref{mdf_graph}, is the most basic and classical MDO method. This approach ensures at each optimization step that the design is consistent as a whole, taking into account all the disciplines together (hence the name). The optimizer only use the design variables, objective functions and constraints.
+Basically, MDF alternates between a MDA (multidisciplinary analysis) and a global optimization phase, ensuring the design to be globally consistent at each optimization step. At each step, the result proposed by the optimizer is used to do a full MDF whose results are used in return for the next optimization iteration.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
@@ -934,11 +940,11 @@ Basically, MDF alternates between a MDA and a [[global]] optimization phase, ens
 \caption{MDF method}\label{mdf_graph}
 \end{wrapfigure}
 
-As it is so straightforward, MDF requires no reformulation of the problem, unlike most of the others MDO methods, and in so is really easy to use. As the design is consistent at each step, the optimization process can provide a solution at any time (but it will not guarantee that the proposed solution will satisfy the constraints, as this concerns depend on the optimization technique used). However, since MDA is supposed to be costly, MDF is often considered to be quite inefficient, since it never exploits the parallelization opportunities dues to the separation of the disciplines. MDF does not provide any guarantee of convergence.
+As it is so straightforward, MDF requires no reformulation of the problem, unlike most of the others MDO methods, and in so is really easy to use. As the design is consistent at each step, the optimization process can provide a solution at any time (but it will not guarantee that the proposed solution will satisfy the constraints, as this concerns depend on the optimization technique used). However, since MDA is supposed to be costly, MDF is often considered to be quite inefficient, since it never exploits the parallelization opportunities due to the separation of the disciplines. MDF does not provide any guarantee of convergence.
 
 \subsubsection{Asymmetric Subspace Optimization}
 
-Asymmetric Subspace Optimization (ASO), shown on \figurename{} \ref{aso_graph}, is a relatively recent work of Chittick and Martins\cite{Chittick:2007:B} to improve on MDF for MDO problems where some the disciplines are specifically more costly to analyze than the others. The classical illustration given is the one of high-fidelity aerostructural optimization, where the analysis of the aerodynamic is significantly more heavier than the structural analysis. An intermediate optimization phase for the structure is introduced during the MDA, in order to reduce the number of iterations needed at the global level.
+Asymmetric Subspace Optimization (ASO), shown on \figurename{} \ref{aso_graph}, is a relatively recent work of Chittick and Martins \cite{Chittick:2007:B} to improve on MDF for MDO problems where some disciplines are specifically more costly to analyze than the others. The classical illustration given is the one of high-fidelity aerostructural optimization, where the analysis of aerodynamics is significantly more heavier than the structural analysis. An intermediate optimization phase for the structure is introduced during the MDA, in order to reduce the number of iterations needed at the global level.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
@@ -946,13 +952,15 @@ Asymmetric Subspace Optimization (ASO), shown on \figurename{} \ref{aso_graph}, 
 \caption{ASO method}\label{aso_graph}
 \end{wrapfigure}
 
-This approach can lead to significant improvement over MDF in the context of disciplines with significant analysis costs. However when the analysis costs of the disciplines are comparable, this is approach is less efficient than MDF, as it introduce extraneous optimization step.
+This approach can lead to significant improvements over MDF in the context of disciplines with significant analysis costs. However when the analysis costs of the disciplines are comparable, this approach is less efficient than MDF, as it introduces additional optimization step.
 
 It should be noted that this approach is not mono-level as it introduces several optimizers and a hierarchical structure. [[Then why put it here and not in multilevel ?]] 
 
+[[TODO Analysis]]
+
 \subsection{Individual Discipline Feasible}
 
-Individual Discipline Feasible (IDF), represented on \figurename{} \ref{idf_graph}, differs from MDF in the way that it ensure at each step consistency for each discipline separately, but not consistency between disciplines. The global consistency of the system is not ensured until convergence.
+Individual Discipline Feasible (IDF), represented on \figurename{} \ref{idf_graph}, differs from MDF in the way that it ensures at each step consistency for each discipline separately, but not consistency between disciplines. The global consistency of the system is not ensured until convergence.
 Instead of a full MDA (as in MDF), IDF alternates the optimization with independent disciplines analysis.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
@@ -961,11 +969,11 @@ Instead of a full MDA (as in MDF), IDF alternates the optimization with independ
 \caption{IDF method}\label{idf_graph}
 \end{wrapfigure}
 
-However, as the variables shared among the disciplines are not guaranteed to to be consistent, IDF need to introduce a reformulation of the problem where the shared variable are duplicated among the disciplines and several equality constraints need to be added to ensure the eventual consistency.
+However, as the variables shared among the disciplines are not guaranteed to be consistent, IDF needs to introduce a reformulation of the problem where the shared variable are duplicated among the disciplines and several equality constraints need to be added to ensure the eventual consistency.
 
 \subsection{All-at-Once}
 
-All-at-Once (AAO), represented on \figurename{} \ref{aao_graph}, can be seen a the opposite extreme of MDF, given that it does not try to maintain consistency neither at the global or discipline level during the optimization process until convergence.
+All-at-Once (AAO), represented on \figurename{} \ref{aao_graph}, can be seen as the extreme opposite of MDF, given that it does not try to maintain consistency neither at the global nor discipline level during the optimization process until convergence.
 All variables are considered as design variable for the optimizer, and the analysis equations are transformed into equality constraints.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
@@ -983,7 +991,7 @@ However, the drawbacks of IDF are even more important, as AAO requires an even b
 
 \subsection{Concurrent Subspace Optimization}
 
-Concurrent Subspace Optimization (CSSO), which can be seen on \figurename{} \ref{csso_graph} is one of the firsts multi-levels MDO methods. Before the optimization, the problem is decomposed in several subspaces related to the different disciplines. Each optimization iteration then start by a system analysis, followed by a series of subspaces optimization (possibly concurrently), where each optimization tries to solve the global problem by using approximate models of the rest of the system. After the subspaces optimizations, a complete MDA is done (using only the approximate models) to perform a global optimization. the result of the global optimization in then used in the next system analysis.
+Concurrent Subspace Optimization (CSSO), which can be seen on \figurename{} \ref{csso_graph} is one of the firsts multi-levels MDO methods. Before the optimization, the problem is decomposed in several subspaces related to the different disciplines. Each optimization iteration then start by a system analysis, followed by a series of subspaces optimization (possibly concurrently), where each optimization tries to solve the global problem by using approximate models of the rest of the system. After the subspaces optimizations, a full MDA is done (using only the approximate models) to perform a global optimization. The result of the global optimization in then used in the next system analysis.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
@@ -991,8 +999,10 @@ Concurrent Subspace Optimization (CSSO), which can be seen on \figurename{} \ref
 \caption{CSSO method}\label{csso_graph}
 \end{wrapfigure}
 
-Originally, CSSO was developed for single-objective optimization problems. However several efforts have been made to extend CSSO to multi-objectives problems.
+Originally, CSSO was developed for single-objective optimization problems. However several efforts have been made to extend CSSO to multi-objective problems.
 
+
+[[TODO shorten]]
 [[From Concurrent Subspace Optimization for Aircraft System Design -  Ke-shi Zhang:
 "In recent years more work (Aute \& Azarm, 2006; Huang \& Bloebaum, 2004; McAllister et al., 2000; McAllister et al., 2004; Orr \& Hajela, 2005; Parashar \& Bloebaum, 2006; Tappeta \& Renaud, 1997; Zhang et al., 2008) has focused on extending existing MDO method to handle such multi-objective MDO problems, by means of integrating a multi-objective optimization method within the MDO framework. This kind of method can be called a multi-objective MDO method.
 It is an effective way to integrate multi-objective optimization method within the CSSO framework to develop the multi-objective MDO method. CSSO was extended to solve multi - objective MDO problems, including the Multi-objective Pareto CSSO (MOPCSSO) method, Aeronautics and Astronautics the Multi-objective Range CSSO (MORCSSO) method, the Multi-objective Target CSSO (MOTCSSO) method, the Multi-objective Genetic Algorithm CSSO (MOGACSSO) method and Adaptive Weighted Sum based CSSO (AWSCSSO). In MOPCSSO the Constraint method is integrated within CSSO framework (Huang \& Bloebaum, 2007). In MORCSSO and MOTCSSO the concept of designer preference is introduced (Huang \& Bloebaum, 2004). In MOGACSSO the Genetic Algorithm is combined with CSSO and in the hope of improving the computational efficiency (Parashar \& Bloebaum, 2006). In AWSCSSO the Adaptive Weighted Sum method is introduced into CSSO (Zhang et al., 2008). "]]
@@ -1011,6 +1021,8 @@ CO is best-suited for MDO problems with a low coupling between disciplines. The 
 
 \subsubsection{ECO}
 
+[[TODO ??]]
+
 \subsection{Bilevel Integrated System Synthesis}
 
 Bi-Level Integrated System Synthesis (BLISS) \cite{J.:1998:BIS:886310}, shown on \figurename{} \ref{bliss_graph}, has been developed to separate local and shared variables, in order to ease the distribution of the optimization process (be it in regard of expert teams or computational resources).
@@ -1024,9 +1036,11 @@ BLISS shares similarities with CSSO [[explain]]. However, local variables are as
 
 For each discipline optimization problem, an approximation of the global objective-functions and constraints is build using linear approximation considering only the variables of the discipline.
 
-The optimization process cycle alternates as follow: First a system-wide analysis is done (which includes the analysis of each subsystem) and used to provide the approximate objective-functions. Then a discipline-level optimization of the objective-functions approximations, which is used for a system optimization concerning the shared variables. These results are then used by the new system analysis at the start of the next step.
+The optimization process cycle alternates as follow: first a system-wide analysis is done (which includes the analysis of each subsystem) and used to provide the approximate objective-functions. Then a discipline-level optimization of the objective-functions approximations, which is used for a system optimization concerning the shared variables. These results are then used by the new system analysis at the start of the next step.
 
 \subsubsection{BLISS 2000}
+
+[[From mgp necessaire de faire une sous-section entière ?]]
 [[DELETE susbusbsection ? => NOPE it is different, see Musltidisciplinary Design Optimization: A survey of Architectures:
 "    A radically different formulation called BLISS-2000 was developed by Sobieski et al; . Because BLISS-2000
 does not require an MDA to restore the feasibility of the design, we have separated it from the other BLISS variants
@@ -1049,7 +1063,7 @@ MDOIS decomposes the system in separate subsystems, for each an optimization pro
 
 \subsection{Quasiseparable Subsystems Decomposition}
 
-Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420}, represented in \figurename{} \ref{qsd_graph}, is another specialized method for systems which can be decomposed into subproblems which only depends on local variables and global design variable but not on values produced by others subsystems.
+Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420}, represented in \figurename{} \ref{qsd_graph}, is another specialized method for systems which can be decomposed into subproblems which only depend on local variables and global design variable but not on values produced by others subsystems.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
@@ -1059,13 +1073,13 @@ Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420}, represented in \
 
 The basic idea is to assign to each subsystem a value for the global variables. An optimization is done on the local variables of each subsystem to maximize their constraints margins. Based on the result of each subsystem, a global optimization is done to assign new values to the global variables. The process is then repeated iteratively.
 
-[[TODO: Need a conclusion on MDO. Explain what are the perceived advantages of complex MDO methods in terms of modularity and separation of concerns, but how they are more complex and costly (cf comparison of several methods)]]
+[[TODO: Need a conclusion on MDO. Explain what are the perceived advantages of complex MDO methods in terms of modularity and separation of concerns, but how they are more complex and costly (cf comparison of several methods). Say it is heavy and not very efficient]]
 
 \chapter{Conclusion on Optimization}
 
 We have seen in this part how different types of optimization problems have been defined over time, depending on their topology, their complexity, their specificities.
 
-Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure. Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. A multi-disciplinary problem is basically a optimization problem so complex that standard optimization techniques fail. These distinctions were made because of the limitations of the optimization techniques, which have to choose between being applicable in the general case and being efficient.
+Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure. Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. A multi-disciplinary problem is basically an optimization problem so complex that standard optimization techniques fail. These distinctions were made because of the limitations of the optimization techniques, which have to choose between being applicable in the general case and being efficient.
 
 An interesting observation concerning MDO techniques is the fact that, to evaluate their performances, they are sometimes applied to simple optimization problems, solvable by numerical optimization techniques (see for example \cite{Kroo:1994:MOM} for an application of CO to the Rosenbrock's valley problem). This observation illustrates the fact that all optimization problems share a common structure and differ only in their complexity. Of course these examples are usually only used as illustration, as MDO methods are too heavy to be interesting to use for such problems.
 
@@ -1076,8 +1090,13 @@ At this level, the actual optimization processes can be abstracted as black boxe
 
 Thus we can reformulate our question as: could it be possible to create a technique which would provide an adequate organization for each type of problem, adapted both to simple problems which need to be solved quickly and to large-scale optimization problem involving whole disciplines?
 
-Currently, only MDO techniques could be seen as being applicable to the whole range of optimization problems, but their strict structure make them to cumbersome for for such a task.
+Currently, only MDO techniques could be seen as being applicable to the whole range of optimization problems, but their strict structure make them too cumbersome for such a task.
 An ideal solution for such a problem would be a method able to adapt itself to the problem at hand, in order to scale with the needs of the engineers.
 
 The next parts of this thesis concentrate on providing such a method.
+
+[[ From Mpg: 
+	Fusionner la partie SMA en une seule partie State of the Art
+	=> Conclusion du SoA qui introduit la contribution
+]]
 
