@@ -44,6 +44,8 @@ In the context of this thesis, we will concentrate on the application of MAS in 
 
 \subsubsection{Multi-Agents Systems for Combinatorial Optimization}
 
+[[TODO: CITER TRAVAUX IIIA]]
+
 The major part of the literature on the application of MAS to \emph{combinatorial} optimization, mainly in the context of DPS concerns Distributed Constraint Satisfaction Problems (DCSP, or DisCSP) and their extension, Distributed Constrained Optimization Problems (DCOP, or DisCOP).
 
 DCSP is a formalism to model Constraint Satisfactions Problems (CSP) using agents. A CSP is defined as a triplet <$X,D,C$> where:
@@ -144,10 +146,30 @@ One a side note, it is interesting to note that many methods require non-trivial
 
 \subsubsection{Multi-Agents Systems for Continuous Optimization}
 
-While MAS are a very popular approach for solving combinatorial optimization problems, their application to continuous optimization problems is scarce at best. One could explain this discrepancy by the fact that continuous optimization problems are in general more difficult to decompose than combinatorial ones.\\
-One notable work on this subject is the MASCODE algorithm[[REF?]], which concentrates on MOO and MDO problems.
-
 [[Signaler PSO ?]]
+
+While MAS are a very popular approach for solving combinatorial optimization problems, their application to continuous optimization problems is scarce at best. One could explain this discrepancy by the fact that continuous optimization problems are in general more difficult to decompose than combinatorial ones.
+
+As said in the previous section, an adaptation of DCOP with continous variables has been proposed in \cite{stranders2009decentralised}. This work proposes an adaptation of the max-sum algorithm in the continuous case by redefining the two operations of summation and maximization in order to be able to use them over continuous utility functions.
+However, this work concentrates on a specific type of problem (distributed sensor networks) and the utility functions must be piecewise linear. It is not applicable to broader scope of continuous optimization problems which concern us here.
+
+A notable work on the subject of general continuous optimization is the MASCODE algorithm \cite{welcomme2006self}, which concentrates on MOO and MDO problems. In MASCODE, each agent in in charge of a discipline and the links between agents represent the dependencies between the different disciplines. For each input of a discipline, a \emph{physical validity interval} and an \emph{objective validity interval} are defined. These two intervals represent respectively the physical constraints of the model and the boundaries of an objective to achieve. Using these two measures, a satisfaction measure is defined using a parametric piecewise continuous function. The basic idead of this satisfaction measure is as follows: 
+\begin{compactitem}
+\item when the value of the input is in the boundaries of the objective validity interval, the satisfaction of the agent regarding this input is high,
+\item when the value of the input is outside of the objective validity interval but inside the physical validity interval, the satisfaction lower,
+\item if the value of the input goes outside the physical validity interval, the satisfaction becomes minimal.
+\end{compactitem}
+
+The agents use the values of their inputs to send \emph{forward messages}, informing others agents of the values of their outputs. Upon reception of these messages, one agent use these new values to recalculate its own outputs (potentially sending in turn new \emph{forward messages}) and send \emph{backward messages} to the agents controlling their inputs. These \emph{backward messages} are modification requests indicating the satisfaction of the requesting agent. Upon reception of such messages, the agent will select which ones to handle based on the current satisfaction degree of their emitter and will change the value of its inputs accordingly (sending in its turn new \emph{backward messages} if required).
+
+This algorithm is very interesting as it make very few presupposition concerning the shape of the optimization problem. The problem can be expressed as initially conceived by the designer, without requiring special transformation operations. Still, there is some limitation to the expressiveness of the formulation. The possibilities for the designer to express constraints and objectives on the problem are restricted to the specific use of the physical and objective validity intervals. As a consequence, constraints and objectives cannot be expressed independently, and can only concern \emph{one} variable at a time. While this latter limitation can somewhat be circumvented by introducing artificial disciplines placeholders, the natural modeling of the domain is then lost. This limitation can be explained as a consequence to the specific application domain which was considered for the algorithm (industrial product design)
+
+[[dire qu'on va s'inspirer de MASCODE dans notre algo de résolution (mais pas pour NDMO => peut être le dire dans la partie sur le SMA en lui-même)]]
+
+\subsubsection{Analysis of Multi-Agent Systems for Distributed Problem Solving}
+
+We have seen in this section how MAS have been applied for problem solving. While the solving of discrete constraint satisfaction and optimization problems has been a very popular topic of interest, very few works exist concerning the solving of continuous problems. Among the few existing works, most concentrate on specific application topics, thus no real unified effort exist in this regard comparable to one which can be observed for discrete optimization.
+[[EXPAND ??]]
 
 \section{The Adaptive Multi-Agents Systems Theory}
 
