@@ -300,7 +300,7 @@ The behavior of the variable agent is summarized in algorithm \ref{algo_simulati
 
 \subsection{Model Agent}
 
-A model agent must maintain consistency between its inputs and outputs. When receiving an Inform message from one of the agents controlling its inputs, the model agent reevaluates its internal model taking the new value in account. Using the new values produced by the internal model, the model agents then send Informs messages to the agents responsible of its outputs.
+A model agent must maintain consistency between its inputs and outputs. When receiving an Inform message from one of the agents controlling its inputs, the model agent reevaluates its internal model taking the new value into account. Using the new values produced by the internal model, the model agents then send Informs messages to the agents responsible of its outputs.
 
 All outputs of a model agent are not necessary associated with an ouput agent. For example, if the designer is not interested by the value represented by one of the outputs, he is not required to represent it by an agent. In this case the model agent will silently calculate the new value of the output at the same time than the others, but will not propagate it\footnote{Remember that the internal model of the agent is a black box, consequently the agent cannot choose to evaluate it partially. If the evaluation of the output could has been done independently from the others, it could be preferable to create two separate models}.
 
