@@ -19,7 +19,8 @@
 \usepackage{paralist}	%for nice compact lists
 
 \usepackage[pdftex]{graphicx}
-\usepackage{subfig, wrapfig}
+\usepackage{wrapfig,subcaption}
+
 %where to find the figures
 \graphicspath{ {StateoftheArt/figs/} {AMAS/figs/} {MAS4Optim/figs/} {Implem/figs/} {CPSP/figs/} {Experiments/figs/} }
 
@@ -29,18 +30,18 @@
 %TODO see if I can automatically number the def => package listings?
 
 %Insert a definition =>  \defintion{title}{content}
-\newcommand{\definition}[2]{
-  \begin{quotation}
-  	\parbox{0.8\textwidth}{\textbf{#1} - \textit{#2}}
-  \end{quotation}
-} 
-
-%Same one but with a frame around the definition
 %\newcommand{\definition}[2]{
 %  \begin{quotation}
-%  	\fbox{\parbox{0.8\textwidth}{\textbf{#1} - \textit{#2}}}
+%  	\parbox{0.8\textwidth}{\textbf{#1} - \textit{#2}}
 %  \end{quotation}
 %} 
+
+%Same one but with a frame around the definition
+\newcommand{\definition}[2]{
+  \begin{quotation}
+  	\fbox{\parbox{0.8\textwidth}{\textbf{#1} - #2}}
+  \end{quotation}
+} 
 
 
 %%%%%%%%%%%%%%%%%%%
@@ -100,12 +101,12 @@
 %%%%%%%%%%%%%%%%%%%
 
 \bibliographystyle{alpha}
-%\nocite{*} %for to include all bibtex, even non-cited articles
-\Bibliographie{StateoftheArt/SoA,AMAS/AMAS,MAS4Optim/MAS4Optim,Implem/Implem,Experiments/Experiments}
+%\nocite{*} %to include all bibtex, even non-cited articles
+\bibliography{StateoftheArt/SoA,AMAS/AMAS,MAS4Optim/MAS4Optim,Implem/Implem,Experiments/Experiments}
 
 %%%%%%%%%%%%%%%%%%%
 
-\ListeFigures{Figures List}
-\ListeTables{Tables List}
+\ListeFigures{List of figures}
+\ListeTables{List of tables}
 
 \end{document}
