@@ -20,18 +20,18 @@ Since we want to find the best element of this solution space, we have to determ
 
 \definition{Objective function}{a function defined over the search space of the optimization problems, expressing the aim of a stakeholder for this problem.}
 
-When the search space is very large, or its topology is complicated, it can be really long or difficult to find the best solution and, more important, to be sure that the solution is the best. In fact, in these problems, the only way to find the best solution with certainty is an exhaustive exploration of the search space. Since it can be very costly regarding time and computation, instead of finding the best solution, we settle for the best known, which is considered to be "good enough", for example because this solution is the best of its neighborhood for a subset of the search space. The absolute best solution is called the \emph{global optimum}, while the best known solution is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, where methods which are driven by local optimums are said to be \emph{local optimization methods}.
+When the search space is very large, or its topology is complicated, it can be really long or difficult to find the best solution and, more important, to be sure that the solution is the best. In fact, in these problems, the only way to find the best solution with certainty is an exhaustive exploration of the search space. Since it can be very costly regarding time and computation, instead of finding the best solution, we settle for the best known, which is considered to be "good enough", for example because this solution is the best of its neighborhood for a subset of the search space. The absolute best solution is called the \emph{global optimum}, while the best known solution is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, where methods which are driven by local optima are said to be \emph{local optimization methods}.
 
 \definition{Optimizing}{finding an element of the search space that minimizes (or maximizes) the value of the objective-function}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.4\paperwidth]{searchSpace}
-\caption{Examples of local and global optimums - $a$ and $b$ are global maximums, $c$ is a local minimum, $d$ is a local maximum and $e$ is a global minimum.}
+\caption{Examples of local and global optima - $a$ and $b$ are global maxima, $c$ is a local minimum, $d$ is a local maximum and $e$ is a global minimum.}
 \label{localAndGlobalOptims}
 \end{figure}
 
-In figure \ref{localAndGlobalOptims}, we can see different examples of global and local optimums. The points labeled \emph{a} and \emph{b} are both global maximums, as they have the same value. The points
+In figure \ref{localAndGlobalOptims}, we can see different examples of global and local optima. The points labeled \emph{a} and \emph{b} are both global maxima, as they have the same value. The points
 \emph{c} and \emph{d} are respectively local minimum and maximum, while \emph{e} is the global minimum.
 
 From all the preceding, we can provide the minimal formulation of an optimization problem as follows:
@@ -133,7 +133,7 @@ While the simplex algorithm is considered to be very efficient for most cases, s
 
 [[TODO: Manque de refs]]
 
-Unconstrained local optimization methods concentrate on finding local optimums either because the search space is too big or to complex to find a global optimum in a reasonable time, or because we prefer to quickly find a good enough solution.
+Unconstrained local optimization methods concentrate on finding local optima either because the search space is too big or to complex to find a global optimum in a reasonable time, or because we prefer to quickly find a good enough solution.
  Moreover, if the objective-function is convex, the local optimum is also the global optimum, in this context local methods can be an easy mean to obtain the best solution.
 
 \subsection{Using Derivatives}
@@ -178,6 +178,8 @@ For example, the Levenberg-Marquardt algorithm, whose primary application is lea
 One of the first proposal for solving constrained problems with derivative is a generalization of interior point (presented in \ref{linear_optim}). The idea is that a linear function with a non-convex search space can be transformed into a linear function over a convex search space (which is a requirement for applying interior point techniques), using \emph{self-concordant barrier functions}.
 [[BARRIER FUNCTION - WE WILL TALK ABOUT THIS LATER -> MENTION IT ?]]
 [[PICTURE OF BARRIER FUNCTION ??]]
+
+[[ADD A SCHEMA]]
 
 A barrier function is a function whose value increases to infinity when its input approaches a fixed boundary.
 The idea is to replace the constraint with a barrier function, which is composed to the objective-function. The barrier function is thus used as a penalty for a point that violates the constraint.
@@ -226,6 +228,8 @@ Several derivative-free algorithms interpolate the objective-function with a sim
 [[Talk about possible interpolations methods ? => from Jpg "juste en citer 2-3"]]
 
 \section{Global Method}
+
+[[Insister sur la nature globale/centralisée de ces solutions (et limitations inhérentes)]]
 
 While local optimization methods aim only for an optimum into a limited part of the search space, global optimization methods aim for the globally best solution of the problem. Global optimization methods concentrate on providing strategies to explore the search space.
 
@@ -380,13 +384,13 @@ Goal Programming is very easy to use and quite popular, and can work even when t
 
 [[NEED REF]]
 
-This method uses the separately attainable minimums of the objectives (the so-called \emph{utopia point}) and try to minimize the maximum deviation of the objectives relative to those minimums:
+This method uses the separately attainable minima of the objectives (the so-called \emph{utopia point}) and try to minimize the maximum deviation of the objectives relative to those minima:
 
 \[ \text{min } f = \text{ max } \left( \frac{f_i - f_i^0}{f_i^0} \right) \]
 
 where $f_i^0$ represents the separately attainable minimum of the objective $f_i$.
 
-This method can also be used similarly to Goal Programming, where the separately attainable minimums are replaced by goal given by the designer.
+This method can also be used similarly to Goal Programming, where the separately attainable minima are replaced by goal given by the designer.
 
 A variant of this method, called weighted min-max, or Tchebycheff method, uses the following formulation:
 
@@ -498,7 +502,7 @@ In this chapter, we present two advanced concepts regarding optimization: optimi
 
 In optimization under uncertainties, we take into account the fact that we are not in a ideal mathematical world: the instantiation of the problem in the physical world presents some limitations (for instance the length of a manufactured object is often not exactly as expected) and our knowledge (of a model, a process, etc.) is pervaded with imprecision.
 
-For optimization in dynamic environments, the objective functions are deterministic but change over time (and so do the optimums). This kind of problem requires specific optimization techniques able to adapt to this changing goal.
+For optimization in dynamic environments, the objective functions are deterministic but change over time (and so do the optima). This kind of problem requires specific optimization techniques able to adapt to this changing goal.
 
 \section{Optimization Under Uncertainties}
 
@@ -782,8 +786,8 @@ To handle such complex systems, most strategies propose to decompose it into sev
 \end{itemize}
 
 [[The AIAA MDO Technical Committee proposed the following definition of MDO\footnote{\url{https://info.aiaa.org/tac/adsg/MDOTC/Web\%20Pages/aboutmdo.aspx}} [[\cite{american1991current}?]]:
- \begin{quote}
-"A methodology for the design of complex engineering systems and subsystems that coherently exploits the synergism of mutually interacting phenomena."
+ \begin{quote}\textit{
+"A methodology for the design of complex engineering systems and subsystems that coherently exploits the synergism of mutually interacting phenomena."}
 \end{quote}]]
 MDO methods are not optimization methods \emph{per se}. Instead they focus on providing an optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as presented above. In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to a complex problem. Martin and Lambe \cite{Lambe:2011:A} note several other terms have been used in the literature:  "architecture, "method", "methodology", "problem formulation, "strategy", "procedure" or "algorithm".
 
@@ -803,7 +807,8 @@ a_2 &= A_2(s, l_2, a_1) \\
 
 It can be noted that this formulation does not differ from the standard optimization problem formulation. Indeed, as noted by Martin and Lambe \cite{Lambe:2011:A}:
  \begin{quote}
- "If we ignore the discipline boundaries, an MDO problem is nothing more than a standard constrained nonlinear programming problem: we must find the values of the design variables that maximize or minimize a particular objective function, subject to the constraints."
+ \textit{
+ "If we ignore the discipline boundaries, an MDO problem is nothing more than a standard constrained nonlinear programming problem: we must find the values of the design variables that maximize or minimize a particular objective function, subject to the constraints."}
 \end{quote}
 [[As we will see later, this point is one of the funding principles of the work presented in this thesis.]]
 
@@ -851,10 +856,10 @@ Mono-level methods use a single optimizer and a non hierarchical structure, whil
 
 => recent works "Multidisciplynary Design Optimization: A Survey of Architectures" says : 
 
-"Some of the previous classifications were based on which constraints could be controlled by the optimizer [77, 121]. Alexandrov and Lewis [121] used the term “closed” to indicate that a set of constraints cannot be satisfied via explicit action of the optimizer, and “open” to indicate that it can.
+\textit{"Some of the previous classifications were based on which constraints could be controlled by the optimizer [77, 121]. Alexandrov and Lewis [121] used the term “closed” to indicate that a set of constraints cannot be satisfied via explicit action of the optimizer, and “open” to indicate that it can.
 [...]
 Tosserams et al. [84] expanded on this classification
-scheme by discussing whether distributed architectures used open or closed local design constraints in the system subproblem. Closure of the constraints is an important consideration when selecting an architecture, because most robust optimization software will permit the exploration of infeasible regions of the design space. Such exploration can result in faster solution via fewer optimization iterations, but this must be weighed against the increased problem size and the risk of terminating the optimization at an infeasible point."
+scheme by discussing whether distributed architectures used open or closed local design constraints in the system subproblem. Closure of the constraints is an important consideration when selecting an architecture, because most robust optimization software will permit the exploration of infeasible regions of the design space. Such exploration can result in faster solution via fewer optimization iterations, but this must be weighed against the increased problem size and the risk of terminating the optimization at an infeasible point."}
 
 
 [[Do it after presenting the methods but say you will before]]
