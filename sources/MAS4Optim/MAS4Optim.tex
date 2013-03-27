@@ -272,7 +272,7 @@ The behavior of the variable agent is summarized in algorithm \ref{algo_simulati
 \begin{algorithm}
 \caption{Problem Simulation - Variable Agent Behavior}
 \label{algo_simulating_variable}
-\begin{algorithmic}
+
 	$C \leftarrow$ previously connected agents\;
 	$C'\leftarrow$  newly connected agents\;
 		
@@ -295,7 +295,6 @@ The behavior of the variable agent is summarized in algorithm \ref{algo_simulati
 		$C \leftarrow C + C'$\tcp{memorize new connected agents}
 	}
 	
-\end{algorithmic}
 \end{algorithm}
 
 \subsection{Model Agent}
@@ -311,7 +310,7 @@ The behavior of the model agent is summarized in algorithm \ref{algo_simulating_
 \begin{algorithm}
 \caption{Problem Simulation - Model Agent Behavior}
 \label{algo_simulating_model}
-\begin{algorithmic}
+
 	$C \leftarrow$ previously connected output agents\;
 	$C'\leftarrow$  newly connected output agents\;
 	
@@ -334,7 +333,6 @@ The behavior of the model agent is summarized in algorithm \ref{algo_simulating_
 		$C \leftarrow C + C'$\tcp{memorize new outputs agents}
 	}
 	
-\end{algorithmic}
 \end{algorithm}
 
 \subsection{Output Agent}
@@ -352,7 +350,7 @@ The behavior of the output agent is summarized in algorithm \ref{algo_simulating
 \begin{algorithm}
 \caption{Problem Simulation - Output Agent Behavior}
 \label{algo_simulating_output}
-\begin{algorithmic}
+
 	$C \leftarrow$ previously connected agents\;
 	$C'\leftarrow$  newly connected agents\;
 		
@@ -375,7 +373,6 @@ The behavior of the output agent is summarized in algorithm \ref{algo_simulating
 		$C \leftarrow C + C'$\tcp{memorize new connected agents}
 	}
 	
-\end{algorithmic}
 \end{algorithm}
 
 At runtime the designer can interact with the MAS. Among the possible interactions, the designer can remove the model calculating an output. In this case the output agent would become a variable agent and change its behavior accordingly. The inverse transformation is also possible, a variable agent could suddenly be "plugged" in output of a model and would become an output agent.
@@ -389,13 +386,13 @@ Their behavior is summarized in algorithm \ref{algo_simulating_criterion}.
 \begin{algorithm}
 \caption{Problem Simulation - Constraint/objective Agent Behavior}
 \label{algo_simulating_criterion}
-\begin{algorithmic}
+
 	$\{v_i\} \leftarrow$ new input values\;
 			
 	\If{$\{v_i\} \neq \emptyset$}{
 		$\{v'_o\}\leftarrow Internal\_Model(\{v_i\})$\tcp{use internal model to recalculate outputs}
 	}
-\end{algorithmic}
+
 \end{algorithm}
 
 \section{Collective Solving}\label{collective_solv}
@@ -406,26 +403,48 @@ However a specific difficulty arises. As explained in the previous section, mode
 For the internal models agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer is very simple: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by a classical optimization method . As the agents manipulate black boxes, it is (nearly\footnote{We will see in [[SECTION]] how can the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which have a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them.
 An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
 
+%\begin{figure}
+%\centering
+%\subfloat[The model agent receives a request.]{\begin{minipage}{0.32\textwidth}
+%		\centering
+%		\label{optim_use:1}
+%		\includegraphics[height=5cm]{optim_use_1}
+%\end{minipage}}
+%\hfill
+%\subfloat[The model agent resolves the request using an external optimizer.]{\begin{minipage}{0.32\textwidth}
+%		\centering
+%		\label{optim_use:2}
+%		\includegraphics[height=5cm]{optim_use_2}
+%\end{minipage}}
+%\hfill
+%\subfloat[The model agent transmits the new requests to its inputs.]{\begin{minipage}{0.32\textwidth}
+%		\centering
+%		\label{optim_use:3}
+%		\includegraphics[height=5cm]{optim_use_3}
+%\end{minipage}}
+%\caption{Use of an external optimizer.}\label{optim_use}
+%\end{figure}
+
 \begin{figure}
-\centering
-\subfloat[The model agent receives a request.]{\begin{minipage}{0.32\textwidth}
+	\centering
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
-		\label{optim_use:1}
 		\includegraphics[height=5cm]{optim_use_1}
-\end{minipage}}
-\hfill
-\subfloat[The model agent resolves the request using an external optimizer.]{\begin{minipage}{0.32\textwidth}
+		\caption{The model agent receives a request.}\label{optim_use:1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
-		\label{optim_use:2}
 		\includegraphics[height=5cm]{optim_use_2}
-\end{minipage}}
-\hfill
-\subfloat[The model agent transmits the new requests to its inputs.]{\begin{minipage}{0.32\textwidth}
+		\caption{The model agent resolves the request using an external optimizer.}\label{optim_use:2}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
-		\label{optim_use:3}
 		\includegraphics[height=5cm]{optim_use_3}
-\end{minipage}}
-\caption{Use of an external optimizer.}\label{optim_use}
+		\caption{The model agent transmits the new requests to its inputs.}\label{optim_use:3}
+	\end{subfigure}
+	\caption{Use of an external optimizer.}\label{optim_use}
 \end{figure}
 
 \subsection{Variable Agent}
@@ -465,7 +484,7 @@ If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i
 \begin{algorithm}
 \caption{Cooperative trajectory - Model agent}
 \label{algo_cooperative_trajectory_model}
-\begin{algorithmic}
+
 	\ForEach{$i \in I_M$}{
 		 $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$\;
 		 \eIf{$|\{\Delta_i^{r_{max}}\}| = 1$}{
@@ -475,7 +494,7 @@ If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i
 			$\{\Delta_i^*\} \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \frac{inf_{i,o_{r_{max}}}}{\sum \limits_ {i \in I} inf_{i,o}} \right\}$\;
 		 }
 	}
-\end{algorithmic}
+
 \end{algorithm}
 
 \subsubsection{For Variable Agents}
@@ -491,7 +510,6 @@ The most important point is that each agent only has a local strategy. No agent 
 
 \begin{algorithm}
 \caption{Agents Behaviors}\label{agent_algo}
-\begin{algorithmic}
 
 \SetKwProg{Bv}{behavior of }{}{}
 
@@ -544,7 +562,7 @@ The most important point is that each agent only has a local strategy. No agent 
 	    }
 	}
 }
-\end{algorithmic}
+
 \end{algorithm}
 
 \chapter{Extending the Multi-Agent System for Uncertainties}
