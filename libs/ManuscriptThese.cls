@@ -112,7 +112,8 @@ This class has been inspired from thesegauthier, Gauthier Picard, IRIT]
 
 \usepackage[usenames,dvipsnames]{color}
 
-\usepackage{caption2}
+%\usepackage{caption2}
+\usepackage{caption}
 
 \usepackage{minitoc}
 \setcounter{minitocdepth}{2}
@@ -642,14 +643,14 @@ Jury members~:}\\[5mm]}
 \def\F{\ensuremath{\mathbbm{F}}}
 \def\K{\ensuremath{\mathbbm{K}}}
 
-% le \fixme est pratique pour marquer les endroits Ã 
+% le \fixme est pratique pour marquer les endroits ï¿½ 
 % corriger ultÃ©rieurement dans la thÃ¨se (Ã©crit en gras
 % on le trouve facilement sur le papier, et par ailleurs
 % ou avec la commande unix :
 % find . -name \*.tex -exec grep '\\fixme' {} \; -print
 \def\fixme{{\bf FIXME: }}
 
-\def\cad{\mbox{c.-Ã -d.}}
+\def\cad{\mbox{c.-ï¿½ -d.}}
 \def\cf{{cf.}}
 \def\ie{{\it i.e.}}
 
@@ -999,7 +1000,7 @@ Jury members~:}\\[5mm]}
                                 % Remarque : \magstep<n> vaut 1000*(1.2)^n
                                 % Donc \magstep1 multiplie la fonte par 1.2, ie l'augmente de 20%
 
-  \def\haut{20mm}         % Hauteur des chiffres, Ã  ajuster avec 'scaled'
+  \def\haut{20mm}         % Hauteur des chiffres, ï¿½  ajuster avec 'scaled'
   \def\decal{1.75ex}      % Pour aligner la ligne avec le haut de CHAPITRE
 
   \newlength{\lgnamechap}
@@ -1090,16 +1091,16 @@ Jury members~:}\\[5mm]}
 % caption %%% ATTENTION CE N'est PAS forcement supportÃ© par toutes les
 % distrib LateX 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{caption2}
-
-%\captionstyle{centerlast}
-\renewcommand\captionfont{\footnotesize}
-\renewcommand\captionlabelfont{\bfseries\itshape}
-%\setcaptionmargin{\leftmargini}
-\setlength\captionindent{\parindent}
-\renewcommand\captionlabeldelim{~---}
-\onelinecaptionstrue
-\setcaptionwidth{0.8\textwidth}%12.9999cm}
+%\RequirePackage{caption2}
+%
+%%\captionstyle{centerlast}
+%\renewcommand\captionfont{\footnotesize}
+%\renewcommand\captionlabelfont{\bfseries\itshape}
+%%\setcaptionmargin{\leftmargini}
+%\setlength\captionindent{\parindent}
+%\renewcommand\captionlabeldelim{~---}
+%\onelinecaptionstrue
+%\setcaptionwidth{0.8\textwidth}%12.9999cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Algorithmes
