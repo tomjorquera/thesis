@@ -429,9 +429,10 @@ This capability to take into account a changing solution allows the variable age
 
 %While changing value based not on the value requested but on the direction can seem paradoxical, it must be recalled that, since no agent has a global view of the system, the requests made by the agents is often approximate, so the agents need to iterate many times. If the search space in large, the system could take time to converge towards the solution. By using a near-dichotomous strategy, we greatly accelerate this convergence.
 
-[[Explain why use AVT and not take directly the requested value]]
-
 [[Give analytical formulation of the AVT]]
+
+[[Explain why use AVT and not take directly the requested value]]
+One could wonder why the variable agent uses such a seemingly contrived method instead of just taking the requested value. It should be remembered that the variable agent can be connected to several parts of the problem and can receive contradictory requests from different origins over time (as we said, the case where the variable receives contradictory requests at the same time will also be studied later). Thus, the variable agent must have a way to take in account these contradictory requirements to find an adequate compromise. Moreover, as [[Explain that during solving the requests are probably not correct since the system is not stabilized]]
 
 This behavior is summarized in algorithm \ref{algo_solving_variable}.
 
@@ -439,8 +440,17 @@ This behavior is summarized in algorithm \ref{algo_solving_variable}.
 \caption{Collective Solving - Value Agent Behavior}
 \label{algo_solving_variable}
 
-	[[TODO]]\;
-
+	$v \leftarrow$ old value\;
+	$v_r \leftarrow$ requested value\;
+	$avt \leftarrow$ agent AVT \;
+	
+	\eIf{$v < v_r$}{
+		$feedback \leftarrow$ INCREASE\;
+	}{
+		$feedback \leftarrow$ DECREASE\;
+	}
+	$v' \leftarrow$ $avt$.adjustValue($feedback$)\;
+	
 \end{algorithm}
 
 \subsection{Model Agent}
