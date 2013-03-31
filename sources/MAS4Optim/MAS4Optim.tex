@@ -546,12 +546,25 @@ It is interesting to note that the objective agent exhibits a behavior similar t
 
 \section{Non-Cooperative Situations}
 
+In the previous sections, we presented the basic agent behavior of our system. While this basic behavior could suffice in very simple test cases, it is not sufficient to handle the specificities of most continuous optimization problem configurations.\\
+We will now present some additional mechanisms to handle some specific problematic cases we identified.
+
+[[Reparler de la notion de SNC, indiquer que c'est de cela qu'il s'agit]]
+
 [[Explain the importance of modularity to handle different kinds of problems(external optims. etc.)
 (=> cue to CPSP ?)
 => Maybe in conclusion of the chapter ?
 ]]
 
 \subsection{Conflicting Requests}
+
+The first problematic configuration, and arguably the most obvious, is the one where an agent is in position of receiving simultaneous conflicting requests. This situation concerns every agent which is susceptible to receive requests: variable, model and output agents. When such an agent receives contradictory requests, it needs a way to select which request to apply and which request to reject. We can intuitively see how this decision should be based on the current state of the requesting agents. For example, when receiving requests both a satisfied and an non-satisfied constraints, a variable agent should favor the non-satisfied one. In order for the agents to be able to make this decision, we need to provide them with a way to compare the states of different agents.
+
+To this end, we introduce a new mechanism based on a specific measure called \emph{criticality}. This measure represents the state of dissatisfaction of the agent regarding its local goal. Each agent is in charge of estimating its own criticality and providing it to the other agents\footnote{We do not concern ourselves with the problematic of trust here, each agent is assumed to provide the most trustful and accurate information without cheating or lying. The use of measures such as criticality in open and untrusted environments is in itself an interesting question to say the least.}. The role of this measure is to aggregate into a single comparable value all the relevant indicators regarding the state of the agent. Having a single indicator of the state of the agent is interesting as it simplifies the reasoning of the agents. In addition, this mechanism has the interesting property of limiting the informations transmitted to the others agents, which can be of interest in case of a distributed optimization where data privacy is an issue.
+However the system designer has the difficult task to provide the agents which adequate means to calculate their criticality. Also, in specific cases, this information on the state of the agents is not sufficient to take the correct decision, as we will see in the following sections.
+
+
+[[mettre les refs vers les travaux existants sur la criticité plutot dans la partie sur les CPSP ?]]
 
 \subsection{Cooperative Trajectories}
 
