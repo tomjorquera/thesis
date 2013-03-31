@@ -31,7 +31,7 @@ In \figurename{} \ref{turbofan:math}, the analytic expression of this optimizati
 
 \begin{figure}[]
 \centering
-\subfloat[mathematical formulation.]{\begin{minipage}{0.4\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		$\begin{array}{c}
 			(Tdm0, s, fr) = Turbofan(pi\_c, bpr) \\
 			max \; Tdm0 \\
@@ -40,13 +40,14 @@ In \figurename{} \ref{turbofan:math}, the analytic expression of this optimizati
 			s \leq 155 \\
 			fr \geq 4
 		\end{array}$
-\label{turbofan:math}
-\end{minipage}}\hfill%
-\subfloat[{corresponding entities graph.}]{\begin{minipage}{0.6\textwidth}%
-		\centering
-		\label{turbofan:graph}
-		\includegraphics[width=\textwidth]{testcases-Turbofan-annoted}
-\end{minipage}}
+		\caption{mathematical formulation.}\label{turbofan:math}
+	\end{subfigure}
+	\hfill%
+	\begin{subfigure}[b]{0.55\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{testcases-Turbofan-annoted}
+			\caption{corresponding entities graph.}\label{turbofan:graph}
+	\end{subfigure}
 
 \caption{Turbofan problem.}
 \label{turbofan}
@@ -208,24 +209,24 @@ Problem simulation can be seen as the equivalent of the analysis of classical MD
 Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contains desired variations of values. The "message flow" is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents. The illustration of the messages flow of solving is shown on \figurename{} \ref{messages_flow:req}.
 
 \begin{figure}[h]
-	\subfloat[Informs flow for simulation]{\begin{minipage}{0.4\textwidth}%
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{testcases-Turbofan-informs}
-		\label{messages_flow:inf}
-	\end{minipage}}
+		\caption{Informs flow for simulation}\label{messages_flow:inf}
+	\end{subfigure}
 	\hfill
-  	\subfloat[Requests flow for solving]{\begin{minipage}{0.4\textwidth}%
+  	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{testcases-Turbofan-requests}
-		\label{messages_flow:req}
-	\end{minipage}}
+		\caption{Requests flow for solving}\label{messages_flow:req}
+	\end{subfigure}
 
 	%new line
 	\centering
-	 \subfloat[Effective messages flow]{\begin{minipage}{0.4\textwidth}%
+	 \begin{subfigure}[b]{0.4\textwidth}
 		\includegraphics[width=\textwidth]{testcases-Turbofan-informs_requests}
-		\label{messages_flow:eff}
-	\end{minipage}}
+		\caption{Effective messages flow}\label{messages_flow:eff}
+	\end{subfigure}
 	
 	\caption{Messages flow for simulation and solving}
 	\label{messages_flow}
@@ -558,13 +559,62 @@ We will now present some additional mechanisms to handle some specific problemat
 
 \subsection{Conflicting Requests}
 
+[[mettre les refs vers les travaux existants sur la criticité plutot dans la partie sur les CPSP ?]]
+
 The first problematic configuration, and arguably the most obvious, is the one where an agent is in position of receiving simultaneous conflicting requests. This situation concerns every agent which is susceptible to receive requests: variable, model and output agents. When such an agent receives contradictory requests, it needs a way to select which request to apply and which request to reject. We can intuitively see how this decision should be based on the current state of the requesting agents. For example, when receiving requests both a satisfied and an non-satisfied constraints, a variable agent should favor the non-satisfied one. In order for the agents to be able to make this decision, we need to provide them with a way to compare the states of different agents.
 
 To this end, we introduce a new mechanism based on a specific measure called \emph{criticality}. This measure represents the state of dissatisfaction of the agent regarding its local goal. Each agent is in charge of estimating its own criticality and providing it to the other agents\footnote{We do not concern ourselves with the problematic of trust here, each agent is assumed to provide the most trustful and accurate information without cheating or lying. The use of measures such as criticality in open and untrusted environments is in itself an interesting question to say the least.}. The role of this measure is to aggregate into a single comparable value all the relevant indicators regarding the state of the agent. Having a single indicator of the state of the agent is interesting as it simplifies the reasoning of the agents. In addition, this mechanism has the interesting property of limiting the informations transmitted to the others agents, which can be of interest in case of a distributed optimization where data privacy is an issue.
 However the system designer has the difficult task to provide the agents which adequate means to calculate their criticality. Also, in specific cases, this information on the state of the agents is not sufficient to take the correct decision, as we will see in the following sections.
 
+%%
+In the proposed system, criticality is initially provided by constraint and objective agents and is propagated in the system through their requests.
+Let's illustrate this with a constraint of the type \(g(X) \leq t\), with \emph{X} input of the constraint, \emph{g(X)} the constraint equation and \emph{t} the threshold under which the constraint is satisfied. The basic requirements regarding the criticality of this agent is to be low when the constraint is satisfied and high when the constraint is violated. Thus, the criticality of this agent is function of its current value and of the threshold.
 
-[[mettre les refs vers les travaux existants sur la criticité plutot dans la partie sur les CPSP ?]]
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{\textwidth}
+	  \centering
+	  \scriptsize
+	  
+		\[criticality_{t,\eta,\epsilon}(x)=
+			\begin{cases}
+				0		&\text{if \( x < \; t - \epsilon \) },\\
+				-\gamma ( t - x - \eta ) ^ 2 / ( 2 ( \epsilon - \eta)) + \gamma ( t - x - \eta ) + \delta &\text{if \(t - \epsilon \leq \;x \leq \;t - \eta \)},\\
+				\gamma (-t-x-\eta)^2/(2 \eta)+\gamma (-t-x-\eta) + \delta &\text{if \(t - \eta \leq \;x \leq \;t\)},\\
+				1	&\text{if \( x > \; t \)}
+			\end{cases}\]
+
+		where\\
+		$\gamma = -2/ \epsilon,$\\
+		$\delta = -\gamma (\epsilon - \eta )/2,$\\
+		$\text{and } 0 < \eta < \epsilon.$
+	  \caption{Analytical formulation.}\label{crit_func}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[]{./latex_figs/barrer-fig}
+		\caption{Shapes of criticality function of threshold t = 1 for \(\epsilon=1\) and different \(\eta\).}\label{crit_shapes}
+	\end{subfigure}
+	
+\caption{Criticality function of a constraint agent.}
+\end{figure}
+
+To compute it, we use the function defined on \figurename{} \ref{crit_func}. It takes as input \(x\), the current value of the constraint. It is parameterized by \(t\), the threshold, and by \(\eta\) and \(\epsilon\) that both regulate the shape of the function as seen on \figurename{} \ref{crit_shapes}. Its value always varies between \(0\) and \(1\).
+The \(\epsilon\) can be adjusted by a domain expert if needed: the higher it is, the faster the constraint increases in criticality.
+In our experiments, we used $\epsilon = 0.1$ and  $\eta$ was set to roughly a third of $\epsilon$, \textit{i.e.} 0.03.
+This function allows a smooth transition between two states and provides several interesting properties: it is continuous, differentiable, requires few parameters, is computed quickly and is relatively easy to grasp.
+
+\noindent The criticality of the other agents is determined as follow:
+
+\begin{compactitem}
+\item For objective agents: the criticality is set to an arbitrary constant value which must be lower than \(1\). In our experiments we settled for a value of \(0.5\). This translates the fact that, in the general case, an objective could theoretically always be improved, but is less important to satisfy than a constraint.
+\item For variable, output and model agents: the criticality is set to the highest criticality among the received requests.
+\end{compactitem}
+
+When the system converges to a solution, it stabilizes at a point where the maximum of the criticalities of the agents is minimized.
+%%
 
 \subsection{Cooperative Trajectories}
 
