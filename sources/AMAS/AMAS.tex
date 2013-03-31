@@ -67,20 +67,17 @@ Usually, the constraints of a CSP are binary. In this case, the CSP can be repre
 
 \begin{figure}[]
 \centering
-\subfloat[formal definition.]{\begin{minipage}{0.5\textwidth}
-
-	\begin{align*}
-		X &= {x1, x2, x3}\\
-		D &= \{\{0,1\}, \{1,2\}, \{0,1,2\}\}\\
-		C &= \{(x1 \neq x3), (x2 \neq x3)\}
-	\end{align*}
-\end{minipage}}
-\hfill
-\subfloat[{corresponding agent graph.}]{\begin{minipage}{0.5\textwidth}%
-		\centering
-		\label{dcsp:graph}
-		\includegraphics[width=0.7\textwidth]{DCSP}
-\end{minipage}}
+	\begin{subfigure}[b]{0.35\textwidth}
+			$X = \{x1, x2, x3\}$\\
+			$D = \{\{0,1\}, \{1,2\}, \{0,1,2\}\}$\\
+			$C = \{(x1 \neq x3), (x2 \neq x3)\}$		
+		\caption{formal definition.}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+			\centering
+			\includegraphics[width=0.7\textwidth]{DCSP}
+			\caption{corresponding agent graph.}\label{dcsp:graph}
+	\end{subfigure}
 
 \caption{An example of DCSP representation.}
 \label{dcsp}
@@ -199,20 +196,19 @@ From this categorization, the theory draws its formal definition (and fundamenta
 
 \begin{figure}
 \centering
-\subfloat[system not functionally adequate.]{
-	\centering
-	\begin{minipage}{0.45\textwidth}
-		\includegraphics[width=\textwidth]{system_non_adequate}
-	\end{minipage}
-}
-\hfill
-\subfloat[functionally adequate system.]{
-	\centering
-	\begin{minipage}{0.45\textwidth}
-		\includegraphics[width=\textwidth]{system_adequate}
-	\end{minipage}
-}
 
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{system_non_adequate}
+		\caption{system not functionally adequate.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{system_adequate}
+		\caption{functionally adequate system.}
+	\end{subfigure}
+	
 \caption{Comparison of a system not functionally adequate and a functionally adequate one.}
 \label{adequacy_comp}
 \end{figure}
@@ -228,20 +224,19 @@ Using this axiom, several properties has been demonstrated concerning a specific
 
 \begin{figure}
 \centering
-\subfloat[system which does not have an internal cooperative medium.]{
-	\centering
-	\begin{minipage}{0.35\textwidth}
-		\includegraphics[width=\textwidth]{system_non_cooperative}
-	\end{minipage}
-}
-\hfill
-\subfloat[internal cooperative medium system.]{
-	\centering
-	\begin{minipage}{0.35\textwidth}
-		\includegraphics[width=\textwidth]{system_cooperative}
-	\end{minipage}
-}
 
+	\begin{subfigure}[b]{0.35\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{system_non_cooperative}
+		\caption{system which does not have an internal cooperative medium.}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.35\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{system_cooperative}
+		\caption{internal cooperative medium system.}
+	\end{subfigure}
+	
 \caption{Illustration of internal cooperative medium system.}
 \label{internal_cooperative_comp}
 \end{figure}
