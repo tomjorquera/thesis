@@ -4,7 +4,7 @@ In this section we present three test cases, Alexandrov Problem, Turbofan Proble
 
 \begin{figure}
 \centering
-	\subfloat[mathematical formulation.]{\begin{minipage}{0.4\textwidth}%
+	\begin{subfigure}[b]{0.4\textwidth}
 		$\begin{array}{c}
 			a_1 = (l_1 - a_2)/2 \\
 			a_2 = (l_2 - a_1)/2 \\
@@ -13,49 +13,47 @@ In this section we present three test cases, Alexandrov Problem, Turbofan Proble
 			s + l_1 \leq 1 \\
 			-s + l_2 \leq -2
 		\end{array}$
-		\label{alexandrov:math}
-	\end{minipage}}\hfill%for spacing
-	\subfloat[corresponding agent graph.]{\begin{minipage}{0.5\textwidth}%
-		\centering
+		\caption{mathematical formulation.}\label{alexandrov:math}
+	\end{subfigure}
+	\hfill%for spacing
+	\begin{subfigure}[b]{0.5\textwidth}
 		\includegraphics[width=\textwidth]{testcases-Alexandrov}%screen_Alexandrov}%}
-		\label{alexandrov:graph}
-	\end{minipage}}
-	\caption{Alexandrov problem}
-	\label{alexandrov}
-	\vspace{-20pt}
+		\caption{corresponding agent graph.}\label{alexandrov:graph}
+	\end{subfigure}
+\caption{Alexandrov problem}\label{alexandrov}
+%\vspace{-20pt}
 \end{figure}
 
 \subsection{Alexandrov Problem}
 
-\begin{figure}[t]
+\begin{figure}[]
 \centering
-
-  \subfloat{\begin{minipage}{0.4\textwidth}%
+  	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/l1_one_run}
-		\vspace{-20pt}
+		%\vspace{-20pt}
 		\label{alexandrov_res_one:l1}
-	\end{minipage}}%
-	\subfloat{\begin{minipage}{0.4\textwidth}%
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/l2_one_run}
-		\vspace{-20pt}
+		%\vspace{-20pt}
 		\label{alexandrov_res_one:l2}
-	\end{minipage}}
+	\end{subfigure}
 	\vspace{-20pt}
 	\\
-	\subfloat{\begin{minipage}{0.4\textwidth}%
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/s_one_run}
-		\vspace{-20pt}
+		%\vspace{-20pt}
 		\label{alexandrov_res_one:s}
-	\end{minipage}}%
-	\subfloat{\begin{minipage}{0.4\textwidth}%
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/o_one_run}
-		\vspace{-20pt}
+		%\vspace{-20pt}
 		\label{alexandrov_res_one:o}
-	\end{minipage}}%
+	\end{subfigure}
 	
 	\caption{Alexandrov agents behavior}
 	\label{alexandrov_res_one}
@@ -63,11 +61,11 @@ In this section we present three test cases, Alexandrov Problem, Turbofan Proble
 \end{figure}
 
 \begin{wrapfigure}{R}{0.4\textwidth}
-	\vspace{-50pt}
+	%\vspace{-50pt}
     \includegraphics[width=0.4\textwidth]{./R_figs/generated/o}
 	\caption{Convergence of the Alexandrov objective for 100 random starting points}
 	\label{alexandrov_res}
-	\vspace{-25pt}
+	%\vspace{-25pt}
 \end{wrapfigure}
 
 Our first test case is inspired from an academic example taken in literature by Alexandrov and al\cite{alexandrov2002analytical}. This simple example presents some of the commons characteristics of MDO problems, such as interdependent disciplines and multiple criteria. In the original article, the example was used to illustrate some properties of Collaborative Optimization, which we presented earlier, in terms of reformulation. While the paper only gave the structure of the problem, we adapted it with meaningful values and equations.
@@ -79,40 +77,38 @@ On \figurename \ref{alexandrov_res_one}, the behavior of the \emph{design variab
  
 On \figurename \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
 
-
-\begin{figure}[h]
+\begin{figure}[]
 \centering
-
-  \subfloat{\begin{minipage}{0.4\textwidth}%
+  	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/l1_pertubated}
-		\vspace{-20pt}
+		%\vspace{-20pt}
 		\label{alexandrov_res_pert:l1}
-	\end{minipage}}%
-	\subfloat{\begin{minipage}{0.4\textwidth}%
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/l2_pertubated}
-		\vspace{-20pt}
+		%\vspace{-20pt}
 		\label{alexandrov_res_pert:l2}
-	\end{minipage}}
+	\end{subfigure}
 	\vspace{-20pt}
 	\\
-	\subfloat{\begin{minipage}{0.4\textwidth}%
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/s_pertubated}
-		\vspace{-20pt}
+		%\vspace{-20pt}
 		\label{alexandrov_res_pert:s}
-	\end{minipage}}%
-	\subfloat{\begin{minipage}{0.4\textwidth}%
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/o_pertubated}
-		\vspace{-20pt}
+		%\vspace{-20pt}
 		\label{alexandrov_res_pert:o}
-	\end{minipage}}%
+	\end{subfigure}
 	
 	\caption{Alexandrov agents behavior with perturbation (constraint change at dotted line)}
 	\label{alexandrov_res_pert}
-
+	
 \end{figure}
 
 
@@ -130,15 +126,15 @@ The main interest and difficulty of this problem is the existence of two contrad
 As we can see on \figurename \ref{snecma_res}, the system consistently converges toward the same optimal solution.
 
 \begin{figure}[h]
-	\subfloat{\begin{minipage}{0.49\textwidth}%
+	\begin{subfigure}[b]{0.49\textwidth}
 		\centering
 		\includegraphics[width = \textwidth]{./R_figs/generated/o1}	
-	\end{minipage}}%
+	\end{subfigure}
 	\hfill%for spacing
-	\subfloat{\begin{minipage}{0.49\textwidth}%
+	\begin{subfigure}[b]{0.49\textwidth}
 		\centering
 		\includegraphics[width = \textwidth]{./R_figs/generated/o2}	
-	\end{minipage}}%
+	\end{subfigure}
 	\caption{Convergence of the Turbofan objectives for 100 random starting points}
 	\label{snecma_res}
 \end{figure}
@@ -157,20 +153,20 @@ $$
 
 \begin{figure}[h]
 
-	\subfloat{\begin{minipage}{0.33\textwidth}%
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o1}	
-	\end{minipage}}%
+	\end{subfigure}
 	\hfill%for spacing
-	\subfloat{\begin{minipage}{0.33\textwidth}%
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o2}	
-	\end{minipage}}%
+	\end{subfigure}
 	\hfill%for spacing
-	\subfloat{\begin{minipage}{0.33\textwidth}%
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o3}	
-	\end{minipage}}%
+	\end{subfigure}
 	\caption{Convergence of Viennet1 objectives for 100 random starting points}
 	\label{viennet_res}
 \end{figure}
@@ -182,9 +178,7 @@ The analytical formulation of this problem (for two dimensions) is
 $$\text{Minimize } f(x,y) = (1-x)^2 + 100(y - x^2)^2$$
 
 \begin{wrapfigure}{R}{0.5\textwidth}
-    \vspace{-50pt}
     \includegraphics[width = 0.5\textwidth]{./R_figs/generated/minimizer}	
-    	\vspace{-30pt}
 	\caption{Convergence of Rosenbrock objective for 100 random starting points}
 	\vspace{-20pt}
 \end{wrapfigure}
