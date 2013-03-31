@@ -493,9 +493,56 @@ We presented here a very simple learning mechanism for the agent to default when
 
 \subsection{Output Agent}
 
-\subsection{Constraint/Objective Agent}
+Like for simulation, output agents have a similar role to variable agents during problem solving. However, as it depends of a model agent for its value, an output agent will simply transmits the requests it receives to its model, as summarized in algorithm \ref{algo_solving_output}.
 
-[[Say they can use the same mechanisms than the model agent for internal optimizer]]
+\begin{algorithm}
+\caption{Collective Solving - Output Agent Behavior}
+\label{algo_solving_output}
+
+	$v_r \leftarrow$ requested value\;
+	$m \leftarrow$ the model agent responsible of the output \;
+	
+	send($m$, $v_r$) \tcp{forward the request to the model agent}\;
+	
+\end{algorithm}
+
+\subsection{Constraint Agent}
+
+With the objective agents, the constraint agents are the origins of the requests which are propagated into the system. The goal of a constraint agent is to ensure the constraint of which it is in charge is satisfied. To this end, the constraint agent calculates a target value for the constraint, estimates corresponding target values for its inputs and sends them as requests to the agents in charge of these inputs.
+
+The problematic behind finding corresponding input values for the target value is similar to the one of the model agent of finding adequate inputs values from the outputs. As we said at the end of section \ref{modeling}, constraint agents (and objective agents) are similar to model agents in the fact that both have control of an \emph{internal model}. Thus, constraint agents can, in the same way than model agents, make use of an external optimizer to find adequate target values for its inputs. The only difference being that, instead of having a value requested by an output, the constraint agent estimates itself its own target value.\\
+In the same way, constraint agents can use the same internal optimization mechanism than model agents, presented in algorithm \ref{algo_solving_internaloptim},  when not provided with an external optimizer.
+
+The behavior of constraint agents is described in algorithm \ref{algo_solving_constraint};
+
+\begin{algorithm}
+\caption{Collective Solving - Constraint Agent Behavior}
+\label{algo_solving_constraint}
+
+	[[TODO]]\;
+	
+\end{algorithm}
+
+It should be noted that, even when the constraint is satisfied, the constraint agent continues to send requests to its inputs. This behavior can be justified by several reasons.  First of all, the goal of the constraint agent is to ensure its constraint stays satisfied, so when the constraint is already  satisfied the constraint agent has interest in "pushing" its current value afar from the frontier.\\
+The other reason is to help its neighbors agents keep a coherent view of their relations. Indeed, as the system is interactive, the designer can decide at any time to remove or change the constraint. As a consequence it is not possible for the agents to simply keep in memory the constraints they are linked to, as these informations can become obsolete at any time. A simple way to remedy to this situation is for the constraint to not assume the others agents will memorize its requirements and to keep sending them requests.
+
+\subsection{Objective Agent}
+
+Along with constraint agents, the objective agents are the origins of the requests which are propagated into the system. The goal of an objective agent is to improve the objective of which it is in charge. To this end, the objective agent iteratively estimates a new target value for its objective, finds the corresponding input target values and sends them as requests to the input agents.
+
+Like the constraint and model agents, the objective agent can use an external optimizer to find the corresponding intput values, or can use the internal optimization mechanism presented in algorithm \ref{algo_solving_internaloptim}.
+
+The behavior of objective agents is described in algorithm \ref{algo_solving_objective};
+
+\begin{algorithm}
+\caption{Collective Solving - Constraint Agent Behavior}
+\label{algo_solving_objective}
+
+	[[TODO]]\;
+	
+\end{algorithm}
+
+It is interesting to note that the objective agent exhibits a behavior similar to the one of the constraint agent, but for slightly different reasons. While the constraint agent continuously sends requests in order to make its constraint safer and safer, the objective agent continuously send requests because it can never knows if it reached the best value for the objective it handles. An objective agent is essentially "blind", as the objective is a black box, and must rely on the external optimizer (or the internal optimization mechanism) in order to improve it. Consequently, the objective agent never stops trying to find a better value. As with constraint agents, this mechanism is quite handy in the context of interactive optimization, as the designer can at any moment completely change the nature of the objective.
 
 \section{Non-Cooperative Situations}
 
