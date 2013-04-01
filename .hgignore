@@ -1,7 +1,10 @@
+syntax: regexp
+
+^generated/*
+
 syntax: glob
 
 exempleManuscriptThese/*
-generated/*
 
 *.log
 *.blg
