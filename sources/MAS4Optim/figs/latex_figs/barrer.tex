@@ -1,0 +1,34 @@
+\documentclass[]{article}
+
+\usepackage{graphics}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotscreateplotcyclelist{blackAndWhite}{solid,dashed,dotted, {.!50!white},{.!50!white,dashed}}
+
+\pgfrealjobname{barrer}
+
+\begin{document}
+
+\beginpgfgraphicnamed{barrer-fig}
+\begin{tikzpicture}
+\begin{axis}[legend style={ anchor=north west,cells={anchor=west}},
+						cycle list name=blackAndWhite,
+						width=0.6\textwidth,
+						xlabel={input value},
+						ylabel={criticality}
+						]	
+	%plots
+	\addplot+[mark=none, smooth] table[x=input,y=1minusEpsil10] {./barrer.dat};
+	\addplot+[mark=none, smooth] table[x=input,y=1minusEpsil3] {./barrer.dat};
+	\addplot+[mark=none, smooth] table[x=input,y=epsil2] {./barrer.dat};	
+	\addplot+[mark=none, smooth] table[x=input,y=epsil3] {./barrer.dat};	
+	\addplot+[mark=none, smooth] table[x=input,y=epsil10] {./barrer.dat};
+	
+	\legend{\(\eta = 1 - \epsilon/10\), \(\eta = 1- \epsilon/3\), \(\eta = \epsilon/2\), \(\eta = \epsilon/3\), \(\eta = \epsilon/10\)}
+	
+\end{axis}
+\end{tikzpicture}
+\endpgfgraphicnamed
+
+
+\end{document}
