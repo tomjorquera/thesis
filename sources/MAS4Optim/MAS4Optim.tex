@@ -548,6 +548,8 @@ It is interesting to note that the objective agent exhibits a behavior similar t
 \section{Non-Cooperative Situations}
 
 In the previous sections, we presented the basic agent behavior of our system. While this basic behavior could suffice in very simple test cases, it is not sufficient to handle the specificities of most continuous optimization problem configurations.\\
+Basing ourselves on the AMAS theory (presented in section \ref{amas_theory}), we can assimilate these configurations to Non Cooperative Situations, as they represent a situation where, because of a shortcoming in the behavior of the agents, the system does not produces an adequate functionality (in our case, the optimization of the problem).
+
 We will now present some additional mechanisms to handle some specific problematic cases we identified.
 
 [[Reparler de la notion de SNC, indiquer que c'est de cela qu'il s'agit]]
@@ -556,6 +558,8 @@ We will now present some additional mechanisms to handle some specific problemat
 (=> cue to CPSP ?)
 => Maybe in conclusion of the chapter ?
 ]]
+
+[[Dire pour chaque SNC à quelle catégorie elle appartient]]
 
 \subsection{Conflicting Requests}
 
@@ -606,6 +610,8 @@ The \(\epsilon\) can be adjusted by a domain expert if needed: the higher it is,
 In our experiments, we used $\epsilon = 0.1$ and  $\eta$ was set to roughly a third of $\epsilon$, \textit{i.e.} 0.03.
 This function allows a smooth transition between two states and provides several interesting properties: it is continuous, differentiable, requires few parameters, is computed quickly and is relatively easy to grasp.
 
+[[Faire référence aux fonctions barrières présentées auparavant ?]]
+
 \noindent The criticality of the other agents is determined as follow:
 
 \begin{compactitem}
@@ -615,6 +621,25 @@ This function allows a smooth transition between two states and provides several
 
 When the system converges to a solution, it stabilizes at a point where the maximum of the criticalities of the agents is minimized.
 %%
+
+An illustration on this mechanism can be seen on \figureref{} \ref{NCS_1_conflicting_requests}. In this example, a variable agent (with a current value of 3) receives contradictories requests from an objective (decrease) and a constraint (increase). As the constraint is not satisfied, the criticality associated to its request (0.85) is higher than the one of the objective (0.5). As a consequence the variable agent selects the request of the constraint agent and increases its value.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{NCS_1_conflicting_requests_a}
+		\caption{The criterions send their requests and current criticalities (in parenthesis).}\label{NCS_1_conflicting_requests_a}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{NCS_1_conflicting_requests_b}
+		\caption{The variable agent selects the most critical request and responds accordingly.}\label{NCS_1_conflicting_requests_b}
+	\end{subfigure}
+	
+\caption{Criticality mechanism (the criticality of the requests is indicated in parenthesis).}\label{NCS_1_conflicting_requests}
+\end{figure}
 
 \subsection{Cooperative Trajectories}
 
