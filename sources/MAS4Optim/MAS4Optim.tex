@@ -746,3 +746,34 @@ The most important point is that each agent only has a local strategy. No agent 
 \end{algorithm}
 
 \chapter{Extending the Multi-Agent System for Uncertainties}
+
+We have seen in section \ref{SOA_uncertainties} how uncertainties can a major concern in real-life optimization. We have also seen how several types of uncertainties existed and needed to be taken into account. Moreover, complex optimization problems can involve several teams concerned with different disciplines, each of which with its own practices regarding how to manipulate uncertainties, making difficult to study the impact of uncertainties across disciplines.
+
+In this chapter we present a way to alleviate this burden by having the agents automating the uncertainty propagation in the system.
+
+The difficulty is twofold:
+\begin{compactitem}
+\item \textbf{How do the agents manipulate uncertainties ?}
+How does a model agent calculate the uncertainties on its outputs from the uncertainties of its inputs and its internal model ? How does a constraint agent can handle a probabilistic constraint ?
+
+\item \textbf{How do the agents combine heterogeneous uncertainties modeling ?}
+How can a model agent handle inputs with different uncertainties modelings ?
+\end{compactitem}
+
+\section{Manipulating Uncertain Values}
+
+\section{Uncertainties Propagators}
+
+\section{Conclusion on Uncertainties Handling}
+
+We have seen how the agents can automatically propagate uncertainties in the system, relieving the designers of a part of the burden.\\
+This extension to our modeling allow to take in account not only values but uncertain values, that is, values with an associated uncertainty representation. As the exact representation does not concern the agent, these uncertainties are mostly handled as black boxes. In a similar way to how they use optimizers to propagate requests with black box models, internal model agents can use uncertainties propagators to locally propagate uncertainties. In this regard, uncertainties propagators (as well as external optimizers) can be seen as a way to extend the capabilities of the agents provided by the users.
+
+While this mechanism require for the users to provide the uncertainties propagators, it has the advantage that this specific effort has to be done only once, as the resulting propagator can be reusable at will. In this way it can greatly reduce the time different teams need to spend together to overcome the difficulties induced by different working practices. It also open the possibility of propagators libraries, which can be shared and imported as needed.
+
+A note of warning however, the representation of uncertainties is inherently imprecise. In the same way that the modeling of a system contains imprecision, so does the modeling of the uncertainties used to represent this very same imprecision (and so would do the uncertainties used to represent the imprecision on the uncertainties...). Like discussed before, this imprecision is an inherent limitation of the real world. As the uncertainties modeling is in itself factor of uncertainties, it follows that the transformation between two different uncertainties representations will in itself contains some part of imprecision (if only because the passage from one representation to another can lead to information loss, \emph{e.g.} passing from a normal law to an interval modeling).\\
+This problematic is not specific to our technique and is indeed  present all the same if the uncertainties propagation is done "manually". But it is worth reminding, as this complete automation of the propagation could hide it from the mind of the designer.
+
+As a remark we have seen how, by overloading some common mathematical operators, it was possible for the agents to manipulate uncertain values as if they were simple numerical values. Such work could be possibly done with complex numbers, matrix or others, arbitrarily complex, data structures, as long as the corresponding overloaded operators are provided.
+
+[[Dire que, tout comme on a étendu le système pour propager des valeurs incertaines, il est tout a fait possible de l'étendre pour propager d'autres types de données (vecteurs etc.)]]
