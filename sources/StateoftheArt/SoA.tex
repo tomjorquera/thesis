@@ -1,8 +1,8 @@
-%\part{State of the Art}
+\part{State of the Art}
 
-\part{Optimization}
+%\part{Optimization}
 
-\chapter{Basic Concepts}
+\chapter{Optimization - Basic Concepts}
 
 [[TODO: Ajouter quelques refs]]
 
@@ -450,28 +450,6 @@ An illustration of a Pareto front can be seen on figure \ref{Front_Pareto}. The 
 \label{Front_Pareto}
 \end{figure}
 
-[[TODO: give some example of Pareto methods =< Ou pas, d'après Jpg]]
-
-\subsection{Transforming A Priory Approaches}
-
-A first possibility is to use an a priory method and iterating over it while varying the different parameter to obtain a set of solutions.
-
-[[Example Weighted sum]]
-
-\subsection{Normal Boundary Intersection Method}
-
-Normal Boundary Intersection (NBI) \cite{S1052623496307510} method provides an even distribution of Pareto-optimal solutions using a parameter vector $w$ provided by the designer.
-
-The method uses
-
-[[Explain it]]
-
-One drawback of NBI is that it can produce solutions sets which contain non Pareto optimal-points, as well as overlook some points which are Pareto-optimal.
-
-\subsection{Normal Constraint Method}
-
-Normal Constraint (NC) method tries to improve on NBI by introducing a Pareto filter to avoid the selection of non Pareto-optimal points.
-
 \subsection{Evolutionary Algorithms}
 
 [[Talk about scalability problems -> "Techniques for Highly Multiobjective Optimisation: Some Nondominated Points are Better than Others" by David Corne and Joshua Knowles]]
@@ -494,7 +472,7 @@ Different possibilities has been explored to introduce elitism in MOAE. A common
 
 [[Signal that evolutionary algorithms have difficulties with more than two objectives ?]]
 
-\subsubsection{Analysis of a posteriori methods}
+\subsubsection{Analysis of evolutionary algorithms}
 
 \chapter{Advanced Concepts for Optimization}
 
@@ -647,8 +625,6 @@ Several rules have been proposed to combine informations coming from different (
 
 [[From Jpg : un schéma exemple aussi avec un optimum global fragile et un optimum local robuste poru marquer l'idée en un coup d'oeil.]]
 
-[[GIVE EXAMPLE OF SEQUENTIAL OPTIMIZATION (AS DONE WITH ICA), FOR A SIMPLE OPTIM UNDER UNCERTAINTY TECHNIQUE]]
-
 \subsubsection{Taguchi Method - The firsts steps of Robust Optimization }
 
 Robust optimization tries to provide a solution which is both good and insensible to small variations of the inputs.
@@ -678,10 +654,9 @@ This mean can then be used to calculate the standard deviation as follows
  
  \[ SN_T = 10\text{log}\left(\frac{\bar{y}^2}{S^2}\right) \]
  
-To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi use the Design of Experiment, a statistical procedure for determining the effect of multiple inputs on a desired output. [[GIVE A REF ON DOE]]
+To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi use the Design of Experiment\cite{sacks1989design}, a statistical procedure for determining the effect of multiple inputs on a desired output. by evaluation different designs using different noise factors (temperature, pressure \emph{etc.}), it is possible to obtain an array of SN rations on which a statistical data analysis allows to identify which design provides the best performances.
 
-[[EXPAND ON DOE  ? => NO, but must conclude]]
-
+Tagushi was the first to propose a way to take in account the uncertainties in design. As it is nearly inevitable for such pioneering work, his approach suffers from several limitations. As the number of parameters increases, so do the number of experiments (for $N$ parameters and $M$ noise factors we need $2^N$ designs and $M2^N$ experiments). Moreover, the statistical measures proposed by Tagushi has been subject to much debate (for a discussion of these measures see \cite{nair1992taguchi}). However, Tagushi opened the way for the other methods in the field.
 
 \section{Optimization in Dynamic Environments with Population-Based Algorithms}
 
@@ -1065,6 +1040,14 @@ Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420}, represented in \
 The basic idea is to assign to each subsystem a value for the global variables. An optimization is done on the local variables of each subsystem to maximize their constraints margins. Based on the result of each subsystem, a global optimization is done to assign new values to the global variables. The process is then repeated iteratively.
 
 [[TODO: Need a conclusion on MDO. Explain what are the perceived advantages of complex MDO methods in terms of modularity and separation of concerns, but how they are more complex and costly (cf comparison of several methods). Say it is heavy and not very efficient]]
+
+\chapter{Uncertainties in Multidisciplinary Optimization}
+
+[[cf These_Vicent_Baudoui_optimisation_robuste]]
+
+The modeling of uncertainties in MDO problem is not fundamentally different from any other optimization problems. As with the other aspects of optimization, it is the complexity of the problem which make classical uncertainty propagation methods unfeasible in practice since too costly, as well as the heterogeneity of formalisms brought by different teams working in the different domains of the problem.
+
+Several strategies have been proposed for the propagation of uncertainties.
 
 \chapter{Conclusion on Optimization}
 
