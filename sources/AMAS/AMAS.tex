@@ -1,4 +1,4 @@
-\part{Multi-Agents Systems and AMAS Theory}
+\chapter{Multi-Agents Systems and AMAS Theory}
 
 [[NO CHAPTER ??]
 
@@ -274,20 +274,23 @@ $C_{action}$     & Uselessness, Competition, Conflict\\
 \end{figure}
 
 The different NCS are:
-
-\definition{Incomprehension}{The agent is not able to extract information from a received message.}
-\definition{Ambiguity} {The exact meaning of a message cannot be determined, or lacks required informations.}
-\definition{Incompetence}{The agent does not have the capabilities to handle a received information.}
-\definition{Unproductiveness[[?]]}{A received information does not lead to any useful conclusion.}
-\definition{Conflict}{The action of the agent is incompatible with an action from its environment.}
-\definition{Competition}{The action of the agent leads to the same result than an action from its environment.}
-\definition{Uselessness}{The action of the agent has no effect on itself or its environment.}
+\begin{compactitem}
+\item\textbf{Incomprehension} The agent is not able to extract information from a received message.
+\item\textbf{Ambiguity} The exact meaning of a message cannot be determined, or lacks required informations.
+\item\textbf{Incompetence} The agent does not have the capabilities to handle a received information.
+\item\textbf{Unproductiveness[[?]]} A received information does not lead to any useful conclusion.
+\item\textbf{Conflict} The action of the agent is incompatible with an action from its environment.
+\item\textbf{Competition} The action of the agent leads to the same result than an action from its environment.
+\item\textbf{Uselessness} The action of the agent has no effect on itself or its environment.
+\end{compactitem}
 
 A cooperative agent actively tries to avoid these NCS and, should this fail, to solve them to the best of its capabilities. To this end, three distinct mechanisms can be used\cite{bonjean2009engineering}:
 
-\definition{1. Tuning}{The agent can change one or several of its internal parameters (\textit{e.g.}, adjusting the priorities of its behavior rules)}
-\definition{2. Reorganization}{The agent can change its relationship with its environment (\textit{e.g.}, removing or creating new links with others agents)}
-\definition{3. Evolution}{The agent can change the nature of its environment (\textit{e.g.}, removing or creating new agents)}
+\begin{compactitem}
+\item\textbf{1. Tuning} The agent can change one or several of its internal parameters (\textit{e.g.}, adjusting the priorities of its behavior rules)
+\item\textbf{2. Reorganization} The agent can change its relationship with its environment (\textit{e.g.}, removing or creating new links with others agents)
+\item\textbf{3. Evolution} The agent can change the nature of its environment (\textit{e.g.}, removing or creating new agents)
+\end{compactitem}
 
 The order of these mechanisms usually correspond to their level of disruption (\textit{i.e.}, adjusting its parameters usually has less consequences than creating and removing agents). In general, it is preferable to make the less disruptive possible adjustment. One can for example design the agents based on an escalation principle, where the agents try to solve NCS first by using tuning, escalating to a more disruptive mechanism only when the previous ones failed to solve the NCS. Of course, a NCS situation being by itself disruptive, it is sometime more efficient to immediately make a more radical adjustment in order to solve the NCS more quickly. The designer will have to balance these concerns according to the specificities of the system.
 
