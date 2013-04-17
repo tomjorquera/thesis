@@ -762,11 +762,13 @@ How can a model agent handle inputs with different uncertainties modelings ?
 
 To answer these difficulties we will present a general mechanism inspired by the one we used with external optimizers, which is based on the use of encapsulated external tools to apply the domain-specific expertise.
 
+\section{From Deterministic Optimization to Optimization under Uncertainties}
+
+[[Reformulation d'un probleme d'optim] -> cf these_Vicent_Baudoui_Optimization_robuste]]
+
 \section{Manipulating Uncertain Values}
 
 [[Bien expliquer que la surcharge des operateurs ne concerne que les agents, et non pas le contenu des boites noires]]
-
-[[Reformulation d'un probleme d'optim] -> cf these_Vicent_Baudoui_Optimization_robuste]]
 
 Taking in account uncertainties requires modifications at several levels. The most obvious concerns the data structure. On the deterministic version, the data exchanged by the agent were simply real values \footnote{With the obvious limitation of the representation of real numbers on a machine.}. To be able to exchange uncertain values, the agents require a more complex data structure.
 
@@ -782,9 +784,9 @@ To this end, we specified the minimum set of  operations the agents require. To 
 
 Any uncertainty representation which can provide these four informations can be used by the system. All the designer need to do is to provide the module which implements these operations\footnote{The reader familiar the concepts of object-oriented programming and interface implementation will have no difficulties to guess how the process is done in our prototype}.
 
-Let us see how different representations can provide these information with two drastically different modelings: intervals and Monte Carlo experiments.
+Let us see how one can provides these information regarding two drastically different modelings: intervals and Monte Carlo experiments.
 
-\subsection{Intervals Representation}
+\paragraph{Intervals Representation}
 
 As the reader knows, an interval representation consist of a lower and upper boundaries, with all the values between the boundaries considered as equally likely. Suppose $l$ and $u$ the boundaries of our uncertainty.
 
@@ -801,7 +803,7 @@ As the reader knows, an interval representation consist of a lower and upper bou
 
 As we can see, for a simple representation as intervals the required informations can be obtained very easily.
 
-\subsection{Monte Carlo Experiments}
+\paragraph{Monte Carlo Experiments}
 
 The Monte Carlo Experiment is not an uncertainty law \emph{per se} but a series of random drawings to obtain experiment points. If the number of drawings is big enough, then the series can provide an adequate information about the uncertainties governing the variable. Suppose $\{x_n\}$ a series of $n$ drawings over $x$. We suppose the values to be ordered (that is, $x_i < x_j$ 
 
@@ -809,8 +811,13 @@ The Monte Carlo Experiment is not an uncertainty law \emph{per se} but a series 
 \item the mean can be obtained as $\dfrac{\sum_n{x_n}}{n}}$.
 \item the drawing of a random value consists of drawing a value $i$ between $1$ and $n$ and returning the corresponding point $x_i$
 \item the cumulative probability of $t$ is calculated as  $P(X < t) = \dfrac{|\{x_i, \forall x_i < t\}|}{|\{x_n\}|}$ (where $|{x|$ is the cardinality of the set ${x}$), the number of elements lower than $t$ divided by the total number of elements.
-\item the inverse cumulative probability of $p$ is obtained as $ t = $.
+\item the inverse cumulative probability of $p$ is obtained as $ t = $ [[TODO]].
 \end{compactitem}
+
+Even with very specific, non-analytical representation of uncertainties such as datasets from Monte Carlo experiments, we can provide the needed informations without much hassle.
+
+Now that we have defined a common set of operations common to all the uncertainties representations, we can adapt the agents behavior in order to handle them.
+
 
 \section{Uncertainties Propagators}
 
