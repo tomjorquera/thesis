@@ -772,7 +772,8 @@ We previously explained that uncertainties can be present at several levels in t
 \item \textbf{Model uncertainties}, which represent the limited precision of the models.
 \end{compactitem}
 
-Taking in account these uncertainties leads to a modification of the criteria formulation. Indeed, the constraint $x < 10$ makes sense in the context of deterministic optimization, but not so much when the value of $x$ is uncertain. Is the constraint satisfied when $x$ is an uncertain value, for example represented by an interval ranging from 8 to 12? One can instead propose the following probabilistic constraint $P(x < 10) > 90\%$, which can still be evaluated when manipulating uncertain values. It is possible to propose others criteria formulations manipulating uncertain values, for example one could consider a deterministic constraint concerning the mean of an uncertain variable. Usually, constraints are expressed in a probabilistic form, while objectives use the mean of the variables[[NEED TO REF THIS ?]].
+Taking in account these uncertainties leads to a modification of the criteria formulation. Indeed, the constraint $x < 10$ makes sense in the context of deterministic optimization, but not so much when the value of $x$ is uncertain. Is the constraint satisfied when $x$ is an uncertain value, for example represented by an interval ranging from 8 to 12?\\
+One can instead propose the following probabilistic constraint $P(x < 10) > 90\%$, which can still be evaluated when manipulating uncertain values. It is possible to propose others criteria formulations manipulating uncertain values, for example one could consider a deterministic constraint concerning the mean of an uncertain variable. Usually, constraints are expressed in a probabilistic form, while objectives use the mean of the variables[[NEED TO REF THIS ?]].
 
 [[Give an example of transformation of a deterministic problem to a non deterministic one]]
 
@@ -793,7 +794,7 @@ To this end, we specified the minimum set of operations the agents require. To b
 \item obtain the inverse cumulative probability (for a given probability $p$, what is $t$ for which $P(X < t) = p$) associated with the uncertainty).
 \end{compactitem}
 
-Any uncertainty representation which can provide these four informations can be used by the system. All the designer needs to do is to provide the module which implements these operations\footnote{The reader familiar the concepts of object-oriented programming and interface implementation will have no difficulties to guess how the process is done in our prototype}.
+Any uncertainty representation which can provide these five informations can be used by the system. All the designer needs to do is to provide the module which implements these operations\footnote{The reader familiar the concepts of object-oriented programming and interface implementation will have no difficulty to guess how the process is done in our prototype}.
 
 Let us see how one can provides these information regarding two drastically different modelings: intervals and Monte Carlo experiments.
 
@@ -830,14 +831,20 @@ The Monte Carlo Experiment is not an uncertainty law \emph{per se} but a series 
 
 Even with very specific, non-analytical representation of uncertainties such as datasets from Monte Carlo experiments, we can provide the needed informations without much hassle.
 
-Now that we have defined a common set of operations common to all the uncertainties representations, we can adapt the agents behavior in order to handle them.
+Now that we have defined a common set of operations common to all the uncertainties representations, we can adapt the agents behavior in order to handle them. Such "uncertainty container" can be associated to variables to represent uncertain values, or to models, indicating uncertainties concerning the underlying model.
 
+For example the designer can estimate that, due to physical limitations, the value of a design variable $x$ cannot be exactly be controlled and will always suffer from an imprecision of +/-0.1 around its assigned value. He can model the uncertainty around the variable with an interval. If he decides to arbitrarily initialize the variable at the value 8, the uncertain value of $x$ will then be [7.9; 8.1].
+
+If the designer observe that the real-world process represented by a specific model tends to produce outputs whose values imprecision can be accurately modeled by a normal distribution, he can associate the normal distribution uncertainty to the model. For example the model $y = 2x$, upon the reception of the information $x = 1$, will produce an uncertain value $y$ with a mean of 2 and a variance corresponding to the associated normal law.
+
+We have now seen how the agents can manipulate uncertainties in isolation. But these mechanisms do not allow the agents to propagate uncertainties in the system. Indeed, if we take our two previous examples, what if the variable $x$ ,associated with an interval uncertainty, is assigned in input of the model $y = 2x$, following a normal distribution? The model has no mechanism to handle uncertainties \emph{received on its inputs}, but these uncertainties must be taken into account as they surely have consequences on the uncertainties of its outputs.\\
+The difficulty here is twofold. Not only the model agent must be able to take in account the uncertainties provided by its inputs in addition to its own uncertainty, but it must be able to do so even with uncertainties of different kinds (in our example, interval and normal distribution). We will now present a generic mechanism using \emph{uncertainties propagators} which allows to solve both problems at once.
 
 \section{Uncertainties Propagators}
 
 [[Need to illustrate how the propagator is used at runtime (diagram)]]
 
-\subsection{Basic Properties}
+In the same way we encapsulated expert knowledge on numerical optimization using external optimizers, we propose to encapsulate the knowledge related to the propagation of uncertainties into dedicated modules we call \emph{uncertainties propagators}. While external optimizers are used by the agents to solve local optimization problems, the uncertainties propagators are used by the agents to propagate the uncertainties associated with their inputs and model into uncertainties on their outputs.
 
 The role of an uncertainties propagator is to determine the uncertainties associated with the outputs values of the model based on:
 \begin{compactitem}
@@ -847,9 +854,17 @@ The role of an uncertainties propagator is to determine the uncertainties associ
 \item the uncertainties associated with the inputs
 \end{compactitem}
 
-As the outputs values cannot be determined by simply evaluating the (deterministic) model, the agent in charge of it will delegate the whole evaluation process to the uncertainties propagator when working with uncertainties. From the agent point of view, an uncertainties propagator is a black box function taking uncertain input values and an unce
+As the outputs values cannot be determined by simply evaluating the (deterministic) model, the agent in charge of it will delegate the whole evaluation process to the uncertainties propagator when working with uncertainties. From the agent point of view, an uncertainties propagator is a black box function taking uncertain input values and an uncertain model, and producing uncertain outputs values.
 
-\subsection{Examples of Propagator}
+\begin{figure}
+\center
+\includegraphics[width=0.4\textwidth]{uncertainties_propagator}
+\caption{Uncertainties propagator as a black box function.}\label{uncertainties_propagator}
+\end{figure}
+
+\figurename{} \ref{uncertainties_propagator} illustrates the representation of an uncertainties propagator from the point of view of an agent. The uncertainty propagator is a black box. The $(i_j, u_{i_j})$ represent the $n$ uncertain input values of the model (the $i_j$ corresponding to the mean value of the input and $u_{i_j}$ to the associated uncertainty). The model itself $m$ is also provided along with its associated uncertainty $u_m$. Based on the inputs and the model (and their uncertainties), the uncertainty propagator returns the $(o_j, u_{o_j})$ represent the $k$ uncertain output values produced.
+
+\subsection{Examples of Propagators}
 
 \section{Conclusion on Uncertainties Handling}
 
