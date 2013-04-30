@@ -297,6 +297,19 @@ The order of these mechanisms usually correspond to their level of disruption (\
 \subsection{The Importance of Locality}
 [[Explain how locality is important to scale to big problems and in the concept of emergence => To put in the section A Multi-Agent System for Optimization ??]]
 
+A primordial aspect of the AMAS theory is the importance of locality. The theory insists on the need to consider and consider only the local interactions between the agents, without trying to provide a \enquote{bigger picture}. While this concern can be linked to specific notions like the concept of emergence[[ (explored later in this thesis) [[?]]]], we believe that a direct explanation can be found regarding the preoccupation of \emph{scalability} of the system.
+
+[[EXPLAIN]]
+The AMAS theory concerns systems which aim to solve complex problems. By definition the difficulty of such problem increases exponentially with its size. To design a MAS able to scale with the size of the problem, the designer has in general two possibility: he can increase the size of the system or increase the complexity of the agents. The key difference between these two operations is their marginal costs. While adding a new agent to the system should usually represents a constant cost (in terms of complexity, computational requirements ...), increasing the complexity of the agents will be more and more difficult, since the agents will individually reach the same limitations as centralized methods. the principle of locality is a good example for this argument. Suppose a hierarchical system where one of the agent is in charge of a whole subsystem. If the increase of the complexity of the problems results in an increase of complexity of the subsystem, after some limit agent will not be able to handle correctly the subsystem, resulting in a limit to the scalability of the system as a whole.
+
+The software engineer will not miss the uncanny similarity of this argument with the relatively recent trend regarding scalability concerns for computer infrastructures (for \emph{e.g.} web servers, distributed databases \emph{etc.}). The two main categories for scaling resources in such systems are \emph{vertical scalability} (scaling \enquote{up}) and \emph{horizontal scalability} (scaling \enquote{out}). Vertical scalability is the improvement of existing resources for them to be able to handle more data/traffic/..., while horizontal scalability consist in adding more resources to spread the workload. While in the past vertical scalability was the dominant practice, the current consensus seems to be that horizontal scalability is easier and provides better performances increase. 
+[[REF Michael, M.; J.E. Moreira, D. Shiloach, R.W. Wisniewski (March 26, 2007). "Scale-up x Scale-out: A Case Study using Nutch/Lucene"
+ 
+. Parallel and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International. Retrieved 2008-01-10.]]\\
+Of course such comparison must be made with caution, as the context of the two fields are quite different. However it is interesting to note how similar concerns from these different fields led to a similar evolution in the approaches.
+
+Obviously, such general principles cannot hold systematically true and some problems which cannot be solved by adding more agents are easily resolved by improving their reasoning capabilities. More so, in some cases increasing the size of the system can increase the complexity of the existing agents (for example by adding neighbors to an agent, thus increasing the complexity of its decision process). Still, in the general case, the motto of approaches such as the one of the AMAS theory could be \enquote{scale out when you can, scale up when you must}. 
+
 \subsection{ADELFE - A Method for Designing AMAS} 
 [[TODO ? AND MAY ? HERE OR IN THE IMPLEMENTATION PART ?]]
 
