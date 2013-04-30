@@ -9,14 +9,14 @@ In this part we will present first a short history of multi-agents systems, befo
 
 \section{Multi-Agents Systems}
 
-Multi-Agents Systems (MAS) are a relatively recent field which can be seen as the intersection of Artificial Intelligence (AI) and Systems Theory. As a reminder, the AI field was developed in 1950s as "the science and engineering of making intelligent machines." [[source MacCarthy cf wikipedia]] This rather ambitious project was somewhat toned down during the 70s when the field was the subject of several setbacks leading to an "AI winter"[[REF ? Russell and Norvig ?]], which effects can still be felt today. The commonly accepted reason for this setback was that the researchers have been too much ambitious in their expectations of the breakthroughs which would be produced by the field, and did not take enough into account the inherent complexity of some of the task they were proposing to handle (\emph{e.g. language processing}).
+Multi-Agents Systems (MAS) are a relatively recent field which can be seen as the intersection of Artificial Intelligence (AI) and Systems Theory. As a reminder, the AI field was developed in 1950s as \enquote{the science and engineering of making intelligent machines}. [[source MacCarthy cf wikipedia]] This rather ambitious project was somewhat toned down during the 70s when the field was the subject of several setbacks leading to an \enquote{AI winter}[[REF ? Russell and Norvig ?]], which effects can still be felt today. The commonly accepted reason for this setback was that the researchers have been too much ambitious in their expectations of the breakthroughs which would be produced by the field, and did not take enough into account the inherent complexity of some of the task they were proposing to handle (\emph{e.g. language processing}).
 
 [[TO PUT? Several specific subfield subfields of AI have been defined, among which we can find automated problem solving, machine learning, robotics, knowledge engineering, planning, affective computing \emph{etc.}]]
 
 This disgrace period of the IA field ended with the success of expert systems in the 80s. These systems aim to emulate the ability of a human being to take decisions based on expert knowledge, using inference mechanisms (via an \emph{inference engine}) and a rules database.
 However, even expert systems cannot avoid the complexity of modeling knowledge, and are still ultimately limited by the growth of their rules database. This concern, among others (such as privacy of informations) lead to a new field of IA named Distributed Artificial Intelligence (DAI)[[REF?]], where several expert systems collaborate to provide a collective diagnostic of a situation.
 
-In parallel to the developments of AI, another field of knowledge emerged in the beginning of the century, Cybernetics (also called System Theory), the study of self-regulating systems. Interestingly, this field had radically different origins from AI, taking root in social and natural sciences. These two disciplines had a somewhat uneasy coexistence for some times during the 50s, after which AI took the lead and cybernetics[[see on the importance of being emergent - Peter Cariani]].The field knew a revival in the 70s with the "new cybernetics", or "second-order cybernetics", which introduces the study of self-organizing systems and the notion of observer.
+In parallel to the developments of AI, another field of knowledge emerged in the beginning of the century, Cybernetics (also called System Theory), the study of self-regulating systems. Interestingly, this field had radically different origins from AI, taking root in social and natural sciences. These two disciplines had a somewhat uneasy coexistence for some times during the 50s, after which AI took the lead and cybernetics[[see on the importance of being emergent - Peter Cariani]].The field knew a revival in the 70s with the \enquote{new cybernetics}, or \enquote{second-order cybernetics}, which introduces the study of self-organizing systems and the notion of observer.
 
 It is interesting to note the conflicting nature of AI and cybernetics. AI initially based itself on a reductionist approach of knowledge, using symbol manipulation coming from algebra and logics. Cybernetics was part of the more general [[epistemic/epistemological ??]] upheaval of constructivism.
 
@@ -26,7 +26,7 @@ It is a the conjunction of these two seemingly contradictory fields that was bor
 
 Before talking about Multi-Agents Systems (MAS), we must explain the notion of \emph{agent}. Several conflicting definitions of what is an agent have been proposed. We keep here the (mostly) consensual one proposed by Wooldridge in \cite{wei1999mutiagent}:
 
-\definition{Agent}{"An \emph{agent} is a computer system that is \emph{situated} in some \emph{environment}, and that is capable of \emph{autonomous action} in this environment in order to meet its design objectives."}
+\definition{Agent}{\enquote{An \emph{agent} is a computer system that is \emph{situated} in some \emph{environment}, and that is capable of \emph{autonomous action} in this environment in order to meet its design objectives.}}
 
 Based on this definition, a MAS is a system composed of several agents, interacting among each other and with their environment.
 
@@ -306,12 +306,12 @@ The order of these mechanisms usually correspond to their level of disruption (\
 
 We presented here the AMAS theory. This theory presents a way to models systems by their interactions with their environment and identify the special category of internal cooperative medium systems.
 
-An interesting aspect of this theory  is that it provides a guidance to build a multi-agent system based on the problem to solve. Classical solving methods often use a very rigid formalism which needs to be followed. For example, genetic algorithms are a very powerful technique, but they require the problem to fit the genetic representation/fitness function model. To use these kinds of methods, one would now be presented to a whole new problem: "how to express my problem to fit the solution I want to employ ?"
+An interesting aspect of this theory  is that it provides a guidance to build a multi-agent system based on the problem to solve. Classical solving methods often use a very rigid formalism which needs to be followed. For example, genetic algorithms are a very powerful technique, but they require the problem to fit the genetic representation/fitness function model. To use these kinds of methods, one would now be presented to a whole new problem: \enquote{how to express my problem to fit the solution I want to employ ?}
 
-[[These methods can be said to be "solutions looking for problems"]]
+[[These methods can be said to be \enquote{solutions looking for problems}.]]
 
 While a non-negligible part of real-world problems are more or less straightforwardly translated in such formalisms, there is still a whole range of problems for which this translation is not so easy. This can be either because no method adequate enough for the domain was proposed, or because there is no consensual representation of the domain. For these problems, the AMAS theory can provides an interesting asset as the design of the MAS is based on the problem domain. The solution is adapted to the problem, instead of requiring the problem to be adapted to the solution.
 
-We can say that, while the AMAS approach can be applied to any kind of problem, it seems to be especially adequate when trying to solve problems which are still in an exploratory phase, where no "clear-cut" solution exists.
+We can say that, while the AMAS approach can be applied to any kind of problem, it seems to be especially adequate when trying to solve problems which are still in an exploratory phase, where no \enquote{clear-cut} solution exists.
 
 

@@ -204,9 +204,9 @@ This agent uses an external optimizer to estimate input values which would impro
 
 We will now discuss the behavior the the five agent types identified in the previous chapter. The functioning of the system can be divided into two main tasks: problem simulation and collective solving.
 
-Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the propagation of the values of design variables to the models and criteria based on the value. For this part, the agents will exchange \emph{inform} messages which contains calculated values. The "message flow" is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents. The illustration of the messages flow of simulation is shown on \figurename{} \ref{messages_flow:inf}.
+Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the propagation of the values of design variables to the models and criteria based on the value. For this part, the agents will exchange \emph{inform} messages which contains calculated values. The \enquote{message flow} is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents. The illustration of the messages flow of simulation is shown on \figurename{} \ref{messages_flow:inf}.
 
-Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contains desired variations of values. The "message flow" is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents. The illustration of the messages flow of solving is shown on \figurename{} \ref{messages_flow:req}.
+Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contains desired variations of values. The \enquote{message flow} is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents. The illustration of the messages flow of solving is shown on \figurename{} \ref{messages_flow:req}.
 
 \begin{figure}[h]
 	\begin{subfigure}[b]{0.4\textwidth}
@@ -370,7 +370,7 @@ The behavior of the output agent is summarized in algorithm \ref{algo_simulating
 	
 \end{algorithm}
 
-At runtime the designer can interact with the MAS. Among the possible interactions, the designer can remove the model calculating an output. In this case the output agent would become a variable agent and change its behavior accordingly. The inverse transformation is also possible, a variable agent could suddenly be "plugged" in output of a model and would become an output agent.
+At runtime the designer can interact with the MAS. Among the possible interactions, the designer can remove the model calculating an output. In this case the output agent would become a variable agent and change its behavior accordingly. The inverse transformation is also possible, a variable agent could suddenly be \enquote{plugged} in output of a model and would become an output agent.
 
 \subsection{Constraint/Objective Agent}
 
@@ -476,7 +476,7 @@ The behavior of the model agent is summarized in algorithm \ref{algo_solving_mod
 \end{algorithm}
 
 [[Explain here ?]]
-At the start of the section we stated that, since the internal model is a black box, the model agent cannot in itself perform the "bottom-up" translation from the values requested by its outputs to values to ask to its inputs, requiring an external optimizer to carry such task. While this is true at the start of the process, the model agent can at runtime observe the values returned by the model and make some estimations about its internal topology. We present now such a mechanism which can be integrated into model agents, capable of taking advantage of the functioning of the agent using simple black-box optimization techniques.
+At the start of the section we stated that, since the internal model is a black box, the model agent cannot in itself perform the \enquote{bottom-up} translation from the values requested by its outputs to values to ask to its inputs, requiring an external optimizer to carry such task. While this is true at the start of the process, the model agent can at runtime observe the values returned by the model and make some estimations about its internal topology. We present now such a mechanism which can be integrated into model agents, capable of taking advantage of the functioning of the agent using simple black-box optimization techniques.
 
 This mechanism integrates itself during the simulation behavior of the agent. Remember that, as presented in section \ref{simulation_model}, when receiving a new value from one of its input the model agent calls its internal model to recalculate the values of its outputs. At this step, instead of passing all the the agent can observe the impact of the variation of variation of the input on each output. We call \emph{correlation} between the input $i$ and output $o$ the variation of $o$ relative to the variation of $i$, calculated as $\dfrac{v_o^{t+1} - v_o^t}{v_i^{t+1} - v_i^t}$. This correlation can be seen as a local linear approximation of the partial derivative $\dfrac{\delta o}{\delta i}$.This correlation can then be used during solving to estimate the required changes from the inputs to satisfy a change requested by an output.\\
 For example, suppose a model with one input $i$ and one output $o$. During simulating, the value of $i$ changes from 1 to 2. As a consequence the internal model provides a change of $o$ from -2 to -4. Thus the correlation between $i$ and $o$ is $\dfrac{-4 - (-2)}{2 - 1} = -2$. The output $o$ then sends a request to the model agent to take the value 4. The agent can estimate that for $o$ to take the value 4, $i$ needs to take the value $\dfrac{4}{-2} = -2$.
@@ -524,7 +524,7 @@ The behavior of constraint agents is described in algorithm \ref{algo_solving_co
 	
 \end{algorithm}
 
-It should be noted that, even when the constraint is satisfied, the constraint agent continues to send requests to its inputs. This behavior can be justified by several reasons.  First of all, the goal of the constraint agent is to ensure its constraint stays satisfied, so when the constraint is already  satisfied the constraint agent has interest in "pushing" its current value afar from the frontier.\\
+It should be noted that, even when the constraint is satisfied, the constraint agent continues to send requests to its inputs. This behavior can be justified by several reasons.  First of all, the goal of the constraint agent is to ensure its constraint stays satisfied, so when the constraint is already  satisfied the constraint agent has interest in \enquote{pushing} its current value afar from the frontier.\\
 The other reason is to help its neighbors agents keep a coherent view of their relations. Indeed, as the system is interactive, the designer can decide at any time to remove or change the constraint. As a consequence it is not possible for the agents to simply keep in memory the constraints they are linked to, as these informations can become obsolete at any time. A simple way to remedy to this situation is for the constraint to not assume the others agents will memorize its requirements and to keep sending them requests.
 
 \subsection{Objective Agent}
@@ -543,7 +543,7 @@ The behavior of objective agents is described in algorithm \ref{algo_solving_obj
 	
 \end{algorithm}
 
-It is interesting to note that the objective agent exhibits a behavior similar to the one of the constraint agent, but for slightly different reasons. While the constraint agent continuously sends requests in order to make its constraint safer and safer, the objective agent continuously send requests because it can never knows if it reached the best value for the objective it handles. An objective agent is essentially "blind", as the objective is a black box, and must rely on the external optimizer (or the internal optimization mechanism) in order to improve it. Consequently, the objective agent never stops trying to find a better value. As with constraint agents, this mechanism is quite handy in the context of interactive optimization, as the designer can at any moment completely change the nature of the objective.
+It is interesting to note that the objective agent exhibits a behavior similar to the one of the constraint agent, but for slightly different reasons. While the constraint agent continuously sends requests in order to make its constraint safer and safer, the objective agent continuously send requests because it can never knows if it reached the best value for the objective it handles. An objective agent is essentially \enquote{blind}, as the objective is a black box, and must rely on the external optimizer (or the internal optimization mechanism) in order to improve it. Consequently, the objective agent never stops trying to find a better value. As with constraint agents, this mechanism is quite handy in the context of interactive optimization, as the designer can at any moment completely change the nature of the objective.
 
 \section{Non-Cooperative Situations}
 
@@ -622,7 +622,7 @@ This function allows a smooth transition between two states and provides several
 When the system converges to a solution, it stabilizes at a point where the maximum of the criticalities of the agents is minimized.
 %%
 
-An illustration on this mechanism can be seen on \figureref{} \ref{NCS_1_conflicting_requests}. In this example, a variable agent (with a current value of 3) receives contradictories requests from an objective (decrease) and a constraint (increase). As the constraint is not satisfied, the criticality associated to its request (0.85) is higher than the one of the objective (0.5). As a consequence the variable agent selects the request of the constraint agent and increases its value.
+An illustration on this mechanism can be seen on \figurename{} \ref{NCS_1_conflicting_requests}. In this example, a variable agent (with a current value of 3) receives contradictories requests from an objective (decrease) and a constraint (increase). As the constraint is not satisfied, the criticality associated to its request (0.85) is higher than the one of the objective (0.5). As a consequence the variable agent selects the request of the constraint agent and increases its value.
 
 \begin{figure}
 	\centering
@@ -822,7 +822,7 @@ As we can see, for a simple representation as intervals the required information
 The Monte Carlo Experiment is not an uncertainty law \emph{per se} but a series of random drawings to obtain experiment points. If the number of drawings is big enough, then the series can provide an adequate information about the uncertainties governing the variable. Suppose $\{x_n\}$ a series of $n$ drawings over $x$. We suppose the values to be ordered (that is, $x_i < x_j$ 
 
 \begin{compactitem}
-\item the mean can be obtained with $\dfrac{\sum_n{x_n}}{n}}$.
+\item the mean can be obtained with $\dfrac{\sum_n{x_n}}{n}$.
 \item the standard deviation is obtained by first calculating the variance using the formula $Var(X) = E(X^2) - E(X)^2$ (possible as we can calculate the mean), then taking the square root to obtain the standard deviation.
 \item the drawing of a random value consists of drawing a value $i$ between $1$ and $n$ and returning the corresponding point $x_i$
 \item the cumulative probability of $t$ is calculated as  $P(X < t) = \dfrac{|\{x_i, \forall x_i < t\}|}{|\{x_n\}|}$ (where $|\{x\}|$ is the cardinality of the set $\{x\}$), \emph{i.e.} the number of elements lower than $t$ divided by the total number of elements.
@@ -831,7 +831,7 @@ The Monte Carlo Experiment is not an uncertainty law \emph{per se} but a series 
 
 Even with very specific, non-analytical representation of uncertainties such as datasets from Monte Carlo experiments, we can provide the needed informations without much hassle.
 
-Now that we have defined a common set of operations common to all the uncertainties representations, we can adapt the agents behavior in order to handle them. Such "uncertainty container" can be associated to variables to represent uncertain values, or to models, indicating uncertainties concerning the underlying model.
+Now that we have defined a common set of operations common to all the uncertainties representations, we can adapt the agents behavior in order to handle them. Such \enquote{uncertainty container} can be associated to variables to represent uncertain values, or to models, indicating uncertainties concerning the underlying model.
 
 For example the designer can estimate that, due to physical limitations, the value of a design variable $x$ cannot be exactly be controlled and will always suffer from an imprecision of +/-0.1 around its assigned value. He can model the uncertainty around the variable with an interval. If he decides to arbitrarily initialize the variable at the value 8, the uncertain value of $x$ will then be [7.9; 8.1].
 
@@ -865,8 +865,12 @@ As the outputs values cannot be determined by simply evaluating the (determinist
 \figurename{} \ref{uncertainties_propagator} illustrates the representation of an uncertainties propagator from the point of view of an agent. The uncertainty propagator is a black box. The $(i_j, u_{i_j})$ represent the $n$ uncertain input values of the model (the $i_j$ corresponding to the mean value of the input and $u_{i_j}$ to the associated uncertainty). The model itself $m$ is also provided along with its associated uncertainty $u_m$. Based on the inputs and the model (and their uncertainties), the uncertainty propagator returns the $(o_j, u_{o_j})$ represent the $k$ uncertain output values produced.
 
 This approach shows several advantages. First it allow to keep the functioning of the agents nearly untouched, which in itself is a good sign. Handling uncertain values can be deemed to be an orthogonal concern to the previous ones, and orthogonal concerns should lead to orthogonal changes. Thus this modification of our system to handle uncertainties show that \emph{our modeling is flexible and can be extended easily}.\\
-This approach also permit to reduce the work of the designers, which only need to \emph{define the needed propagators once and reuse them} on several problems. This aspect is particularly important as defining a correct way to propagate uncertainties across different disciplines can be an extensive work involving experts from different domains. Providing a way to encapsulate the result of this work in a reusable component leads to a more efficient work process (this concern is especially recognized by software engineers, which created the well-known acronym: DRY - "Don't Repeat Yourself").\\
+This approach also permit to reduce the work of the designers, which only need to \emph{define the needed propagators once and reuse them} on several problems. This aspect is particularly important as defining a correct way to propagate uncertainties across different disciplines can be an extensive work involving experts from different domains. Providing a way to encapsulate the result of this work in a reusable component leads to a more efficient work process (this concern is especially recognized by software engineers, which created the well-known acronym: DRY - \enquote{Don't Repeat Yourself}).\\
 Finally, by strictly encapsulating the required knowledge, we provide a highly modular and adaptable mechanism. \emph{If the needs regarding the modeling of the uncertainties changes, the consequences on the problem are limited solely to the uncertainties representation and/or propagators}. For example, if a designer needs to change the uncertainties associated with a model, he only has to change the uncertainty representation of the model and to use the appropriate propagator (or create it if no adequate propagator already exists).
+
+[[Dire que les propagateurs peuvent être très génériques et très réutilisables, ou au contraire extremement specifiques et adhoc => transition sur la partie suivante]]
+
+
 
 \subsection{Examples of Propagators}
 
@@ -878,6 +882,6 @@ This extension to our modeling allow to take in account not only values but unce
 While this mechanism require for the users to provide the uncertainties propagators, it has the advantage that this specific effort has to be done only once, as the resulting propagator can be reusable at will. In this way it can greatly reduce the time different teams need to spend together to overcome the difficulties induced by different working practices. It also open the possibility of propagators libraries, which can be shared and imported as needed.
 
 A note of warning however, the representation of uncertainties is inherently imprecise. In the same way that the modeling of a system contains imprecision, so does the modeling of the uncertainties used to represent this very same imprecision (and so would do the uncertainties used to represent the imprecision on the uncertainties...). Like discussed before, this imprecision is an inherent limitation of the real world. As the uncertainties modeling is in itself factor of uncertainties, it follows that the transformation between two different uncertainties representations will in itself contains some part of imprecision (if only because the passage from one representation to another can lead to information loss, \emph{e.g.} passing from a normal law to an interval modeling).\\
-This problematic is not specific to our technique and is indeed  present all the same if the uncertainties propagation is done "manually". But it is worth reminding, as this complete automation of the propagation could hide it from the mind of the designer.
+This problematic is not specific to our technique and is indeed  present all the same if the uncertainties propagation is done \enquote{manually}. But it is worth reminding, as this complete automation of the propagation could hide it from the mind of the designer.
 
 As a remark we have seen how, by overloading some common mathematical operators, it was possible for the agents to manipulate uncertain values as if they were simple numerical values. Such work could be possibly done with complex numbers, matrix or others, arbitrarily complex, data structures, as long as the corresponding overloaded operators are provided.
