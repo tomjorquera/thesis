@@ -395,7 +395,7 @@ Their behavior is summarized in algorithm \ref{algo_simulating_criterion}.
 During solving, the criteria agents try to improve their local goal. That is, the constraints agents try to keep their constraint satisfied, while the objective agents try to improve their objective. To this end they send \emph{Request} messages to the agents controlling their inputs, asking them to change value. The others agents have to propagate these requests toward the variable agents in the most adequate way.
 
 However a specific difficulty arises. As explained in the previous section, model, constraint and objective agents manipulate the underlying equations (or algorithms, or responses surfaces \emph{etc.}) of the problem through internal models, which are in most cases black boxes. In this case, how can constraint agents know which values to ask to satisfy their constraint, how can objective agents know which values improve their objective, how can model agents know which values for their outputs could produce the values required by their outputs?\\
-For the internal models agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer is very simple: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by a classical optimization method . As the agents manipulate black boxes, it is (nearly\footnote{We will see in [[SECTION]] how can the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which have a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them. In the most general case it can be assumed that each agent in control of an internal model uses its own specific optimizer. However in practice several instances of the same optimizer can be used by different agents, if the designer deems that their models present sufficient similar characteristic for the optimization method to be efficient for each of them. An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
+For the internal models agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer is very simple: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by a classical optimization method. As the agents manipulate black boxes, it is (nearly\footnote{We will see in [[SECTION]] how can the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which have a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them. In the most general case it can be assumed that each agent in control of an internal model uses its own specific optimizer. However in practice several instances of the same optimizer can be used by different agents, if the designer deems that their models present sufficient similar characteristic for the optimization method to be efficient for each of them. An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
 
 In order to keep the presentation of the agents behavior simple, we will assume for the moment that no agent ever receive simultaneous contradictory requests. We will see in section [[REF SECTION]] the advanced selection mechanisms used by the agents to handle such cases.
 
@@ -547,12 +547,18 @@ It is interesting to note that the objective agent exhibits a behavior similar t
 
 \section{Non-Cooperative Situations}
 
-In the previous sections, we presented the basic agent behavior of our system. While this basic behavior could suffice in very simple test cases, it is not sufficient to handle the specificities of most continuous optimization problem configurations.\\
-Basing ourselves on the AMAS theory (presented in section \ref{amas_theory}), we can assimilate these configurations to Non Cooperative Situations, as they represent a situation where, because of a shortcoming in the behavior of the agents, the system does not produces an adequate functionality (in our case, the optimization of the problem).
+In the previous sections, we presented the basic agent behavior of our system. While this basic behavior could suffice in very simple test cases, it is not sufficient to handle the specificities of most continuous optimization problem configurations. In these situations, the nominal agent behavior (presented in the previous section) would lead to a suboptimal result.\\
+Basing ourselves on the AMAS theory (presented in section \ref{amas_theory}), we can consider these configurations to be Non Cooperative Situations (NCS), as they represent a situation where, because of a shortcoming in the behavior of the agents, the system does not produces an adequate functionality (in our case, the optimization of the problem).\\
+Consequently, we need for each NCS to provide the agents with specific mechanisms to:
+\begin{compactenum}
+\item detect occurring instances of the NCS
+\item solve detected instances of the NCS
+\item if possible, anticipate future instances of the NCS and avoid them
+\end{compactenum}
+
+Methodologically, by studying how the system handles specific problems with characteristics which are specific to continuous optimization (interdependencies, conflicting criteria \emph{etc.}), we identified several problematic configuration types, and defined different cooperation mechanisms for the agents that enable the system to correctly solve problems which exhibit these characteristics.
 
 We will now present some additional mechanisms to handle some specific problematic cases we identified.
-
-[[Reparler de la notion de SNC, indiquer que c'est de cela qu'il s'agit]]
 
 [[Explain the importance of modularity to handle different kinds of problems(external optims. etc.)
 (=> cue to CPSP ?)
@@ -565,7 +571,9 @@ We will now present some additional mechanisms to handle some specific problemat
 
 [[mettre les refs vers les travaux existants sur la criticité plutot dans la partie sur les CPSP ?]]
 
-The first problematic configuration, and arguably the most obvious, is the one where an agent is in position of receiving simultaneous conflicting requests. This situation concerns every agent which is susceptible to receive requests: variable, model and output agents. When such an agent receives contradictory requests, it needs a way to select which request to apply and which request to reject. We can intuitively see how this decision should be based on the current state of the requesting agents. For example, when receiving requests both a satisfied and an non-satisfied constraints, a variable agent should favor the non-satisfied one. In order for the agents to be able to make this decision, we need to provide them with a way to compare the states of different agents.
+The first problematic configuration, and arguably the most obvious, is the one where an agent is in position of receiving simultaneous conflicting requests. This situation concerns every agent which is susceptible to receive requests: variable, model and output agents. This situation can be qualified as a \emph{Conflict} NCS, as the requesting agents ask for contradictory modifications of their environment.
+
+When such an agent receives contradictory requests, it needs a way to select which request to apply and which request to reject. We can intuitively see how this decision should be based on the current state of the requesting agents. For example, when receiving requests both a satisfied and an non-satisfied constraints, a variable agent should favor the non-satisfied one. In order for the agents to be able to make this decision, we need to provide them with a way to compare the states of different agents.
 
 To this end, we introduce a new mechanism based on a specific measure called \emph{criticality}. This measure represents the state of dissatisfaction of the agent regarding its local goal. Each agent is in charge of estimating its own criticality and providing it to the other agents\footnote{We do not concern ourselves with the problematic of trust here, each agent is assumed to provide the most trustful and accurate information without cheating or lying. The use of measures such as criticality in open and untrusted environments is in itself an interesting question to say the least.}. The role of this measure is to aggregate into a single comparable value all the relevant indicators regarding the state of the agent. Having a single indicator of the state of the agent is interesting as it simplifies the reasoning of the agents. In addition, this mechanism has the interesting property of limiting the informations transmitted to the others agents, which can be of interest in case of a distributed optimization where data privacy is an issue.
 However the system designer has the difficult task to provide the agents which adequate means to calculate their criticality. Also, in specific cases, this information on the state of the agents is not sufficient to take the correct decision, as we will see in the following sections.
@@ -645,7 +653,25 @@ An illustration on this mechanism can be seen on \figurename{} \ref{NCS_1_confli
 
 \subsubsection{For Model Agents}
 
-Models agents try to 
+This NCS can be seen as an extension of the previous one (conflicting requests). It occurs when a model agent receives requests from its outputs which lead to contradictory changes on its inputs (\emph{Conflict} NCS). We presented in the previous section how using \emph{criticality} the model agent could discriminate between the requests by choosing to satisfy the most critical. However, in the specific case of the model agent, this mechanism is not the most efficient. Let us take a simple example.
+
+Suppose the following problem:
+
+\begin{align*}
+\text{Minimize } &x\\
+\text{subject to } &y > 0\\
+\end{align*}
+Where $x,y$ are outputs of the model $M(a,b)$ defined as
+\begin{align*}
+x = &10a + b\\
+y = &a + 10b\\
+\end{align*}
+
+Using conflicting requests mechanisms, the model agent $M$, upon receiving requests coming from the objective and constraint agents, would choose to fully satisfy the most critical request, disregarding completely the other. In this example, if the request of the objective agent is the most critical, the model agent would ask $a$ and $b$ both to decrease, and would ask them both to increase if the constraint agent request was the most critical.\\
+However we can easily observe how, in this specific problem, the input variables $a$ and $b$ has different impacts on the objective and the constraint. A variation of 1 for the variable $a$ will change the objective by 10 and the constraint by 1, while a variation of 1 for the variable $b$ will have the inverse effect.\\
+This observation leads to a third possibility: trying to satisfy both requests at once by propagating each request to the input agent(s) which is (or are) the most \enquote{influential}[[NOTE: try to find a synonymous, influence will be used elsewhere]] for each request. Doing so allows a most efficient exploration of the search space by improving several criteria at once.
+
+[[Drawing of cooperative trajectory search space in 2D]]
 
 Let $M(I,O)$ be a model agent with a set of inputs $I$ and a set of output $O$.
 
@@ -678,6 +704,17 @@ If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i
 \end{algorithm}
 
 \subsubsection{For Variable Agents}
+
+We have seen in the previous section how it could be possible in some cases to propose an more efficient exploration of the search space by making model agents selectively propagate requests based on the influences[[OTHER TERM ?]] of theirs inputs on theirs outputs. This mechanism based itself on the fact that all the requests pass by a model agent, which is able to \enquote{dispatch} the requests to different inputs.\\
+However, if we take the example problem, we can reformulate it as the following equivalent problem:
+
+\begin{align*}
+\text{Minimize } &10a + b\\
+\text{subject to } &a + 10b > 0\\
+\end{align*}
+
+Using this new formulation, no model agent is create during the MAS transformation of the problem, but the underlying problem between cooperative trajectories still exists but with an additional difficulty. As we already said, in order to be able to scale with the complexity of the problem, each agent must keep a local view. Consequently, the criteria agents are not aware of each others, and neither are the variable agents.\\
+We will now show how the variables agents can become aware of the NCS and coordinate to solve it without communicating with, or even acknowledging, each other.
 
 \subsection{Cycle Solving}
 
@@ -747,7 +784,7 @@ The most important point is that each agent only has a local strategy. No agent 
 
 \chapter{Extending the Multi-Agent System for Uncertainties}
 
-We have seen in section \ref{SOA_uncertainties} how uncertainties can a major concern in real-life optimization. We have also seen how several types of uncertainties existed and needed to be taken into account. Moreover, complex optimization problems can involve several teams concerned with different disciplines, each of which with its own practices regarding how to manipulate uncertainties, making difficult to study the impact of uncertainties across disciplines.
+We have seen in section \ref{SOA_uncertainties} how uncertainties can be a major concern in real-life optimization. We have also seen how several types of uncertainties existed and needed to be taken into account. Moreover, complex optimization problems can involve several teams concerned with different disciplines, each of which with its own practices regarding how to manipulate uncertainties, making difficult to study the impact of uncertainties across disciplines.
 
 In this chapter we present a way to alleviate this burden by having the agents automating the uncertainty propagation in the system.
 
