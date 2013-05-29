@@ -545,9 +545,68 @@ The behavior of objective agents is described in algorithm \ref{algo_solving_obj
 
 It is interesting to note that the objective agent exhibits a behavior similar to the one of the constraint agent, but for slightly different reasons. While the constraint agent continuously sends requests in order to make its constraint safer and safer, the objective agent continuously send requests because it can never knows if it reached the best value for the objective it handles. An objective agent is essentially \enquote{blind}, as the objective is a black box, and must rely on the external optimizer (or the internal optimization mechanism) in order to improve it. Consequently, the objective agent never stops trying to find a better value. As with constraint agents, this mechanism is quite handy in the context of interactive optimization, as the designer can at any moment completely change the nature of the objective.
 
+
+\begin{algorithm}
+\caption{Agents Behaviors}\label{agent_algo}
+
+\SetKwProg{Bv}{behavior of }{}{}
+
+\Bv{Model Agent}{
+	\Repeat{resolution end}{
+		analyze received messages\;
+		\If{received new information messages}{
+	        recalculate outputs\;
+	        inform depending agents\;
+	    }     
+		\If{received new requests}{
+	        use optimizer to find adequate inputs\;
+	        propagate requests to input agents\;
+	   }
+	}
+}
+
+\Bv{Variable Agent}{
+	\Repeat{resolution end}{
+		analyze received messages\;
+		\If{received new requests}{
+	       select most important\;
+	       adjust value\;
+	       inform depending agents\;
+	    }
+	}
+}
+
+\Bv{Output Agent}{
+	\Repeat{resolution end}{
+		analyze received messages\;
+		\If{received new information messages}{
+	        update its value\;
+	        inform depending agents\;
+	    }      
+		\If{received new requests}{
+	        select most important\;
+	        transmit selected request to model agent\;
+	    }
+    }
+}
+
+\Bv{Constraint/Objective Agent}{
+	\Repeat{resolution end}{
+		analyze received messages\;
+		\If{received new information messages}{
+	        update its value\;
+	        use optimizer to find adequate inputs\;
+	        send new requests to variable/output agents\;
+	    }
+	}
+}
+
+\end{algorithm}
+
+
 \section{Non-Cooperative Situations}
 
-In the previous sections, we presented the basic agent behavior of our system. While this basic behavior could suffice in very simple test cases, it is not sufficient to handle the specificities of most continuous optimization problem configurations. In these situations, the nominal agent behavior (presented in the previous section) would lead to a suboptimal result.\\
+In the previous sections, we presented the basic agent behavior of our system. Algorithm \ref{agent_algo} is a synthesis of the behavior of each agent type. While this basic behavior could suffice in very simple test cases, it is not sufficient to handle the specificities of most continuous optimization problem configurations. In these situations, the nominal agent behavior (presented in the previous section) would lead to a suboptimal result.\\
 Basing ourselves on the AMAS theory (presented in section \ref{amas_theory}), we can consider these configurations to be Non Cooperative Situations (NCS), as they represent a situation where, because of a shortcoming in the behavior of the agents, the system does not produces an adequate functionality (in our case, the optimization of the problem).\\
 Consequently, we need for each NCS to provide the agents with specific mechanisms to:
 \begin{compactenum}
@@ -716,7 +775,56 @@ However, if we take the example problem, we can reformulate it as the following 
 Using this new formulation, no model agent is create during the MAS transformation of the problem, but the underlying problem between cooperative trajectories still exists but with an additional difficulty. As we already said, in order to be able to scale with the complexity of the problem, each agent must keep a local view. Consequently, the criteria agents are not aware of each others, and neither are the variable agents.\\
 We will now show how the variables agents can become aware of the NCS and coordinate to solve it without communicating with, or even acknowledging, each other.
 
+[[TODO: Describe mechanisms]]
+
 \subsection{Cycle Solving}
+
+A common difficulty regarding complex optimization problem (and complex systems in general) is the existence of interdependencies (which can be thought as instances of \emph{feedback loops}). For example, for the design of an aircraft, one could try to increase the range of the aircraft by increasing its fuel tank. But doing so, it increases the mass of the aircraft, which in return decreases its range. This complex interdependency between range and mass will appears in the analytical formulation as a cycle in the calculus of the models, \emph{i.e.} to produces its outputs $O_M$, the $Mass$ model will need the outputs $O_R$ calculated by the $Range$ model, taking itself in input the outputs $O_M$ of $Mass$:
+\begin{align*}
+O_M = &Mass(O_R)\\
+O_R = &Range(O_M)
+\end{align*}
+
+Such cycles in the problem formulation can pose severe challenge for the optimization process. Once more, we must keep in mind that models must be handled as black boxes; Consequently an analytical solving of the cycle is impossible. Consequently, it is the burden of the agents to detect cycle and take correcting actions of required.
+
+[[Reprendre le passage sur les fixed point iteration du SoA]]
+
+The most basic situation regarding such cycles concerns two directly interdependent models (i.e each one using an output of the other as its input). However, much complex cycles topologies may be encountered. For example, an arbitrary high number of models can be successively chained together in one giant multi-step cycle, or several models can present multiples interdependencies with each others.The solution for which such a cycle is stable (if it exists) is called the \emph{fixed point}.
+
+As the system must work by iterating over these black boxes, the values of the outputs will be iteratively recalculated and propagated between the models involved in the cycle. Depending on the exact structure of the cycle, its effects on the problem solving can be radically different. To illustrate this, let's take the simple following example:
+\begin{gather*}
+y = a1 * x \\
+x = a2 * y
+\end{gather*}
+where \emph{x}, \emph{y} are variables and \emph{a}1, \emph{a2} fixed parameters.
+ 
+The aim is to find coherent values for \emph{x} and \emph{y}. Since models are black boxes, so we cannot directly infer the solution. Depending on the parameters \emph{a1} and \emph{a2} (and excluding the trivial case of \(a1, a2  = 0\)), this structure behaves differently: 
+ 
+\begin{compactitem}
+\item \(a1, a2 = 1\) : in this case any value for both \emph{x} and \emph{y} satisfies the problem, there is an infinity of fixed points
+\item \(a1, a2 < 1\) : in this case the system will converge towards the solution. The fixed point is said to be \emph{attractive}
+\item \(a1, a2 > 1\) : in this case the system will diverge in the opposite direction of the fixed point, which is said to be \emph{repulsive}
+\end{compactitem}
+
+The two first cases are benign, and do not impeded the solving process. The third case however will disturb the solving process by moving the state of the system further and further from the stable solution. The task of the agent is then twofold:
+\begin{compactenum}
+\item detect existing cycles
+\item if a cycle is currently diverging, take a correcting action to ensure it converges
+\end{compactenum}
+
+[[TOFIX: will probably be outdated + must write the synthesis algorithm]]
+To address the first point, each message is uniquely signed to register its origin. When an agent initiates a message sending by itself (i.e. not as the result of a received message), it \emph{signs} the message with its unique agent "ID" and an unique message number. The association of these two elements is the \emph{origin signature}.
+
+When an agent sends a message in response to a received message, it adds to the sent message the origin signature of the message causing its action. This way, the signature origin is preserved from message to message and can be used to pinpoint the origin of an activity of the system.
+
+The \emph{Output agents} will be in charge of detecting and handling cycles, as they are in the best position for this. Indeed, being at the junction between criteria and models (or between different models), they are often the ones that can detect cycles the earliest.
+
+To detect a cycle,  the output agent creates a correspondence table associating for each origin agent the last signature it received from it. When receiving a message, the agent checks its origin. If the origin agent is not present in the table, the agent adds it. If it is present, it compares the new signature with the one it memorized. If the signatures are different, the agent replaces the old signature with the new one (as the new signature corresponds to a more recent request). If the two signatures match, then there is a cycle.
+
+In case of a cycle, the output agent must now determine if the cycle is converging or diverging towards the fixed point. As in the general case all models are black boxes, the output agent needs to observe the evolution of output values while iterating through the cycle. If the difference between successive values is decreasing, the cycle is converging towards the fixed point, else the cycle is diverging as the variables are going in the "wrong direction". To this end, the output agent memorizes the difference between its old and new value, and continues as usual. When receiving the next message from the cycle, it calculates the new difference which enables it to decide if the cycle is converging or not towards the fixed point.
+
+If the cycle is converging, the output agent does not need to do any special action. But in case of a diverging cycle, instead of taking the requested value, the agent emits to its model a request for the opposite direction (ie, if the value of the output should have increased of \emph{n}, the agent will request a new value corresponding to a decrease of \emph{n}). The request will propagate through the cycle until the fixed point is found.
+[[END TOFIX]]
 
 \subsection{Hidden Dependencies}
 
@@ -724,63 +832,6 @@ We will now show how the variables agents can become aware of the NCS and coordi
 
 \section*{}
 The most important point is that each agent only has a local strategy. No agent is in charge of the optimization of the system as a whole, or even of a subset of the other agents. Contrary to the classical MDO methods presented earlier, the solving of the problem is not directed by a predefined methodology, but by the structure of the problem itself. The emerging global strategy is unique and adapted to the problem.
-
-\begin{algorithm}
-\caption{Agents Behaviors}\label{agent_algo}
-
-\SetKwProg{Bv}{behavior of }{}{}
-
-\Bv{Model Agent}{
-	\Repeat{resolution end}{
-		analyze received messages\;
-		\If{received new information messages}{
-	        recalculate outputs\;
-	        inform depending agents\;
-	    }     
-		\If{received new requests}{
-	        use optimizer to find adequate inputs\;
-	        propagate requests to input agents\;
-	   }
-	}
-}
-
-\Bv{Variable Agent}{
-	\Repeat{resolution end}{
-		analyze received messages\;
-		\If{received new requests}{
-	       select most important\;
-	       adjust value\;
-	       inform depending agents\;
-	    }
-	}
-}
-
-\Bv{Output Agent}{
-	\Repeat{resolution end}{
-		analyze received messages\;
-		\If{received new information messages}{
-	        update its value\;
-	        inform depending agents\;
-	    }      
-		\If{received new requests}{
-	        select most important\;
-	        transmit selected request to model agent\;
-	    }
-    }
-}
-
-\Bv{Constraint/Objective Agent}{
-	\Repeat{resolution end}{
-		analyze received messages\;
-		\If{received new information messages}{
-	        update its value\;
-	        use optimizer to find adequate inputs\;
-	        send new requests to variable/output agents\;
-	    }
-	}
-}
-
-\end{algorithm}
 
 \chapter{Extending the Multi-Agent System for Uncertainties}
 
