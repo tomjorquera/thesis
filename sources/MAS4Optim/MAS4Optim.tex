@@ -630,7 +630,13 @@ We will now present some additional mechanisms to handle some specific problemat
 
 [[mettre les refs vers les travaux existants sur la criticité plutot dans la partie sur les CPSP ?]]
 
-The first problematic configuration, and arguably the most obvious, is the one where an agent is in position of receiving simultaneous conflicting requests. This situation concerns every agent which is susceptible to receive requests: variable, model and output agents. This situation can be qualified as a \emph{Conflict} NCS, as the requesting agents ask for contradictory modifications of their environment.
+The first problematic configuration, and arguably the most obvious, is the one where an agent is in position of receiving simultaneous conflicting requests. This situation concerns every agent which is susceptible to receive requests: variable, model and output agents. This situation can be qualified as a \emph{Conflict} NCS, as the requesting agents ask for contradictory modifications of their environment. A minimal example of configuration in which conflicting requests may appear is shown in \figurename{} \ref{NCS_conflicting_requests}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{NCS_conflicting_requests}
+\caption{Conflicting trajectories example}\label{NCS_conflicting_requests}
+\end{figure}
 
 When such an agent receives contradictory requests, it needs a way to select which request to apply and which request to reject. We can intuitively see how this decision should be based on the current state of the requesting agents. For example, when receiving requests both a satisfied and an non-satisfied constraints, a variable agent should favor the non-satisfied one. In order for the agents to be able to make this decision, we need to provide them with a way to compare the states of different agents.
 
@@ -712,22 +718,29 @@ An illustration on this mechanism can be seen on \figurename{} \ref{NCS_1_confli
 
 \subsubsection{For Model Agents}
 
-This NCS can be seen as an extension of the previous one (conflicting requests). It occurs when a model agent receives requests from its outputs which lead to contradictory changes on its inputs (\emph{Conflict} NCS). We presented in the previous section how using \emph{criticality} the model agent could discriminate between the requests by choosing to satisfy the most critical. However, in the specific case of the model agent, this mechanism is not the most efficient. Let us take a simple example.
+This NCS can be seen as an extension of the previous one (conflicting requests). It occurs when a model agent receives requests from its outputs which lead to contradictory changes on its inputs (\emph{Conflict} NCS). We presented in the previous section how using \emph{criticality} the model agent could discriminate between the requests by choosing to satisfy the most critical. However, in the specific case of the model agent, this mechanism is not the most efficient. Let us take a simple example, graphically represented in \figurename{} \ref{NCS_cooperatives_trajectories_models}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{NCS_cooperatives_trajectories_models}
+\caption{Cooperative trajectories for model agent example}\label{NCS_cooperatives_trajectories_models}
+\end{figure}
+
 
 Suppose the following problem:
 
 \begin{align*}
-\text{Minimize } &x\\
-\text{subject to } &y > 0\\
+\text{Minimize } &b_1\
+\text{Maximize } &b_2\\
 \end{align*}
-Where $x,y$ are outputs of the model $M(a,b)$ defined as
+Where $b_1,b_2$ are outputs of the model $M(a_1,a_2)$ defined as
 \begin{align*}
-x = &10a + b\\
-y = &a + 10b\\
+b_1 = &2a_1 + a_2\\
+b_2 = &a_1 + 2a_2\\
 \end{align*}
 
-Using conflicting requests mechanisms, the model agent $M$, upon receiving requests coming from the objective and constraint agents, would choose to fully satisfy the most critical request, disregarding completely the other. In this example, if the request of the objective agent is the most critical, the model agent would ask $a$ and $b$ both to decrease, and would ask them both to increase if the constraint agent request was the most critical.\\
-However we can easily observe how, in this specific problem, the input variables $a$ and $b$ has different impacts on the objective and the constraint. A variation of 1 for the variable $a$ will change the objective by 10 and the constraint by 1, while a variation of 1 for the variable $b$ will have the inverse effect.\\
+Using conflicting requests mechanisms, the model agent $M$, upon receiving requests coming from the objective and constraint agents, would choose to fully satisfy the most critical request, disregarding completely the other. In this example, if the request of the first objective agent is the most critical, the model agent would ask $a_1$ and $a_2$ both to decrease, and would ask them both to increase if the second objective agent request was the most critical.\\
+However we can easily observe how, in this specific problem, the input variables $a_1$ and $a_2$ has different impacts on the two objectives. A variation of 1 for the variable $a_1$ will change the first objective by 2 and the second one by 1, while a variation of 1 for the variable $a_2$ will have the inverse effect.\\
 This observation leads to a third possibility: trying to satisfy both requests at once by propagating each request to the input agent(s) which is (or are) the most \enquote{influential}[[NOTE: try to find a synonymous, influence will be used elsewhere]] for each request. Doing so allows a most efficient exploration of the search space by improving several criteria at once.
 
 [[Drawing of cooperative trajectory search space in 2D]]
@@ -768,9 +781,17 @@ We have seen in the previous section how it could be possible in some cases to p
 However, if we take the example problem, we can reformulate it as the following equivalent problem:
 
 \begin{align*}
-\text{Minimize } &10a + b\\
-\text{subject to } &a + 10b > 0\\
+\text{Minimize } &2a_1 + a_2\\
+\text{Maximize } &a_1 + 2a_2\\
 \end{align*}
+
+The graphical representation of this problem is shown in \figurename{} \ref{NCS_cooperatives_trajectories_variables}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{NCS_cooperatives_trajectories_variables}
+\caption{Cooperative trajectories for variables agents example}\label{NCS_cooperatives_trajectories_variables}
+\end{figure}
 
 Using this new formulation, no model agent is create during the MAS transformation of the problem, but the underlying problem between cooperative trajectories still exists but with an additional difficulty. As we already said, in order to be able to scale with the complexity of the problem, each agent must keep a local view. Consequently, the criteria agents are not aware of each others, and neither are the variable agents.\\
 We will now show how the variables agents can become aware of the NCS and coordinate to solve it without communicating with, or even acknowledging, each other.
@@ -812,6 +833,14 @@ The two first cases are benign, and do not impeded the solving process. The thir
 \item if a cycle is currently diverging, take a correcting action to ensure it converges
 \end{compactenum}
 
+An example of diverging cycle is shown in \figurename{} \ref{NCS_cycles}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{NCS_cycles}
+\caption{Diverging cycle example}\label{NCS_cycles}
+\end{figure}
+
 [[TOFIX: will probably be outdated + must write the synthesis algorithm]]
 To address the first point, each message is uniquely signed to register its origin. When an agent initiates a message sending by itself (i.e. not as the result of a received message), it \emph{signs} the message with its unique agent "ID" and an unique message number. The association of these two elements is the \emph{origin signature}.
 
@@ -828,7 +857,19 @@ If the cycle is converging, the output agent does not need to do any special act
 
 \subsection{Hidden Dependencies}
 
+An example of hidden dependency is shown in \figurename{} \ref{NCS_hidden_dependencies}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.3\textwidth]{NCS_hidden_dependencies}
+\caption{Hidden dependency example}\label{NCS_hidden_dependencies}
+\end{figure}
+
+The fact that each agent has only a local and limited view of the problem is a requirement for the system to be able to scale to arbitrary large problems. However this restriction 
+
 \subsection{Asynchronous Requests}
+
+[[TODO: make a figure for this NCS]]
 
 \section*{}
 The most important point is that each agent only has a local strategy. No agent is in charge of the optimization of the system as a whole, or even of a subset of the other agents. Contrary to the classical MDO methods presented earlier, the solving of the problem is not directed by a predefined methodology, but by the structure of the problem itself. The emerging global strategy is unique and adapted to the problem.
