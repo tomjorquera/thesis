@@ -395,9 +395,9 @@ Their behavior is summarized in algorithm \ref{algo_simulating_criterion}.
 During solving, the criteria agents try to improve their local goal. That is, the constraints agents try to keep their constraint satisfied, while the objective agents try to improve their objective. To this end they send \emph{Request} messages to the agents controlling their inputs, asking them to change value. The others agents have to propagate these requests toward the variable agents in the most adequate way.
 
 However a specific difficulty arises. As explained in the previous section, model, constraint and objective agents manipulate the underlying equations (or algorithms, or responses surfaces \emph{etc.}) of the problem through internal models, which are in most cases black boxes. In this case, how can constraint agents know which values to ask to satisfy their constraint, how can objective agents know which values improve their objective, how can model agents know which values for their outputs could produce the values required by their outputs?\\
-For the internal models agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer is very simple: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by a classical optimization method. As the agents manipulate black boxes, it is (nearly\footnote{We will see in [[SECTION]] how can the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which have a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them. In the most general case it can be assumed that each agent in control of an internal model uses its own specific optimizer. However in practice several instances of the same optimizer can be used by different agents, if the designer deems that their models present sufficient similar characteristic for the optimization method to be efficient for each of them. An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
+For the internal models agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer is very simple: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by a classical optimization method. As the agents manipulate black boxes, it is (nearly\footnote{We will see in section \ref{model_agent_solving} how can the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which have a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them. In the most general case it can be assumed that each agent in control of an internal model uses its own specific optimizer. However in practice several instances of the same optimizer can be used by different agents, if the designer deems that their models present sufficient similar characteristic for the optimization method to be efficient for each of them. An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
 
-In order to keep the presentation of the agents behavior simple, we will assume for the moment that no agent ever receive simultaneous contradictory requests. We will see in section [[REF SECTION]] the advanced selection mechanisms used by the agents to handle such cases.
+In order to keep the presentation of the agents behavior simple, we will assume for the moment that no agent ever receive simultaneous contradictory requests. We will see in section \ref{NCS_pres} the advanced selection mechanisms used by the agents to handle such cases.
 
 \begin{figure}
 	\centering
@@ -453,7 +453,7 @@ This behavior is summarized in algorithm \ref{algo_solving_variable}.
 	
 \end{algorithm}
 
-\subsection{Model Agent}
+\subsection{Model Agent}\label{model_agent_solving}
 
 The model agent is responsible for transmitting requests it received from its outputs to its inputs. To be able to translate the ingoing requests to its inputs, the model agent uses an external optimizer, as presented in introduction. When receiving a request from one of its outputs, the model agent calls the external optimizer, which provides it with the adequate inputs values corresponding to the request. The model agent then sends requests corresponding to these values to its inputs.
 While the model agent can seem to be very simplistic, we will see in section [[REF]] how its 
@@ -475,7 +475,8 @@ The behavior of the model agent is summarized in algorithm \ref{algo_solving_mod
 	}	
 \end{algorithm}
 
-[[Explain here ?]]
+[[Explain here ? if not, need to changes refs to label model_agent_solving]]
+
 At the start of the section we stated that, since the internal model is a black box, the model agent cannot in itself perform the \enquote{bottom-up} translation from the values requested by its outputs to values to ask to its inputs, requiring an external optimizer to carry such task. While this is true at the start of the process, the model agent can at runtime observe the values returned by the model and make some estimations about its internal topology. We present now such a mechanism which can be integrated into model agents, capable of taking advantage of the functioning of the agent using simple black-box optimization techniques.
 
 This mechanism integrates itself during the simulation behavior of the agent. Remember that, as presented in section \ref{simulation_model}, when receiving a new value from one of its input the model agent calls its internal model to recalculate the values of its outputs. At this step, instead of passing all the the agent can observe the impact of the variation of variation of the input on each output. We call \emph{correlation} between the input $i$ and output $o$ the variation of $o$ relative to the variation of $i$, calculated as $\dfrac{v_o^{t+1} - v_o^t}{v_i^{t+1} - v_i^t}$. This correlation can be seen as a local linear approximation of the partial derivative $\dfrac{\delta o}{\delta i}$.This correlation can then be used during solving to estimate the required changes from the inputs to satisfy a change requested by an output.\\
@@ -488,7 +489,8 @@ The complete formula when several inputs are involved in the calculus of $o$ is 
 	[[TODO]]\;
 \end{algorithm}
 
-We presented here a very simple learning mechanism for the agent to default when it is not provided with an external optimizer. This mechanism is voluntary simple and lightweight, in order to be applicable to a broad range of model topologies. While it is possible to make further refinements to improve its result, we believe that such needs are better covered by the use of external optimizers, which can be tailored for specific needs.
+We presented here a very simple learning mechanism for the agent to default when it is not provided with an external optimizer. This mechanism is voluntary simple and lightweight, in order to be applicable to a broad range of model topologies. While it is possible to make further refinements to improve its results, we believe that such needs are better covered by the use of external optimizers, which can be tailored for specific needs.\\
+Interestingly, our approximation technique can also be used to create local linear approximations of complex black box models. We will see in the later sections how such information can be used by the system to solve some corner cases.
 
 [[In Perspectives, remember to open on more complex techniques using contexts]]
 
@@ -545,6 +547,8 @@ The behavior of objective agents is described in algorithm \ref{algo_solving_obj
 
 It is interesting to note that the objective agent exhibits a behavior similar to the one of the constraint agent, but for slightly different reasons. While the constraint agent continuously sends requests in order to make its constraint safer and safer, the objective agent continuously send requests because it can never knows if it reached the best value for the objective it handles. An objective agent is essentially \enquote{blind}, as the objective is a black box, and must rely on the external optimizer (or the internal optimization mechanism) in order to improve it. Consequently, the objective agent never stops trying to find a better value. As with constraint agents, this mechanism is quite handy in the context of interactive optimization, as the designer can at any moment completely change the nature of the objective.
 
+\section*{}
+An important point is that each agent only has a local strategy. No agent is in charge of the optimization of the system as a whole, or even of a subset of the other agents. Contrary to the classical MDO methods presented earlier, the solving of the problem is not directed by a predefined methodology, but by the structure of the problem itself. The emerging global strategy is unique and adapted to the problem.
 
 \begin{algorithm}
 \caption{Agents Behaviors}\label{agent_algo}
@@ -604,7 +608,7 @@ It is interesting to note that the objective agent exhibits a behavior similar t
 \end{algorithm}
 
 
-\section{Non-Cooperative Situations}
+\section{Non-Cooperative Situations}\label{NCS_pres}
 
 In the previous sections, we presented the basic agent behavior of our system. Algorithm \ref{agent_algo} is a synthesis of the behavior of each agent type. While this basic behavior could suffice in very simple test cases, it is not sufficient to handle the specificities of most continuous optimization problem configurations. In these situations, the nominal agent behavior (presented in the previous section) would lead to a suboptimal result.\\
 Basing ourselves on the AMAS theory (presented in section \ref{amas_theory}), we can consider these configurations to be Non Cooperative Situations (NCS), as they represent a situation where, because of a shortcoming in the behavior of the agents, the system does not produces an adequate functionality (in our case, the optimization of the problem).\\
@@ -798,7 +802,7 @@ We will now show how the variables agents can become aware of the NCS and coordi
 
 [[TODO: Describe mechanisms]]
 
-\subsection{Cycle Solving}
+\subsection{Cycle Solving}\label{NCS_cycles}
 
 A common difficulty regarding complex optimization problem (and complex systems in general) is the existence of interdependencies (which can be thought as instances of \emph{feedback loops}). For example, for the design of an aircraft, one could try to increase the range of the aircraft by increasing its fuel tank. But doing so, it increases the mass of the aircraft, which in return decreases its range. This complex interdependency between range and mass will appears in the analytical formulation as a cycle in the calculus of the models, \emph{i.e.} to produces its outputs $O_M$, the $Mass$ model will need the outputs $O_R$ calculated by the $Range$ model, taking itself in input the outputs $O_M$ of $Mass$:
 \begin{align*}
@@ -857,7 +861,23 @@ If the cycle is converging, the output agent does not need to do any special act
 
 \subsection{Hidden Dependencies}
 
-An example of hidden dependency is shown in \figurename{} \ref{NCS_hidden_dependencies}
+The fact that each agent has only a local and limited view of the problem is a requirement for the system to be able to scale to arbitrary large problems. However this restriction can prove problematic when, due to its limited perceptions, an agent makes a wrongful assumption regarding its neighbors. The \emph{hidden dependency} NCS happens when an agent considers that the requests its makes to its input agents are independents while the two agents are in fact dependents. The mistake of the requesting agent comes from the fact that the dependency link between its two input agents is beyond its perception range.
+
+\figurename{} \ref{NCS_hidden_dependencies} is an illustration of a configuration which will lead to a hidden dependency NCS. In this example, the objective agent $\text{min }a_1 + a_2$ will assume that the variable agents $a_1$ and $a_2$ are independents, while the value of $a_2$ is in fact completely dependent from the one of $a_1$ (more precisely $a_2 = -\dfrac{1}{2} a_1$). In this context, the objective agent will send separate requests to the two variables agents, asking them both to decrease. Since $a_2$ is an output variable, it will transmit the request to its model agent, which will in turn transmit it to $a_1$. And since $a_2$ and $a_1$ are negatively correlated, the transmitted request will ask $a_1$ to increase. Consequently $a_1$ will receive two requests, one (directly from the objective) asking it to decrease, and one (transmitted by $a_2$⁾ asking it to increase.
+
+This situation is clearly a NCS, as two requests having the same origin should not require an agent to do contradictory actions. We will now propose a mechanism to allow the variable agent $a_1$ to solve the NCS efficiently.
+
+First of all the agent must identify the NCS. This part proves to be quite easy using the \emph{origin signature} information we introduced in section \ref{NCS_cycles}. Since every message contains a field recording which agent was at the origin of the request, any agent can know if two requests originate from the same agent by comparing this origin field.\\
+In our example, the agent $a_1$ is able to easily detect the NCS, by comparing the two contradictory requests and observing that their origins are the same.
+
+However, our agent still does not know how to solve the NCS as the requests, originating from the same criterion, have identical criticality. To understand what is needed for the agents to be able to solve the problem, let us examine our example again. In our example, the solution is quite obvious. We want to minimize $a_1 + a_2$, knowing that $a_2 = -\dfrac{1}{2}a_1$. This problem is then equivalent to minimizing $a_1-\dfrac{1}{2}a_1$ or, simplified, $\dfrac{1}{2}a_1$. The correct behavior is thus for $a_1$ to decrease.\\
+Let us now change a little this problem, considering instead $a_2$ to be equal to $ -2a_1$. In this case the problem can be rewritten as (after simplifying) minimizing $-a_1$, or maximizing $a_1$. In this case the correct behavior for $a_1$ would be to increase.\\
+It is now obvious that the correct behavior for the agent $a_1$ is extremely dependent on the coefficient of the intermediate model. The same can be said about the coefficients of the objective, and could be said in the general case about any of the intermediate models which could happens to be between the objective and the variable agents. Conceptually, we could say that the variable agent is linked to the objective agent by different \enquote{branches}, with each branch having a specific influence on the objective. In our original example the two \enquote{branches} would have influences of respectively $+1$ and $-\dfrac{1}{2}$ (and $+1$ and $-2$ in the modified example). That is, the impact of a change of $a_1$ of $\delta_{a_1}$ is of 1 considering the direct branch, and of $-\dfrac{1}{2}$ considering the branch passing by $a_2$, for a total influence of $\dfrac{1}{2}$.\\
+If we can provide this information to the variable $a_1$, then the agent will be able to solve the NCS by selecting the request coming from the most influent branch(es), ensuring it action will be beneficial for the origin of the requests. We will now see how, by adding a new information with the requests, the agents are able to propagate their local influence to the variable agent, allowing it to solve the NCS.
+
+Before presenting the exact propagation mechanism, we need to make a quick clarification. In our example, we reasoned on linear models by looking at their coefficients in order to know the different influences. Such reasoning could not be applied to the general black boxes models that our agents use. However, we presented in section \ref{model_agent_solving} a general algorithm which allows the agents to create local linear approximations of any black box models by observing the correlations between the inputs and the outputs of the internal model. Consequently we can assume that each agent with an internal model can always extract the linear factors corresponding to the model, either because they were given to them by the designer, or because they used the aforementioned method to create a local linear approximation (using the observed correlations).
+
+[[In the same way that we \enquote{collapsed} the intermediate problem to find the solution, the intermediate correlations are \enquote{collapsed} into the influence information for the variable agent to be able to solve the NCS]]
 
 \begin{figure}
 \centering
@@ -865,14 +885,13 @@ An example of hidden dependency is shown in \figurename{} \ref{NCS_hidden_depend
 \caption{Hidden dependency example}\label{NCS_hidden_dependencies}
 \end{figure}
 
-The fact that each agent has only a local and limited view of the problem is a requirement for the system to be able to scale to arbitrary large problems. However this restriction 
-
 \subsection{Asynchronous Requests}
 
 [[TODO: make a figure for this NCS]]
 
-\section*{}
-The most important point is that each agent only has a local strategy. No agent is in charge of the optimization of the system as a whole, or even of a subset of the other agents. Contrary to the classical MDO methods presented earlier, the solving of the problem is not directed by a predefined methodology, but by the structure of the problem itself. The emerging global strategy is unique and adapted to the problem.
+\subsection{Summary of Non-Cooperative Situations}
+
+[[TODO: make a table (or several) of the different mechanisms, their properties, and the NCS they are used to solve]]
 
 \chapter{Extending the Multi-Agent System for Uncertainties}
 
