@@ -875,9 +875,70 @@ Let us now change a little this problem, considering instead $a_2$ to be equal t
 It is now obvious that the correct behavior for the agent $a_1$ is extremely dependent on the coefficient of the intermediate model. The same can be said about the coefficients of the objective, and could be said in the general case about any of the intermediate models which could happens to be between the objective and the variable agents. Conceptually, we could say that the variable agent is linked to the objective agent by different \enquote{branches}, with each branch having a specific influence on the objective. In our original example the two \enquote{branches} would have influences of respectively $+1$ and $-\dfrac{1}{2}$ (and $+1$ and $-2$ in the modified example). That is, the impact of a change of $a_1$ of $\delta_{a_1}$ is of 1 considering the direct branch, and of $-\dfrac{1}{2}$ considering the branch passing by $a_2$, for a total influence of $\dfrac{1}{2}$.\\
 If we can provide this information to the variable $a_1$, then the agent will be able to solve the NCS by selecting the request coming from the most influent branch(es), ensuring it action will be beneficial for the origin of the requests. We will now see how, by adding a new information with the requests, the agents are able to propagate their local influence to the variable agent, allowing it to solve the NCS.
 
-Before presenting the exact propagation mechanism, we need to make a quick clarification. In our example, we reasoned on linear models by looking at their coefficients in order to know the different influences. Such reasoning could not be applied to the general black boxes models that our agents use. However, we presented in section \ref{model_agent_solving} a general algorithm which allows the agents to create local linear approximations of any black box models by observing the correlations between the inputs and the outputs of the internal model. Consequently we can assume that each agent with an internal model can always extract the linear factors corresponding to the model, either because they were given to them by the designer, or because they used the aforementioned method to create a local linear approximation (using the observed correlations).
+Before presenting the exact propagation mechanism, we need to make a quick clarification. In our example, we reasoned on linear models by looking at their coefficients in order to know the different influences. Such reasoning could not be applied to the general black boxes models that our agents use. However, we presented in section \ref{model_agent_solving} a general algorithm which allows the agents to create local linear approximations of any black box models by observing the correlations between the inputs and the outputs of the internal model. Consequently we can assume that each agent with an internal model can always extract the linear factors corresponding to the model, either because they were given to them by the designer, or because they used the aforementioned method to create a local linear approximation (using the observed correlations). During the rest of this section, we will assume that the agents apply the estimation algorithm and use the observed correlations as approximate linear factors of the problem.
 
-[[In the same way that we \enquote{collapsed} the intermediate problem to find the solution, the intermediate correlations are \enquote{collapsed} into the influence information for the variable agent to be able to solve the NCS]]
+To provide the variable agent with the correct influence information, the agents use a simple propagation mechanism. An \emph{influence} field is added to the requests transmitted into the system. The criterion agent which send the original requests fill the influence information with the observed correlation between its output and and the input corresponding to the agent to which the request is send. An intermediate variable agent will propagate the request without modifying this field, while a model agent will replace it by its old value \emph{multiplied} by the correlation its observed between the output from which it received the request and the input to which the request is send (this operation is done independently for each input if a request is propagate to several inputs of the model). When a variable agent detect a hidden dependency NCS, it separate the requests coming from the origin in two groups: the requests asking the variable to increase, and the requests asking the variable to decrease. For each group the agent calculates the sum of the influences of each requests in the group, then compare the \emph{absolute values} of the total influences. The agent will select the action corresponding to the biggest influence (in absolute value). If the agent is a design variable, it will change accordingly, if it is an output variable it will propagate a request with the same origin and information, but replacing the influence value with the sum of the influences of the winning group.\\
+We can say that, in the same way that we \enquote{collapsed} the intermediate models when we wanted find the solution to our example problem, the intermediate correlations are \enquote{collapsed} into the influence information for the variable agent to be able to solve the NCS.
+
+\begin{algorithm}
+\caption{Influence propagation by internal model agents}
+\label{algo_hidden_dependency_influence_propagation}
+	\SetKwProg{Bv}{behavior of }{}{}
+
+	\Bv{Objective/Constraint Agent}{
+		${c_i} \leftarrow correlations(Inputs, \{output\})$\;
+		\tcp{constraint and objective agents have one output only}
+		\ForEach{$i \in Inputs$}{
+			$influence_{r_i} \leftarrow c_i$\;
+		}
+	}
+	
+	\Bv{Model Agent}{
+		${c_{i,o}} \leftarrow correlations(Inputs, Outputs)$\;
+		\tcp{model agents can have several outputs}
+		\ForEach{$r \in$ {selected requests}}{
+			\ForEach{$i \in Inputs$}{
+				$o \leftarrow sender_r$\;
+				$influence_{r_i} \leftarrow influence_r \times c_{i,o}$\;
+			}	
+		}
+	}
+
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Hidden dependency detection and solving by variable agents}
+\label{algo_hidden_dependency_solving}
+
+	$R_{received} \leftarrow $ { received requests}\;
+	$R_{selected} \leftarrow \{ r \in R_{received} : \operatorname*{arg\,max}_{r \in R_{received}}(criticality_r) \}$\;
+
+	\If{$|R_{selected}| > 1 \wedge \forall( r_1, r_2 \in R_{selected}: origin_{r_1} = origin_{r_2})$}{
+
+		$R_- \leftarrow \{r \in R_{selected} : value_{r} < value_{current}$\}\;
+		$R_+ \leftarrow \{r \in R_{selected} : value_{r} > value_{current}$\}\;
+		
+		\If{$R_- \neq \emptyset \wedge R_+ \neq \emptyset$}{
+			\tcp{A hidden dependency NCS is detected}
+			$Inf_- = \sum_{r \in R_{-}}{influence_r}$\;
+			$Inf_+ = \sum_{r \in R_{+}}{influence_r}$\;
+	
+			\eIf{$|Inf_-| > |Inf_+| 1$}
+			{
+				$R_{selected} \leftarrow R_-$\;
+			}
+			{
+				$R_{selected} \leftarrow R_+$\;
+			}
+			apply $R_{selected}$\;
+		}
+	}
+
+\end{algorithm}
+
+[[TODO How is this value propagated regarding cooperative trajectories?]]
+
+
 
 \begin{figure}
 \centering
@@ -890,7 +951,7 @@ Before presenting the exact propagation mechanism, we need to make a quick clari
 [[TODO: make a figure for this NCS]]
 
 \subsection{Summary of Non-Cooperative Situations}
-
+[[Explain how the mechanisms compose ? Priority etc.]]
 [[TODO: make a table (or several) of the different mechanisms, their properties, and the NCS they are used to solve]]
 
 \chapter{Extending the Multi-Agent System for Uncertainties}
@@ -1019,8 +1080,9 @@ Finally, by strictly encapsulating the required knowledge, we provide a highly m
 [[Dire que les propagateurs peuvent être très génériques et très réutilisables, ou au contraire extremement specifiques et adhoc => transition sur la partie suivante]]
 
 
-
 \subsection{Examples of Propagators}
+
+[[TODO]]
 
 \section{Conclusion on Uncertainties Handling}
 
