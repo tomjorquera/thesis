@@ -865,6 +865,12 @@ The fact that each agent has only a local and limited view of the problem is a r
 
 \figurename{} \ref{NCS_hidden_dependencies} is an illustration of a configuration which will lead to a hidden dependency NCS. In this example, the objective agent $\text{min }a_1 + a_2$ will assume that the variable agents $a_1$ and $a_2$ are independents, while the value of $a_2$ is in fact completely dependent from the one of $a_1$ (more precisely $a_2 = -\dfrac{1}{2} a_1$). In this context, the objective agent will send separate requests to the two variables agents, asking them both to decrease. Since $a_2$ is an output variable, it will transmit the request to its model agent, which will in turn transmit it to $a_1$. And since $a_2$ and $a_1$ are negatively correlated, the transmitted request will ask $a_1$ to increase. Consequently $a_1$ will receive two requests, one (directly from the objective) asking it to decrease, and one (transmitted by $a_2$⁾ asking it to increase.
 
+\begin{figure}
+\centering
+\includegraphics[width=0.3\textwidth]{NCS_hidden_dependencies}
+\caption{Hidden dependency example}\label{NCS_hidden_dependencies}
+\end{figure}
+
 This situation is clearly a NCS, as two requests having the same origin should not require an agent to do contradictory actions. We will now propose a mechanism to allow the variable agent $a_1$ to solve the NCS efficiently.
 
 First of all the agent must identify the NCS. This part proves to be quite easy using the \emph{origin signature} information we introduced in section \ref{NCS_cycles}. Since every message contains a field recording which agent was at the origin of the request, any agent can know if two requests originate from the same agent by comparing this origin field.\\
@@ -874,11 +880,6 @@ However, our agent still does not know how to solve the NCS as the requests, ori
 Let us now change a little this problem, considering instead $a_2$ to be equal to $ -2a_1$. In this case the problem can be rewritten as (after simplifying) minimizing $-a_1$, or maximizing $a_1$. In this case the correct behavior for $a_1$ would be to increase.\\
 It is now obvious that the correct behavior for the agent $a_1$ is extremely dependent on the coefficient of the intermediate model. The same can be said about the coefficients of the objective, and could be said in the general case about any of the intermediate models which could happens to be between the objective and the variable agents. Conceptually, we could say that the variable agent is linked to the objective agent by different \enquote{branches}, with each branch having a specific influence on the objective. In our original example the two \enquote{branches} would have influences of respectively $+1$ and $-\dfrac{1}{2}$ (and $+1$ and $-2$ in the modified example). That is, the impact of a change of $a_1$ of $\delta_{a_1}$ is of 1 considering the direct branch, and of $-\dfrac{1}{2}$ considering the branch passing by $a_2$, for a total influence of $\dfrac{1}{2}$.\\
 If we can provide this information to the variable $a_1$, then the agent will be able to solve the NCS by selecting the request coming from the most influent branch(es), ensuring it action will be beneficial for the origin of the requests. We will now see how, by adding a new information with the requests, the agents are able to propagate their local influence to the variable agent, allowing it to solve the NCS.
-
-Before presenting the exact propagation mechanism, we need to make a quick clarification. In our example, we reasoned on linear models by looking at their coefficients in order to know the different influences. Such reasoning could not be applied to the general black boxes models that our agents use. However, we presented in section \ref{model_agent_solving} a general algorithm which allows the agents to create local linear approximations of any black box models by observing the correlations between the inputs and the outputs of the internal model. Consequently we can assume that each agent with an internal model can always extract the linear factors corresponding to the model, either because they were given to them by the designer, or because they used the aforementioned method to create a local linear approximation (using the observed correlations). During the rest of this section, we will assume that the agents apply the estimation algorithm and use the observed correlations as approximate linear factors of the problem.
-
-To provide the variable agent with the correct influence information, the agents use a simple propagation mechanism. An \emph{influence} field is added to the requests transmitted into the system. The criterion agent which send the original requests fill the influence information with the observed correlation between its output and and the input corresponding to the agent to which the request is send. An intermediate variable agent will propagate the request without modifying this field, while a model agent will replace it by its old value \emph{multiplied} by the correlation its observed between the output from which it received the request and the input to which the request is send (this operation is done independently for each input if a request is propagate to several inputs of the model). When a variable agent detect a hidden dependency NCS, it separate the requests coming from the origin in two groups: the requests asking the variable to increase, and the requests asking the variable to decrease. For each group the agent calculates the sum of the influences of each requests in the group, then compare the \emph{absolute values} of the total influences. The agent will select the action corresponding to the biggest influence (in absolute value). If the agent is a design variable, it will change accordingly, if it is an output variable it will propagate a request with the same origin and information, but replacing the influence value with the sum of the influences of the winning group.\\
-We can say that, in the same way that we \enquote{collapsed} the intermediate models when we wanted find the solution to our example problem, the intermediate correlations are \enquote{collapsed} into the influence information for the variable agent to be able to solve the NCS.
 
 \begin{algorithm}
 \caption{Influence propagation by internal model agents}
@@ -905,6 +906,11 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 	}
 
 \end{algorithm}
+
+Before presenting the exact propagation mechanism, we need to make a quick clarification. In our example, we reasoned on linear models by looking at their coefficients in order to know the different influences. Such reasoning could not be applied to the general black boxes models that our agents use. However, we presented in section \ref{model_agent_solving} a general algorithm which allows the agents to create local linear approximations of any black box models by observing the correlations between the inputs and the outputs of the internal model. Consequently we can assume that each agent with an internal model can always extract the linear factors corresponding to the model, either because they were given to them by the designer, or because they used the aforementioned method to create a local linear approximation (using the observed correlations). During the rest of this section, we will assume that the agents apply the estimation algorithm and use the observed correlations as approximate linear factors of the problem.
+
+To provide the variable agent with the correct influence information, the agents use a simple propagation mechanism. An \emph{influence} field is added to the requests transmitted into the system. The criterion agent which send the original requests fill the influence information with the observed correlation between its output and and the input corresponding to the agent to which the request is send. An intermediate variable agent will propagate the request without modifying this field, while a model agent will replace it by its old value \emph{multiplied} by the correlation its observed between the output from which it received the request and the input to which the request is send (this operation is done independently for each input if a request is propagate to several inputs of the model). When a variable agent detect a hidden dependency NCS, it separate the requests coming from the origin in two groups: the requests asking the variable to increase, and the requests asking the variable to decrease. For each group the agent calculates the sum of the influences of each requests in the group, then compare the \emph{absolute values} of the total influences. The agent will select the action corresponding to the biggest influence (in absolute value). If the agent is a design variable, it will change accordingly, if it is an output variable it will propagate a request with the same origin and information, but replacing the influence value with the sum of the influences of the winning group.\\
+We can say that, in the same way that we \enquote{collapsed} the intermediate models when we wanted find the solution to our example problem, the intermediate correlations are \enquote{collapsed} into the influence information for the variable agent to be able to solve the NCS.
 
 \begin{algorithm}
 \caption{Hidden dependency detection and solving by variable agents}
@@ -938,17 +944,24 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 
 [[TODO How is this value propagated regarding cooperative trajectories?]]
 
+\subsection{Asynchronous Requests}
 
+[[TODO: make a figure for this NCS]]
+
+The last NCS addresses an underlying assumption we have made until now. When we described the behavior of the agents, we supposed each of them always receive the messages in a timely manner, waiting if necessary until all the relevant messages are transmitted before acting. Once again, this hypothetical scenario is made impossible by the need for the agents to maintain a local view. The agents do not know what messages are currently transiting in the system. Their only knowledge concerns the messages they received at the start of their cycle and what messages they previously sent (but not their current status). Consequently, the topology of the agent graph can lead to transmission delays, where messages sent at the same time by the same agent will not necessarily reach their ultimate destination at the same time. For example, let us look back at the hidden dependency example (reporduced on \figurename{} \ref{NCS_hidden_dependencies} for convenience). When we discussed the case of hidden dependencies, we assumed by all the messages sent by the objective agent would reach $a_1$ before the latter would take its decision. However, it is clear that one of the message will take more time to reach $a_1$ than the other, as it must transit by two intermediate. Why would the agent $a_1$ wait for this late message, without even knowing its existence, before acting?
 
 \begin{figure}
 \centering
 \includegraphics[width=0.3\textwidth]{NCS_hidden_dependencies}
-\caption{Hidden dependency example}\label{NCS_hidden_dependencies}
+\caption{Hidden dependency example (reproduced)}\label{NCS_async_requests}
 \end{figure}
 
-\subsection{Asynchronous Requests}
+Many of the previous mechanisms we proposed rely on a timely information delivery, for example for the agents to be able to detect some NCS. Based on this, it ensues that, without an adequate \enquote{synchronization} mechanism, many of them would fail to work correctly. On the other hand, having a fully synchronized system, where all the agents would make lengthy checks to ensure the complete propagation of all messages to all recipient, would be undesirable. Indeed, complex continuous optimization problems create big but loosely connected graphs, for which such full synchronized mechanism would be both costly and inefficient. Moreover, if we take in account the dynamic aspects of the problem (having a designer which can add or remove agent at any moment during solving), obtaining such synchronization guarantee can be nigh impossible.
 
-[[TODO: make a figure for this NCS]]
+In this section we propose a somewhat middle ground mechanism, where the agents try to learn and anticipate the messages they expect to receive for taking their decision. Using this mechanism, an adaptation period will be necessary for the system before all the agents have correctly learned the messages they should wait, during which the agents will have a suboptimal behavior, as NCS may not be correctly detected. The iterative nature of the solving process allows these suboptimal decisions to be ultimately corrected by the agents themselves.
+
+[[TODO: compete with the textual description + the algorithm of the waiting mechanisms]]
+
 
 \subsection{Summary of Non-Cooperative Situations}
 [[Explain how the mechanisms compose ? Priority etc.]]
