@@ -944,7 +944,7 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 
 [[TODO How is this value propagated regarding cooperative trajectories?]]
 
-\subsection{Asynchronous Requests}
+\subsection{Asynchronous Messages}
 
 [[TODO: make a figure for this NCS]]
 
@@ -960,6 +960,8 @@ Many of the previous mechanisms we proposed rely on a timely information deliver
 
 In this section we propose a somewhat middle ground mechanism, where the agents try to learn and anticipate the messages they expect to receive for taking their decision. Using this mechanism, an adaptation period will be necessary for the system before all the agents have correctly learned the messages they should wait, during which the agents will have a suboptimal behavior, as NCS may not be correctly detected. The iterative nature of the solving process allows these suboptimal decisions to be ultimately corrected by the agents themselves.
 
+The solving mechanism for this algorithm is composed of two parts, regarding how the agents make their estimations for respectively the request messages or the inform messages they expect to receive.
+
 [[TODO: compete with the textual description + the algorithm of the waiting mechanisms]]
 
 [[Mail de Victor:
@@ -973,6 +975,8 @@ Si ils n'ont pas envoyé de requêtes sur un input, alors ils considèrent qu'il
 
 Ensuite, si ils reçoivent un inform avec le flag trucmuche, alors ils le passent... ou alors peut-etre pas, je m'en rappelle plus ça, mais le code devrait être explicite je pense... (dans inform handling, mais peut-être vérifie tout les utilisateurs de cette info dans eclipse...).
 ]]
+
+In our implementation, we did not concern ourself with potential loss of messages, which can happens when the designer intervenes on the system by removing existing agents while messages are transiting. For a \enquote{production-ready} version of the algorithm, such potential losses should be taken in account. Otherwise some agents may hang indefinitely waiting for  lost messages. A simple way to remediate to this problem is to add timeouts to the agents. Timeouts are a well-studied problem in computer networks, and adequate algorithms can be proposed based on the works in the existing literature (see \cite{jacobson1988congestion} for example).
 
 \subsection{Summary of Non-Cooperative Situations}
 
@@ -993,7 +997,7 @@ In this section we presented several problematic configurations (NCS) which can 
 	\hline
 	Hidden Dependencies & [[?]] & [[?]] & origin timestamps, influence\\
 	\hline
-	Asynchronous Requests & [[?]] & Agents receive messages in untimely manner & [[?]]\\
+	Asynchronous Messages & [[?]] & Agents receive messages in untimely manner & [[?]]\\
 	\hline
 \end{tabular}
 
@@ -1011,7 +1015,7 @@ In each case, we proposed general mechanisms for the agents to be able to detect
 	\hline
 	Criticality & A aggregated measure to indicate the state of the agent & Conflicting Requests & Comparable between different agents\\
 	\hline
-	Sender/Origin Timestamps & A unique signature composed of the unique id of the emitter/origin of the message and a (local) time step & Cycles Solving, Hidden Dependencies, Asynchronous Requests, [[Cooperative Trajectories ?]] & Comparable by sender/origin, allows a partial ordering of the messages (by sender/origin)\\
+	Sender/Origin Timestamps & A unique signature composed of the unique id of the sender/origin of the message and a (local) time step & Cycles Solving, Hidden Dependencies, Asynchronous Messages, [[Cooperative Trajectories ?]] & Comparable by sender/origin, allows a partial ordering of the messages (by sender/origin)\\
 	\hline
 	Influence & An indicator of the impact value of the receiver on the origin & Hidden Dependencies & Comparable by origin\\
 	\hline
@@ -1046,7 +1050,7 @@ When solving this NCS, the model agents sends the same number of messages then i
 When solving this NCS, the agent needs to detect which selected requests come from the same origin, group them, before comparing the total influences of the two groups. The detection, grouping and total influence calculation can all be factorized into a single pass algorithm of complexity $\mathcal{O}(n)$ regarding the number of requests.\\
 The agent will not need to send additional messages for solving this NCS.
 
-\paragraph*{Asynchronous Requests}
+\paragraph*{Asynchronous Messages}
 
 [[TODO]]
 
