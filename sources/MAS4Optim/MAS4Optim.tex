@@ -758,7 +758,7 @@ For each input $i$ of the model, we need to select a variation.
 First of all, we only keep the requested variations with the maximum criticality:  $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$.
 If $|\{\Delta_i^{r_{max}}\}| =  1$, then the agent knows which variation to request to the input agent.
 
-Otherwise, the model agent will discriminate using the relative influence [[it learned | given by the analyser]] of the input on the outputs concerned by the requests: 
+Otherwise, the model agent will discriminate using the relative influence[[influence is not a good term]] [[it learned | given by the analyser]] of the input on the outputs concerned by the requests: 
 $\Delta_i^* \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \dfrac{inf_{i,o_{r_{max}}}}{\sum \limits_{i \in I} inf_{i,o}} \right\}$
 
 If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i^*$ is selected.
@@ -962,10 +962,102 @@ In this section we propose a somewhat middle ground mechanism, where the agents 
 
 [[TODO: compete with the textual description + the algorithm of the waiting mechanisms]]
 
+[[Mail de Victor:
+
+Donc, pour ta requête, je crois que c'est assez simple, si je ne me trompe pas, l'idée est que les agents n'agissent pas tant qu'ils ont pas :
+1) toute l'info en terme de requêtes : donc ils attendent UNE requête par sender par output (donc 1 par output pour les modèles, autant qu'ils connaissent de sender pour les variables)
+2) un certain pourcentage d'info (par rapport aux corrélations) pour les informs ( par input pour les variables).
+
+Mais si ils n'ont pas envoyé d'inform sur un output, alors il n'attendent pas de requêtes
+Si ils n'ont pas envoyé de requêtes sur un input, alors ils considèrent qu'ils ont déjà l'info.
+
+Ensuite, si ils reçoivent un inform avec le flag trucmuche, alors ils le passent... ou alors peut-etre pas, je m'en rappelle plus ça, mais le code devrait être explicite je pense... (dans inform handling, mais peut-être vérifie tout les utilisateurs de cette info dans eclipse...).
+]]
 
 \subsection{Summary of Non-Cooperative Situations}
-[[Explain how the mechanisms compose ? Priority etc.]]
-[[TODO: make a table (or several) of the different mechanisms, their properties, and the NCS they are used to solve]]
+
+In this section we presented several problematic configurations (NCS) which can arise from the specificities of our modeling of a continuous optimization problem. For each difficulty we presented a basic example of problematic configuration and how this configuration would cause a cooperation failure with the nominal behavior of our agents. The different NCS are summarized in \tablename{} \ref{NCS_summary}
+
+\begin{table}
+\caption{Non Cooperative Situations Summary}\label{NCS_summary}
+\centering
+\begin{tabular}{|c|c|p{5cm}|p{3.5cm}|}
+	\hline
+		NCS & Category & Description & Cooperative Mechanisms\\
+	\hline
+	Conflicting Requests & Conflict & An agent receives several incompatible requests & Criticality\\
+	\hline
+	Cooperative Trajectories & Conflict & An agent receives seemingly incompatible requests, which can each be satisfied & [[??]]\\
+	\hline
+	Cycle Solving & [[?]] & Several agents are involved in a diverging cycle  & sender timestamps, origin timestamps\\
+	\hline
+	Hidden Dependencies & [[?]] & [[?]] & origin timestamps, influence\\
+	\hline
+	Asynchronous Requests & [[?]] & Agents receive messages in untimely manner & [[?]]\\
+	\hline
+\end{tabular}
+
+\end{table}
+[[TODO complete the table]]
+
+In each case, we proposed general mechanisms for the agents to be able to detect and correct the NCS in order to maintain a correct and efficient optimization process. In general, we had to provide enough information for the involved agents to detect and correct the NCS. The different mechanisms are summarized in \tablename{} \ref{NCS_mechanisms_summary}
+
+\begin{table}
+\caption{Non Cooperative Solving Mechanisms}\label{NCS_mechanisms_summary}
+\centering
+\begin{tabular}{|c|p{3.5cm}|p{3.5cm}|p{5cm}|}
+	\hline
+		Mechanism & Description & NCS Involved & Properties\\
+	\hline
+	Criticality & A aggregated measure to indicate the state of the agent & Conflicting Requests & Comparable between different agents\\
+	\hline
+	Sender/Origin Timestamps & A unique signature composed of the unique id of the emitter/origin of the message and a (local) time step & Cycles Solving, Hidden Dependencies, Asynchronous Requests, [[Cooperative Trajectories ?]] & Comparable by sender/origin, allows a partial ordering of the messages (by sender/origin)\\
+	\hline
+	Influence & An indicator of the impact value of the receiver on the origin & Hidden Dependencies & Comparable by origin\\
+	\hline
+	 [[Participation ??]]& & & & 
+	\hline
+\end{tabular}
+\end{table}
+
+\subsection{Complexity Analysis of Solving Mechanisms}
+
+In this section, we provide a quick complexity analysis of the different solving mechanisms.
+
+\paragraph*{Conflicting Requests}
+
+The main work for solving this NCS consists in finding the request(s) with the highest criticality. This very simple operation can be done by examining each received request in sequence and have a complexity of $\mathcal{O}(n)$ in the number of requests.\\
+The solving of this NCS does not requires sending additional messages
+
+\paragraph*{Cooperative Trajectories - Models}
+
+To solve this NCS, the model agent must, for each input, chose the selected request for which the input is the most important. The complexity of the algorithm is thus $\mathcal{O}(n \times i)$, $n$ being the number of selected requests and $i$ the number of inputs.\\
+When solving this NCS, the model agents sends the same number of messages then in the nominal case.
+
+\paragraph*{Cooperative Trajectories - Variables}
+
+[[TODO]]
+
+\paragraph*{Cycle Solving}
+
+[[TODO]]
+
+\paragraph*{Hidden Dependencies}
+When solving this NCS, the agent needs to detect which selected requests come from the same origin, group them, before comparing the total influences of the two groups. The detection, grouping and total influence calculation can all be factorized into a single pass algorithm of complexity $\mathcal{O}(n)$ regarding the number of requests.\\
+The agent will not need to send additional messages for solving this NCS.
+
+\paragraph*{Asynchronous Requests}
+
+[[TODO]]
+
+\paragraph*{}
+It can  be seen that, overall, the cooperative mechanisms we proposed to solve the various NCS are quite reasonably efficient in their complexity. This property is important in order for the system to be able to scale to bigger and more complex optimization problem. We managed to keep the complexity of the algorithms low by keeping the reasoning of the agents to a local level, limiting their perceptions to their neighborhood and only very synthetic information about the rest of the system (criticality, origin \emp{etc.}). Moreover, it should be noted that, in many problems, some of the agents will only have a minimal role in the solving, being connected only to one agent in input and one agent in output. For these agents, the complexity of these mechanism will be minimal as they will always receive at most one message. Only in the utmost complex and coupled problems will the majority of the agent be involved in the solving of NCS.
+
+A concern could be raised about the composition of these different mechanisms. Indeed an agent can be involved in several NCS at once. In this case, would not the combination of these mechanisms cause exponential increase of complexity? While this concern could be correct in theory, in practice the different solving mechanisms play the role of successive filters regarding the received messages. Consequently, later mechanisms work on a far lower number of messages than the earlier ones. The typical example is the conflicting requests mechanisms, which will eliminate all the requests which are not deemed critical enough. The others mechanisms will only have to take in account the requests which were conserved by this first filter. More so, it should be noted that, while the different mechanisms have be presented separately, a large part of the processing they do on the messages can be factorized, in order to increase the overall efficiency. While in our implementation we did not do such optimization (in order to keep the mechanisms separated and code easier to work with), such improvements would be of course strongly recommended for a more \enquote{production-ready} implementation of the system.\\
+To conclude on this remark, we can safely say that the composition of the different cooperative mechanisms is not of additive complexity, but only bring a marginal increase in the total complexity of the agent behavior.
+
+
+[[say how these NCS can be generalized to problems others than ID4CS => cue to CPSP]]
 
 \chapter{Extending the Multi-Agent System for Uncertainties}
 
