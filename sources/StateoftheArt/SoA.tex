@@ -200,7 +200,7 @@ SQP is based on a very powerful result of numerical optimization, the Karush-Kuh
 
 $\left\{
  		 \begin{array}{l}
-			\nabla f(x*) + \sum \mu_i \nabla g_i(x*) + \sum \lambda_j \nabla h_j(x*) = 0 \\
+			\nabla f(x*) + \displaystyle\sum \mu_i \nabla g_i(x*) + \displaystyle\sum \lambda_j \nabla h_j(x*) = 0 \\
 			g_i(x*) \leq 0 \;\forall i \\
 			h_j(x*) = 0 \;\forall j \\
 			\mu_i \geq 0 \;\forall i\\
@@ -325,7 +325,7 @@ Concerning the choice of the aggregation function, different strategies can be u
 
 A slightly more sophisticated way is to use pondered mean: we attribute a coefficient to each objective when adding them :
 
-\[ f(x) =\sum_{i=1}^n w_i f_i(x) \]
+\[ f(x) =\displaystyle\sum_{i=1}^n w_i f_i(x) \]
 
 Where $w_i$ are the coefficients representing the relative preferences between the objectives.
 
@@ -376,7 +376,7 @@ Depending of the selection of $\epsilon_2, ..., \epsilon_n$, it is possible to o
 
 The idea of Goal Programming (also called Target Vector Optimization) is to fix for each objective an associated goal to reach. Each objective can be over- or underachieving its goal, allowing the designer to provide a rough idea of the initial design goals.
 
-The new objective is to minimize the total deviation $\sum_{i=1}^n |f_i - g_i|$ where $g_i$ is the goal associated to objective $f_i$.
+The new objective is to minimize the total deviation $\displaystyle\sum_{i=1}^n |f_i - g_i|$ where $g_i$ is the goal associated to objective $f_i$.
 
 Goal Programming is very easy to use and quite popular, and can work even when the designer provided some unreachable goals, but provides no guarantee for the optimality of the solution.
 
@@ -596,8 +596,8 @@ Evidence theory represents a proposition as a set of elements. Thus some proposi
 From this mass can be calculated two measures:
 
 \begin{itemize}
-\item \emph{Belief:} $bel(S) = \sum_{S'\subseteq{S}} mass(S')$
-\item \emph{Plausibility:} $pl(S) = \sum_{S'|S' \cap S \neq \emptyset} mass(S')$
+\item \emph{Belief:} $bel(S) = \displaystyle\sum_{S'\subseteq{S}} mass(S')$
+\item \emph{Plausibility:} $pl(S) = \displaystyle\sum_{S'|S' \cap S \neq \emptyset} mass(S')$
 \end{itemize}
 
 The mass measurement represents the amount of evidences which support the proposition, the likelihood of $S$. The belief and plausibility can be seen as lower and upper bounds to this likelihood.
@@ -645,7 +645,7 @@ The $SN_L$ and $SN_S$ can be directly calculated as
 \[SN_L = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n \frac{1}{y_i^2} \right)\]
 \[SN_S = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n y_i^2 \right)\]
 
-For $SN_T$, we need first to measure the mean response, given by $\bar{y} = \frac{1}{n}\sum_{i=1}^n y_i$
+For $SN_T$, we need first to measure the mean response, given by $\bar{y} = \frac{1}{n}\displaystyle\sum_{i=1}^n y_i$
 This mean can then be used to calculate the standard deviation as follows 
 \[S = \sqrt{\sum_{i=1}^n \frac{(y_i - \bar{y})^2}{n-1}}\]
 [[REALLY GIVE THE FORMULAS OF MEAN AND STD ??]]
