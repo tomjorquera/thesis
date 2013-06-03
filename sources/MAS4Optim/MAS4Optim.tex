@@ -759,7 +759,7 @@ First of all, we only keep the requested variations with the maximum criticality
 If $|\{\Delta_i^{r_{max}}\}| =  1$, then the agent knows which variation to request to the input agent.
 
 Otherwise, the model agent will discriminate using the relative influence[[influence is not a good term]] [[it learned | given by the analyser]] of the input on the outputs concerned by the requests: 
-$\Delta_i^* \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \dfrac{inf_{i,o_{r_{max}}}}{\sum \limits_{i \in I} inf_{i,o}} \right\}$
+$\Delta_i^* \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \dfrac{inf_{i,o_{r_{max}}}}{\displaystyle\sum_{i \in I} inf_{i,o}} \right\}$
 
 If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i^*$ is selected.
 
@@ -773,7 +773,7 @@ If at this step $|\Delta_i^*| >1$ [[then what?]]. Otherwise the unique $\Delta_i
 		 	$\Delta_i^{r_{max}}$ is the variation requested to the input\;
 		 }
 		 {
-			$\{\Delta_i^*\} \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \dfrac{inf_{i,o_{r_{max}}}}{\sum \limits_ {i \in I} inf_{i,o}} \right\}$\;
+			$\{\Delta_i^*\} \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \dfrac{inf_{i,o_{r_{max}}}}{\displaystyle\sum _{i \in I} inf_{i,o}} \right\}$\;
 		 }
 	}
 
@@ -859,7 +859,7 @@ In case of a cycle, the output agent must now determine if the cycle is convergi
 If the cycle is converging, the output agent does not need to do any special action. But in case of a diverging cycle, instead of taking the requested value, the agent emits to its model a request for the opposite direction (ie, if the value of the output should have increased of \emph{n}, the agent will request a new value corresponding to a decrease of \emph{n}). The request will propagate through the cycle until the fixed point is found.
 [[END TOFIX]]
 
-\subsection{Hidden Dependencies}
+\subsection{Hidden Dependencies}\label{hidden_deps}
 
 The fact that each agent has only a local and limited view of the problem is a requirement for the system to be able to scale to arbitrary large problems. However this restriction can prove problematic when, due to its limited perceptions, an agent makes a wrongful assumption regarding its neighbors. The \emph{hidden dependency} NCS happens when an agent considers that the requests its makes to its input agents are independents while the two agents are in fact dependents. The mistake of the requesting agent comes from the fact that the dependency link between its two input agents is beyond its perception range.
 
@@ -926,8 +926,8 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 		
 		\If{$R_- \neq \emptyset \wedge R_+ \neq \emptyset$}{
 			\tcp{A hidden dependency NCS is detected}
-			$Inf_- = \sum_{r \in R_{-}}{influence_r}$\;
-			$Inf_+ = \sum_{r \in R_{+}}{influence_r}$\;
+			$Inf_- = \displaystyle\sum_{r \in R_{-}}{influence_r}$\;
+			$Inf_+ =\displaystyle\sum_{r \in R_{+}}{influence_r}$\;
 	
 			\eIf{$|Inf_-| > |Inf_+| 1$}
 			{
@@ -946,8 +946,6 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 
 \subsection{Asynchronous Messages}
 
-[[TODO: make a figure for this NCS]]
-
 The last NCS addresses an underlying assumption we have made until now. When we described the behavior of the agents, we supposed each of them always receive the messages in a timely manner, waiting if necessary until all the relevant messages are transmitted before acting. Once again, this hypothetical scenario is made impossible by the need for the agents to maintain a local view. The agents do not know what messages are currently transiting in the system. Their only knowledge concerns the messages they received at the start of their cycle and what messages they previously sent (but not their current status). Consequently, the topology of the agent graph can lead to transmission delays, where messages sent at the same time by the same agent will not necessarily reach their ultimate destination at the same time. For example, let us look back at the hidden dependency example (reporduced on \figurename{} \ref{NCS_hidden_dependencies} for convenience). When we discussed the case of hidden dependencies, we assumed by all the messages sent by the objective agent would reach $a_1$ before the latter would take its decision. However, it is clear that one of the message will take more time to reach $a_1$ than the other, as it must transit by two intermediate. Why would the agent $a_1$ wait for this late message, without even knowing its existence, before acting?
 
 \begin{figure}
@@ -958,23 +956,36 @@ The last NCS addresses an underlying assumption we have made until now. When we 
 
 Many of the previous mechanisms we proposed rely on a timely information delivery, for example for the agents to be able to detect some NCS. Based on this, it ensues that, without an adequate \enquote{synchronization} mechanism, many of them would fail to work correctly. On the other hand, having a fully synchronized system, where all the agents would make lengthy checks to ensure the complete propagation of all messages to all recipient, would be undesirable. Indeed, complex continuous optimization problems create big but loosely connected graphs, for which such full synchronized mechanism would be both costly and inefficient. Moreover, if we take in account the dynamic aspects of the problem (having a designer which can add or remove agent at any moment during solving), obtaining such synchronization guarantee can be nigh impossible.
 
-In this section we propose a somewhat middle ground mechanism, where the agents try to learn and anticipate the messages they expect to receive for taking their decision. Using this mechanism, an adaptation period will be necessary for the system before all the agents have correctly learned the messages they should wait, during which the agents will have a suboptimal behavior, as NCS may not be correctly detected. The iterative nature of the solving process allows these suboptimal decisions to be ultimately corrected by the agents themselves.
+In this section we propose a somewhat middle ground mechanism, where the agents try to learn and anticipate the messages they expect to receive before taking their decision. Using this mechanism, an adaptation period will be necessary for the system before all the agents have correctly learned the messages they should wait. During this period the agents will have a suboptimal behavior, as some NCS may not be correctly detected. The iterative nature of the solving process allows these suboptimal decisions to be ultimately corrected by the agents themselves.
 
 The solving mechanism for this algorithm is composed of two parts, regarding how the agents make their estimations for respectively the request messages or the inform messages they expect to receive.
 
-[[TODO: compete with the textual description + the algorithm of the waiting mechanisms]]
+Concerning the requests they expect to receive, the agents base their reasoning on the fact that requests are only sent in answer to previously received inform messages. Consequently they except an answer for the inform messages they previously send. So the agent assume at least one request message by output agent to which it send an inform message. As the agents are cooperative, each output agent should forward at most one request (the one deemed the most important to handle) back to the agent. Consequently, an agent can expect to receive one and only one request message in response to the informs it send. Once it received a request message from each of its output agents, it can take its decision (either forwarding the most important request to its input(s) or, in the case of a design variable, changing its value and sending new inform messages).\\
+The only modification which need to be done for this mechanism to work concern (non-criterion) agents which are not linked to any output agents. Previously, when receiving inform messages, these agents would change their value accordingly, but would not send back any message (as they have no request to do). In order for the \enquote{upstream} agents not to be blocked waiting for an answer, an agent that neither has requests to send or informs to forward must answer to its input agent with an \emph{allgood} message, signaling that it has taken in account the inform message and that non other action is pending. An agent receiving such allgood message know that it no longer need to wait for this output for taking its decision.
 
-[[Mail de Victor:
+In the same way that an agent waits for requests messages after having send informs, an agent which has send request messages should wait to receive enough relevant inform messages before taking further steps. In the same way that an agent sending informs expects to receive request messages in return, an agent sending requests expects to receive inform messages in response. A basic solution is thus to apply the same algorithm. In this case however, the agent is not strictly required to wait for all the inform messages to take a relevant decision. We presented in section \ref{hidden_deps} how the internal model agents can get an indication of the \emph{influence} of their inputs in regard of their outputs. Consequently, such agents can wait until they estimate that they received informs from their inputs corresponding to a total of more than 50\% of the total influence on the value of each output (variables agents, having only one input, always have to wait for this input and this input only, which correspond of 100\% of influence on its value) .
 
-Donc, pour ta requête, je crois que c'est assez simple, si je ne me trompe pas, l'idée est que les agents n'agissent pas tant qu'ils ont pas :
-1) toute l'info en terme de requêtes : donc ils attendent UNE requête par sender par output (donc 1 par output pour les modèles, autant qu'ils connaissent de sender pour les variables)
-2) un certain pourcentage d'info (par rapport aux corrélations) pour les informs ( par input pour les variables).
 
-Mais si ils n'ont pas envoyé d'inform sur un output, alors il n'attendent pas de requêtes
-Si ils n'ont pas envoyé de requêtes sur un input, alors ils considèrent qu'ils ont déjà l'info.
+\begin{algorithm}
+\caption{Waiting algorithm for request messages}
+\label{algo_waiting_requests}
 
-Ensuite, si ils reçoivent un inform avec le flag trucmuche, alors ils le passent... ou alors peut-etre pas, je m'en rappelle plus ça, mais le code devrait être explicite je pense... (dans inform handling, mais peut-être vérifie tout les utilisateurs de cette info dans eclipse...).
-]]
+	$O \leftarrow $ \{ outputs \}\;
+	$Requests \leftarrow $ \{ received requests \}\;
+	$AllGoods \leftarrow $ \{ received allgoods \}\;
+	$stillwaiting \leftarrow |Requests| + |AllGoods| \neq |O|$\;
+
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Waiting algorithm for inform messages}
+\label{algo_waiting_inform}
+
+	$O \leftarrow $ \{ outputs \}\;
+	$Informs \leftarrow $ \{ received informs \}\;
+	$stillwaiting \leftarrow (\forall output \in O,  \displaystyle\sum_{info \in Informs}{ influence(input_{info}, output) >50\%})$\;
+
+\end{algorithm}
 
 In our implementation, we did not concern ourself with potential loss of messages, which can happens when the designer intervenes on the system by removing existing agents while messages are transiting. For a \enquote{production-ready} version of the algorithm, such potential losses should be taken in account. Otherwise some agents may hang indefinitely waiting for  lost messages. A simple way to remediate to this problem is to add timeouts to the agents. Timeouts are a well-studied problem in computer networks, and adequate algorithms can be proposed based on the works in the existing literature (see \cite{jacobson1988congestion} for example).
 
@@ -1140,7 +1151,7 @@ As we can see, for a simple representation as intervals the required information
 The Monte Carlo Experiment is not an uncertainty law \emph{per se} but a series of random drawings to obtain experiment points. If the number of drawings is big enough, then the series can provide an adequate information about the uncertainties governing the variable. Suppose $\{x_n\}$ a series of $n$ drawings over $x$. We suppose the values to be ordered (that is, $x_i < x_j$ 
 
 \begin{compactitem}
-\item the mean can be obtained with $\dfrac{\sum_n{x_n}}{n}$.
+\item the mean can be obtained with $\dfrac{\displaystyle\sum_n{x_n}}{n}$.
 \item the standard deviation is obtained by first calculating the variance using the formula $Var(X) = E(X^2) - E(X)^2$ (possible as we can calculate the mean), then taking the square root to obtain the standard deviation.
 \item the drawing of a random value consists of drawing a value $i$ between $1$ and $n$ and returning the corresponding point $x_i$
 \item the cumulative probability of $t$ is calculated as  $P(X < t) = \dfrac{|\{x_i, \forall x_i < t\}|}{|\{x_n\}|}$ (where $|\{x\}|$ is the cardinality of the set $\{x\}$), \emph{i.e.} the number of elements lower than $t$ divided by the total number of elements.
