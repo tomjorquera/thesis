@@ -5,6 +5,10 @@
 [[Insister sur le découpage inhérent au problème (pas de réductionnisme)]]
 [[utiliser un exemple en fil rouge -> Turbofan ?]]
 
+In the previous part we discussed an inherent limitation of the current continuous optimization approaches. Not only the current methods are highly specialized, but they are also limited by the size and ultimately by the complexity of the problem. The most complex problems require specific approaches (Multidisciplinary methods) in order to distribute this complexity while keeping a coherent view. However, these approaches are often complicated to put in practice and tend themselves to be specialized to certain problem types.
+
+In this part we present a novel approach by modeling the problem to solve with a multi-agent system. The system then solves the problem in a distributed way while 
+
 \section{Problem Modeling with NDMO}\label{modeling}
 
 [[A CHANGER: In answer to the previous shortcomings, we propose a generic approach called Natural Domain Modeling for Optimization (NDMO) that relies on a natural or intrinsic description of the problem (\textit{i.e.} close to the reality being described).]]
@@ -956,14 +960,14 @@ The last NCS addresses an underlying assumption we have made until now. When we 
 
 Many of the previous mechanisms we proposed rely on a timely information delivery, for example for the agents to be able to detect some NCS. Based on this, it ensues that, without an adequate \enquote{synchronization} mechanism, many of them would fail to work correctly. On the other hand, having a fully synchronized system, where all the agents would make lengthy checks to ensure the complete propagation of all messages to all recipient, would be undesirable. Indeed, complex continuous optimization problems create big but loosely connected graphs, for which such full synchronized mechanism would be both costly and inefficient. Moreover, if we take in account the dynamic aspects of the problem (having a designer which can add or remove agent at any moment during solving), obtaining such synchronization guarantee can be nigh impossible.
 
-In this section we propose a somewhat middle ground mechanism, where the agents try to learn and anticipate the messages they expect to receive before taking their decision. Using this mechanism, an adaptation period will be necessary for the system before all the agents have correctly learned the messages they should wait. During this period the agents will have a suboptimal behavior, as some NCS may not be correctly detected. The iterative nature of the solving process allows these suboptimal decisions to be ultimately corrected by the agents themselves.
+In this section we propose a somewhat middle ground mechanism, where the agents try to estimate if they received enough messages to make a correct decision. As some of the information they require is learned during the solving process, an adaptation period will be necessary in order for the agent to behave correctly. During this period the agents may have a suboptimal behavior where some NCS are not be correctly detected. The iterative nature of the solving process allows these suboptimal decisions to be ultimately corrected by the agents themselves.
 
 The solving mechanism for this algorithm is composed of two parts, regarding how the agents make their estimations for respectively the request messages or the inform messages they expect to receive.
 
 Concerning the requests they expect to receive, the agents base their reasoning on the fact that requests are only sent in answer to previously received inform messages. Consequently they except an answer for the inform messages they previously send. So the agent assume at least one request message by output agent to which it send an inform message. As the agents are cooperative, each output agent should forward at most one request (the one deemed the most important to handle) back to the agent. Consequently, an agent can expect to receive one and only one request message in response to the informs it send. Once it received a request message from each of its output agents, it can take its decision (either forwarding the most important request to its input(s) or, in the case of a design variable, changing its value and sending new inform messages).\\
 The only modification which need to be done for this mechanism to work concern (non-criterion) agents which are not linked to any output agents. Previously, when receiving inform messages, these agents would change their value accordingly, but would not send back any message (as they have no request to do). In order for the \enquote{upstream} agents not to be blocked waiting for an answer, an agent that neither has requests to send or informs to forward must answer to its input agent with an \emph{allgood} message, signaling that it has taken in account the inform message and that non other action is pending. An agent receiving such allgood message know that it no longer need to wait for this output for taking its decision.
 
-In the same way that an agent waits for requests messages after having send informs, an agent which has send request messages should wait to receive enough relevant inform messages before taking further steps. In the same way that an agent sending informs expects to receive request messages in return, an agent sending requests expects to receive inform messages in response. A basic solution is thus to apply the same algorithm. In this case however, the agent is not strictly required to wait for all the inform messages to take a relevant decision. We presented in section \ref{hidden_deps} how the internal model agents can get an indication of the \emph{influence} of their inputs in regard of their outputs. Consequently, such agents can wait until they estimate that they received informs from their inputs corresponding to a total of more than 50\% of the total influence on the value of each output (variables agents, having only one input, always have to wait for this input and this input only, which correspond of 100\% of influence on its value) .
+In the same way that an agent waits for requests messages after having send informs, an agent which has send request messages should wait to receive enough relevant inform messages before taking further steps. In the same way that an agent sending informs expects to receive request messages in return, an agent sending requests expects to receive inform messages in response. A basic solution is thus to apply the same algorithm. In this case however, the agent is not strictly required to wait for all the inform messages to take a relevant decision. We presented in section \ref{model_agent_solving} how the internal model agents can get an indication of the impact of their inputs in regard of their outputs using correlation information. Consequently, such agents can wait until they estimate that they received informs from their inputs corresponding to a total of more than 50\% of the total \enquote{impact} on the value of each output (variables agents, having only one input, always have to wait for this input and this input only, which correspond of 100\% of the total \enquote{impact} on its value) .
 
 
 \begin{algorithm}
@@ -983,7 +987,7 @@ In the same way that an agent waits for requests messages after having send info
 
 	$O \leftarrow $ \{ outputs \}\;
 	$Informs \leftarrow $ \{ received informs \}\;
-	$stillwaiting \leftarrow (\forall output \in O,  \displaystyle\sum_{info \in Informs}{ influence(input_{info}, output) >50\%})$\;
+	$stillwaiting \leftarrow \forall output \in O,  (\displaystyle\sum_{info \in Informs}{ correlation(input_{info}, output) \leq 50\%})$\;
 
 \end{algorithm}
 
@@ -1004,11 +1008,11 @@ In this section we presented several problematic configurations (NCS) which can 
 	\hline
 	Cooperative Trajectories & Conflict & An agent receives seemingly incompatible requests, which can each be satisfied & [[??]]\\
 	\hline
-	Cycle Solving & [[?]] & Several agents are involved in a diverging cycle  & sender timestamps, origin timestamps\\
+	Cycle Solving & Conflict & Several agents are involved in a diverging cycle  & sender timestamps, origin timestamps\\
 	\hline
-	Hidden Dependencies & [[?]] & [[?]] & origin timestamps, influence\\
+	Hidden Dependencies & Conflict & An agent sends seemingly independent requests to  dependent agents & origin timestamps, influence\\
 	\hline
-	Asynchronous Messages & [[?]] & Agents receive messages in untimely manner & [[?]]\\
+	Asynchronous Messages & Conflict & Agents receive messages in untimely manner & influence\\
 	\hline
 \end{tabular}
 
@@ -1035,9 +1039,9 @@ In each case, we proposed general mechanisms for the agents to be able to detect
 \end{tabular}
 \end{table}
 
-\subsection{Complexity Analysis of Solving Mechanisms}
+\subsubsection*{Complexity Analysis of Solving Mechanisms}
 
-In this section, we provide a quick complexity analysis of the different solving mechanisms.
+We now provide a quick complexity analysis of the different solving mechanisms.
 
 \paragraph*{Conflicting Requests}
 
@@ -1063,7 +1067,8 @@ The agent will not need to send additional messages for solving this NCS.
 
 \paragraph*{Asynchronous Messages}
 
-[[TODO]]
+The algorithm for waiting request is trivial and can be executed in constant time. The algorithm for waiting informs requires a study of every inform for each output, its complexity is thus $\mathcal{O}(n \times o)$, $n$ being the number of informs and $o$ the number of outputs.\\
+This mechanism requires the sending of additional messages from (non-criterion) output agents which themselves do not have any output agent. In the best case, there is no such agent, thus no additional message is sent. In the worst case all outputs agent are concerned, and need each to send one additional message (message complexity of $\mathcal{O}(o)$, $o$ being the number of outputs).
 
 \paragraph*{}
 It can  be seen that, overall, the cooperative mechanisms we proposed to solve the various NCS are quite reasonably efficient in their complexity. This property is important in order for the system to be able to scale to bigger and more complex optimization problem. We managed to keep the complexity of the algorithms low by keeping the reasoning of the agents to a local level, limiting their perceptions to their neighborhood and only very synthetic information about the rest of the system (criticality, origin \emp{etc.}). Moreover, it should be noted that, in many problems, some of the agents will only have a minimal role in the solving, being connected only to one agent in input and one agent in output. For these agents, the complexity of these mechanism will be minimal as they will always receive at most one message. Only in the utmost complex and coupled problems will the majority of the agent be involved in the solving of NCS.
