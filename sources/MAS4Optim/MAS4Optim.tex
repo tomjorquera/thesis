@@ -1,13 +1,19 @@
 \part{A Multi-Agent System for Continuous Optimization}
 
+In the previous part we discussed an inherent limitation of the current continuous optimization approaches. Not only the current methods are highly specialized, but they are also limited by the size and ultimately by the complexity of the problem. The most complex problems require specific approaches (Multidisciplinary methods) in order to distribute this complexity while keeping a coherent view. However, these approaches are often complicated to put in practice and tend themselves to be specialized to certain problem types.
+
+In this part we present a novel approach by modeling the problem to solve with a multi-agent system. The system then solves the problem in a distributed way while maintaining a coherent view of the problem by propagating messages from neighbors to neighbors. 
+
+First we propose a way to model a continuous optimization  as a MAS. First of all we want our modeling must be general enough to allow any continuous optimization problem to be transform in such a way. We also want it simple enough to be automated, which is not only a requirement in the case of big problems, but also a way for the MAS to work \enquotes{behind the scenes}, without requiring the user of the system to have a specific knowledge of multi-agent related concepts. Since optimization specialists often possess expert  knowledge and techniques associated to the problems they want to solve, we would like our modeling to be able to integrate with external optimization tools. Our last requirement is the model to allow the person in charge of the optimization process to be able to express the problem in the formulation which is the most natural for him, without requiring the problem to be reformulated in any way.
+
+After presenting our modeling, we expose the basic, nominal workflow of the system, how the agents try to optimize the different part of the system and exchanges inform and request messages in order to propagates changes and coordinate the optimization process. We then see how specific configurations related to complex continuous optimization problems can cause this nominal optimization workflow to fail. Using the AMAS theory, we categorize these configurations into different non cooperative situations, for each of which we will propose additional cooperative mechanisms in  order to detect, solve the NCS and re-establish the correct optimization process.
+
+At last, we see how our agent modeling can be extended by proposing some modification in our system in order to be able to take in account the handling of uncertainties during the optimization process. We first see how the expression of the problem is changed by the integration of uncertainties. We modify the structure of the information exchanged by the agents and identify some key operation they require in order to be able to manipulate exchanged data. Finally we propose a generic mechanism for experts to be able to express how different representations of uncertainties can be transformed in the context of the problem to solve.
+
 \chapter{Agent-Based Modeling and Simulation of a Continuous Optimization Problem}
 
 [[Insister sur le découpage inhérent au problème (pas de réductionnisme)]]
 [[utiliser un exemple en fil rouge -> Turbofan ?]]
-
-In the previous part we discussed an inherent limitation of the current continuous optimization approaches. Not only the current methods are highly specialized, but they are also limited by the size and ultimately by the complexity of the problem. The most complex problems require specific approaches (Multidisciplinary methods) in order to distribute this complexity while keeping a coherent view. However, these approaches are often complicated to put in practice and tend themselves to be specialized to certain problem types.
-
-In this part we present a novel approach by modeling the problem to solve with a multi-agent system. The system then solves the problem in a distributed way while 
 
 \section{Problem Modeling with NDMO}\label{modeling}
 
