@@ -68,9 +68,7 @@ Let's now see in more details the roles of each of these fives entities: \emph{m
 
 \subsubsection*{Models.}
 
-[[DIRE QU'UN MODELE CORRESPOND A UN NIVEAU D'ABSTRACTION ARBITRAIRE (PEUT ETRE UNE DISCIPLINE ENTIERE)]]
-
-In the most general case, a \emph{model} can be seen as a black box which takes input values (which can be \emph{design variables} or \emph{output variables}) and produces output values. A \emph{model} represents a technical knowledge of the relations between different parts of a problem and can be as simple as a linear function or a much more complex algorithm requiring several hours of calculation. Often some properties are known (or can be deduced) about a model and specialized optimization techniques can exploit this information.
+In the most general case, a \emph{model} can be seen as a black box which takes input values (which can be \emph{design variables} or \emph{output variables}) and produces output values. A \emph{model} represents a technical knowledge of the relations between different parts of a problem and can be as simple as a linear function or a much more complex algorithm requiring several hours of calculation. Often some properties are known (or can be deduced) about a model and specialized optimization techniques can exploit this information. It is important to understand that what is exactly a \enquote{model} is quite an arbitrary choice, based on the application domain of the problem. Depending on the goals and needs, a same problem will be divided in models of different granularity and scope. A model can represent a simple calculus step as well as an entire discipline.
 In our Turbofan example, a \emph{model} entity is the $Turbofan$ function which calculate the three outputs using the values of $bpr$ and $pi\_c$.
 
 \subsubsection*{Design Variables.}
@@ -100,9 +98,17 @@ Constraints and objectives are usually regrouped under the more general term of 
 \paragraph*{}
 An interesting and important point is that both models, constraints and objectives involve computation. Often the most heavyweight calculus is encapsulated inside a model and the calculi concerning criteria tend to be simple equations, but this is neither an absolute requirement nor a discriminating characteristic.
 
-The NDMO modeling aims to provide the most complete and natural representation of the problem. This modeling preserves the relations between the domain entities and is completely independent of the solving process. 
+Using this decomposition, the optimization problem can then be represented as a graph $ G = (V, E)$, where the vertices set $V$ is a tuple $\langle \mathcal{V}_d, \mathcal{V}_o, \mathcal{M}, \mathcal{O}, \mathcal{C}\rangle$ (denoting respectively the sets of design variables, output variables, models, objectives and constraints of the problem), and $E$ is the set of relations between the entities. It can be noted that the graph is bipartite regarding the two sets $(\mathcal{V}_d \cup \mathcal{V}_o)$ and $(\mathcal{M} \cup \mathcal{O} \cup \mathcal{C})$, as design and output variables can only be connected to models, objectives or constraints, which can themselves only be connected to design or output variables.
+Using our Turbofan example, the nodes tuple $\langle \mathcal{V}_d, \mathcal{V}_o, \mathcal{M}, \mathcal{O}, \mathcal{C}\rangle$ of the graph representing this problem is defined as:
+\begin{align*}
+	\mathcal{V}_d &= \{bpr, pi_c\}, \\
+	\mathcal{V}_o &= \{Tdm0, s, fr\},\\
+	\mathcal{M} &= \{Turbofan\_Model\},\\
+	\mathcal{O} &= \{\text{max }Tdm0, \text{min }s\},\\
+	\mathcal{C} &= \{s <= 155, fr >= 4\}.
+\end{align*}
 
-[[SAY IT IS A BIPARTITE GRAPH BETWEEN VALUES ENTITIES AND INTERNAL MODEL ENTITIES]]
+The NDMO modeling aims to provide the most complete and natural representation of the problem. This modeling preserves the relations between the domain entities and is completely independent of the solving process.
 
 \section{From an Optimization Problem to a Multi-Agent System}
 
@@ -438,7 +444,7 @@ With this specificity in mind, let's now examine the behavior of the different a
 During solving, a variable agent is susceptible to receive change requests from others agents. When a value agent receives a change request, it tries to change its own value  in order to accommodate the requester while trying taking in account the previous demands of the rest of its neighbors. To this end, the variable agent  uses an exploration strategy based on \emph{Adaptive Value Tracker} (AVT) \cite{Lemouzy_2011}. The AVT can be seen as an adaptation of dichotomous search for dynamic values. The main idea is to change value according to the direction which is requested and the direction of the past requests. While the value varies in the same direction, the variation delta is increased so the value varies more and more. As soon as the requested variation changes, it means that the variable went past the good value, so the variation delta is reduced.
 This capability to take into account a changing solution allows the variable agent to continuously search for an unknown dynamic target value. This capability is required for the system to be able to adapt to changes made by the engineer during the solving process.
 
-%While changing value based not on the value requested but on the direction can seem paradoxical, it must be recalled that, since no agent has a global view of the system, the requests made by the agents is often approximate, so the agents need to iterate many times. If the search space in large, the system could take time to converge towards the solution. By using a near-dichotomous strategy, we greatly accelerate this convergence.
+While changing value based not on the value requested but on the direction can seem paradoxical, it must be recalled that, since no agent has a global view of the system, the requests made by the agents is often approximate, so the agents need to iterate many times. If the search space in large, the system could take time to converge towards the solution. By using a near-dichotomous strategy, we greatly accelerate this convergence.
 
 [[Give analytical formulation of the AVT]]
 
@@ -529,8 +535,6 @@ $\{\delta_i\} \leftarrow $ estimated correlations between all the inputs and the
 
 We presented here a very simple learning mechanism for the agent to default when it is not provided with an external optimizer. This mechanism is voluntary simple and lightweight, in order to be applicable to a broad range of model topologies. While it is possible to make further refinements to improve its results, we believe that such needs are better covered by the use of external optimizers, which can be tailored for specific needs.\\
 Interestingly, our approximation technique can also be used to create local linear approximations of complex black box models. We will see in the later sections how such information can be used by the system to solve some corner cases.
-
-[[In Perspectives, remember to open on more complex techniques using contexts]]
 
 \subsection{Output Agent}
 
@@ -678,13 +682,6 @@ Consequently, we need for each NCS to provide the agents with specific mechanism
 Methodologically, by studying how the system handles specific problems with characteristics which are specific to continuous optimization (interdependencies, conflicting criteria \emph{etc.}), we identified several problematic configuration types, and defined different cooperation mechanisms for the agents that enable the system to correctly solve problems which exhibit these characteristics.
 
 We will now present some additional mechanisms to handle some specific problematic cases we identified.
-
-[[Explain the importance of modularity to handle different kinds of problems(external optims. etc.)
-(=> cue to CPSP ?)
-=> Maybe in conclusion of the chapter ?
-]]
-
-[[Dire pour chaque SNC à quelle catégorie elle appartient]]
 
 \subsection{Conflicting Requests}
 
@@ -998,8 +995,6 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 
 \end{algorithm}
 
-[[TODO How is this value propagated regarding cooperative trajectories?]]
-
 \subsection{Asynchronous Messages}
 
 The last NCS addresses an underlying assumption we have made until now. When we described the behavior of the agents, we supposed each of them always receive the messages in a timely manner, waiting if necessary until all the relevant messages are transmitted before acting. Once again, this hypothetical scenario is made impossible by the need for the agents to maintain a local view. The agents do not know what messages are currently transiting in the system. Their only knowledge concerns the messages they received at the start of their cycle and what messages they previously sent (but not their current status). Consequently, the topology of the agent graph can lead to transmission delays, where messages sent at the same time by the same agent will not necessarily reach their ultimate destination at the same time. For example, let us look back at the hidden dependency example (reporduced on \figurename{} \ref{NCS_hidden_dependencies} for convenience). When we discussed the case of hidden dependencies, we assumed by all the messages sent by the objective agent would reach $a_1$ before the latter would take its decision. However, it is clear that one of the message will take more time to reach $a_1$ than the other, as it must transit by two intermediate. Why would the agent $a_1$ wait for this late message, without even knowing its existence, before acting?
@@ -1127,9 +1122,6 @@ It can  be seen that, overall, the cooperative mechanisms we proposed to solve t
 
 A concern could be raised about the composition of these different mechanisms. Indeed an agent can be involved in several NCS at once. In this case, would not the combination of these mechanisms cause exponential increase of complexity? While this concern could be correct in theory, in practice the different solving mechanisms play the role of successive filters regarding the received messages. Consequently, later mechanisms work on a far lower number of messages than the earlier ones. The typical example is the conflicting requests mechanisms, which will eliminate all the requests which are not deemed critical enough. The others mechanisms will only have to take in account the requests which were conserved by this first filter. More so, it should be noted that, while the different mechanisms have be presented separately, a large part of the processing they do on the messages can be factorized, in order to increase the overall efficiency. While in our implementation we did not do such optimization (in order to keep the mechanisms separated and code easier to work with), such improvements would be of course strongly recommended for a more \enquote{production-ready} implementation of the system.\\
 To conclude on this remark, we can safely say that the composition of the different cooperative mechanisms is not of additive complexity, but only bring a marginal increase in the total complexity of the agent behavior.
-
-
-[[say how these NCS can be generalized to problems others than ID4CS => cue to CPSP]]
 
 \chapter{Extending the Multi-Agent System for Uncertainties}
 

@@ -3,7 +3,7 @@ exec scala $0 $@
 !#
 
 import scala.sys.process._
-import language.postfixOps //to remove warnings
+//import language.postfixOps //to remove warnings
 
 val cachePath = "./.cache.data"
 val repoLocation = "../.././"

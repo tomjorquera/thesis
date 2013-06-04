@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="11.5.1">
-  <zoom_level>13</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>481</x>
-      <y>455</y>
-      <w>130</w>
-      <h>52</h>
+      <x>112</x>
+      <y>272</y>
+      <w>80</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>/&lt;&lt;abstract&gt;&gt;/
 /Value Agent/</panel_attributes>
@@ -16,10 +16,10 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>1027</x>
-      <y>689</y>
-      <w>130</w>
-      <h>52</h>
+      <x>448</x>
+      <y>432</y>
+      <w>80</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>Constraint
 Agent</panel_attributes>
@@ -28,10 +28,10 @@ Agent</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>403</x>
-      <y>689</y>
-      <w>130</w>
-      <h>52</h>
+      <x>64</x>
+      <y>432</y>
+      <w>80</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>Variable
 Agent</panel_attributes>
@@ -40,10 +40,10 @@ Agent</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>559</x>
-      <y>689</y>
-      <w>130</w>
-      <h>52</h>
+      <x>160</x>
+      <y>432</y>
+      <w>80</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>Output
 Agent</panel_attributes>
@@ -52,10 +52,10 @@ Agent</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>715</x>
-      <y>689</y>
-      <w>130</w>
-      <h>52</h>
+      <x>256</x>
+      <y>432</y>
+      <w>80</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>Model
 Agent</panel_attributes>
@@ -64,54 +64,54 @@ Agent</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>429</x>
-      <y>468</y>
-      <w>142</w>
-      <h>246</h>
+      <x>80</x>
+      <y>280</y>
+      <w>88</w>
+      <h>168</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>117;39;39;221</additional_attributes>
+    <additional_attributes>72;24;24;152</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>507</x>
-      <y>468</y>
-      <w>142</w>
-      <h>246</h>
+      <x>128</x>
+      <y>280</y>
+      <w>88</w>
+      <h>168</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>39;39;117;221</additional_attributes>
+    <additional_attributes>24;24;72;152</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>975</x>
-      <y>585</y>
-      <w>142</w>
-      <h>129</h>
+      <x>416</x>
+      <y>360</y>
+      <w>88</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>39;39;117;104</additional_attributes>
+    <additional_attributes>24;24;72;72</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>897</x>
-      <y>585</y>
-      <w>142</w>
-      <h>129</h>
+      <x>368</x>
+      <y>360</y>
+      <w>88</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>117;39;39;104</additional_attributes>
+    <additional_attributes>72;24;24;72</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>871</x>
-      <y>689</y>
-      <w>130</w>
-      <h>52</h>
+      <x>352</x>
+      <y>432</y>
+      <w>80</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>Objective
 Agent</panel_attributes>
@@ -120,10 +120,10 @@ Agent</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>845</x>
-      <y>416</y>
-      <w>156</w>
-      <h>78</h>
+      <x>336</x>
+      <y>264</y>
+      <w>96</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>/&lt;&lt;abstract&gt;&gt;/
 /Internal Model/
@@ -133,10 +133,10 @@ Agent</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>949</x>
-      <y>546</y>
-      <w>130</w>
-      <h>78</h>
+      <x>400</x>
+      <y>336</y>
+      <w>80</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>/&lt;&lt;abstract&gt;&gt;/
 /Criterion/
@@ -144,178 +144,59 @@ Agent</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>806</x>
-      <y>117</y>
-      <w>130</w>
-      <h>39</h>
-    </coordinates>
-    <panel_attributes>Input Port</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>533</x>
-      <y>117</y>
-      <w>130</w>
-      <h>39</h>
-    </coordinates>
-    <panel_attributes>Output Port</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>741</x>
-      <y>455</y>
-      <w>207</w>
-      <h>259</h>
+      <x>272</x>
+      <y>288</y>
+      <w>128</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>182;39;39;234</additional_attributes>
+    <additional_attributes>112;24;24;144</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>884</x>
-      <y>455</y>
-      <w>155</w>
-      <h>116</h>
+      <x>360</x>
+      <y>288</y>
+      <w>96</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>39;39;130;91</additional_attributes>
+    <additional_attributes>24;24;80;48</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>520</x>
-      <y>117</y>
-      <w>118</w>
-      <h>220</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m2=1..*
-have</panel_attributes>
-    <additional_attributes>65;195;65;39</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>624</x>
-      <y>65</y>
-      <w>207</w>
-      <h>91</h>
+      <x>168</x>
+      <y>240</y>
+      <w>184</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=1..1
+m1=1..*
 m2=0..*
-connect to</panel_attributes>
-    <additional_attributes>39;65;182;65</additional_attributes>
+input&gt;</panel_attributes>
+    <additional_attributes>24;40;168;40</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>1170</x>
-      <y>377</y>
-      <w>143</w>
-      <h>52</h>
+      <x>536</x>
+      <y>248</y>
+      <w>88</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>Internal Model</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>806</x>
-      <y>117</y>
-      <w>118</w>
-      <h>220</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-
-m2=1..*
-have</panel_attributes>
-    <additional_attributes>65;195;65;39</additional_attributes>
-  </element>
-  <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>494</x>
-      <y>312</y>
-      <w>169</w>
-      <h>39</h>
-    </coordinates>
-    <panel_attributes>bt=.
-
-/Producer Agent/</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>507</x>
-      <y>312</y>
-      <w>103</w>
-      <h>168</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>78;39;39;143</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>793</x>
-      <y>312</y>
-      <w>169</w>
-      <h>39</h>
-    </coordinates>
-    <panel_attributes>bt=.
-
-/Consumer Agent/</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>585</x>
-      <y>312</y>
-      <w>311</w>
-      <h>402</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>286;39;39;377</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>832</x>
-      <y>312</y>
-      <w>116</w>
-      <h>129</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>39;39;91;104</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>546</x>
-      <y>312</y>
-      <w>259</w>
-      <h>402</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>39;39;234;377</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>1170</x>
-      <y>494</y>
-      <w>143</w>
-      <h>52</h>
+      <x>536</x>
+      <y>288</y>
+      <w>88</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>External
 Optimizer</panel_attributes>
@@ -324,54 +205,56 @@ Optimizer</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>962</x>
-      <y>364</y>
-      <w>233</w>
-      <h>116</h>
+      <x>408</x>
+      <y>232</y>
+      <w>144</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 
 m2=1..1
 have &gt;</panel_attributes>
-    <additional_attributes>39;91;208;39</additional_attributes>
+    <additional_attributes>24;48;128;32</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>962</x>
-      <y>416</y>
-      <w>233</w>
-      <h>129</h>
+      <x>408</x>
+      <y>264</y>
+      <w>144</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=-
 
 m1=0..*
 m2=0..*
 use&gt;</panel_attributes>
-    <additional_attributes>39;39;208;104</additional_attributes>
+    <additional_attributes>24;32;128;40</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.custom.Systemborder</type>
     <coordinates>
-      <x>299</x>
-      <y>650</y>
-      <w>936</w>
-      <h>104</h>
+      <x>0</x>
+      <y>408</y>
+      <w>576</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>Effective agents
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.custom.Systemborder</type>
+    <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>377</x>
-      <y>273</y>
-      <w>663</w>
-      <h>104</h>
+      <x>168</x>
+      <y>256</y>
+      <w>184</w>
+      <h>56</h>
     </coordinates>
-    <panel_attributes>Conceptual roles
-</panel_attributes>
-    <additional_attributes/>
+    <panel_attributes>lt=-
+m1=0..*
+m2=0..*
+&lt;output</panel_attributes>
+    <additional_attributes>24;40;168;40</additional_attributes>
   </element>
 </diagram>
