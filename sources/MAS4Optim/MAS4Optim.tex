@@ -268,7 +268,7 @@ Regarding problem simulation, the role of the variable agent is to ensure that t
 A variable agent has to send new Inform messages when:
 \begin{compactitem}
 \item new agents are connected to it (typically at the creation of the system)
-\item it decided to change its value based on received requests (see \ref{collective_solv}[[CHANGE TO POINT DIRECTLY TO VARIABLE AGENT]])
+\item it decided to change its value based on received requests (see \ref{variable_agent_solving})
 \item the designer changed its value
 \end{compactitem}
 
@@ -433,7 +433,7 @@ In order to keep the presentation of the agents behavior simple, we will assume 
 
 With this specificity in mind, let's now examine the behavior of the different agent types in the context of collective solving.
 
-\subsection{Variable Agent}
+\subsection{Variable Agent}\label{variable_agent_solving}
 
 During solving, a variable agent is susceptible to receive change requests from others agents. When a value agent receives a change request, it tries to change its own value  in order to accommodate the requester while trying taking in account the previous demands of the rest of its neighbors. To this end, the variable agent  uses an exploration strategy based on \emph{Adaptive Value Tracker} (AVT) \cite{Lemouzy_2011}. The AVT can be seen as an adaptation of dichotomous search for dynamic values. The main idea is to change value according to the direction which is requested and the direction of the past requests. While the value varies in the same direction, the variation delta is increased so the value varies more and more. As soon as the requested variation changes, it means that the variable went past the good value, so the variation delta is reduced.
 This capability to take into account a changing solution allows the variable agent to continuously search for an unknown dynamic target value. This capability is required for the system to be able to adapt to changes made by the engineer during the solving process.
@@ -466,7 +466,7 @@ This behavior is summarized in algorithm \ref{algo_solving_variable}.
 \subsection{Model Agent}\label{model_agent_solving}
 
 The model agent is responsible for transmitting requests it received from its outputs to its inputs. To be able to translate the ingoing requests to its inputs, the model agent uses an external optimizer, as presented in introduction. When receiving a request from one of its outputs, the model agent calls the external optimizer, which provides it with the adequate inputs values corresponding to the request. The model agent then sends requests corresponding to these values to its inputs.
-While the model agent can seem to be very simplistic, we will see in section [[REF]] how its 
+While the model agent can seem to be very simplistic, we will see in section \ref{collective_solv} how its 
 behavior can be expanded to handle multiple problematic cases.
 
 The behavior of the model agent is summarized in algorithm \ref{algo_solving_model}.
@@ -496,7 +496,35 @@ The complete formula when several inputs are involved in the calculus of $o$ is 
 \begin{algorithm}
 \caption{Collective Solving - Internal Optimizer Algorithm}
 \label{algo_solving_internaloptim}
-	[[TODO]]\;
+
+\emph{estimating correlation deltas}\;
+$I \leftarrow$ current input values\;
+$O \leftarrow$ current output values\;
+	\For{$inform \leftarrow $ \{received inform messages\}}{
+		$i_{t-1} \leftarrow $ old value of $i_{inform}$\;
+		$i_{t} \leftarrow $ new value of $i_{inform}$\;
+		
+		$\{o_{t-1}\} \leftarrow \{$ old value of $o, \forall o \in O\}$\;
+		\BlankLine
+		\tcp{Reevaluate the outputs using the new input value}
+		$I_{t} \leftarrow \{i \in I, i \neq i_{t-1}\} \cup \{i_t\}$\;
+		$\{o_{t}\} \leftarrow M(	I_{t})$\;
+		\BlankLine
+		\tcp{For each output, calculate the new correlation $\delta$}
+		\For{$o \leftarrow O$}{
+			$\delta_{i_{inform}, o} \leftarrow 	\dfrac{o_{t} - o_{t-1}}{i_{t} - i_{t-1}}$\;
+		}
+	}
+
+\BlankLine\BlankLine
+\emph{linear approximation optimization}\;
+$o^* \leftarrow $ target value for $o$\;
+$\Delta_o \leftarrow o^* - o_{current}$\;
+$\{\delta_i\} \leftarrow $ estimated correlations between all the inputs and the output\;
+\For{$i \leftarrow $ inputs}{
+	\tcp{calculate the input variation}
+	$\Delta_i \leftarrow \Delta_o \times  \dfrac{\delta_i}{\displaystyle\sum_{i \in \text{inputs}}{\delta_i}}$\;
+}
 \end{algorithm}
 
 We presented here a very simple learning mechanism for the agent to default when it is not provided with an external optimizer. This mechanism is voluntary simple and lightweight, in order to be applicable to a broad range of model topologies. While it is possible to make further refinements to improve its results, we believe that such needs are better covered by the use of external optimizers, which can be tailored for specific needs.\\
@@ -521,19 +549,28 @@ Like for simulation, output agents have a similar role to variable agents during
 
 \subsection{Constraint Agent}
 
-With the objective agents, the constraint agents are the origins of the requests which are propagated into the system. The goal of a constraint agent is to ensure the constraint of which it is in charge is satisfied. To this end, the constraint agent calculates a target value for the constraint, estimates corresponding target values for its inputs and sends them as requests to the agents in charge of these inputs.
+With the objective agents, the constraint agents are the origins of the requests which are propagated into the system. The goal of a constraint agent is to ensure the constraint of which it is in charge is satisfied. To this end, the constraint agent calculates a target value for the constraint, estimates corresponding target values for its inputs and sends them as requests to the agents in charge of these inputs. When the constraint is satisfied, the constraint agent tries to ensure it will keep being satisfied. To this end it continues to send requests to move its current value further and further from the threshold.
 
 The problematic behind finding corresponding input values for the target value is similar to the one of the model agent of finding adequate inputs values from the outputs. As we said at the end of section \ref{modeling}, constraint agents (and objective agents) are similar to model agents in the fact that both have control of an \emph{internal model}. Thus, constraint agents can, in the same way than model agents, make use of an external optimizer to find adequate target values for its inputs. The only difference being that, instead of having a value requested by an output, the constraint agent estimates itself its own target value.\\
 In the same way, constraint agents can use the same internal optimization mechanism than model agents, presented in algorithm \ref{algo_solving_internaloptim},  when not provided with an external optimizer.
 
-The behavior of constraint agents is described in algorithm \ref{algo_solving_constraint};
+The behavior of a constraint agent with a \enquote{lower or equal} constraint is described in algorithm \ref{algo_solving_constraint}. This algorithm is easily adapted to the others constraint types.
 
 \begin{algorithm}
 \caption{Collective Solving - Constraint Agent Behavior}
 \label{algo_solving_constraint}
 
-	[[TODO]]\;
-	
+$v \leftarrow $ current value\;
+$v_t \leftarrow $ threshold value\;
+$\Delta^* \leftarrow |v - v_t|$\;
+
+\BlankLine
+$\{ \Delta^*_i \} \leftarrow Optimizer(v - \Delta^*)$\;
+\tcp{can be either external optimizer or internal optimization mechanism}
+\For{$i \leftarrow inputs$}{
+	\tcp{change the estimated target value to the input}
+	send($i$, $\Delta^*_i$)\;
+}
 \end{algorithm}
 
 It should be noted that, even when the constraint is satisfied, the constraint agent continues to send requests to its inputs. This behavior can be justified by several reasons.  First of all, the goal of the constraint agent is to ensure its constraint stays satisfied, so when the constraint is already  satisfied the constraint agent has interest in \enquote{pushing} its current value afar from the frontier.\\
@@ -541,17 +578,26 @@ The other reason is to help its neighbors agents keep a coherent view of their r
 
 \subsection{Objective Agent}
 
-Along with constraint agents, the objective agents are the origins of the requests which are propagated into the system. The goal of an objective agent is to improve the objective of which it is in charge. To this end, the objective agent iteratively estimates a new target value for its objective, finds the corresponding input target values and sends them as requests to the input agents.
+Along with constraint agents, the objective agents are the origins of the requests which are propagated into the system. The goal of an objective agent is to improve the objective of which it is in charge. To this end, the objective agent iteratively estimates a new target value for its objective, finds the corresponding input target values and sends them as requests to the input agents. The behavior of the objective agent in this regard is quite similar to the one of the constraint agent. The difference is that, while the constraint agent has a reference value to target (the threshold value), the objective agent has no such value. Instead, the objective agent will target a new value based on the last variation of its value.
 
 Like the constraint and model agents, the objective agent can use an external optimizer to find the corresponding intput values, or can use the internal optimization mechanism presented in algorithm \ref{algo_solving_internaloptim}.
 
-The behavior of objective agents is described in algorithm \ref{algo_solving_objective};
+The behavior of an objective agents with a \enquote{minimize} objective is described in algorithm \ref{algo_solving_objective}. This algorithm is easily adapted to maximization objectives.
 
 \begin{algorithm}
 \caption{Collective Solving - Constraint Agent Behavior}
 \label{algo_solving_objective}
 
-	[[TODO]]\;
+$v \leftarrow $ current value\;
+$\Delta_{t-1} \leftarrow $ last variation of value \;
+
+\BlankLine
+$\{ \Delta^*_i \} \leftarrow Optimizer(v - Delta_{t-1})$\;
+\tcp{can be either external optimizer or internal optimization mechanism}
+\For{$i \leftarrow inputs$}{
+	\tcp{change the estimated target value to the input}
+	send($i$, $\Delta^*_i$)\;
+}
 	
 \end{algorithm}
 
