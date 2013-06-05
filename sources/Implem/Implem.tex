@@ -2,6 +2,23 @@
 
 [[Parler de la gestion des valeurs, et comment cela permet d'étendre le système a des valeurs incertaines, des vecteurs etc.]]
 
+\chapter{ADELFE}
+
+\section{Overview of ADELFE}
+
+In section \ref{AMAS-ADELFE}, we succinctly presented ADELFE, the method which has been proposed for the design of AMAS. In this chapter we get back in more details about this method and what benefits it provided for the design of our system. 
+
+The ADELFE method in itself is based the Rational Unifed Process (RUP) and is defined following the Software Process Engineering Meta-Model (SPEM)  \cite{bernon2003adelfe,picard04phdthesis}. Since its revision \cite{Ro2008.3}, it is composed of five \emph{Work Definitions} ($WD$), themselves decomposed in several \emph{activities} making use of UML as well as the AMAS-ML and muADL languages. An overview of the method is shown on \figurename{} \ref{ADELFE_phases}.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{AdelfePhases}
+\caption{Overview of the ADELFE Method}\label{ADELFE_phases}
+\end{figure}
+
+In regard of the RUP, ADELFE add specific activities and roles which are specific to its approach for the design of AMAS.\\
+The final requirement study ($WD_2$), was complemented with activities 6 and 7-2 concerning the characterization of the system environment and the identification of cooperation failures during the determining of the use cases.During the Analysis ($WD_3$), additional activities 11 and 12 respectively check for the adequacy of AMAS to the problem and identify the agents involved in the system being built, while activity 13 is complemented with a step concerning the study of the relationships between agents. During the design ($WD_4$), activities 15 et 16 concerns the design of the system and the agents, while activity 17 concerning fast prototyping was added in order to be able to quickly test the proposed behavior of the agents. The development phase ($WD5$), which was not present in the initial version of ADELFE, concerns the architecture and the implementation of the agents and the system.
+
+
 \chapter{MAY Architecture}
 
 [[First generic AMAS architecture ??]]
