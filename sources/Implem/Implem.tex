@@ -10,7 +10,9 @@ While such work could seems to concerns more software engineering experts than c
 
 \section{Overview of ADELFE}
 
-In section \ref{AMAS-ADELFE}, we succinctly presented ADELFE, the method which has been proposed for the design of AMAS. In this chapter we get back in more details about this method and what benefits it provided for the design of our system. 
+In section \ref{AMAS-ADELFE}, we succinctly presented ADELFE\footnote{\url{http:/www.irit.fr/ADELFE/}}, the method which has been proposed for the design of AMAS. In this chapter we get back in more details about this method and what benefits it provided for the design of our system. 
+
+ADELFE is a method devoted to software engineering of adaptive multi-agent systems, developed by ARTAL and IRIT and founded by the RNTL 2000 program. The name “ADELFE” is the French acronym for "toolkit to develop software with emergent functionality" (Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente.
 
 The ADELFE method in itself is based the Rational Unifed Process (RUP) and is defined following the Software Process Engineering Meta-Model (SPEM)  \cite{bernon2003adelfe,picard04phdthesis}. Since its revision \cite{Ro2008.3}, it is composed of five \emph{Work Definitions} ($WD$), themselves decomposed in several \emph{activities} making use of UML as well as the AMAS-ML and muADL languages. An overview of the method is shown on \figurename{} \ref{ADELFE_phases}.
 
@@ -24,11 +26,33 @@ The final requirement study ($WD_2$), was complemented with activities 6 and 7-2
 
 \section{Applying ADELFE for the Design of a Continuous Optimization Tool}
 
+Based on the guidelines of the ADELFE methodology we defined the requirements of the tool we proposed to develop. The following functionalities were identified:
+\begin{compactitem}
+\item Our tool will allows users to solve multidisciplinary optimization problems.
+\item  The user will be able to load disciplinary models into the tool, express some constraints and objectives on these models and then use and interact with the tool to solve the defined problem.
+\item Our tool will be reusable from one optimization problem to another in different application domains and will be a generic tool.
+\item The user will be able to specify a specific resolution process to be used, but it will not be mandatory.
+\item The user will be able to load into the tool different models of the same discipline (i.e. aerodynamics, acoustics ...), but with a different fidelity. It will be possible for the user to specify the tool to take in account these different models during the problem solving.
+\item The user will be able to express uncertainties on some part of the models or input variables.
+\item The resolution will take into account these uncertainties.
+\item The tool will be able to integrate some well-known optimization techniques, and will allow the user to add new techniques to use during solving. The tool will also be able to interact with others optimization tools to ease the optimization process.
+
+\item The user will be able (at runtime):
+	\begin{compactitem}
+    \item to monitor the system activity,
+    \item to observe time history qualitative indicators,
+    \item to adjust its parameters.
+    \end{compactitem}
+\end{compactitem}
+
 \begin{figure}
 \includegraphics[width= \textwidth]{Use_cases}
-\caption{Actors and use cases identified during requirements studies}
+\caption{Actors and use cases identified during requirements studies}\label{Use_cases}
 \end{figure}
 
+Several entities interacting with the tool were also identified. The \emph{Method expert} adds new optimization methods into the system. The expert field can be optimization methods (classic methods, AMAS methods ...) or uncertainties. The \emph{Model expert} adds new models into the system. The role of the \emph{Engineer} is to use the different elements defined by the other experts to define new problem for the system to solve and to monitor the functioning of the system. At last, the \emph{AMAS expert} has to define and tune the agents of the system. The system should also be able to integrate with external optimization and modeling tool, in order to accommodate the existing workflow and constraints of the users.
+
+The different use cases which were identified for each of these entities are presented in \figurename{} \ref{Use_cases}.
 
 \chapter{MAY Architecture}
 
