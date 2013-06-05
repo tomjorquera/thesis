@@ -12,16 +12,13 @@ At last, we see how our agent modeling can be extended by proposing some modific
 
 \chapter{Agent-Based Modeling and Simulation of a Continuous Optimization Problem}
 
-[[Insister sur le découpage inhérent au problème (pas de réductionnisme)]]
-[[utiliser un exemple en fil rouge -> Turbofan ?]]
-
 \section{Problem Modeling with NDMO}\label{modeling}
 
-[[A CHANGER: In answer to the previous shortcomings, we propose a generic approach called Natural Domain Modeling for Optimization (NDMO) that relies on a natural or intrinsic description of the problem (\textit{i.e.} close to the reality being described).]]
+As we previously stated, when solving complex continuous problems, existing techniques (\emph{i.e.} MDO) usually require a transformation of the initial problem in order to satisfy some requirements for the technique to be applied.Beside the fact that correctly applying these changes can be a demanding task for the designers, imposing such modifications changes the problem beyond this original, natural meaning. What we want to propose here is  an agent based modeling where the original structure, the original meaning of the problem is preserved, because it represent the formulation which is the most natural and easiest for the expert to manipulate.
 
 \begin{figure}[]
 	\centering
-	\includegraphics[width=0.8\textwidth]{Turbofan_operation}
+	\includegraphics[width=0.75\textwidth]{Turbofan_operation}
 	\caption{Illustration of a Turbofan engine (CC SA-BY  \href{http://en.wikipedia.org/wiki/File:Turbofan_operation.svg}{K. Aainsqatsi})}
 	\label{turbofan_illu}
 \end{figure}
@@ -66,29 +63,29 @@ In \figurename{} \ref{turbofan:math}, the analytic expression of this optimizati
 
 Let's now see in more details the roles of each of these fives entities: \emph{model}, \emph{variable}, \emph{output}, \emph{constraint} and \emph{objective}.
 
-\subsubsection*{Models.}
+\subsection{Models.}
 
 In the most general case, a \emph{model} can be seen as a black box which takes input values (which can be \emph{design variables} or \emph{output variables}) and produces output values. A \emph{model} represents a technical knowledge of the relations between different parts of a problem and can be as simple as a linear function or a much more complex algorithm requiring several hours of calculation. Often some properties are known (or can be deduced) about a model and specialized optimization techniques can exploit this information. It is important to understand that what is exactly a \enquote{model} is quite an arbitrary choice, based on the application domain of the problem. Depending on the goals and needs, a same problem will be divided in models of different granularity and scope. A model can represent a simple calculus step as well as an entire discipline.
 In our Turbofan example, a \emph{model} entity is the $Turbofan$ function which calculate the three outputs using the values of $bpr$ and $pi\_c$.
 
-\subsubsection*{Design Variables.}
+\subsection{Design Variables.}
 
 These are the inputs of the problem and can be adjusted freely (within their defining boundaries). The goal is to find the set(s) of values for these variables that maximize the objectives while satisfying the constraints.
 \emph{Design variables} are used by \emph{models} to calculate their outputs and by constraints and objectives to calculate their current value. A \emph{design variable} can be shared among several \emph{models}, objectives and constraints.
 Keeping with our example, $bpr$ and $pi\_c$ are the two \emph{design variables} of our optimization problem.
 
-\subsubsection*{Output Variables.}
+\subsection{Output Variables.}
 
 These values are produced by a \emph{model}, and consequently cannot be changed freely.
 As for the \emph{design variables}, the \emph{output variables} are used by \emph{models} to calculate their outputs and by constraints and objectives to calculate their current value.
 In our example, $Tdm0$, $s$ and $fr$ are \emph{output variables} produced by the $Turbofan$ model.
 
-\subsubsection*{Constraints.}
+\subsection{Constraints.}
 
 These are strict restrictions on some parts of the problem, represented as functional constraints defined by equalities and/or inequalities. These can be the expression of a physical constraint, or a requirement concerning the problem.
 Regarding the Turbofan, the two \emph{constraints} are $s <= 155$ and $fr >=4$.
 
-\subsubsection*{Objectives.}
+\subsection{Objectives.}
 
 The goals to be optimized. In the general case, different objectives are often contradictory.
 The two \emph{objectives} of the Turbofan problems are to maximize $Tdm0$ and to minimize $s$.
@@ -108,113 +105,49 @@ Using our Turbofan example, the nodes tuple $\langle \mathcal{V}_d, \mathcal{V}_
 	\mathcal{C} &= \{s <= 155, fr >= 4\}.
 \end{align*}
 
-The NDMO modeling aims to provide the most complete and natural representation of the problem. This modeling preserves the relations between the domain entities and is completely independent of the solving process.
+The NDMO modeling aims to provide the most complete and natural representation of the problem. This modeling preserves the relations between the domain entities and is completely independent of the solving process. The distinct entities which are extracted from the analytical formulation of the problem come not from an arbitrary decision are inherent to the problem formulation. On the other hand, all the relationships present between these entities are preserved without any simplification regarding the initial complexity of the problem.
 
 \section{From an Optimization Problem to a Multi-Agent System}
 
 Based on the NDMO modeling in section \ref{modeling}, we propose a multi-agent system where each domain entity is associated with an agent. Thus the multi-agent system is the representation of the problem to be solved with the links and communication between agents reflecting the natural structure of the problem. It is worth underlining the fact that this transformation (\textit{i.e.} the agentification) can be completely automatic as it is fully derived from the expression of the problem.
 
-\begin{figure}
-\includegraphics[width=\textwidth]{agent_class_diag}
-\caption{System class diagram}\label{SMA_class_diagram}
-
-\end{figure}
-
 The solving process - constituted by the collective behavior of the agents - basically relies, on change-value requests sent by the criteria agents resulting in cooperatively decided adjustments done by the \emph{design variables} and on new values computed by the models resulting on the satisfaction or dissatisfaction of the criteria agents. 
 In the same way we presented the different elements of NDMO, we now detail the behaviors of our five agent types: \emph{model}, \emph{variable}, \emph{output}, \emph{constraint} and \emph{objective} agents.
-A summary of the basic principles of each agent type is given in Algorithm \ref{agent_algo}.
 
-\subsubsection*{Model Agent.}
+\subsection{Model Agent.}
 
 A \emph{model agent} takes charge of a model of the problem. It interacts with the agents handling its inputs (which can be \emph{variable} or \emph{output agents}) and the \emph{output agents} handling its outputs. Its individual goal is to maintain the consistency between its inputs and its outputs. To this end, when it receives a message from one of its inputs informing it of a value change, a \emph{model agent} recalculates the outputs values of its model and informs its\emph{output agents} of their new value. On the other part, when a \emph{model agent} receives a message from one of its \emph{output agents} it translates and transmits the request to its inputs. 
 
 To find the input values corresponding to a specific desired output value, the \emph{model agent} uses an external optimizer. This optimizer is provided by the engineer based on expert domain-dependent knowledge regarding the structure of the model itself.
 It is important to underline that the optimizer is used only to solve the local problem of the \emph{model agent}, and is  not used to solve the problem globally.
 
-
-%\begin{algorithm}
-%\caption{Behavior of a Model Agent}
-%\begin{algorithmic}
-%\While{running}
-%	\State Receive Messages
-%	\If{received new informs}
-%        \State recalculate outputs
-%        \State inform output agents
-%    \EndIf      
-%	\If{received new requests}
-%       \State  use optimizer to find adequate inputs
-%        \State propagate requests to input agents
-%    \EndIf
-%\EndWhile
-%\end{algorithmic}
-%\end{algorithm}
-
-\subsubsection*{Variable Agent.}
+\subsection{Variable Agent.}
 
 This agent represents a \emph{design variable} of the problem. Its individual goal is to find a value which is the best equilibrium among all the requests it can receive (from models and criteria for which it is an input). The agents using the variable as input can send to it request asking to change its value. When changing value, the agent informs all agents linked to it of its new value. 
 
-%\begin{algorithm}
-%\caption{Behavior of a Variable Agent}
-%\begin{algorithmic}
-%\While{running}
-%	\State Receive Messages  
-%	\If{received new requests}
-%       \State select most important
-%       \State adjust value
-%       \State inform related agents
-%    \EndIf
-%\EndWhile
-%\end{algorithmic}
-%\end{algorithm}
-
-\subsubsection*{Output Agent.}
+\subsection{Output Agent.}
 The \emph{output agent} takes charge of an output of a model. \emph{Output agent} and \emph{variable agents} have similar roles, except \emph{output agents} cannot directly change their value. Instead they send a request to the \emph{model agent} they depend on. In this regard, the \emph{output agent} act as a filter for the \emph{model agent} it depends on, selecting among the different requests the ones it then transmits.
-
-%\begin{algorithm}
-%\caption{Behavior of an Output Agent}
-%\begin{algorithmic}
-%\While{running}
-%	\State Receive Messages
-%	\If{received new informs}
-%        \State update its value
-%        \State inform related agents
-%    \EndIf      
-%	\If{received new requests}
-%       \State  select most important
-%        \State transmit selected request to model agent
-%    \EndIf
-%\EndWhile
-%\end{algorithmic}
-%\end{algorithm}
 
 As we will see in the next section, the \emph{output agent} is distinct from the \emph{variable agent} in the way that it can be involved in cycles. A cycle is a situation of interdependent models (that is, models which depend of each other to calculate their outputs).
 
-%We describe in the next section the main difficulties when solving an optimization problem including interdependencies, and how can an \emph{output agent} detect and handle them.
-
-\subsubsection*{Constraint Agent.}
+\subsection{Constraint Agent.}
  \emph{The constraint agent} has the responsibility for handling a constraint of the problem. When receiving a message from one of its inputs, the agent recalculates its constraint and checks its satisfaction. If the constraint is not satisfied, the agent sends \emph{change value} requests to its inputs.
-
-%\begin{algorithm}
-%\caption{Behavior of a Constraint/Objective Agent}
-%\begin{algorithmic}
-%\While{running}
-%	\State Receive Messages
-%	\If{received new informs}
-%        \State update its value
-%        \State use optimizer to find adequate inputs
-%        \State send new requests to input agents
-%    \EndIf      
-%\EndWhile
-%\end{algorithmic}
-%\end{algorithm}
 
 It should be noted that, to estimate the input values required to satisfy the constraint on its computed value, this agent employs the same technique as the \emph{model agent} (\textit{i.e.} an external optimizer).
 
-\subsubsection*{Objective Agent.}
+\subsection{Objective Agent.}
 The  \emph{objective agent} is in charge of an objective of the problem. This agent sends requests to its inputs aiming to improve its objective, and recalculates the objective when receiving  \emph{value changed} messages from its inputs.
 
 This agent uses an external optimizer to estimate input values which would improve the objective, as the model and constraint agents.
 
+\paragraph*{}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{agent_class_diag}
+\caption{System class diagram}\label{SMA_class_diagram}
+\end{figure}
+
+This agent modeling is the most direct and inclusive, considering every element of the problem as an autonomous agent. On \figurename{} \ref{SMA_class_diagram} we represent a class diagram of the agents, which is a slightly modified version of the domain class diagram of \figurename{} \ref{class_diag}. This modified class diagram puts more clearly in light which are the effective agents and how the agents are related among each others by input/output relationship. The bipartite nature of the graph in regard of \emph{value agents} and \emph{internal model agents} is clearly apparent. Two additional, non-agent entities, the  \emph{internal model} and the \emph{external optimizer} also made an appearance. The respective roles of these two entities will be detailed in the next sections.
 
 \chapter{Agents Behavior}
 
