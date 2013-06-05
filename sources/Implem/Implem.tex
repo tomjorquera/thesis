@@ -1,6 +1,10 @@
-\part{Implementation}
+\part{Design, Implementation and Contribution Toward AMAS4Opt}
 
-[[Parler de la gestion des valeurs, et comment cela permet d'étendre le système a des valeurs incertaines, des vecteurs etc.]]
+One of our concerns was not only to propose a new approach for continuous optimization, but also to put this approach in practice by integrating it into a proof-of-concept prototype. To this end we worked with domain specialists and software development experts to propose such a tool, basing ourselves upon the ADELFE method. This method aims to guide the development of AMAS-based softwares from high level user requirements to the implementation nuts and bolts. Using ADELFE we made a formal analysis of the domain and actor involved in the use of such tool.
+
+We also use the design tools developed in conjunction with the method to instantiate our MAS with the final end to integrate it with a functional end-user interface. Notably, the recent MAY framework, which was developed in order to provide suitable abstractions as well as reusable software components for the development of agents and multi-agents systems. We contributed to the enrichment of its component library by developing a a general and modular agent architecture consistent with the AMAS theory, in particular by proposing a modular skill stack principle, where different skills can be composed to address specific requirements.
+
+While such work could seems to concerns more software engineering experts than computer scientists, we will see how existing MAS oriented methods such as ADELFE are still too broad level to be successfully directly applied to any domain (and more so to continuous optimization) without an important agent expertise and extensive research work. We will detail how the scientific work we produced and presented in the previous part, especially the identification of various NCS and the mechanisms to solve them, can be generalized into \enquotes{building blocks}. These building blocks could be then reused to guide the conception of other MAS for the domain of problem solving. This work places itself into a more general effort to provide a general reusable toolbox for assisting non experts in applying AMAS to the domain of optimization, under the name \emph{AMAS4Opt} (AMAS for Optimization).
 
 \chapter{ADELFE}
 
@@ -15,8 +19,15 @@ The ADELFE method in itself is based the Rational Unifed Process (RUP) and is de
 \caption{Overview of the ADELFE Method}\label{ADELFE_phases}
 \end{figure}
 
-In regard of the RUP, ADELFE add specific activities and roles which are specific to its approach for the design of AMAS.\\
+In regard of the RUP, ADELFE adds specific activities and roles which are specific to its approach for the design of AMAS.\\
 The final requirement study ($WD_2$), was complemented with activities 6 and 7-2 concerning the characterization of the system environment and the identification of cooperation failures during the determining of the use cases.During the Analysis ($WD_3$), additional activities 11 and 12 respectively check for the adequacy of AMAS to the problem and identify the agents involved in the system being built, while activity 13 is complemented with a step concerning the study of the relationships between agents. During the design ($WD_4$), activities 15 et 16 concerns the design of the system and the agents, while activity 17 concerning fast prototyping was added in order to be able to quickly test the proposed behavior of the agents. The development phase ($WD5$), which was not present in the initial version of ADELFE, concerns the architecture and the implementation of the agents and the system.
+
+\section{Applying ADELFE for the Design of a Continuous Optimization Tool}
+
+\begin{figure}
+\includegraphics[width= \textwidth]{Use_cases}
+\caption{Actors and use cases identified during requirements studies}
+\end{figure}
 
 
 \chapter{MAY Architecture}
