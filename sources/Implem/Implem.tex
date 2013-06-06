@@ -17,6 +17,7 @@ ADELFE is a method devoted to software engineering of adaptive multi-agent syste
 The ADELFE method in itself is based the Rational Unifed Process (RUP) and is defined following the Software Process Engineering Meta-Model (SPEM)  \cite{bernon2003adelfe,picard04phdthesis}. Since its revision \cite{Ro2008.3}, it is composed of five \emph{Work Definitions} ($WD$), themselves decomposed in several \emph{activities} making use of UML as well as the AMAS-ML and muADL languages. An overview of the method is shown on \figurename{} \ref{ADELFE_phases}.
 
 \begin{figure}
+\centering
 \includegraphics[width=\textwidth]{AdelfePhases}
 \caption{Overview of the ADELFE Method}\label{ADELFE_phases}
 \end{figure}
@@ -46,6 +47,7 @@ Based on the guidelines of the ADELFE methodology we defined the requirements of
 \end{compactitem}
 
 \begin{figure}
+\centering
 \includegraphics[width= \textwidth]{Use_cases}
 \caption{Actors and use cases identified during requirements studies}\label{Use_cases}
 \end{figure}
@@ -63,14 +65,24 @@ The last WD of ADELFE corresponds to the design of the agent architecture and im
 
 \chapter{MAY Architecture}
 
-[[First generic AMAS architecture ??]]
+To implement the MAS, we used the Make Agents Yourself (MAY) framework  \cite{No2012.2}. MAY is a component-based framework which automatically generate an implementation of an agent architecture from a given description.
 
-To implement the MAS, we used the Make Agents Yourself (MAY) framework. MAY is a component-based framework which automatically generate an implementation of an agent architecture from a given description.
+The Adelfe methodology proposes an abstract agent architecture (represented in \figurename{} \ref{AMAS-ML_agent}), which we translated into the MAY architecture description language, SpeADL. In the context of our study, as the agents communicate and interact only by message transmission we could make some simplifications in regard of the original modeling of communications and actions capability of the agents. All our agents use the same AMAS architecture. They are differentiated by specific implementations of the components. For example, \emph{Model} and \emph{Variable} agents will have different implementations of the \emph{Behavior} component.\\
+The components of a MAY architecture are connected by \emph{ports}. A port can be though as a service interface, listing a set of available operations. Components expose lists of available and required ports. A component necessitate its required ports must be linked to available ports satisfying these interface provided by other components.
 
-[[PROVIDE SOME REF -> ASK VICTOR -> his phd \cite{No2012.2}]]
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{amasmlAgent}
+\caption{AMAS agent architecture (as defined in ADELFE)}\label{AMAS-ML_agent}
+\end{figure}
 
-The Adelfe methodology proposes an abstract agent architecture (represented in \fig{[[TODO]]}), which we translated into the MAY architecture description language, SpeADL. [[As our agents only act and communicate using message-passing, we could make some simplification concerning the modeling of the communication and action capabilities.]]
-All our agents use the same AMAS architecture. They are differentiated by specific implementations of the components. For example, \emph{Model} and \emph{Variable} agents will have different implementations of the \emph{Behavior} component.
+An illustration of this composition mechanism is shown on \figurename{} \ref{Speadl_example}. Two components $A$ and $B$ are present. The component $A$ exposes a port $P$ as available, which is required and used by the component $B$. Consequently, this last component is now able to call the operations declared by $A$ through this port, operations which are supposedly necessary for the good functioning of $B$. They way ports are used to connect otherwise independent components is in this way not too dissimilar to the role interfaces play in the context of \emph{dependency injection} design pattern.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{Speadl_example}
+\caption{Example of MAY composition}\label{Speadl_example}
+\end{figure}
 
 For the sake of clarity, the agent architecture is separated in three views: the \emph{behavior}, \emph{communication} and \emph{monitoring} views.
 
@@ -87,20 +99,19 @@ The \emph{behavior} view (\figurename{} \ref{Arch-behavior}) contains the compon
 
 The \emph{Behavior} component contains the rules which dictate the behavior of the agent. This component can be seen as the [[chef d'orchestre]] of the architecture. This component exposes to the outside of the environment the \emph{Step} port, which is used to make the agent execute a step. During a step the \emph{Behavior} component executes the agent rules. These rules will in return make use of the others components of the agent.
 
-[[DIRE QUE LES RULES ONT ETE PRESENTEES DANS UN CHAPITRE PRECEDENT]]
+it is this behavior component contains the behavioral algorithm presented in part \ref{MAS4Optim_part}. This component mostly contains the parts regarding the general steps of the agent behavior and making use of the more specialized methods  implemented in the \emph{Skills} and \emph{Aptitudes} components (for example, the exact computations involved in the detection of NCS).
 
-The \emph{State Vault} contains the state of the agent. It is used by the components which need to save and read some state variables. Centralizing all the states variables into one component provides several benefits. First it is easier to save and restore the state of the agent, as we just need to save the content of the vault. It is also simple to share some data between components, as long as these components have access to the vault. And it is easy to provide a view of the agent state by just reading the State Vault.
-This approach has however several drawbacks. It adds some boilerplate code when writing code using the agent state, as we need to explicitly read the value from the vault (and possibly store it to the vault if modified). It make more difficult to track side-effects, as it is not obvious to know which component uses which value. At last there is no way to strictly enforce that components only use the State Vault for storing state values, as neither Java nor MAY can provide such guarantee.
+The \emph{State Vault} contains the state of the agent. It is used by the components which need to save and read some state variables. Centralizing all the states variables into one component provides several benefits. First it is easier to save and restore the state of the agent, as we just need to save the content of the vault. It is also simple to share some data between components, as long as these components have access to the vault. And it is easy to provide a view of the agent state by just reading the State Vault.\\
+This approach has however several drawbacks. It adds some boilerplate code when writing code using the agent state, as we need to explicitly read the value from the vault (and possibly store it to the vault if modified). It make more difficult to track side-effects, as it is not obvious to know which component uses which value. At last there is sadly no way to strictly enforce that components only use the State Vault for storing state values, as neither Java nor MAY can provide such guarantee.
 
-The \emph{Skills} component contains the skills of the agents. Skills are [[skill definition]]. Each agent type has its own skills set, and skills can require to read and modify the agent state (thus the link between this component and the \emph{State Vault}).
-Some skills are used directly from the \emph{Behavior} rules but some skills can also be used by others skills.
-Some examples of skills are: for a \emph{Variable agent}, the capability to change its value based on the requests it received and its old value. For a model agent, the capability to translate a request it received to change one of its outputs into a set of requests to send to its inputs.
+The \emph{Skills} component contains the skills of the agents. Skills are [[skill definition]]. Each agent type has its own skills set, and skills can require to read and modify the agent state (thus the link between this component and the \emph{State Vault}). Some skills are used directly from the \emph{Behavior} rules but some skills can also be used by others skills.\\
+Some examples of skills are: for a \emph{Variable agent}, the capability to change its value based on the requests it received and its old value. For a model agent, the capability to translate a request it received to change one of its outputs into a set of requests to send to its inputs.\\
 
 [[PARLER DU FAIT QUE LES SKILLS ONT LEUR PROPRE ARCHITECTURE ??]]
 
-The \emph{Aptitudes} component contains the aptitudes accessible to the agents. Aptitudes are [[Aptitude definition]]. Unlike skills, aptitudes are general capabilities which do not rely on the state of the agent. Consequently, all agent types have access to the same aptitudes, and there is only one implementation of the \emph{Aptitudes} component.
+The \emph{Aptitudes} component contains the aptitudes accessible to the agents. Aptitudes are [[Aptitude definition]]. Unlike skills, aptitudes are general capabilities which do not rely on the state of the agent. Consequently, all agent types have access to the same aptitudes, and there is only one implementation of the \emph{Aptitudes} component.\\
 Some aptitudes are used directly from the \emph{Behavior} rules but some aptitudes can also be used by skills or others aptitudes.
-Some examples of aptitudes are: ordering a set of requests from the most to the least important. Make some manipulations on the exchanged values (adding, calculate the norm etc.).
+Some examples of aptitudes are: ordering a set of requests from the most to the least important. Make some manipulations on the potentially complex exchanged values (adding, calculate the norm etc., used for example in the manipulation of uncertain values).
 
 \subsection{Communication}
 
