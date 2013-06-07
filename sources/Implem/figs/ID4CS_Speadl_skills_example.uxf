@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.5.1">
+  <zoom_level>7</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>105</x>
+      <y>35</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>bt=*
+Common Skills</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>126</x>
+      <y>42</y>
+      <w>34</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;()
+</panel_attributes>
+    <additional_attributes>21;56;21;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>63</x>
+      <y>84</y>
+      <w>83</w>
+      <h>76</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;(
+fg=light_gray</panel_attributes>
+    <additional_attributes>70;21;21;63</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>42</x>
+      <y>147</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>bt=*
+Variable/Output
+Skills
+bg=
+fg=light_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>182</x>
+      <y>147</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>bt=*
+Internal Model
+Skills</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>140</x>
+      <y>84</y>
+      <w>97</w>
+      <h>76</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;(</panel_attributes>
+    <additional_attributes>21;21;84;63</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>133</x>
+      <y>252</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>bt=*
+Model Skills
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>154</x>
+      <y>196</y>
+      <w>76</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;(</panel_attributes>
+    <additional_attributes>63;21;21;56</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>210</x>
+      <y>154</y>
+      <w>34</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;()
+</panel_attributes>
+    <additional_attributes>21;56;21;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>259</x>
+      <y>252</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>bt=*
+Criterion Skills
+fg=light_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>224</x>
+      <y>196</y>
+      <w>90</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;(
+bg=light_gray
+fg=light_gray</panel_attributes>
+    <additional_attributes>21;21;77;56</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>280</x>
+      <y>259</y>
+      <w>34</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;()
+bg=light_gray
+fg=light_gray</panel_attributes>
+    <additional_attributes>21;56;21;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>196</x>
+      <y>364</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>bt=*
+Objective Skills
+bg=
+fg=light_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>322</x>
+      <y>364</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>bt=*
+Constraint Skills
+bg=
+fg=light_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>217</x>
+      <y>301</y>
+      <w>83</w>
+      <h>76</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;(
+bg=light_gray
+fg=light_gray</panel_attributes>
+    <additional_attributes>70;21;21;63</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>294</x>
+      <y>301</y>
+      <w>83</w>
+      <h>76</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;(
+fg=light_gray</panel_attributes>
+    <additional_attributes>21;21;70;63</additional_attributes>
+  </element>
+</diagram>
