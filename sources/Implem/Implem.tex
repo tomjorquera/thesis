@@ -122,10 +122,6 @@ In our implementation, we choose to address this concern by classifying as skill
 
 As stated, one of the more complex components of the agents is the one which encapsulate its skills. Indeed, each agent type has its own specific skills, and the skills in themselves can intervene at different level or even be used by other skills. This specificity justifies the implementation of the internals of the \emph{Skills} component itself as component architecture. As skills are, by definition, specific to the application domain this modeling concerns more the explicit handling of the dependencies between \enquotes{skillsets} than the reuse of the components. However, as some skills, while being specific to our application, are shared by several agent types. Based on the agent class diagram presented in \figurename{} \ref{SMA_class_diagram}, we derived the skills components tree presented in \figurename{} \ref{skills:graph}. As an example, \figurename{} \ref{skills:example} shows the composition of the \emph{Skills} component of a model agent.  As a remark, we see on the left figure that variable and output agents share the same skills. This pragmatic choice comes from the fact that, since the user can act on the problem at any time, a variable agent can become an output agent and \emph{vice versa}.
 
-This tree-like structure of the skills components is not only a good way from engineering point of view a good way to factor implementation code, but is also efficient in regard of the functioning of NCS. As different NCS are shared by different agent types at different levels, this organization enable an efficient representation of which cooperative behavior is common to which agents.
-
-[[TODO: the same diagram as skills:graph but with NCS indicated on the different components]]
-
 \begin{figure}[]
 \centering
 	\begin{subfigure}[b]{0.49\textwidth}
@@ -138,6 +134,16 @@ This tree-like structure of the skills components is not only a good way from en
 	\end{subfigure}
 \caption{\emph{Skills} component internals.}\label{skills}
 \end{figure}
+
+This tree-like structure of the skills components is not only a good way from engineering point of view a good way to factor implementation code, but is also efficient in regard of the functioning of NCS. As different NCS are shared by different agent types at different levels, this organization enable an efficient representation of which cooperative behavior is common to which agents. The NCS corresponding to the different components are shown in \figurename{} \ref{skills:NCS}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\paperwidth]{ID4CS_Speadl_skills_NCS}
+\caption{Skills components dependencies tree with corresponding NCS.}\label{skills:NCS}
+\end{figure}
+
+
 
 \subsection{Communication}
 
