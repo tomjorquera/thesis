@@ -10,3 +10,5 @@ exempleManuscriptThese/*
 *.blg
 
 scripts/phdstats/.cache.data
+scripts/phdstats/phd_progress*.png
+scripts/phdstats/phd_progress*.pdf
