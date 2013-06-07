@@ -738,7 +738,7 @@ Finally, this kind of method often has some difficulties to scale with the compl
 
 [[General conclusion on advanced concerns=> introduire vers la MDO]]
 
-\chapter{Multidisciplinary Optimization}
+\chapter{Multidisciplinary Optimization}\label{MDO_chapter}
 
 [[Plus insister sur les aspects difficiles (qu'on va traiter) : conflits, representation du probleme, complexité (pronfondeur) => difficile d'estimer l'impact de quelle variable sur quoi, != disciplines]]
 
@@ -804,7 +804,6 @@ could become :
 \end{align*}
 
 The shared variable $x$ has been replaced by two independent variables $x_1$ and $x_2$, and a new constraint $x_1=x_2$ has been added to ensure the consistency of the design.
-
 
 Several specific terms are in use in the domain of MDO:
 
@@ -1039,9 +1038,7 @@ Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420}, represented in \
 
 The basic idea is to assign to each subsystem a value for the global variables. An optimization is done on the local variables of each subsystem to maximize their constraints margins. Based on the result of each subsystem, a global optimization is done to assign new values to the global variables. The process is then repeated iteratively.
 
-[[TODO: Need a conclusion on MDO. Explain what are the perceived advantages of complex MDO methods in terms of modularity and separation of concerns, but how they are more complex and costly (cf comparison of several methods). Say it is heavy and not very efficient]]
-
-\chapter{Uncertainties in Multidisciplinary Optimization}
+\section{Uncertainties in Multidisciplinary Optimization}
 
 [[cf These_Vicent_Baudoui_optimisation_robuste]]
 
@@ -1049,13 +1046,28 @@ The modeling of uncertainties in MDO problem is not fundamentally different from
 
 Doing a global uncertainty analysis on a MDO problem can be even most costly than a system analysis. Several strategies have been proposed for the propagation of uncertainties. Many of them suppose an uniform representation of uncertainties (for example [TODO] assume the uncertainties are modeled by normal law, while [TODO] use interval definition). Whatever the strategy, propagating uncertainties will require costly additional evaluations of the disciplines.
 
+\section{Analysis of MDO}
+
+[[TODO: Explain what are the perceived advantages of complex MDO methods in terms of modularity and separation of concerns, but how they are more complex and costly (cf comparison of several methods). Say it is heavy and not very efficient]]
+
+MDO methods try to address the problem of complex continuous optimization problems. The principal difficulty of such problems is not their large size, but the inherent coupling and interrelationships between the different parts, as well as the costly and heavy computational models they involve. These properties make classical optimization techniques inefficient. MDO methods propose to reduce the complexity of the problem by separating it into different \emph{disciplines}. While the dividing strategy can vary depending on the method, the main idea is to identify loosely coupled \enquotes{blocks} in the problems, which are independent enough to be separated without impacting too much the solving process and which are simple enough to be solved using known optimization techniques.\\
+This transformation of a highly coupled system to a loosely coupled one cannot fail to remember the comparison of Wilden \cite{wilden2003system} between \enquotes{hot} (complex) and \enquotes{cold} (complicated) systems, the first ones being highly connected and integrated networks, the second ones loosely integrated and mostly in a tree-like structures (we will indeed see in the next parts how this representation of the system as an integrated network of components is relevant).\\
+By reducing the complexity of the problem, MDO methods indeed ease the optimization process, but the price of this transformation is the necessity to include intermediate steps in order to re-establish a coherent \enquote{view} of the whole system. By taking a reductionist approach, the MDO methods are bound to suffer for this additional cost, requiring multiple back-and-forth due to their maimed modeling.
+
+On a side note, we can wonder about the existence of inherently identifiable,  separable disciplines. One can argue that this distinction between discipline does not correspond to a natural separation inherent to the system to design, but is a consequence of the current division on experts into separate expertise fields. Is the fact that an airplane design problem can be decomposed between aerodynamic, geometry, \emph{etc.} an inherent property due to the nature of the problem ? Or is the reason that this problem was constructed in the first place by aggregating the work of experts coming from these fields? In this context, it is not really surprising that the disciplines corresponding to these fields will be strongly internally connected and only weakly connected to the others. And on another hand, it is easy to imagine how experts from these different fields will tend to favor a divide into disciplines which correspond to their specific expertise field. Consequently, by maintaining this division between these arbitrary disciplines, MDO methods are bound by the reductionism which led to the distinction between these disciplines in the first place.
+
+Beyond this fundamental limitation, one major shortcomings of these methods is the heavy work and expertise they require from the engineer to be put in practice. To actually perform the optimization process, one must have a deep understanding of the models involved as well as of the chosen method itself. This is mandatory to be able to correctly reformulate the models according to the formalism the method requires, as well as to work out what is the most efficient way to organize the models in regard to the method. Since by definition MDO involves disciplines of different natures, it is often impossible for one person to possess all the required knowledge, needing the involvement of a whole team in the process. Moreover, answering all these requirements implies a lot of work \emph{before} even starting the optimization process.
+
+
+
+
 \chapter{Conclusion on Optimization}
 
 We have seen in this part how different types of optimization problems have been defined over time, depending on their topology, their complexity, their specificities.
 
-Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure. Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. A multi-disciplinary problem is basically an optimization problem so complex that standard optimization techniques fail. These distinctions were made because of the limitations of the optimization techniques, which have to choose between being applicable in the general case and being efficient.
+Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure. Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. And a multi-disciplinary problem is basically an optimization problem so complex that standard optimization techniques fail. These distinctions are in no way indicative of a fundamental distinction between these different kinds of problems, but come solely from the limitations of the existing optimization techniques, which have to choose between being applicable in the general case and being efficient.
 
-An interesting observation concerning MDO techniques is the fact that, to evaluate their performances, they are sometimes applied to simple optimization problems, solvable by numerical optimization techniques (see for example \cite{Kroo:1994:MOM} for an application of CO to the Rosenbrock's valley problem). This observation illustrates the fact that all optimization problems share a common structure and differ only in their complexity. Of course these examples are usually only used as illustration, as MDO methods are too heavy to be interesting to use for such problems.
+An interesting observation concerning MDO techniques is the fact that, to evaluate their performances, they are sometimes applied to simple optimization problems, solvable by numerical optimization techniques (see for example \cite{Kroo:1994:MOM} for an application of CO to the Rosenbrock's valley problem). This observation illustrates the fact that all optimization problems share a common structure and differ only in their complexity (as already stated by the quote from Martin and Lamb mentioned in the beginning of chapter \ref{MDO_chapter}). Of course these examples are usually only used as illustration, as MDO methods are too heavy to be interesting to use for such problems.
 
 These conclusions raise an interesting question: could it be possible to create an optimization technique which would scale from simple optimization problems to complex ones?
 
