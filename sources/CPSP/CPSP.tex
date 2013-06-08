@@ -1,15 +1,18 @@
-\part{Collective Problem Solving Patterns}\label{CPSP}
+\chapter{Collective Problem Solving Patterns}\label{CPSP}
 
-In this part, we take a step back from the MAS we described in the preceding parts.
-Numerical optimization was a mostly unexplored application domain in regard to multi-agents based algorithms. by taking the (somewhat ambitious) task to propose a MAS which would be applicable for this domain in its entirety.
+[[Explain how ADELFE was insufficient to bridge the gap between Abstract spec and implementation => contribution to problem solving AMAS development]]
+We have seen in the previous chapter how the ADELFE methodology was used for the design of AMAS, from the general requirement to the implementation of the agents. However a current limitation of ADELFE (shared with most of the existing comparable methods) comes from the fact that it is a general method, which aims to be applicable for design MAS intended for diverse application fields (problem solving, simulation, \emph{etc.}). This desire to be usable in a large spectrum of applications has the drawback that the recommendations and guidelines of ADELFE are of an bastract nature. This make the task of actually designing an AMAS for a precise application difficult for non agent expert, even when the application domain is narrower than, for example, general continuous optimization.\\
+This limitation has already been observed in previous works, and has given birth to an ongoing effort to provide a modular toolkit named \emph{AMAS for Optimization (AMAS4Opt}, with the goal to supplement ADELFE and assist AMAS designers when designing MAS for problem solving. In the same way that some contributions have already been proposed in the context of continuous optimization (see \cite{Ka2011.6}), we will now see how we can propose to enrich the toolkit in the context of continous optimization.
 
-As numerical optimization is in itself an abstract mathematical field, we too had to abstract ourselves from concrete applications. We did not have the possibility to reduce the set of possible configurations and thus we had the occasion to encounter a variety of problems which have been mostly ignored before. Indeed, the graph representations of numerical optimization problems are quite diverse, and can present some topological properties not present in classical MAS formalisms. [[DCOP for example (presented in [[REF]]), ]]
+In this chapter, we take a step back from the MAS we described in the preceding parts and see how our contribution can be made more general, not only to the benefit of the scientific community, but also for engineers by enriching the AMAS4Opt. Numerical optimization was a mostly unexplored application domain in regard to multi-agents based algorithms. By taking the (somewhat ambitious) task to propose a MAS which would be applicable for this domain in its entirety, some of the patterns identified and some of the mechanisms we proposed can be used in a more general context than our system.
+
+As numerical optimization is in itself an abstract mathematical field, we too had to abstract ourselves from concrete applications. We did not have the possibility to reduce the set of possible configurations and thus we had the occasion to encounter a variety of problems which have been mostly ignored before. Indeed, the graph representations of numerical optimization problems are quite diverse, and can present some topological properties not present in existing MAS formalisms. [[DCOP for example (presented in [[REF]]), ]]
 
 In the description of our system, we presented a set of NCS [[use acronym ?]], and the specifics mechanisms we introduced to handle them. We believe that these NCS are only the instantiation of more general problematic configuration, which we dub \emph{Collective Problem Solving Patterns} (CPSP). The patterns are not restricted to numerical optimization, they can potentially be encountered in all sorts of application domains.
 
-Architecture and software development [[beneficed greatly from]] the identification of common design pattern. In the same regard, we believe that the identification of these problem patterns as such, as well as the proposal of solutions to handle them, could lead to a great improvement for the design of agent-based systems for problem solving as a whole.
+Architecture and software development has greatly benefited from the identification of common design pattern. In the same regard, we believe that the identification of these problem patterns as such, as well as of solution proposals to handle them, could lead to a great improvement for the design of agent-based systems for problem solving as a whole.
 
-Consequently, we will present in this part the CPSP which can be derived from the NCS we identified during the design of our system.
+Consequently, we will present in this part how the NCS we identified during the design of our system can be abstracted in the broader form of CPSP.
 
 
 \section{Introduction - Collective Problem Solving Patterns are not Design Patterns}
@@ -25,8 +28,7 @@ In this regard, CPSP are less generic than Design Patterns. Indeed the latter ca
 
 These two kinds of patterns should be seen as complementary. First the designer could use design pattern to design the structure of the MAS according to the needs of the application domain. Then he could use CPSP to identify and solve specific problems resulting from such modeling.
 
-As we want a description of our patterns which is domain-free, we cannot re-use the formalism we introduced in [[REF]]. The NDMO formalism is indeed bound to the domain of numerical optimization.
-Consequently, we will now introduce a higher-level formalism, which concentrates on the relations between the agents of the system. to keep this formalism short and simple, we will make some assumptions about the functioning of the system.
+As we want a description of our patterns which is domain-free, we cannot re-use the modeling we introduced in \ref{modeling}. The NDMO formalism is indeed bound to the domain of numerical optimization. Consequently, we will now introduce a higher-level formalism, which concentrates on the relations between the agents of the system. to keep this formalism short and simple, we will make some assumptions about the functioning of the system.
 
 We will consider systems composed of autonomous agents and resources. An agent may needs for one or more resources to be in a specific state to accomplish its local goal. We will suppose that a resource is controlled by one agent and one agent only. We believe that this simplifying assumption does not impede on the generality of the formalism (for example a system where two agents share the control of a resource can be viewed as equivalent to a system where both agents send requests to a third one solely in charge of it).
 
@@ -38,7 +40,6 @@ We will suppose that agents interact among themselves by message passing.
 
 \section{Description of a Problem Solving Pattern}
 
-
 \subsection{Agent Roles}
 
 Concerning the patterns we present in this article, we identified three different types of agent \emph{roles}: Provider, Solicitor and Transformer.
@@ -49,7 +50,7 @@ The \emph{Solicitor} role represents the fact that the agent requires some resou
 
 The \emph{Transformer} role is a combination of the Provider and Solicitor roles. The transformer agent controls a resource but the state of the resource is dependent of some other resources not controlled by the agent. While this role can be represented by assigning both Provider and Solicitor roles to the agent, we found it common enough to be worth of a specific representation. As we will see, transformer agents sometimes play a specific role in the CPSP, as they can be a source of delay or obfuscation of information.
 
-In the \figurename{} \ref{cpsp_class_diag} is shown the very simple class diagram representing the relationships between these three roles.
+On \figurename{} \ref{cpsp_class_diag} is shown the very simple class diagram representing the relationships between these three roles.
 
 \begin{figure}
 \centering
@@ -60,7 +61,7 @@ In the \figurename{} \ref{cpsp_class_diag} is shown the very simple class diagra
 
 It is important to understand that an agent is not limited to one role only. For a given system an agent can, depending on the context, assume any combination of these roles. Thus an agent can both solicit others agents regarding a resource, while providing a controlled resource to others agents.
 In this regard, an agent can even be a producer and solicitor of the same resource. For example the agent is in charge of a specific resource, but also benefit from it. In this case the agent can possibly be in conflict with others agents regarding the state of the resource, and decide (as a producer) to go against its own interest (as a solicitor) in order to help another agent deemed more important.
-Obviously, in most implementations, the different roles of the agent would not be as much segregated, and the agent would not strictly communicate with itself using message-passing. This distinction should not be a problem in practice (this kind of configuration can however trigger others CPSP, see for example [[Asynchronous Requests]]).
+Obviously, in most implementations, the different roles of the agent would not be as much segregated, and the agent would not strictly communicate with itself using message-passing. This distinction should not be a problem in practice (this kind of configuration can however trigger others CPSP, see for example \ref{NCS_async}).
 
 \subsection{Problem Pattern}
 
@@ -83,4 +84,7 @@ In this section, we present the CPSP we identified from the NCS we encountered d
 \subsection{Asynchronous Requests}
 
 \section{Conclusion on Collective Problem Solving Patterns}
-We identified these patterns from the the NCS of our system. In reverse, the NCS used in the design of AMAS seems perfectly adequate to instantiate known CPSP. Indeed, subsumption-based behavior architectures are appropriate the model this kind of \enquote{exception}-like situations. Should CPSP become more wildly used, one could expect this way of modeling behavior to become quite popular.
+
+[[TODO: add some text]]
+
+We identified these patterns from the the NCS of our system. In reverse, the NCS used in the design of AMAS seems perfectly adequate to instantiate known CPSP. Indeed, subsumption-based behavior architectures are very appropriate to model this kind of \enquote{exception}-like situations. Should this kind of patterns identification and reuse becomes more wildly used, one could expect this way of modeling agent behavior to becomes quite popular.

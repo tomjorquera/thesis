@@ -928,7 +928,7 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 
 \end{algorithm}
 
-\subsection{Asynchronous Messages}
+\subsection{Asynchronous Messages}\label{NCS_async}
 
 The last NCS addresses an underlying assumption we have made until now. When we described the behavior of the agents, we supposed each of them always receive the messages in a timely manner, waiting if necessary until all the relevant messages are transmitted before acting. Once again, this hypothetical scenario is made impossible by the need for the agents to maintain a local view. The agents do not know what messages are currently transiting in the system. Their only knowledge concerns the messages they received at the start of their cycle and what messages they previously sent (but not their current status). Consequently, the topology of the agent graph can lead to transmission delays, where messages sent at the same time by the same agent will not necessarily reach their ultimate destination at the same time. For example, let us look back at the hidden dependency example (reporduced on \figurename{} \ref{NCS_hidden_dependencies} for convenience). When we discussed the case of hidden dependencies, we assumed by all the messages sent by the objective agent would reach $a_1$ before the latter would take its decision. However, it is clear that one of the message will take more time to reach $a_1$ than the other, as it must transit by two intermediate. Why would the agent $a_1$ wait for this late message, without even knowing its existence, before acting?
 
