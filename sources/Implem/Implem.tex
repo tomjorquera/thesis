@@ -108,7 +108,7 @@ This approach has however several drawbacks. It adds some boilerplate code when 
 
 The \emph{Skills} component contains the skills of the agents. Each agent type has its own skills set, and skills can require to read and modify the agent state (thus the link between this component and the \emph{State Vault}). Some skills are used directly from the \emph{Behavior} rules but some skills can also be used by others skills.\\
 Some examples of skills are: for a \emph{Variable agent}, the capability to change its value based on the requests it received and its old value. For a model agent, the capability to translate a request it received to change one of its outputs into a set of requests to send to its inputs.\\
-Skills have the somewhat unique properties that they are in themselves stackable, depending on each others. To address this concerns we proposed to define the \emph{Skills} component itself as a complete components architecture in itself. We discuss this point in more details in \ref{Skills_component}.
+Skills have the somewhat unique properties that they are in themselves stackable, depending on each others. To address this concerns we proposed to define the \emph{Skills} component itself as a complete components architecture in itself. We discuss this point in more details in \ref{Skills_component_descr}.
 
 The \emph{Aptitudes} component contains the aptitudes accessible to the agents. Unlike skills, aptitudes are general capabilities which do not rely on the state of the agent. Consequently, all agent types have access to the same aptitudes, and there is only one implementation of the \emph{Aptitudes} component.\\
 Some aptitudes are used directly from the \emph{Behavior} rules but some aptitudes can also be used by skills or others aptitudes.
@@ -118,7 +118,7 @@ The distinction between \emph{skills} and \emph{aptitudes} is not an easy one. T
 changes it value in response to the requests it receives), while aptitudes are more general capabilities which could be reused between distinct systems (for example, using an Adaptive Value Tracker to track a value). The distinction between the two can be somewhat fuzzy, even more are often the firsts can depend on the seconds (for example, as a part of the skill concerning the change of its value, the variable agent will use an AVT).\\
 In our implementation, we choose to address this concern by classifying as skills the capabilities of the agents which are related (by using or modifying) the internal state of the agent, while classifying as aptitudes the capabilities which require no such things. Hence the distinction in our component modeling where the \emph{Skills} component requires an access to the internal state of the agent, while this requirement is absent from the \emph{Aptitudes} agent.
 
-\subsubsection*{Skills Component Architecture}\label{Skills_component}
+\subsubsection{Skills Component Architecture}\label{Skills_component_descr}
 
 As stated, one of the more complex components of the agents is the one which encapsulate its skills. Indeed, each agent type has its own specific skills, and the skills in themselves can intervene at different level or even be used by other skills. This specificity justifies the implementation of the internals of the \emph{Skills} component itself as component architecture. As skills are, by definition, specific to the application domain this modeling concerns more the explicit handling of the dependencies between \enquotes{skillsets} than the reuse of the components. However, as some skills, while being specific to our application, are shared by several agent types. Based on the agent class diagram presented in \figurename{} \ref{SMA_class_diagram}, we derived the skills components tree presented in \figurename{} \ref{skills:graph}. As an example, \figurename{} \ref{skills:example} shows the composition of the \emph{Skills} component of a model agent.  As a remark, we see on the left figure that variable and output agents share the same skills. This pragmatic choice comes from the fact that, since the user can act on the problem at any time, a variable agent can become an output agent and \emph{vice versa}.
 
@@ -143,8 +143,6 @@ This tree-like structure of the skills components is not only a good way from en
 \caption{Skills components dependencies tree with corresponding NCS.}\label{skills:NCS}
 \end{figure}
 
-
-
 \subsection{Communication}
 
 The \emph{communication} view (\figurename{} \ref{Arch-comm}) presents the components related to the communication capabilities of the agent. 
@@ -159,7 +157,6 @@ The \emph{communication} view (\figurename{} \ref{Arch-comm}) presents the compo
 This view contains the new component \emph{Message Box}, which contains the messages sent to the agent. The \emph{Message Box} stores the messages into the \emph{State Vault} and provides a direct access to the \emph{Skills} and {Behavior} components.
 
 This figure presents several ports which need to be provided from the environment to the agent. The environment must give an unique \emph{Reference} to the agent, which will be used by the others agent to communicate with it. The environment must also provides some ports to communicate with the others agents and outside of the system.
-[[PARLER DE L'AGENT FINDER ??]]
 
 \subsection{Monitoring}
 
@@ -177,6 +174,21 @@ In order to provide its capabilities, the monitor agent need to be informed by t
 \end{figure}
 
 \section{MAS Architecture}
+
+The MAY framework does not only allows to design the architecture of the agents, but can also be used to design the whole architecture of the system. This MAS architecture defines how the agents can interact among themselves and with their environment. Concerning our prototype, this architecture first provides support for the message passing among the agents. The architecture of the system, which is explained below, is shown on \figurename{} \ref{Arch-MAS}.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{ID4CS_Speadl_system}
+\caption{MAS Architecture}\label{Arch-MAS}
+\end{figure}
+
+In order to support the integration of multiple agent instances into the global system architecture, MAY provides the concept of \emph{transverse}. A transverse a special kind of component which make the liaison between a component on one side and multiple instances of a component on the other. The main use of transverses is to connect all agents instances to the others components of the system.
+
+The components \emph{SendService} and \emph{ReceiveService} are MAY components used to exchange messages between the agents. While they are usually directly connected together, we inserted between them a \emph{MsgMonitor} component, which allows us to monitor the messages transmissions. The agents also have the capability to create log messages to be written into log files using the \emph{Log Service} component.
+
+Some interfaces for configuring and monitoring the agents are exposed to the outside of the MAS through the \emph{Configuration} and \emph{Agent Monitor} transverses. The \emph{Agent Monitor} component exposes some representative information on the agents, while the \emph{Configuration} component offers a direct access to the agent state vault, allowing to examine the raw data as well as offering ways to the user to interact with the agents (changing values, constraints thresholds \emph{etc.}).
+
+A more complex monitoring interface is provided by the \emph{System Monitor}. This component not only allows for advanced monitoring functionalities (like subscribing to changes notifications), but also handles the execution of the system though the \emph{Executor} component. The \emph{Executor} handles the low-level execution concerns, like creating threads and executing tasks, and is in charge of executing the code of the agents through the \emph{Scheduled} component. A very similar configuration (not presented on the diagram) allows the agents to exchange messages with the outside of the system. The \emph{System Monitor} is linked to a \emph{Controler} component, which is in charge of exposing a convenient execution control interface for the user or for an external program.
 
 \section{Integration into the prototype}
 
