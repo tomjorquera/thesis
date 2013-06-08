@@ -192,8 +192,6 @@ A more complex monitoring interface is provided by the \emph{System Monitor}. Th
 
 \section{Integration into the prototype}
 
-[[OSGI and EMF]]
-
 This implementation of the MAS was part of a collective development effort to provide a functional prototype. The goal of this prototype is to be a proof-of-concept tool of the possibilities offered by agent-based continuous optimization.
 
 The development of the prototype was carried mainly by three partners[[cite them?]], each in charge of a different aspect.
@@ -204,16 +202,21 @@ These three modules communicate using the OSGi framework\footnote{\url{http://ww
 
 \subsection{MAS}
 
-We already presented the implementation of the MAS in the previous parts. The only additional work was to encapsulate the implementation into an OSGi [[service]].
+We already presented the implementation of the MAS in the previous parts. The only additional work was to encapsulate the implementation into an OSGi bundle which exposes the functionalities corresponding to the external services exposed by the MAS architecture and presented in the previous section.
 
 \subsection{CORE}
 
-The CORE module is responsible of maintaining consistency of the manipulated data. It serves as a middle-man between the MAS and the GUI.
-
-[[Insert full Data Model and comment]]
+The CORE module is responsible of maintaining consistency of the manipulated data. It serves as a middle-man between the MAS and the GUI. It also make possible to enable data persistence by providing a serialization/deserialization service.
 
 \subsection{GUI}
 
-The GUI was build using the [[Eclipse Framework]].
+The GUI was build using the Eclipse Rich Client Platform (RCP)\footnote{\url{http://wiki.eclipse.org/index.php/Rich_Client_Platform}}. RCP allows to compose graphical interface components into a user interface. It was used to propose graphical tool inspired by existing development environments, providing the user with the possibility to define workspaces in which it can define problem elements which can then be used to define optimization problems.
 
+\bigskip
 
+By combining these three modules, we obtained a prototype which can be used to create optimization problems. To create an optimization problem, the user can either provide a textual definition or use the graphical tools. In the last case, the user defines different reusable components (variables, models \emph{etc.}). He is then able to drag-and-drop them from an element palette on a graph canvas and to draw links between the different elements, effectively creating the problem using our NDMO graphical representation. Either way, the problem is automatically translated as an instance of our MAS, which can be controlled by the user during the optimization process. A screenshot of our prototype, showing the graph canvas on which the graph of a problem is currently being created, is shown on \figurename{} \ref{tool}.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{tool}
+\caption{User Interface of our prototype (problem canvas view)}\label{tool}
+\end{figure}
