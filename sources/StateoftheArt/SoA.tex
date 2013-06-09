@@ -42,7 +42,7 @@ From all the preceding, we can provide the minimal formulation of an optimizatio
 \end{align*}
 Where \emph{S} is the problem search space and \emph{f(x)} the objective function.
 
-\section{Numerical versus Combinatorial Optimization}
+\section{Continuous versus Discrete Optimization}
 
 \section{No Free Lunch Theorem}
 
@@ -77,7 +77,7 @@ One consequence of the NFL is that selecting an efficient optimization method fo
 
 On a side note, it can be added that, in addition to the case of continuous optimization, the possible existence of free lunches has been demonstrated for coevolutionary \cite{1545946} as well as multiobjective optimization \cite{1299403}.
 
-\chapter{Numerical Optimization}
+\chapter{Continuous Optimization}
 
 As we have seen at the end of the last chapter, optimization methods have to make various compromises regarding applicability versus efficiency.  A great variety of methods exit in the literature, from generic methods applicable to a great variety of optimization problems to very specialized methods designed to be efficient in a specific context. These methods can be categorized by the type of problems they aim to solve or some inherent properties of the method.
 
@@ -97,15 +97,15 @@ For the method in itself:
 
 Based on the shape of the search space and our requirements regarding the method, we will try to choose the most adequate optimization method. As always, the more information known regarding the problem, the more we would be able to select a specialized method with a great efficiency. If very few information is known, it could be necessary to use black-box optimization methods, that is methods that do not make any assumption regarding the nature of the problem. These techniques can suffice in themselves to get a good-enough result, or can be used as a prelude of more specialized techniques if enough information is gathered.
 
-A rough proposal of organization of the different types of numerical optimization can be seen in \ref{numerical_optim_tree}.
+A rough proposal of organization of the different types of continuous optimization can be seen in \ref{numerical_optim_tree}.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{numerical_optim-crop}
-\caption{Types of numerical optimization methods}
+\caption{Types of continuous optimization methods}
 \label{numerical_optim_tree}
 \end{figure}
 
-Presenting all the numerical optimization techniques would be far outside the scope of this work. In this part we will focus on presenting briefly the different optimization categories we identified in figure \ref{numerical_optim_tree}. We will reference some of the most representatives techniques to illustrate this presentation, but without going into the details of the techniques. To get a more throughout view of the different techniques, the reader can see reference works such as [[TODO: REFS]].
+Presenting all the continuous optimization techniques would be far outside the scope of this work. In this part we will focus on presenting briefly the different optimization categories we identified in figure \ref{numerical_optim_tree}. We will reference some of the most representatives techniques to illustrate this presentation, but without going into the details of the techniques. To get a more throughout view of the different techniques, the reader can see reference works such as [[TODO: REFS]].
 
 \section{Linear Optimization}\label{linear_optim}
 
@@ -122,7 +122,7 @@ A linear problem with $n$ variables and $m$ constraints can be expressed as:
 &a_{m1}x_1 + a_{m2}x_2 + ... + a_{mn}x_n + b_m \geq 0
 \end{align*}
 
-This kind of problem is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm \cite{dantzig1998linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a numerical optimization problem and to be one of the founding works of the field.
+This kind of problem is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm \cite{dantzig1998linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a continuous optimization problem and to be one of the founding works of the field.
 
 The basic idea of the simplex algorithm is that the solution space is the convex polyhedron, and the optimal solution is necessarily on one of its vertices. Another property is that a vertex which is not the optimal solution will have at least an edge leading toward a better vertex.
 The simplex algorithm starts on one of the vertices, and tries to follow an edge to a vertex which improves the objective-function. The algorithm iterates until it has found a vertex with no edge leading toward a better point (the optimal solution) or until it reaches an unbound edge (in this case the problem is not bounded).
@@ -195,8 +195,8 @@ Suppose we are provided with a barrier function $b_c(x)$ whose value increases t
 
 $$\text{minimize } (f_{obj}(x) + b_c(x))$$
 
-Another method, which had for some time dominated this part of the numerical optimization field is Sequential Quadratic Programming (SQP). SQP proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
-SQP is based on a very powerful result of numerical optimization, the Karush-Kuhn-Tucker (KKT) conditions. The KKT conditions are necessary conditions for a solution $x*$ in a nonlinear optimization problem to be a local optimum. They state that for $x*$ to be a local optimum to an optimization problem with $i$ inequality constraints $gi$ and $j$ equality constraints $h_j$, there must exist some $\mu_i$ and $\lambda_j$ such as:
+Another method, which had for some time dominated this part of the continuous optimization field is Sequential Quadratic Programming (SQP). SQP proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
+SQP is based on a very powerful result of continuous optimization, the Karush-Kuhn-Tucker (KKT) conditions. The KKT conditions are necessary conditions for a solution $x*$ in a nonlinear optimization problem to be a local optimum. They state that for $x*$ to be a local optimum to an optimization problem with $i$ inequality constraints $gi$ and $j$ equality constraints $h_j$, there must exist some $\mu_i$ and $\lambda_j$ such as:
 
 $\left\{
  		 \begin{array}{l}
@@ -280,14 +280,14 @@ The temperature of the system is reduced over time following a specific cooling 
 
 Some others stochastic techniques which can be applied, but are not restricted to, this kind of optimization problem are population-based algorithms, which will be presented in section \ref{population_based}.
 
-\section{Conclusion on Numerical Optimization}
+\section{Conclusion on Continuous Optimization}
 
-This overview of numerical optimization illustrates how the different optimization techniques range from very efficient but highly specialized methods to broad scope methods with slower and more costly strategies.
+This overview of continuous optimization illustrates how the different optimization techniques range from very efficient but highly specialized methods to broad scope methods with slower and more costly strategies.
 We have seen how the intuition provided by the NFL theorems is illustrated by the progression of the optimization techniques in general applicability and complexity.
 
 An interesting observation is how specialized methods can concentrate on exploitation of the solutions, while generic methods are concerned with exploration of the search space. Indeed, the more we know about the structure of the problem, the easier it is to select a new search point. When lacking knowledge about the topology of the system, we need to be more concerned about exploring the search space.
 
-From this basic compromise we can see how numerical optimization has given birth to such a plethora of methods, as every optimization technique is torn between this basic compromise.
+From this basic compromise we can see how continuous optimization has given birth to such a plethora of methods, as every optimization technique is torn between this basic compromise.
 
 [[Two axis: Local <-> Global; Specialized <-> Generic => Do a diagram ?]]
 
@@ -676,7 +676,7 @@ For the scope of this work, we will concentrate on \emph{genetic algorithms}, by
 In the context of genetic algorithms, each individual entity is defined by a specific \emph{genotype}, which represent a possible solution to the problem.
 A global \emph{fitness function} is defined, which is used to evaluate the solutions represented by these individuals.
 
-In the context of a numerical optimization problem, the genotype of an entity would be a set of values assigned to the inputs of the problem, while the fitness function would be the objective-function.
+In the context of a continuous optimization problem, the genotype of an entity would be a set of values assigned to the inputs of the problem, while the fitness function would be the objective-function.
 
 The optimization process iterates over two phases: \emph{selection} and \emph{generation of a new population}.
 In the selection phase, a subset of the current population is selected to be used in the generation of the new population. In the most basic approach, the selected individuals are the ones which obtain the best scores on the fitness function.
@@ -1050,8 +1050,8 @@ Doing a global uncertainty analysis on a MDO problem can be even most costly tha
 
 [[TODO: Explain what are the perceived advantages of complex MDO methods in terms of modularity and separation of concerns, but how they are more complex and costly (cf comparison of several methods). Say it is heavy and not very efficient]]
 
-MDO methods try to address the problem of complex continuous optimization problems. The principal difficulty of such problems is not their large size, but the inherent coupling and interrelationships between the different parts, as well as the costly and heavy computational models they involve. These properties make classical optimization techniques inefficient. MDO methods propose to reduce the complexity of the problem by separating it into different \emph{disciplines}. While the dividing strategy can vary depending on the method, the main idea is to identify loosely coupled \enquotes{blocks} in the problems, which are independent enough to be separated without impacting too much the solving process and which are simple enough to be solved using known optimization techniques.\\
-This transformation of a highly coupled system to a loosely coupled one cannot fail to remember the comparison of Wilden \cite{wilden2003system} between \enquotes{hot} (complex) and \enquotes{cold} (complicated) systems, the first ones being highly connected and integrated networks, the second ones loosely integrated and mostly in a tree-like structures (we will indeed see in the next parts how this representation of the system as an integrated network of components is relevant).\\
+MDO methods try to address the problem of complex continuous optimization problems. The principal difficulty of such problems is not their large size, but the inherent coupling and interrelationships between the different parts, as well as the costly and heavy computational models they involve. These properties make classical optimization techniques inefficient. MDO methods propose to reduce the complexity of the problem by separating it into different \emph{disciplines}. While the dividing strategy can vary depending on the method, the main idea is to identify loosely coupled \enquote{blocks} in the problems, which are independent enough to be separated without impacting too much the solving process and which are simple enough to be solved using known optimization techniques.\\
+This transformation of a highly coupled system to a loosely coupled one cannot fail to remember the comparison of Wilden \cite{wilden2003system} between \enquote{hot} (complex) and \enquote{cold} (complicated) systems, the first ones being highly connected and integrated networks, the second ones loosely integrated and mostly in a tree-like structures (we will indeed see in the next parts how this representation of the system as an integrated network of components is relevant).\\
 By reducing the complexity of the problem, MDO methods indeed ease the optimization process, but the price of this transformation is the necessity to include intermediate steps in order to re-establish a coherent \enquote{view} of the whole system. By taking a reductionist approach, the MDO methods are bound to suffer for this additional cost, requiring multiple back-and-forth due to their maimed modeling.
 
 On a side note, we can wonder about the existence of inherently identifiable,  separable disciplines. One can argue that this distinction between discipline does not correspond to a natural separation inherent to the system to design, but is a consequence of the current division on experts into separate expertise fields. Is the fact that an airplane design problem can be decomposed between aerodynamic, geometry, \emph{etc.} an inherent property due to the nature of the problem ? Or is the reason that this problem was constructed in the first place by aggregating the work of experts coming from these fields? In this context, it is not really surprising that the disciplines corresponding to these fields will be strongly internally connected and only weakly connected to the others. And on another hand, it is easy to imagine how experts from these different fields will tend to favor a divide into disciplines which correspond to their specific expertise field. Consequently, by maintaining this division between these arbitrary disciplines, MDO methods are bound by the reductionism which led to the distinction between these disciplines in the first place.
@@ -1067,7 +1067,7 @@ We have seen in this part how different types of optimization problems have been
 
 Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure. Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. And a multi-disciplinary problem is basically an optimization problem so complex that standard optimization techniques fail. These distinctions are in no way indicative of a fundamental distinction between these different kinds of problems, but come solely from the limitations of the existing optimization techniques, which have to choose between being applicable in the general case and being efficient.
 
-An interesting observation concerning MDO techniques is the fact that, to evaluate their performances, they are sometimes applied to simple optimization problems, solvable by numerical optimization techniques (see for example \cite{Kroo:1994:MOM} for an application of CO to the Rosenbrock's valley problem). This observation illustrates the fact that all optimization problems share a common structure and differ only in their complexity (as already stated by the quote from Martin and Lamb mentioned in the beginning of chapter \ref{MDO_chapter}). Of course these examples are usually only used as illustration, as MDO methods are too heavy to be interesting to use for such problems.
+An interesting observation concerning MDO techniques is the fact that, to evaluate their performances, they are sometimes applied to simple optimization problems, solvable by continuous optimization techniques (see for example \cite{Kroo:1994:MOM} for an application of CO to the Rosenbrock's valley problem). This observation illustrates the fact that all optimization problems share a common structure and differ only in their complexity (as already stated by the quote from Martin and Lamb mentioned in the beginning of chapter \ref{MDO_chapter}). Of course these examples are usually only used as illustration, as MDO methods are too heavy to be interesting to use for such problems.
 
 These conclusions raise an interesting question: could it be possible to create an optimization technique which would scale from simple optimization problems to complex ones?
 
