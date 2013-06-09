@@ -14,7 +14,7 @@ First of all it requires a defined set of elements to choose from. As we will se
 \definition{Search space}{the set containing all the possible candidates for the optimization problem.}
 
 While we said that the search space can be defined by a set of constraints, it is often more convenient to express the constraints separately. For example, if the search space of an optimization problem is defined over all the real numbers lower than 2, instead of defining the search space as [-\(\infty\) : 2], it will usually be refereed as \(\mathbb{R}\), with the added constraint \(x < 2\). Usually we say the problem to be \emph{subject to (s. t.)} the constraint \(x < 2\).\\
-In theory these two formulations should be equivalent. In practice however, these constraints are often the result of a real-world concern, and thus subject to some inherent imprecision. [[WHAT ?? THE TRAVEL IS INTRODUCED AFTER]] Back to our travel metaphor, we can imagine that we set the maximum travel cost we are ready to pay to a price of one thousand euros. Does that really means that a solution which would cost one thousand euros \textbf{and one cent} would be unacceptable ? Obviously not. In engineering design, this is a common situation, and making these constraints explicit can be advantageous.
+In theory these two formulations should be equivalent. In practice however, these constraints are often the result of a real-world concern, and thus subject to some inherent imprecision. Let us imagine an optimization problem defined by an engineer trying to design an aircraft. Among the constraints defined by the engineers, the aircraft weight must be lower or equal to 40t. Does it means that a solution for which the weight of the aircraft would be 40t \emph{and 200g} would be completely unacceptable? Obviously not, the designer may be willing to accept some concessions in regard of the violation of this constraint. In engineering design, this is a common situation, and making these constraints explicit can be advantageous.
 
 Since we want to find the best element of this solution space, we have to determine what makes an element better than another. Usually, the possible solutions are compared through a specific function called the \emph{objective function}. Some alternate names are \emph{criterion} or \emph{cost function}. The best element would be the one for which the objective function returns a minimal (or alternatively, maximal\footnote{Obviously we sometimes want to find the \emph{maximal} value that is solution of a problem, however minimizing f(x) is equivalent to maximizing (-f(x)). So maximization problems can be expressed as minimization problems, and vice-versa. Traditionally, optimization problems are often expressed in the terms of finding a \emph{minimal} value since the two possibilities are equivalents.}) value. It should be noted that it is possible for a problem to admit several equivalent solutions in regard of the objective function.
 
@@ -48,7 +48,7 @@ Before going further into details, we must make an important distinction between
 
 This distinction has a profound impact on the nature of the problems. While the search space of a combinatorial optimization problem is finite, a continuous optimization problem can have an infinite number of potential solutions. Interestingly, this distinction does not implies that continuous optimization problems are inherently harder to solve than discrete ones. While combinatorial optimization problems can be NP-complete in the general case, some continuous optimization problems can easily be solved in polynomial time (even large ones). This surprising properties comes from the fact that complexity of combinatorial optimization problem comes from the difficulty to efficiently explore the different possibles variables states combinations, whereas for continuous optimization, the difficulty comes more from the shape of the search space. In simple continuous optimization problems, the search space will be very regular, and the optimum easy to find, while optimization problems with complicated, \enquote{chaotic} search spaces will be much more difficult to solve.
 
-For the sake of completeness, let us add that there exists an optimization field which is at the border between continuous and combinatorial optimization, named \emph{Integer programming}\footnote{in this context, \enquote{programming} must not be mistaken with computer programming but be understood as a synonym for \enquote{optimization}. This peculiar use of the word comes from the historical origins of the optimization field.}, in which the variables are must take integer values but are not restricted to a bounded definition domain (making their definition set countable but infinite). An extension of these problems are \emph{mixed-integer programs}, where some of the variables are restricted to integer values and some are not. For more informations on integer programming, the reader can refers to \ cite{schrijver1998theory}. Integer programming an combinatorial optimization are sometimes regrouped under the \emph{discrete optimization} category. The terms \emph{combinatorial} and \emph{discrete} seems to often be used somewhat interchangeably.
+For the sake of completeness, let us add that there exists an optimization field which is at the border between continuous and combinatorial optimization, named \emph{Integer programming}\footnote{in this context, \enquote{programming} must not be mistaken with computer programming but be understood as a synonym for \enquote{optimization}. This peculiar use of the word comes from the historical origins of the optimization field.}, in which the variables are must take integer values but are not restricted to a bounded definition domain (making their definition set countable but infinite). An extension of these problems are \emph{mixed-integer programs}, where some of the variables are restricted to integer values and some are not. For more informations on integer programming, the reader can refers to \cite{schrijver1998theory}. Integer programming an combinatorial optimization are sometimes regrouped under the \emph{discrete optimization} category. The terms \emph{combinatorial} and \emph{discrete} seems to often be used somewhat interchangeably.
 
 In the context of this thesis, we will concern ourselves more specifically with continuous optimization. For more works concerning combinatorial optimization problems from a multi-agents systems perspective see [[REFS]].
 
@@ -113,13 +113,31 @@ A rough proposal of organization of the different types of continuous optimizati
 \label{numerical_optim_tree}
 \end{figure}
 
-Presenting all the continuous optimization techniques would be far outside the scope of this work. In this part we will focus on presenting briefly the different optimization categories we identified in figure \ref{numerical_optim_tree}. We will reference some of the most representatives techniques to illustrate this presentation, but without going into the details of the techniques. To get a more throughout view of the different techniques, the reader can see reference works such as [[TODO: REFS]].
+Presenting all the continuous optimization techniques would be far outside the scope of this work. In this part we will focus on presenting briefly the different optimization categories we identified in figure \ref{numerical_optim_tree}. We will reference some of the most representatives techniques to illustrate this presentation, but without going too much into the details of the techniques.
 
 \section{Linear Optimization}\label{linear_optim}
 
 Linear optimization focuses on the solving of problems where the objective-function and constraints are linear (that is, $f(x+y) = f(x)+f(y)$ and $f(ax) = af(x)$) and the search space convex.
 
-[[Show what do we mean by convex search space]]
+A \emph{convex} search space is a set where all the lines segments linking the points of the set are fully contained inside the set (if it is not the case, the set is said to be \emph{concave}). An illustration of the difference between convex and concave search spaces is shown on \figurename{} \ref{convexVSconcave}.
+
+\begin{figure}
+\centering
+	\begin{subfigure}{0.35\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Convex_polygon_illustration1}
+		\caption{Convex search space}\label{convexVSconcave:conc}
+	\end{subfigure}
+  	\begin{subfigure}{0.35\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Convex_polygon_illustration2}
+		\caption{Concave search space}\label{convexVSconcave:conv}
+	\end{subfigure}
+	
+	\caption{Convex and concave search spaces (from \href{http://commons.wikimedia.org/wiki/Category:Files_by_User:Oleg_Alexandrov_from_en.wikipedia}{Oleg Alexandrov})}
+	\label{convexVSconcave}
+
+\end{figure}
 
 A linear problem with $n$ variables and $m$ constraints can be expressed as:
 \begin{align*}
@@ -174,12 +192,12 @@ where $d_i$ is the direction vector and $s_i$ the step size coefficient.
 \paragraph{Line search}
 
 Line search is the most basic approach. It first determines which direction would improve the objective function, then decide of a step size to move toward it.
-Some of the most well-known linear search methods are gradient descent, Newton's and Quasi-Newton methods. The gradient method simply uses a step size proportional to the value of the gradient. The Newton's and Quasi-Newton methods however try to find a solution to the equation $\nabla f(x)=0$ ($\nabla f(x)$ being the gradient of $f$). The Newton's method use the gradient  and the Hessian matrix of $f$ to estimate a good step size, while the Quasi-Newton method avoid the disadvantages of using the Hessian (which can involve costly operations) by replacing it with an approximation based on the variation of the gradient.
+Some of the most well-known linear search methods are gradient descent, Newton's and Quasi-Newton methods \cite{dennis1983numerical}. The gradient method simply uses a step size proportional to the value of the gradient. The Newton's and Quasi-Newton methods however try to find a solution to the equation $\nabla f(x)=0$ ($\nabla f(x)$ being the gradient of $f$). The Newton's method use the gradient  and the Hessian matrix of $f$ to estimate a good step size, while the Quasi-Newton methods avoid the disadvantages of using the Hessian (which can involve costly operations) for example by replacing it with an approximation based on the variation of the gradient.
 
 \paragraph{Trust region}
 
 Trust region methods use the neighborhood of the current point to approximate the shape of the objective-function in the neighborhood of the current point. This approximation is then used to find the minimum in a localized region around the current point. Contrary to line search methods, these methods start by selecting a step size (the size of the region around the current point) and choose the direction after.
-For example, the Levenberg-Marquardt algorithm, whose primary application is least squares problems, uses the Jacobian matrix conjugated with a damping factor to iteratively refine the approximate functions.
+For example, the Levenberg-Marquardt algorithm \cite{levenberg44,marquardt63}, whose primary application is least squares problems, uses the Jacobian matrix conjugated with a damping factor to iteratively refine the approximate functions.
 
 \subsubsection{With Constraints}
 
@@ -199,45 +217,43 @@ For example, taking the following constrained optimization problem:
 \text{ subject to } &x > 0
 \end{align*}
 
-Suppose we are provided with a barrier function $b_c(x)$ whose value increases toward infinity as x decreases toward 0 ($\lim_{x \to 0^+}b_c(x) = \infty$). We can now use the new unconstrained optimization problem:
+Suppose we are provided with a barrier function $b_c(x)$ whose value increases toward infinity as x decreases toward 0 ($\lim_{x \to 0^+}b_c(x) = \infty$). We can now use the new unconstrained optimization problem:	
 
 $$\text{minimize } (f_{obj}(x) + b_c(x))$$
 
-Another method, which had for some time dominated this part of the continuous optimization field is Sequential Quadratic Programming (SQP). SQP proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
-SQP is based on a very powerful result of continuous optimization, the Karush-Kuhn-Tucker (KKT) conditions. The KKT conditions are necessary conditions for a solution $x*$ in a nonlinear optimization problem to be a local optimum. They state that for $x*$ to be a local optimum to an optimization problem with $i$ inequality constraints $gi$ and $j$ equality constraints $h_j$, there must exist some $\mu_i$ and $\lambda_j$ such as:
+Another method, which had for some time dominated this part of the continuous optimization field is Sequential Quadratic Programming (SQP) \cite{boggs1995sequential}. SQP proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
+SQP is based on a very powerful result of continuous optimization, the Karush-Kuhn-Tucker (KKT) conditions \cite{kuhn1951nonlinear}. The KKT conditions are necessary conditions for a solution $x*$ in a nonlinear optimization problem to be a local optimum. They state that for $x*$ to be a local optimum to an optimization problem with $i$ inequality constraints $gi$ and $j$ equality constraints $h_j$, there must exist some $\mu_i$ and $\lambda_j$ such as:
 
 $\left\{
  		 \begin{array}{l}
 			\nabla f(x*) + \displaystyle\sum \mu_i \nabla g_i(x*) + \displaystyle\sum \lambda_j \nabla h_j(x*) = 0 \\
 			g_i(x*) \leq 0 \;\forall i \\
 			h_j(x*) = 0 \;\forall j \\
-			\mu_i \geq 0 \;\forall i\\
+			\mu_i \geq 0 \;\forall i\	\
 			\mu_ig_i(x*) = 0 \;\forall i
 		\end{array}
 	\right. $
 	
 The SQP can be viewed as an equivalent of Newton's method to the KKT conditions of the problem.
 
-
-
 \subsection{Derivative-Free}
 
 Sometimes we cannot use derivatives in the optimization process, either because the derivatives are not available or too costly to compute.
 
-A very popular method is the Nelder-Mead algorithm. This algorithm places a simplex\footnote{The concept of simplex is a generalization of the concept of triangle in arbitrary dimension. A triangle is a simplex in 2 dimensions, a tetrahedron a simplex in 3 dimensions. It should be noted that the Simplex algorithm, presented in \ref{linear_optim} does not actually use simplices during solving, despite that its misleading name implies, but is simply inspired from the concept.} on the search space and applies to it a sequence of transformations by moving its edges.
+A very popular method is the Nelder-Mead algorithm \cite{Nelder01011965}. This algorithm places a simplex\footnote{The concept of simplex is a generalization of the concept of triangle in arbitrary dimension. A triangle is a simplex in 2 dimensions, a tetrahedron a simplex in 3 dimensions. It should be noted that the Simplex algorithm, presented in \ref{linear_optim} does not actually use simplices during solving, despite that its misleading name implies, but is simply inspired from the concept.} on the search space and applies to it a sequence of transformations by moving its edges.
 
-[[TODO: Picture of Nelder Mead ]]
+At each iteration, a new test point is calculated (for example the symmetric of the worst vertex of the simplex regarding the gravity center of the others points). If this point is better than every vertices, then the simplex is stretched toward it. If this point is worse than the current vertices, then we suppose we are stepping over the valley which contain an optimum. In this case the simplex is contracted to be able to explore the valley. Else, we simply replace the worst vertex by the new point. The iterations stop when the simplex has reached a specified size.\\
+An illustration of the Nelder-Mead algorithm is shown on \figurename{} \ref{nelder-mead}.
 
-At each iteration, a new test point is calculated (for example the symmetric of the worst vertex of the simplex regarding the gravity center of the others points). If this point is better than every vertices, then the simplex is stretched toward it. If this point is worse than the current vertices, then we suppose we are stepping over the valley which contain an optimum. In this case the simplex is contracted to be able to explore the valley. Else, we simply replace the worst vertex by the new point.
-The iterations stop when the simplex has reached a specified size.
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{Nelder-Mead}
+\caption{Illustration of Nelder-Mead algorithm}\label{nelder-mead}
+\end{figure}
 
-
-Several derivative-free algorithms interpolate the objective-function with a simpler one. Starting with several evaluation points of the objective-function, we build a simpler function to which we can apply a known optimization method. Based on the result of the optimization, we can update the interpolation model and reiterate.
-[[Talk about possible interpolations methods ? => from Jpg "juste en citer 2-3"]]
+Several derivative-free algorithms interpolate the objective-function with a simpler one. These methods starting with several evaluation points of the objective-function to build a simpler function on which it is possible to apply a known optimization method. Based on the result of the optimization, we can update the interpolation model and reiterate. Some possible interpolation methods include various polynomial interpolation methods, kriging \emph{etc.}
 
 \section{Global Method}
-
-[[Insister sur la nature globale/centralisée de ces solutions (et limitations inhérentes)]]
 
 While local optimization methods aim only for an optimum into a limited part of the search space, global optimization methods aim for the globally best solution of the problem. Global optimization methods concentrate on providing strategies to explore the search space.
 
@@ -300,6 +316,8 @@ From this basic compromise we can see how continuous optimization has given birt
 [[Two axis: Local <-> Global; Specialized <-> Generic => Do a diagram ?]]
 
 [[Insister sur la centralisation + global]]
+
+[[Insister sur la nature globale/centralisée de ces solutions (et limitations inhérentes)]]
 
 \chapter{Multi-Objective Optimization}
 
