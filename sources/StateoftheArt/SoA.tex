@@ -342,11 +342,9 @@ We will now see some of the strategies have been proposed to deal with such prob
 
 \subsection{Objectives Aggregation}
 
-[[NEED REF]]
-
 The first approach is to transform the MOO problem back to a mono-objective optimization problem, by aggregating the different objectives into one. This can be expressed as follow : \(f_g = aggr(f_1, f_2, ..., f_n)\), where \(f_1, f_2, ..., f_n\) are the original objectives and \(f_g\) the aggregated one, which will be used with classical mono-objective optimization methods.
 
-Concerning the choice of the aggregation function, different strategies can be used. The simplest strategy is to use a classical function such as addition, multiplication, mean, max or min of the objectives, and variations of the preceding (exponential sum, ...): these methods present the major drawback of requiring the aggregated values to be comparable.[[ Keeping with our travel example]], is it relevant to simply add duration and cost ?
+Concerning the choice of the aggregation function, different strategies can be used. The simplest strategy is to use a classical function such as addition, multiplication, mean, max or min of the objectives, and variations of the preceding (exponential sum, ...): these methods present the major drawback of requiring the aggregated values to be comparable. Going back to our travel example, is it relevant to simply add duration and cost ?
 
 A slightly more sophisticated way is the weighted sum method, where a coefficient is attributed to each objective before adding them \cite{Marler2010} :
 
@@ -736,9 +734,9 @@ We will see in the next chapter how these methods are still insufficient to hand
 
 \chapter{Multidisciplinary Optimization}\label{MDO_chapter}
 
-[[Plus insister sur les aspects difficiles (qu'on va traiter) : conflits, representation du probleme, complexité (pronfondeur) => difficile d'estimer l'impact de quelle variable sur quoi, != disciplines]]
+Multidisciplinary Design Optimization (MDO), often abbreviated Multidisciplinary Optimization , concerns the optimization of complex systems which involves several interacting disciplines. Each discipline in itself can contain this own variables, objectives and constraints. These problems often involve several of the optimization problematics we examined in the previous chapters (non-linearity, multiples objectives and constraints, uncertainties etc.) and are usually too complex to be handled by classical optimization methods for several reasons. Evaluating the global function of the problem is considered to be expensive, as it involve complicated models, requiring extensive calculus. The optimization problem usually contains not just contradictory objectives, but whole conflicting disciplines. The complexity of the problem is also increased by the fact that the different parts of the problem are interdependent and can potentially add several layers of intermediate calculus, making difficult to estimate the impact of the different design variables on the different criteria.\\
+In this regard, we can say that MDO problems tend to regroup and amplify all the difficulties encountered with the previous types of optimization problems.
 
-Multidisciplinary Design Optimization (MDO), often abbreviated Multidisciplinary Optimization , concerns the optimization of complex systems which involves several interacting disciplines. Each discipline in itself can contain this own variables, objectives and constraints. These problems often involve several of the optimization problematics we examined in the previous chapters (non-linearity, multiples objectives and constraints, uncertainties etc.) and are usually too complex to be handled by classical optimization methods, as evaluating the global function of the problem would be considered too costly.
 These kinds of problems are commonplace in the industry, especially in complex systems design such as aeronautic and aerospace engineering, where parts of the design are often done by different experts teams. For example designing an aircraft can be formalized as a MDO problem involving several disciplines such as mechanics, aerodynamics, acoustics etc. (see \figurename\ \ref{aero-disc}).
 
 \begin{figure}
@@ -812,57 +810,55 @@ Several specific terms are in use in the domain of MDO:
 The classical approach to categorize MDO methods was to separate mono- and multi-level methods.
 Mono-level methods use a single optimizer and a non hierarchical structure, while multi-level methods use a hierarchical structure and possibly several optimizers.
 
-\section{An Illustration of Coupled Systems Problematics: Fixed Point Iteration}
-
-[[What tot do with this ??]]
-
-To illustrate the difficulties caused by coupled system, let's introduce the Fixed Point problem.
-
-\subsection{Fixed Point problem}
-
-Initially, the problematic of fixed point is the following:
-
-\begin{quote}\enquote{Considering a function $f(x)$, does a $x_{fp}$ exists for which $f(x_{fp}) = x_{fp}$?}\end{quote}
-
-If such $x_{fp}$ exists, then it is called a \emph{fixed point} of $f$
-
-\definition{fixed point}{$x_{fp}$ is a fixed point of $f \Leftrightarrow f(x_{fp}) = x_{fp}$}
-
-Not every function has a fixed point, and some functions can have more than one. For example the function
-
-$$f(x)=x+1$$
-
-has no fixed point (there is no $x$ for which $x = x+1$), while the function
-
-$$f(x) = x^3$$
-
-has three fixed points: -1, 0 and 1 (cf figure \ref{fixed_points_x_3}).
-
-\begin{figure}
-\centering
-\includegraphics[width=0.4\paperwidth]{fixed_point_x_cube_withdots}
-\caption{$f(x)=x^{3}$ and its fixed points, (in dashed grey, the function $y = x$)}
-\label{fixed_points_x_3}
-\end{figure}
-
-An obvious property of fixed points is that $x_{fp} = f(x_{fp}) = f(f(x_{fp}))$ ...
-
-A fixed point can be \emph{attracting} or \emph{repelling}. A fixed point is said to be attracting when the system converges towards it when iterating over $f$ in its neighborhood. Conversely, a fixed point is repelling if we diverge while doing so. A fixed point which is neither attracting nor repelling is said to be \emph{neutral}.
-
-[[insert diagram of attractive and repelling fixed points]]
-
-A fixed point $x_{fp}$ will be attracting if $|f'(x_{fp}| < 0$.\\
-If $|f'(x_{fp}| > 0$ then the fixed point is repelling.\\
-Finally if $|f'(x_{fp}| = 0$ then $x_{fp}$ is neutral.
-
-
-\subsection{Fixed Point with Coupled Functions}
-
-The notion of fixed point can be extended to coupled functions. [[TODO?]]
+%\section{An Illustration of Coupled Systems Problematics: Fixed Point Iteration}
+%
+%[[What tot do with this ??]]
+%
+%To illustrate the difficulties caused by coupled system, let's introduce the Fixed Point problem.
+%
+%\subsection{Fixed Point problem}
+%
+%Initially, the problematic of fixed point is the following:
+%
+%\begin{quote}\enquote{Considering a function $f(x)$, does a $x_{fp}$ exists for which $f(x_{fp}) = x_{fp}$?}\end{quote}
+%
+%If such $x_{fp}$ exists, then it is called a \emph{fixed point} of $f$
+%
+%\definition{fixed point}{$x_{fp}$ is a fixed point of $f \Leftrightarrow f(x_{fp}) = x_{fp}$}
+%
+%Not every function has a fixed point, and some functions can have more than one. For example the function
+%
+%$$f(x)=x+1$$
+%
+%has no fixed point (there is no $x$ for which $x = x+1$), while the function
+%
+%$$f(x) = x^3$$
+%
+%has three fixed points: -1, 0 and 1 (cf figure \ref{fixed_points_x_3}).
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.4\paperwidth]{fixed_point_x_cube_withdots}
+%\caption{$f(x)=x^{3}$ and its fixed points, (in dashed grey, the function $y = x$)}
+%\label{fixed_points_x_3}
+%\end{figure}
+%
+%An obvious property of fixed points is that $x_{fp} = f(x_{fp}) = f(f(x_{fp}))$ ...
+%
+%A fixed point can be \emph{attracting} or \emph{repelling}. A fixed point is said to be attracting when the system converges towards it when iterating over $f$ in its neighborhood. Conversely, a fixed point is repelling if we diverge while doing so. A fixed point which is neither attracting nor repelling is said to be \emph{neutral}.
+%
+%[[insert diagram of attractive and repelling fixed points]]
+%
+%A fixed point $x_{fp}$ will be attracting if $|f'(x_{fp}| < 0$.\\
+%If $|f'(x_{fp}| > 0$ then the fixed point is repelling.\\
+%Finally if $|f'(x_{fp}| = 0$ then $x_{fp}$ is neutral.
+%
+%
+%\subsection{Fixed Point with Coupled Functions}
+%
+%The notion of fixed point can be extended to coupled functions. [[TODO?]]
 
 \section{Mono-Level Methods}
-
-[[Missing REFS]]
 
 \subsection{Multidisciplinary Feasible}
 
@@ -983,11 +979,12 @@ The basic idea is to assign to each subsystem a value for the global variables. 
 
 \section{Uncertainties in Multidisciplinary Optimization}
 
-[[cf These_Vicent_Baudoui_optimisation_robuste]]
-
 The modeling of uncertainties in MDO problem is not fundamentally different from any other optimization problems. As with the other aspects of optimization, it is the complexity of the problem which make classical uncertainty propagation methods unfeasible in practice since too costly, as well as the heterogeneity of formalisms brought by different teams working in the different domains of the problem.
 
-Doing a global uncertainty analysis on a MDO problem can be even most costly than a system analysis. Several strategies have been proposed for the propagation of uncertainties. Many of them suppose an uniform representation of uncertainties (for example [TODO] assume the uncertainties are modeled by normal law, while [TODO] use interval definition). Whatever the strategy, propagating uncertainties will require costly additional evaluations of the disciplines.
+Doing a global uncertainty analysis on a MDO problem can be even most costly than a system analysis. Several strategies have been proposed for the propagation of uncertainties. Many of them suppose an uniform representation of uncertainties (for example \cite{du2005collaborative,liu2006probabilistic} assume the uncertainties are modeled by normal law, while \cite{gu2000worst,li2008multiobjective} use interval definition). Whatever the strategy, propagating uncertainties will require costly additional evaluations of the disciplines, and often of the entire problem. This statistical approach for taking into account uncertainties makes an already costly problem even more expensive to evaluate \cite{koch1999statistical}. Often, it is necessary to fall back on approximate models in order to reduce the computational cost of evaluating uncertainties \cite{allen2006robust}. Of course the drawback is that the uncertainties evaluation will be more imprecise on these approximate models.
+
+
+We have already noted that an additional and somewhat unique challenge of MDO comes from the need to integrate heterogeneous disciplines potentially coming from different experts teams with different concerns. Surprisingly, while this fact have been put in front to justify the usefulness of multi-level MDO methods, its implications regarding the uncertainties manipulation are not so much discussed. We already saw in the previous chapter that multiple concurrent uncertainties representations have been developed, each one with its advantages and drawbacks. Without doubts different experts would have different preferences in regard of which modeling to chose. However current propagation techniques require a homogeneous uncertainties representation for the problem.
 
 \section{Analysis of MDO}
 
