@@ -1,6 +1,18 @@
 \part{Experiments and Validation}
 
-In this section we present three test cases, Alexandrov Problem, Turbofan Problem and Viennet1, on which our system has been applied, and the experimental results we obtained. In each test cases, the MAS consistently converges towards the best (or one of the best) solution.
+In this part we present some of the results we obtained with our system on several experiments.
+
+In order to evaluate our system, we experimented on three kinds of test cases. We started with small, \enquote{academic}, test cases, which were used to evaluate and tune the cooperative behavior of the agents. The optimization performances of the systems were then tested on bigger, \enquote{real-world} test cases [[and in some cases compared with existing methods]]. At last, we produced a third type of test cases which are automatically generated, in order to test raw performances and scalability properties of our system.
+
+We also made additional experiments in order to evaluate others functionalities of our systems: uncertainties propagation and adaptations to changes.
+
+\section{Academic Test Cases}
+
+[[TODO: introduce better the different test cases]]
+
+[[need an overhaul of the section]]
+
+In this section we present several test cases: Alexandrov Problem, Turbofan Problem, Viennet1 and Rosenbrock valley, on which our system has been applied, and the experimental results we obtained. In each test cases, the MAS consistently converges towards the best (or one of the best) solution.
 
 \begin{figure}
 \centering
@@ -73,45 +85,6 @@ The mathematical formulation of the problem and the corresponding agent graph ca
 
 On \figurename \ref{alexandrov_res_one}, the behavior of the \emph{design variables} agents l1, l2 and s, as well the evolution of the objective, can be observed on one instance of the problem with random starting points. On \figurename \ref{alexandrov_res}, we show the evolution of the objective over 100 iterations with  starting points  for each \emph{design variable} randomly drawn over the interval [-100; 100]. We can see how the system converges towards the same optimum despite the wildly different initial conditions.
 
-\subsubsection*{Adaptation to perturbations}
- 
-On \figurename \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
-
-\begin{figure}[]
-\centering
-  	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/l1_pertubated}
-		%\vspace{-20pt}
-		\label{alexandrov_res_pert:l1}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/l2_pertubated}
-		%\vspace{-20pt}
-		\label{alexandrov_res_pert:l2}
-	\end{subfigure}
-	\vspace{-20pt}
-	\\
-	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/s_pertubated}
-		%\vspace{-20pt}
-		\label{alexandrov_res_pert:s}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/o_pertubated}
-		%\vspace{-20pt}
-		\label{alexandrov_res_pert:o}
-	\end{subfigure}
-	
-	\caption{Alexandrov agents behavior with perturbation (constraint change at dotted line)}
-	\label{alexandrov_res_pert}
-	
-\end{figure}
-
-
 \subsection{Other Experiments}
 
 We now briefly present results we obtained on two others test cases, the Turbofan problem and Viennet1. For each case, the system was executed 100 times with random starting points for each \emph{design variable}.
@@ -182,3 +155,59 @@ $$\text{Minimize } f(x,y) = (1-x)^2 + 100(y - x^2)^2$$
 	\caption{Convergence of Rosenbrock objective for 100 random starting points}
 	\vspace{-20pt}
 \end{wrapfigure}
+
+\section{Large Tests Cases and Comparisons with Existing Methods}
+
+\subsection{Preliminary Aircraft Design}
+
+\subsection{Snecma 2}
+
+\subsection{Benchmarks}
+
+\section{Generated Test Cases and Scalability}
+
+In this section we present some measures we established in regard of the scalability performances of our MAS. In order to realize our experiments, we required a large number of test cases of several sizes and comparable complexity.  To obtain such a 
+
+\section{others Experiments}
+
+\subsection{Adaptations to perturbations}
+
+[[Move this in its own section]]
+ 
+ \subsubsection{Perturbated Alexandrov}
+ 
+On \figurename \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
+
+\begin{figure}[]
+\centering
+  	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/l1_pertubated}
+		%\vspace{-20pt}
+		\label{alexandrov_res_pert:l1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/l2_pertubated}
+		%\vspace{-20pt}
+		\label{alexandrov_res_pert:l2}
+	\end{subfigure}
+	\vspace{-20pt}
+	\\
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/s_pertubated}
+		%\vspace{-20pt}
+		\label{alexandrov_res_pert:s}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/o_pertubated}
+		%\vspace{-20pt}
+		\label{alexandrov_res_pert:o}
+	\end{subfigure}
+	
+	\caption{Alexandrov agents behavior with perturbation (constraint change at dotted line)}
+	\label{alexandrov_res_pert}
+	
+\end{figure}
