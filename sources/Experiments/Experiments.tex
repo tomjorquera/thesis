@@ -6,7 +6,7 @@ In order to evaluate our system, we experimented on three kinds of test cases. W
 
 We also made additional experiments in order to evaluate others functionalities of our systems: uncertainties propagation and adaptations to changes.
 
-\section{Academic Test Cases}
+\chapter{Academic Test Cases}
 
 [[TODO: introduce better the different test cases]]
 
@@ -36,7 +36,7 @@ In this section we present several test cases: Alexandrov Problem, Turbofan Prob
 %\vspace{-20pt}
 \end{figure}
 
-\subsection{Alexandrov Problem}
+\section{Alexandrov Problem}
 
 \begin{figure}[]
 \centering
@@ -85,11 +85,11 @@ The mathematical formulation of the problem and the corresponding agent graph ca
 
 On \figurename \ref{alexandrov_res_one}, the behavior of the \emph{design variables} agents l1, l2 and s, as well the evolution of the objective, can be observed on one instance of the problem with random starting points. On \figurename \ref{alexandrov_res}, we show the evolution of the objective over 100 iterations with  starting points  for each \emph{design variable} randomly drawn over the interval [-100; 100]. We can see how the system converges towards the same optimum despite the wildly different initial conditions.
 
-\subsection{Other Experiments}
+\section{Other Experiments}
 
 We now briefly present results we obtained on two others test cases, the Turbofan problem and Viennet1. For each case, the system was executed 100 times with random starting points for each \emph{design variable}.
 
-\subsubsection{Turbofan Problem}
+\subsection{Turbofan Problem}
 
 The turbofan problem we introduced in \figurename \ref{turbofan} is a based on a real-world optimization problem, albeit simplified for demonstration purpose, concerning the conception of a turbofan engine.
 
@@ -112,7 +112,7 @@ As we can see on \figurename \ref{snecma_res}, the system consistently converges
 	\label{snecma_res}
 \end{figure}
 
-\subsubsection{Viennet1}
+\subsection{Viennet1}
 
 The Viennet1 test case is part of a series of problems proposed in \cite{viennet1996multicriteria} to evaluate multi-criteria optimization techniques. This problem involves three objectives. Its analytical formulation is:
 
@@ -144,7 +144,7 @@ $$
 	\label{viennet_res}
 \end{figure}
 
-\subsubsection{Rosenbrock's valley}
+\subsection{Rosenbrock's valley}
 
 Rosenbrock's valley is non-convex function commonly used to test convergence performances. The results presented here are for the two-dimensional version of the problem with a definition domain of [-5; 5] for each \emph{design variable}.
 The analytical formulation of this problem (for two dimensions) is 
@@ -156,25 +156,131 @@ $$\text{Minimize } f(x,y) = (1-x)^2 + 100(y - x^2)^2$$
 	\vspace{-20pt}
 \end{wrapfigure}
 
-\section{Large Tests Cases and Comparisons with Existing Methods}
+\chapter{Large Tests Cases and Comparisons with Existing Methods}
 
-\subsection{Preliminary Aircraft Design}
+\section{Preliminary Aircraft Design}
 
-\subsection{Snecma 2}
+\section{Snecma 2}
 
-\subsection{Benchmarks}
+\section{Benchmarks}
 
-\section{Generated Test Cases and Scalability}
+\chapter{Generated Test Cases and Scalability}
 
-In this section we present some measures we established in regard of the scalability performances of our MAS. In order to realize our experiments, we required a large number of test cases of several sizes and comparable complexity.  To obtain such a 
+In this section we present some measures we established in regard of the scalability performances of our MAS. [[TOCHANGE if spring networks are integrated]] For this part of the experiments we were not concerned with the optimization performances of the system, but more with its capability to handle large agents graphs without suffering from performances degradation.
 
-\section{others Experiments}
+In order to realize our experiments, we required a large number of test cases of several sizes and comparable complexity.  Since such repository of continuous optimization problems is not readily available, we worked on a way to automatically generate them. To this end, we took advantage of the fact that, as demonstrated with our NDMO modeling, an optimization problem can be represented as a graph. Consequently it is possible to use well-known graph generation techniques and directly generate problem graphs.
 
-\subsection{Adaptations to perturbations}
+We propose a very simple method to generate simple problem graphs. First we use a graph generation algorithm to generate a directed graph of size $n$. The nodes of this graph represent the variables of the problem and the arcs their dependencies. If a node is not the head of any arc (\emph{i.e.} there is no arc going to this node), it is a design variable, otherwise it is an output variable.\\
+The next step is to insert models. As we stated, the optimization problem in itself is of little importance in this part. Consequently our only requirement for the model is that they must be able to take an arbitrary number of inputs and produce one output. In our experiments we used a simple \emph{Sum} function. For each output variable, we insert a node representing the model in the graph. The links going to the output variable node are redirected to the model node, and a link going from the model node to the output node is create.\\
+After this step, criteria are randomly added to variable nodes. In our experiments, we given a 20\% probability of a variable node  to be linked to a criterion, with half the chance for the criterion to be an objective and half the change for it to be a constraint. Once more, in order to simplify the problem generation, all objectives are about minimizing the variable, and are constraints are about having the variable higher of equal to zero.
 
-[[Move this in its own section]]
+The generation method is summarized in \ref{algo_graph_generation}. After all these steps, the graph is a valid [[(if not useful)]] NDMO graph and can be directly transformed into an agent graph.
+
+\begin{algorithm}
+\caption{Problem graph generation}
+\label{algo_graph_generation}
+	$n \leftarrow$ initialization number
+	$G(nodes, arcs) \leftarrow GraphGenerator(n)$\;
+			
+		\ForEach{$currentNode \in G.nodes$}{
+			tag($currentNode$, \enquote{variable})\;
+			$enteringArcs \leftarrow \{arc \in G.arcs, isHeadOf(arc, currentNode)\}$
+			\If{$enteringArcs \neq \emptyset$}{
+				\tcp{$currentNode$ is an output variable}
+				$modelNode \leftarrow $ new node\;
+				tag($modelNode$, \enquote{model})\;
+				$G$.add($modelNode$)\;
+				$G$.createArcBetween($modelNode$, $currentNode$)\;
+				\ForEach{$arc \leftarrow enteringArcs$}{
+					$tailNode \leftarrow arc.tail$\;
+					$G$.removeArc($arc$)\;
+					$G$.createArcBetween($tailNode$, $modelNode$)\;
+				}
+			}
+			\;
+			\tcp{check for criteria}			
+			$rand \leftarrow drawRandomNumber()$\;		
+			\If{$rand \leq	 criteriaProba$}{		
+				$critNode \leftarrow$ new node\;
+				$G$.createArcBetween($currentNode$, $critNode$)\;
+				\eIf{$rand \leq drawRandomNumber/2$}{
+					tag($critNode$, \enquote{objective})\;				
+				}{
+					tag($critNode$, \enquote{constraint})\;
+				}
+			}		
+		}
+
+\end{algorithm}
+
+It must be noted that the final size of problems generated by this algorithm is not fixed, and can be significantly larger than the initialization value $n$. However problems produced using the same initialization number and the same graph generator are of comparable sizes.
+
+We used graph generators proposed by the GraphStream library \footnote{\url{http://www.graphstream-project.org/}}. On \figurename{} \ref{graph_generation_examples} some examples of agent graphs produced using this method and visualized using GraphStream visualization tools.
  
- \subsubsection{Perturbated Alexandrov}
+\begin{figure}
+\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{random_graph_1}
+		\caption{Random Euclidean graph example 1.}\label{generatedgraphs:rand1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{random_graph_4}
+		\caption{Random Euclidean graph example 2.}\label{generatedgraphs:rand2}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{graph_SW_1}
+		\caption{Small-World graph example 1.}\label{generatedgraphs:sw1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{graph_SW_2}
+		\caption{Small-World graph example 2.}\label{generatedgraphs:sw2}
+	\end{subfigure}
+
+\caption{Examples of agents graph generation.}
+\label{graph_generation_examples}
+\end{figure}
+
+Before discussing the results we obtained, let us add a word of warning concerning measuring real-time performances of java applications (java being the programming language used to implement our prototype). The Java Virtual Machine (JVM), which executes java programs, applies a lot of complex optimization steps \emph{during} the execution process. Consequently making some precise and non-biased measurements can be hazardous.\\
+Regarding our experiments, we tried to mitigate possible bias by taking these two precautions:
+\begin{compactitem}
+\item before running the measured experiments, running multiple non-evaluated problems in order to \enquote{heat} the JVM and letting it apply its optimization procedures beforehand.
+\item running the different experiments multiple times and in different orders, in order to \enquote{spread} the benefits of possible optimizations happening at runtime.
+\end{compactitem}
+We believe that these precautions are sufficient to obtain sufficiently meaningful results. Nevertheless, the reader should be warned not to consider the presented values as exact measurements of the system performances.
+
+On \figurename{} \ref{generated_perfo:time} are presented the results of the execution time of problems of different sizes. We generated agent graphs of different sizes using both Small-Word and random euclidean algorithms. For each size and each generator we create 20 instances of problems. On the figure are presented the mean time needed for all the agents of the problem to execute one behavior cycle. Interestingly, while the time performances in regard of small-world based problems graphs increase linearly with the size of the problems, the time needed in the case of random problem graphs seems to increase exponentially.\\
+This seemingly poor performance can however easily be explained by looking at \figurename}{} \ref{generated_perfo:degree}, on which are shown the mean degree (that is, the number of arcs entering of exiting a node) of the nodes in each generated problems. We can see, that, whatever the size of the problem, the mean degree of a node in Small-World problems is mostly constant. However, in the case random graph, the mean degree increase linearly with the size of the problem.  Consequently, the exponential increase in time regarding random graphs can be explained by the conjugated effect of the increase in number of agents and the increase of the neighborhood size of th agents (whose impact in the behavior algorithm complexity has been exposed in section \ref{NCS_pres}).
+
+\begin{figure}
+\centering
+
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{R_figs/graph_problems/comp_time}
+		\caption{Average time for a step.}\label{generated_perfo:time}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{R_figs/graph_problems/comp_degree}
+		\caption{Mean degree of nodes.}\label{generated_perfo:degree}
+	\end{subfigure}
+
+\caption{Performances analysis.}
+\label{generated_perfo}
+\end{figure}
+
+Overall, we can conclude by observing these results that the time required for the agents to make a behavior cycle is not meaningfully impacted by the size of the problem. This property is an expected benefit of restricting the agents to local perception and decision process.
+
+[[TODO: talk about the strange \enquote{hump} for random graph about 800]]
+
+[[TODO: show results by degree size using BarabasiAlbertGenerator]]
+
+\chapter{Others Experiments}
+
+\section{Optimization under Uncertainties}
+
+\section{Adaptations to perturbations}
+
+ \subsection{Perturbated Alexandrov}
  
 On \figurename \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
 
