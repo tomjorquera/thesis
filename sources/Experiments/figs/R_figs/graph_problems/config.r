@@ -30,7 +30,7 @@ data_ws <- read.csv(paste(csv_ws, ".csv", sep = "", collapse=NULL), head=FALSE, 
 attach(data_ws)
 ordered_ws <- t(data_ws[order(V1),])
 
-pdfname <- paste("comp_time.pdf", sep = "", collapse=NULL)
+pdfname <- paste("comp_time_by_size.pdf", sep = "", collapse=NULL)
 pdf(file=pdfname)
 par(mar=c(5,5,2,2)) 
 plot(	ordered_rand[1,], ordered_rand[2,]/1000000,
@@ -38,12 +38,12 @@ plot(	ordered_rand[1,], ordered_rand[2,]/1000000,
 points(	ordered_rand[1,], ordered_ws[2,]/1000000,
 	col="red",pch=22, ann=FALSE, cex=2)
 title(xlab="agents number", ylab="average time (in ms)", cex.lab=2.4)
-legend(	"topleft",  c("random","small-world"),
+legend(	"topleft",  c("random euclidean","small-world"),
 	col=c("blue","red"), pch=21:22, cex=2	);
 
 dev.off()
 
-pdfname <- paste("comp_degree.pdf", sep = "", collapse=NULL)
+pdfname <- paste("comp_degree_by_size.pdf", sep = "", collapse=NULL)
 pdf(file=pdfname)
 par(mar=c(5,5,2,2)) 
 plot(	ordered_rand[1,], ordered_rand[5,],
@@ -51,7 +51,7 @@ plot(	ordered_rand[1,], ordered_rand[5,],
 points(	ordered_rand[1,], ordered_ws[5,],
 	col="red",pch=22, ann=FALSE, cex=2)
 title(xlab="nodes number", ylab="mean degree", cex.lab=2.4)
-legend(	"topleft",  c("random","small-world"),
+legend(	"topleft",  c("random euclidean","small-world"),
 	col=c("blue","red"), pch=21:22, cex=2	);
 
 dev.off()
