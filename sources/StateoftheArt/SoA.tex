@@ -44,7 +44,7 @@ Where \emph{S} is the problem search space and \emph{f(x)} the objective functio
 
 \section{Continuous versus Discrete Optimization}
 
-Before going further into details, we must make an important distinction between \empoh{continuous} optimization (also called \emph{numerical} optimization) and \emph{combinatorial} optimization. The difference between the two categories concerns the definition domain of the variables, and consequently the nature of the search space. For combinatorial optimization, the variables can only take a finite number of different values (their definition domain is a finite and enumerable set), while the definition domain of continuous optimization problem variables is, as the name implies, continuous (thus the variable can take an infinite number of values).
+Before going further into details, we must make an important distinction between \emph{continuous} optimization (also called \emph{numerical} optimization) and \emph{combinatorial} optimization. The difference between the two categories concerns the definition domain of the variables, and consequently the nature of the search space. For combinatorial optimization, the variables can only take a finite number of different values (their definition domain is a finite and enumerable set), while the definition domain of continuous optimization problem variables is, as the name implies, continuous (thus the variable can take an infinite number of values).
 
 This distinction has a profound impact on the nature of the problems. While the search space of a combinatorial optimization problem is finite, a continuous optimization problem can have an infinite number of potential solutions. Interestingly, this distinction does not implies that continuous optimization problems are inherently harder to solve than discrete ones. While combinatorial optimization problems can be NP-complete in the general case, some continuous optimization problems can easily be solved in polynomial time (even large ones). This surprising properties comes from the fact that complexity of combinatorial optimization problem comes from the difficulty to efficiently explore the different possibles variables states combinations, whereas for continuous optimization, the difficulty comes more from the shape of the search space. In simple continuous optimization problems, the search space will be very regular, and the optimum easy to find, while optimization problems with complicated, \enquote{chaotic} search spaces will be much more difficult to solve.
 
@@ -325,7 +325,7 @@ The formulation of a MOO problem does not differ significantly from the formulat
 \begin{align*}
 \text{minimize } & (f_1(x), f_2(x), ..., f_n(x))\\
 \text{subject to } & (x \in S)
-\end{align}
+\end{align*}
 
 MOO problems are quite a radical departure from previous optimization problems type we have seen. Many approaches have been proposed, the majority of which can be separated in two categories: \emph{a priori} and \emph{a posteriori} approaches. \textbf{A priori approaches} aim at discriminating between the objectives \emph{before} the optimization process. This often consists into combining the different objectives into one, before applying a classical optimization method on the new, aggregated objective.
 On the opposite, \textbf{a posteriori methods} try to provide a set of efficient solutions among which the decider will choose.

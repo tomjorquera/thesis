@@ -823,12 +823,12 @@ The two first cases are benign, and do not impeded the solving process. The thir
 \item if a cycle is currently diverging, take a correcting action to ensure it converges
 \end{compactenum}
 
-An example of diverging cycle is shown in \figurename{} \ref{NCS_cycles}
+An example of diverging cycle is shown in \figurename{} \ref{NCS_cycles_fig}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{NCS_cycles}
-\caption{Diverging cycle example}\label{NCS_cycles}
+\caption{Diverging cycle example}\label{NCS_cycles_fig}
 \end{figure}
 
 [[TOFIX: will probably be outdated + must write the synthesis algorithm]]
@@ -842,14 +842,14 @@ To detect a cycle,  the output agent creates a correspondence table associating 
 
 In case of a cycle, the output agent must now determine if the cycle is converging or diverging towards the fixed point. As in the general case all models are black boxes, the output agent needs to observe the evolution of output values while iterating through the cycle. If the difference between successive values is decreasing, the cycle is converging towards the fixed point, else the cycle is diverging as the variables are going in the "wrong direction". To this end, the output agent memorizes the difference between its old and new value, and continues as usual. When receiving the next message from the cycle, it calculates the new difference which enables it to decide if the cycle is converging or not towards the fixed point.
 
-If the cycle is converging, the output agent does not need to do any special action. But in case of a diverging cycle, instead of taking the requested value, the agent emits to its model a request for the opposite direction (ie, if the value of the output should have increased of \emph{n}, the agent will request a new value corresponding to a decrease of \emph{n}). The request will propagate through the cycle until the fixed point is found.
+If the cycle is converging, the output agent does not need to do any special action. But in case of a diverging cycle, instead of taking the requested value, the agent emits to its model a request for the opposite direction (\emph{i.e.}, if the value of the output should have increased of \emph{n}, the agent will request a new value corresponding to a decrease of \emph{n}). The request will propagate through the cycle until the fixed point is found.
 [[END TOFIX]]
 
 \subsection{Hidden Dependencies}\label{hidden_deps}
 
 The fact that each agent has only a local and limited view of the problem is a requirement for the system to be able to scale to arbitrary large problems. However this restriction can prove problematic when, due to its limited perceptions, an agent makes a wrongful assumption regarding its neighbors. The \emph{hidden dependency} NCS happens when an agent considers that the requests its makes to its input agents are independents while the two agents are in fact dependents. The mistake of the requesting agent comes from the fact that the dependency link between its two input agents is beyond its perception range.
 
-\figurename{} \ref{NCS_hidden_dependencies} is an illustration of a configuration which will lead to a hidden dependency NCS. In this example, the objective agent $\text{min }a_1 + a_2$ will assume that the variable agents $a_1$ and $a_2$ are independents, while the value of $a_2$ is in fact completely dependent from the one of $a_1$ (more precisely $a_2 = -\frac{1}{2} a_1$). In this context, the objective agent will send separate requests to the two variables agents, asking them both to decrease. Since $a_2$ is an output variable, it will transmit the request to its model agent, which will in turn transmit it to $a_1$. And since $a_2$ and $a_1$ are negatively correlated, the transmitted request will ask $a_1$ to increase. Consequently $a_1$ will receive two requests, one (directly from the objective) asking it to decrease, and one (transmitted by $a_2$⁾ asking it to increase.
+\figurename{} \ref{NCS_hidden_dependencies} is an illustration of a configuration which will lead to a hidden dependency NCS. In this example, the objective agent $\text{min }a_1 + a_2$ will assume that the variable agents $a_1$ and $a_2$ are independents, while the value of $a_2$ is in fact completely dependent from the one of $a_1$ (more precisely $a_2 = -\frac{1}{2} a_1$). In this context, the objective agent will send separate requests to the two variables agents, asking them both to decrease. Since $a_2$ is an output variable, it will transmit the request to its model agent, which will in turn transmit it to $a_1$. And since $a_2$ and $a_1$ are negatively correlated, the transmitted request will ask $a_1$ to increase. Consequently $a_1$ will receive two requests, one (directly from the objective) asking it to decrease, and one (transmitted by $a_2$) asking it to increase.
 
 \begin{figure}
 \centering
@@ -930,7 +930,7 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 
 \subsection{Asynchronous Messages}\label{NCS_async}
 
-The last NCS addresses an underlying assumption we have made until now. When we described the behavior of the agents, we supposed each of them always receive the messages in a timely manner, waiting if necessary until all the relevant messages are transmitted before acting. Once again, this hypothetical scenario is made impossible by the need for the agents to maintain a local view. The agents do not know what messages are currently transiting in the system. Their only knowledge concerns the messages they received at the start of their cycle and what messages they previously sent (but not their current status). Consequently, the topology of the agent graph can lead to transmission delays, where messages sent at the same time by the same agent will not necessarily reach their ultimate destination at the same time. For example, let us look back at the hidden dependency example (reporduced on \figurename{} \ref{NCS_hidden_dependencies} for convenience). When we discussed the case of hidden dependencies, we assumed by all the messages sent by the objective agent would reach $a_1$ before the latter would take its decision. However, it is clear that one of the message will take more time to reach $a_1$ than the other, as it must transit by two intermediate. Why would the agent $a_1$ wait for this late message, without even knowing its existence, before acting?
+The last NCS addresses an underlying assumption we have made until now. When we described the behavior of the agents, we supposed each of them always receive the messages in a timely manner, waiting if necessary until all the relevant messages are transmitted before acting. Once again, this hypothetical scenario is made impossible by the need for the agents to maintain a local view. The agents do not know what messages are currently transiting in the system. Their only knowledge concerns the messages they received at the start of their cycle and what messages they previously sent (but not their current status). Consequently, the topology of the agent graph can lead to transmission delays, where messages sent at the same time by the same agent will not necessarily reach their ultimate destination at the same time. For example, let us look back at the hidden dependency example (reproduced on \figurename{} \ref{NCS_hidden_dependencies} for convenience). When we discussed the case of hidden dependencies, we assumed by all the messages sent by the objective agent would reach $a_1$ before the latter would take its decision. However, it is clear that one of the message will take more time to reach $a_1$ than the other, as it must transit by two intermediate. Why would the agent $a_1$ wait for this late message, without even knowing its existence, before acting?
 
 \begin{figure}
 \centering
@@ -980,19 +980,19 @@ In this section we presented several problematic configurations (NCS) which can 
 \begin{table}
 \caption{Non Cooperative Situations Summary}\label{NCS_summary}
 \centering
-\begin{tabular}{|c|c|p{5cm}|p{3.5cm}|}
+\begin{tabular}{|c|p{5cm}|p{5cm}|}
 	\hline
-		NCS & Category & Description & Cooperative Mechanisms\\
+		NCS  & Description &  Cooperative Mechanisms\\
 	\hline
-	Conflicting Requests & Conflict & An agent receives several incompatible requests & Criticality\\
+	Conflicting Requests & An agent receives several incompatible requests & Criticality\\
 	\hline
-	Cooperative Trajectories & Conflict & An agent receives seemingly incompatible requests, which can each be satisfied & [[??]]\\
+	Cooperative Trajectories & An agent receives seemingly incompatible requests, which can each be satisfied & [[??]]\\
 	\hline
-	Cycle Solving & Conflict & Several agents are involved in a diverging cycle  & sender timestamps, origin timestamps\\
+	Cycle Solving & Several agents are involved in a diverging cycle  & sender timestamps, origin timestamps\\
 	\hline
-	Hidden Dependencies & Conflict & An agent sends seemingly independent requests to  dependent agents & origin timestamps, influence\\
+	Hidden Dependencies & An agent sends seemingly independent requests to  dependent agents & origin timestamps, influence\\
 	\hline
-	Asynchronous Messages & Conflict & Agents receive messages in untimely manner & influence\\
+	Asynchronous Messages & Agents receive messages in untimely manner & influence\\
 	\hline
 \end{tabular}
 
@@ -1051,7 +1051,7 @@ The algorithm for waiting request is trivial and can be executed in constant tim
 This mechanism requires the sending of additional messages from (non-criterion) output agents which themselves do not have any output agent. In the best case, there is no such agent, thus no additional message is sent. In the worst case all outputs agent are concerned, and need each to send one additional message (message complexity of $\mathcal{O}(o)$, $o$ being the number of outputs).
 
 \paragraph*{}
-It can  be seen that, overall, the cooperative mechanisms we proposed to solve the various NCS are quite reasonably efficient in their complexity. This property is important in order for the system to be able to scale to bigger and more complex optimization problem. We managed to keep the complexity of the algorithms low by keeping the reasoning of the agents to a local level, limiting their perceptions to their neighborhood and only very synthetic information about the rest of the system (criticality, origin \emp{etc.}). Moreover, it should be noted that, in many problems, some of the agents will only have a minimal role in the solving, being connected only to one agent in input and one agent in output. For these agents, the complexity of these mechanism will be minimal as they will always receive at most one message. Only in the utmost complex and coupled problems will the majority of the agent be involved in the solving of NCS.
+It can  be seen that, overall, the cooperative mechanisms we proposed to solve the various NCS are quite reasonably efficient in their complexity. This property is important in order for the system to be able to scale to bigger and more complex optimization problem. We managed to keep the complexity of the algorithms low by keeping the reasoning of the agents to a local level, limiting their perceptions to their neighborhood and only very synthetic information about the rest of the system (criticality, origin \emph{etc.}). Moreover, it should be noted that, in many problems, some of the agents will only have a minimal role in the solving, being connected only to one agent in input and one agent in output. For these agents, the complexity of these mechanism will be minimal as they will always receive at most one message. Only in the utmost complex and coupled problems will the majority of the agent be involved in the solving of NCS.
 
 A concern could be raised about the composition of these different mechanisms. Indeed an agent can be involved in several NCS at once. In this case, would not the combination of these mechanisms cause exponential increase of complexity? While this concern could be correct in theory, in practice the different solving mechanisms play the role of successive filters regarding the received messages. Consequently, later mechanisms work on a far lower number of messages than the earlier ones. The typical example is the conflicting requests mechanisms, which will eliminate all the requests which are not deemed critical enough. The others mechanisms will only have to take in account the requests which were conserved by this first filter. More so, it should be noted that, while the different mechanisms have be presented separately, a large part of the processing they do on the messages can be factorized, in order to increase the overall efficiency. While in our implementation we did not do such optimization (in order to keep the mechanisms separated and code easier to work with), such improvements would be of course strongly recommended for a more \enquote{production-ready} implementation of the system.\\
 To conclude on this remark, we can safely say that the composition of the different cooperative mechanisms is not of additive complexity, but only bring a marginal increase in the total complexity of the agent behavior.
@@ -1075,7 +1075,7 @@ To answer these difficulties we will present a general mechanism inspired by the
 
 \section{From Deterministic Optimization to Optimization under Uncertainties}
 
-[[Reformulation d'un probleme d'optim] -> cf these_Vicent_Baudoui_Optimization_robuste]]
+[[Reformulation d'un probleme d'optim - > cf these_Vicent_Baudoui_Optimization_robuste]]
 
 We previously explained that uncertainties can be present at several levels in the optimization problem. We consider here the two following types of uncertainties:
 \begin{compactitem}
@@ -1206,7 +1206,7 @@ To the best of our knowledge, this is the first proposal for providing a common 
 
 Based on this modeling, we proposed a simple nominal behavior where the agents try to solve individual goals and only has a limited, local perception of their neighbors. These agents can interface with external optimization techniques to solve local optimization problems (or alternatively use some internal optimization mechanisms), and exchange request and inform messages in order to keep a global coherence of the solution. A major distinction with MDO methods is that the global coherence of the problem is not a separate phase but is fully taken in account during the entire process.
 \\
-While our agents are already able to interface with external optimization methods, some refinements could be proposed. An example could be to, instead of providing each agent with an adequate optimizer, providing all the agents with an optimizer catalog where several optimization methods are presented and characterized. Based on their observation of the manipulated models, the agents could select the optimization method they deem the most appropriate, and even switch between different methods during the solving. Such mechanism would contribute even more to relieving the burden of  the designer, but would require to be effective an extensive study of the ontological properties of the field. An other improvement could concerns the internal optimization mechanisms we presented in \algorithmname{} \ref{algo_solving_internaloptim}. It could be possible to replace our simple linear approximation estimation by more astute techniques. For example, existing works concern  [[Parler travaux de Luc, Valérian etc.]]. Such methods could provide more precise estimations to be used by the agents.
+While our agents are already able to interface with external optimization methods, some refinements could be proposed. An example could be to, instead of providing each agent with an adequate optimizer, providing all the agents with an optimizer catalog where several optimization methods are presented and characterized. Based on their observation of the manipulated models, the agents could select the optimization method they deem the most appropriate, and even switch between different methods during the solving. Such mechanism would contribute even more to relieving the burden of  the designer, but would require to be effective an extensive study of the ontological properties of the field. An other improvement could concerns the internal optimization mechanisms we presented in algorithm \ref{algo_solving_internaloptim}. It could be possible to replace our simple linear approximation estimation by more astute techniques. For example, existing works concern  [[Parler travaux de Luc, Valérian etc.]]. Such methods could provide more precise estimations to be used by the agents.
 
 This nominal behavior being insufficient to solve some of the issues brought by the specificities of continuous optimization, we use the AMAS theory to identify a set of non cooperative situations, which represent specific patterns of configurations where the nominal behavior of the agents result in a sub-optimal handling of the optimization process. For each of these NCS, we proposed cooperative mechanisms which enrich the nominal behavior of the agent. These additional mechanisms allow to, when necessary, detect and identify the NCS, and to do corrective actions in order to re-establish the correct optimization process.
 \\
