@@ -12,7 +12,9 @@ We also made additional experiments in order to evaluate others functionalities 
 
 [[need an overhaul of the section]]
 
-In this section we present several test cases: Alexandrov Problem, Turbofan Problem, Viennet1 and Rosenbrock valley, on which our system has been applied, and the experimental results we obtained. In each test cases, the MAS consistently converges towards the best (or one of the best) solution.
+[[Need to talk about oracle optimizers]]
+
+In this section we present some representative results we obtained among several test cases: Alexandrov Problem, Turbofan Problem, Viennet1 and Rosenbrock's valley, on which our system has been applied, and the experimental results we obtained. In each test cases, the MAS consistently converges towards the best (or one of the best) solution.
 
 \begin{figure}
 \centering
@@ -38,7 +40,10 @@ In this section we present several test cases: Alexandrov Problem, Turbofan Prob
 
 \section{Alexandrov Problem}
 
-\begin{figure}[]
+Our first test case is inspired from an academic example taken in literature by Alexandrov and al\cite{alexandrov2002analytical}. This simple example presents some of the commons characteristics of MDO problems, such as interdependent disciplines and multiple criteria. In the original article, the example was used to illustrate some properties of Collaborative Optimization, which we presented earlier, in terms of reformulation. While the paper only gave the structure of the problem, we adapted it with meaningful values and equations.
+The mathematical formulation of the problem and the corresponding agent graph can be seen in \figurename \ref{alexandrov}. Interestingly, the NDMO representation is quite similar to the one adopted by the original authors of the problem.
+
+\begin{figure}
 \centering
   	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
@@ -72,18 +77,14 @@ In this section we present several test cases: Alexandrov Problem, Turbofan Prob
 
 \end{figure}
 
-\begin{wrapfigure}{R}{0.4\textwidth}
-	%\vspace{-50pt}
-    \includegraphics[width=0.4\textwidth]{./R_figs/generated/o}
+On \figurename \ref{alexandrov_res_one}, the behavior of the \emph{design variables} agents l1, l2 and s, as well the evolution of the objective, can be observed on one instance of the problem with random starting points. On \figurename \ref{alexandrov_res}, we show the evolution of the objective over 100 iterations with  starting points  for each \emph{design variable} randomly drawn over the interval [-100; 100]. We can see how the system converges towards the same optimum despite the wildly different initial conditions.
+
+\begin{figure}
+\centering
+    \includegraphics[width=0.5\textwidth]{./R_figs/generated/o}
 	\caption{Convergence of the Alexandrov objective for 100 random starting points}
 	\label{alexandrov_res}
-	%\vspace{-25pt}
-\end{wrapfigure}
-
-Our first test case is inspired from an academic example taken in literature by Alexandrov and al\cite{alexandrov2002analytical}. This simple example presents some of the commons characteristics of MDO problems, such as interdependent disciplines and multiple criteria. In the original article, the example was used to illustrate some properties of Collaborative Optimization, which we presented earlier, in terms of reformulation. While the paper only gave the structure of the problem, we adapted it with meaningful values and equations.
-The mathematical formulation of the problem and the corresponding agent graph can be seen in \figurename \ref{alexandrov}. Interestingly, the NDMO representation is quite similar to the one adopted by the original authors of the problem.
-
-On \figurename \ref{alexandrov_res_one}, the behavior of the \emph{design variables} agents l1, l2 and s, as well the evolution of the objective, can be observed on one instance of the problem with random starting points. On \figurename \ref{alexandrov_res}, we show the evolution of the objective over 100 iterations with  starting points  for each \emph{design variable} randomly drawn over the interval [-100; 100]. We can see how the system converges towards the same optimum despite the wildly different initial conditions.
+\end{figure}
 
 \section{Other Experiments}
 
@@ -115,14 +116,14 @@ As we can see on \figurename \ref{snecma_res}, the system consistently converges
 \subsection{Viennet1}
 
 The Viennet1 test case is part of a series of problems proposed in \cite{viennet1996multicriteria} to evaluate multi-criteria optimization techniques. This problem involves three objectives. Its analytical formulation is:
-
-
-$$\text{Minimize } o1 = x^2 + (y-1)^2 \text{, } o2 = x^2 + (y+1)^2 \text{ and } o3 = (x-1)^2 + y^2 +2\\$$
-$$\text{where } x, y \in  [-4;4]
-$$
+\begin{align*}
+\text{Minimize } 	&o1 = x^2 + (y-1)^2 \\
+								&o2 = x^2 + (y+1)^2 \\
+								&o3 = (x-1)^2 + y^2 +2\\
+\text{where } 		&x, y \in  [-4;4]						
+\end{align*}				
 
 \figurename \ref{viennet_res} illustrates the convergence of the system towards a valid solution.
-
 
 \begin{figure}[h]
 
@@ -146,15 +147,22 @@ $$
 
 \subsection{Rosenbrock's valley}
 
+[[Ref ?]]
+
 Rosenbrock's valley is non-convex function commonly used to test convergence performances. The results presented here are for the two-dimensional version of the problem with a definition domain of [-5; 5] for each \emph{design variable}.
 The analytical formulation of this problem (for two dimensions) is 
 $$\text{Minimize } f(x,y) = (1-x)^2 + 100(y - x^2)^2$$
+The Rosenbrock's valley is interesting as the global minimum is \enquote{hidden} into a narrow parabolic valley. The optimization method must thus get down into the valley and follow its bottom until reaching the global optimum.
 
-\begin{wrapfigure}{R}{0.5\textwidth}
+\begin{figure}
+\centering
     \includegraphics[width = 0.5\textwidth]{./R_figs/generated/minimizer}	
 	\caption{Convergence of Rosenbrock objective for 100 random starting points}
-	\vspace{-20pt}
-\end{wrapfigure}
+\end{figure}
+
+\section{Analysis of Academic Test Cases}
+
+[[TODO]]
 
 \chapter{Large Tests Cases and Comparisons with Existing Methods}
 
@@ -167,6 +175,8 @@ $$\text{Minimize } f(x,y) = (1-x)^2 + 100(y - x^2)^2$$
 \chapter{Generated Test Cases and Scalability}
 
 In this section we present some measures we established in regard of the scalability performances of our MAS. [[TOCHANGE if spring networks are integrated]] For this part of the experiments we were not concerned with the optimization performances of the system, but more with its capability to handle large agent graphs without suffering from performances degradation.
+
+\section{Generating NDMO Agent Graphs}
 
 In order to realize our experiments, we required a large number of test cases of several sizes and comparable complexity.  Since such repository of continuous optimization problems is not readily available, we worked on a way to automatically generate them. To this end, we took advantage of the fact that, as demonstrated with our NDMO modeling, an optimization problem can be represented as a graph. Consequently it is possible to use well-known graph generation techniques and directly generate problem graphs.
 
@@ -241,6 +251,8 @@ We used graph generators proposed by the GraphStream library \footnote{\url{http
 \label{graph_generation_examples}
 \end{figure}
 
+\section{Experimental Results}
+
 Before discussing the results we obtained, let us add a word of warning concerning measuring real-time performances of java applications (java being the programming language used to implement our prototype). The Java Virtual Machine (JVM), which executes java programs, applies a lot of complex optimization steps \emph{during} the execution process. Consequently making some precise and non-biased measurements can be hazardous.\\
 Regarding our experiments, we tried to mitigate possible bias by taking the two following precautions:
 \begin{compactitem}
@@ -284,6 +296,8 @@ In order to corroborate this analysis, we studied the impact increasing the node
 \label{experiment_degrees}
 \end{figure}
 
+\section{Analysis of Generated Test Cases}
+
 Overall, we can conclude by observing these results that the time required for the agents to make a behavior cycle is not meaningfully impacted by the size of the problem. This property is an expected benefit of restricting the agents to local perception and decision process.
 
 As an additional observation, some artifacts can be identified on \figurename{} \ref{generated_perfo:time} and  \figurename{} \ref{generated_perfo:degree}. \figurename{} \ref{generated_perfo:time} presents a strange \enquote{hump} for Random Euclidean graphs when the number of agents is around 800, while on \figurename{} \ref{generated_perfo:degree}, the mean degree of Random Euclidean graphs seems to follows a cyclic pattern, where the mean degree seem to be localized alternatively between one and two points. it should be noted that, while the first anomaly is observed when running our system, the second one is completely independent the behavior of the MAS an is simply a statistical analysis on the generated graph.\\
@@ -308,27 +322,22 @@ On \figurename \ref{alexandrov_res_pert}, we can observe the reaction of the mul
   	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/l1_pertubated}
-		%\vspace{-20pt}
 		\label{alexandrov_res_pert:l1}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/l2_pertubated}
-		%\vspace{-20pt}
 		\label{alexandrov_res_pert:l2}
 	\end{subfigure}
-	\vspace{-20pt}
-	\\
+
 	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/s_pertubated}
-		%\vspace{-20pt}
 		\label{alexandrov_res_pert:s}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/o_pertubated}
-		%\vspace{-20pt}
 		\label{alexandrov_res_pert:o}
 	\end{subfigure}
 	
@@ -342,40 +351,33 @@ On \figurename \ref{alexandrov_res_pert}, we can observe the reaction of the mul
 \begin{figure*}
 \centering
 
-  \subfloat{\begin{minipage}{0.27\textwidth}%
+  \subfloat{\begin{minipage}{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_pi_c}
 		\label{turbofan_res_pert:pi_c}
 	\end{minipage}}
-	%
-	\subfloat{\begin{minipage}{0.27\textwidth}%
+	\subfloat{\begin{minipage}{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_o1}
 		\label{turbofan_res_pert:o1}
 	\end{minipage}}
-	%
-	\subfloat{\begin{minipage}{0.27\textwidth}%
+	\subfloat{\begin{minipage}{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_c1}
 		\label{turbofan_res_pert:c1}
 	\end{minipage}}
-	%
-	\vspace{-20pt}
-	\\
-	%
-	\subfloat{\begin{minipage}{0.27\textwidth}%
+
+	\subfloat{\begin{minipage}{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_bpr}
 		\label{turbofan_res_pert:bpr}
 	\end{minipage}}
-	%	
-	\subfloat{\begin{minipage}{0.27\textwidth}%
+	\subfloat{\begin{minipage}{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_o2}
 		\label{turbofan_res_pert:o2}
 	\end{minipage}}
-		%
-	\subfloat{\begin{minipage}{0.27\textwidth}%
+	\subfloat{\begin{minipage}{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_c2}
 		\label{turbofan_res_pert:c2}
