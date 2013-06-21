@@ -157,7 +157,8 @@ This algorithm is very interesting as it makes very few presuppositions concerni
 \subsubsection{Analysis of Multi-Agent Systems for Distributed Problem Solving}
 
 We have seen in this section how MAS have been applied for problem solving. While the solving of discrete constraint satisfaction and optimization problems has been a very popular topic of interest, very few works exist concerning the solving of continuous problems. Among the few existing works, most concentrate on specific application topics, thus no real unified effort exist in this regard comparable to one which can be observed for discrete optimization.
-[[EXPAND ??]]
+
+One of the main contributions of this thesis is to rectify to this deficiency by providing not only an agent based method for general continuous optimization but also a general modeling for enabling further contributions on a comparable basis.
 
 \section{The Adaptive Multi-Agent Systems Theory}\label{amas_theory}
 
@@ -170,9 +171,9 @@ In order to overcome this limitation, we need to rely on a more theoretical appr
 
 The AMAS theory was developed by the SMAC team and formalized in \cite{glize2001adaptation}. It focuses on cooperation as the fundamental mechanism of MAS design.
 
-At the basis of the theory is the modeling of a system as a set of entities, the agents, interacting with each others and with their environment. This modeling is holonic \cite{koestler1989ghost} at its core, since the agents themselves can also be viewed as systems for which the environment consists of the other agents and the environment of the encompassing system.
+%This modeling is holonic \cite{koestler1989ghost} at its core, since the agents themselves can also be viewed as systems for which the environment consists of the other agents and the environment of the encompassing system.
 
-The system can be deemed to be \emph{functionally adequate} by an external observer if this latter judges that the system as a whole correctly accomplishes its function in regard to the environment. This external observer can be considered to be a perfect oracle, in a way similar to the Laplace's demon, knowing exactly which will be the consequences of each interactions between the system and its environment.
+At the basis of the theory is the modeling of a system as a set of entities, the agents, interacting with each others and with their environment. The system can be deemed to be \emph{functionally adequate} by an external observer if this latter judges that the system as a whole correctly accomplishes its function in regard to the environment. This external observer can be considered to be a perfect oracle, in a way similar to the Laplace's demon, knowing exactly which will be the consequences of each interactions between the system and its environment.
 
 It is important to understand that, from a theoretical point of view, the notion of functional adequacy is inherently subjective, and depends on the observer. In practice it is however usually easier to attain a reasonable consensus. For example a natural system will usually be deemed adequate if it survives and thrives in a sustainable way. For an artificial system it is often even easier since the functional adequacy correspond to the function expected by the designer of the system.
 
