@@ -296,9 +296,14 @@ Of course such comparison must be made with caution, as the context of the two f
 Obviously, such general principles cannot hold systematically true and some problems which cannot be solved by adding more agents are easily resolved by improving their reasoning capabilities. More so, in some cases increasing the size of the system can increase the complexity of the existing agents (for example by adding neighbors to an agent, thus increasing the complexity of its decision process). Still, in the general case, the motto of approaches such as the one of the AMAS theory could be \enquote{scale out when you can, scale up when you must}. 
 
 \subsection{ADELFE - A Method for Designing AMAS}\label{AMAS-ADELFE}
-[[TODO ? AND MAY ? HERE OR IN THE IMPLEMENTATION PART ?]]
 
-[[Quand je parle d'ADELFE, signaler l'existance d'autres méthodes existantes. Expliquer que ces méthodes sont génériques et ne dispensent pas d'un gros travail d'expertise.]]
+ADELFE \cite{bernon2003adelfe} is a method dedicated to the development of AMAS. The name \enquote{ADELFE} is the French acronym for "toolkit to develop software with emergent functionality" (Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente). While ADELFE is not the only method devoted to guide the design of a MAS, its specificity concerns the fact that it is specifically tailored for AMAS.
+
+The ambition of ADELFE is to provide be-all and end-all method to guide engineers during all the phases of the design of an AMAS, from the high-level requirements to the \enquote{nuts and bolts} implantation details. This ambition was the driving factor for multiple projects with the objective of improve or complement ADELFE with additional tools, such as the Make Agents Yourself (MAY) framework  \cite{No2012.2}, used to automatically generate agent architecture implementations.
+
+However, as for most general engineering methods, a current limitation of ADELFE is that it only provide high-level guidelines concerning the behavior and architecture of the agents, staying at a general, abstract level. This current limitation makes difficult for a non-expert in AMAS to actually provide an adequate instantiation for the problem he wants to solve. It is the same analysis in \cite{Ka2011.6} which led the author to prone a specialized variant of the method containing additional guidelines and tools for applying AMAS in the context of problem solving.
+
+We will go into greater details concerning the inner workings of ADELFE and how this method was involved in the context of this thesis in chapter \ref{ADELFE_chapter}.
 
 \subsection{Conclusion on the Adaptive Multi-Agent Systems Theory}
 
