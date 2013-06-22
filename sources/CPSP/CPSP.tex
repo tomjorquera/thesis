@@ -1,8 +1,7 @@
 \chapter{Collective Problem Solving Patterns}\label{CPSP}
 
-[[Explain how ADELFE was insufficient to bridge the gap between Abstract spec and implementation => contribution to problem solving AMAS development]]
 We have seen in the previous chapter how the ADELFE methodology was used for the design of AMAS, from the general requirement to the implementation of the agents. However a current limitation of ADELFE (shared with most of the existing comparable methods) comes from the fact that it is a general method, which aims to be applicable for design MAS intended for diverse application fields (problem solving, simulation, \emph{etc.}). This desire to be usable in a large spectrum of applications has the drawback that the recommendations and guidelines of ADELFE are of an bastract nature. This make the task of actually designing an AMAS for a precise application difficult for non agent expert, even when the application domain is narrower than, for example, general continuous optimization.\\
-This limitation has already been observed in previous works, and has given birth to an ongoing effort to provide a modular toolkit named \emph{AMAS for Optimization (AMAS4Opt}, with the goal to supplement ADELFE and assist AMAS designers when designing MAS for problem solving. In the same way that some contributions have already been proposed in the context of continuous optimization (see \cite{Ka2011.6}), we will now see how we can propose to enrich the toolkit in the context of continous optimization.
+This limitation has already been observed in previous works, and has given birth to an ongoing effort to provide a modular toolkit named \emph{AMAS for Optimization (AMAS4Opt)}, with the goal to supplement ADELFE and assist AMAS designers when designing MAS for problem solving. In the same way that some contributions have already been proposed in the context of continuous optimization (see \cite{Ka2011.6}), we will now see how we can propose to enrich the toolkit in the context of continous optimization.
 
 In this chapter, we take a step back from the MAS we described in the preceding parts and see how our contribution can be made more general, not only to the benefit of the scientific community, but also for engineers by enriching the AMAS4Opt. Numerical optimization was a mostly unexplored application domain in regard to multi-agents based algorithms. By taking the (somewhat ambitious) task to propose a MAS which would be applicable for this domain in its entirety, some of the patterns identified and some of the mechanisms we proposed can be used in a more general context than our system.
 
@@ -40,7 +39,7 @@ We will suppose that agents interact among themselves by message passing.
 
 \section{Description of a Problem Solving Pattern}
 
-\subsection{Agent Roles}
+\subsection{Agent Roles}\label{CPSP_roles}
 
 Concerning the patterns we present in this article, we identified three different types of agent \emph{roles}: Provider, Solicitor and Transformer.
 
@@ -55,7 +54,7 @@ On \figurename{} \ref{cpsp_class_diag} is shown the very simple class diagram re
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{cpsp_class_diag-crop}
-\caption{class diagram of the Provider-Solicitor modeling}
+\caption{class diagram of the Provider-Solicitor modeling.}
 \label{cpsp_class_diag}
 \end{figure}
 
@@ -63,25 +62,88 @@ It is important to understand that an agent is not limited to one role only. For
 In this regard, an agent can even be a producer and solicitor of the same resource. For example the agent is in charge of a specific resource, but also benefit from it. In this case the agent can possibly be in conflict with others agents regarding the state of the resource, and decide (as a producer) to go against its own interest (as a solicitor) in order to help another agent deemed more important.
 Obviously, in most implementations, the different roles of the agent would not be as much segregated, and the agent would not strictly communicate with itself using message-passing. This distinction should not be a problem in practice (this kind of configuration can however trigger others CPSP, see for example \ref{NCS_async}).
 
-\subsection{Problem Pattern}
+\subsection{Pattern Description}
 
-[[Name, Description, Minimal Form, Alternates forms, Symptoms, Solution(s)]]
+For each CPSP, we provides a short description. This description will obviously be quite similar to the description of the NCS[[s]] in \ref{NCS_pres}, as they correspond to the same pattern, only from different abstraction levels.
 
-\subsection{Solution}
+As we already presented the details of the different mechanisms in section \ref{NCS_pres}, we will not detail them again in this part. Moreover, the CPSP aim to be general patterns applicable to multiple domains, consequently it is not possible to fully specify them. A part of the instantiation work still must be done by the designer. However we discuss some conditions which are necessary in order to instantiate the resolution mechanisms we proposed to the domain.
+
+For each CPSP, we also provide a synthetic \enquote{blueprint} which is composed of two parts:
+\begin{compactenum}
+\item a representative agent configuration of the CPSP (using the agent roles introduced in section \ref{CPSP_roles}) 
+\item a summary of the mechanisms involved in the solving of the CPSP.
+\end{compactenum}
+These blueprints are based on the template shown on \figurename{} \ref{blueprint_template}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{blueprint_template}
+\caption{Template on CPSP blueprints.}\label{blueprint_template}
+\end{figure}
 
 \section{Identified Collective Problem Solving Patterns}
 
 In this section, we present the CPSP we identified from the NCS we encountered during the design of our MAS.
 
-\subsection{Conflicting Requests and Criticality}
+\subsection{Conflicting Requests}
+
+In this situation a provider agent is requested to do different conflicting actions from several solicitors agents. This CPSP is probably the simplest one and was already identified as a recurring situation in previous works, since it is the direct instantiation of a NCS category (as presented in section \ref{amas_theory}). The use of a criticality measure as way to discriminate between the different requests [[TODO]].
+The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_conflicts}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{blueprint_conflicts}
+\caption{Conflicting Requests blueprint.}\label{blueprint_conflicts}
+\end{figure}
+
+In order to apply the blueprint, the designer must be able to define a common and comparable measure of the \enquote{dissatisfaction} state of the solicitors.
+
+As a remark, a measure of dissatisfaction present an advantage over a measure of satisfaction in the fact that it is often possible to estimate the state of maximal satisfaction of the agent (every requirement is perfectly satisfied), while it is not always possible to do so for the maximal dissatisfaction. 
+
+Consequently a measure of satisfaction would have a upper bound but no lower bound, while a measure of dissatisfaction has a lower bound and no upper bound. Consequently it is easier to manipulate a measure of dissatisfaction, which can easily be represented as a positive (possibly non-bounded) value.
 
 \subsection{Cooperative Trajectories}
 
+\begin{figure}
+\centering
+	\begin{subfigure}{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{blueprint_coop_traj_var.pdf}
+		\caption{Direct.}
+	\end{subfigure}
+	\begin{subfigure}{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{blueprint_coop_traj_model.pdf}
+		\caption{With a Transformer agent.}
+	\end{subfigure}
+\caption{Cooperative Trajectories.}\label{blueprint_coop_traj}
+\end{figure}
+
+[[REALLY DO TWO FIGURES ? ONE IS BASICALLY A VARIANT OF THE OTHER]]
+
 \subsection{Cycle Solving}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{blueprint_cycles}
+\caption{Cycle Solving blueprint.}\label{blueprint_cycles}
+\end{figure}
 
 \subsection{Hidden Dependencies}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{blueprint_hidden_dep}
+\caption{Cycle Solving blueprint.}\label{blueprint_hidden_dep}
+\end{figure}
+
 \subsection{Asynchronous Requests}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{blueprint_async}
+\caption{Cycle Solving blueprint.}\label{blueprint_async}
+\end{figure}
 
 \section{Conclusion on Collective Problem Solving Patterns}
 
