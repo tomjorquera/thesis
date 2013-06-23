@@ -164,6 +164,13 @@ Alternatively, if answer delay of the solicited agents is negligible, or if for 
 
 \section{Conclusion on Collective Problem Solving Patterns}
 
-[[TODO: add some text]]
+We have seen previously that the main contribution of this thesis was the proposal of a novel agent-based algorithm for the solving of complex continuous optimization. In this chapter we present an addition contribution in the form of general Collective Problem Solving Patterns. These CPSP are the generalization of the different NCS we identified during the design of our MAS.
 
-We identified these patterns from the the NCS of our system. In reverse, the NCS used in the design of AMAS seems perfectly adequate to instantiate known CPSP. Indeed, subsumption-based behavior architectures are very appropriate to model this kind of \enquote{exception}-like situations. Should this kind of patterns identification and reuse becomes more wildly used, one could expect this way of modeling agent behavior to becomes quite popular.
+We presented a general modeling of agent roles which is abstracted from any application domain. This modeling presents the \emph{Provider} and \emph{Solicitor} roles, and their extension by the \emph{Transformer} role.
+
+Using this modeling, we presented some CPSP \emph{blueprints} which present in a synthetic manner the base agent pattern and the mechanisms involved in the solving of the CPSP. We also presented some of the conditions required for the designer to be able to instantiate the solving mechanism for his system.
+
+Our agent role modeling is an extension of the work done in \cite{Ka2011.6}. In this thesis a first abstraction work has been done to identify general agent roles, which lead to the identification of the \emph{service} role and the \emph{constrainted} role. There is an obvious matching between \semph{service} and \emph{provider} roles, and between \emph{constrainted} and \emph{solicitor} roles. However this previous modeling concerned solely the field of AMAS for constrained optimization. In this regard it was not adequate for the description of the CPSP as it was already specialized. Moreover, by explicitly introducing the \emph{transformer} role in our Provider-Solicitor modeling, we are able to express more clearly some of the CPSP (\emph{e.g.} the Hidden Dependency pattern).\\
+Consequently, these two modeling must not be seen as conflicting or redundant, but as complementary. The Provider-Solicitor model being more general, but more abstracted, and the Service-Constrained modeling being more specialized but more detailed in this guidelines to the designer.
+
+As a final remark, we would like to point out how NCS-based agents behaviors proposed by the AMAS theory make a perfect fit for instantiating behavioral patterns such as CPSP. Indeed, subsumption-based behavior architectures are very appropriate to model this kind of \enquote{exception}-like situations. Should this kind of patterns identification and reuse becomes more widely used, one could expect this way of modeling agent behavior to becomes quite popular.
