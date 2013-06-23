@@ -62,6 +62,9 @@ It is important to understand that an agent is not limited to one role only. For
 In this regard, an agent can even be a producer and solicitor of the same resource. For example the agent is in charge of a specific resource, but also benefit from it. In this case the agent can possibly be in conflict with others agents regarding the state of the resource, and decide (as a producer) to go against its own interest (as a solicitor) in order to help another agent deemed more important.
 Obviously, in most implementations, the different roles of the agent would not be as much segregated, and the agent would not strictly communicate with itself using message-passing. This distinction should not be a problem in practice (this kind of configuration can however trigger others CPSP, see for example \ref{NCS_async}).
 
+For example, in the case of our system the different agent types had relatively defined and fixed roles. A design variable agent linked with at least one other agent has a \emph{provider} role. Constraint and objectives agents are \emph{solicitors}. Models agents have a \emph{transformer} role, as for output agents which are in input of at least one model or criterion agents.\\
+The only agents which do not have a role corresponding to this taxonomy are the variable and output agents which are not used as input by any other agent. And indeed in our system these agents would have a basically non-existent role. Of course the user can still manually intervene to change the topology of the problem, changing at the same time the roles of these agents.
+
 \subsection{Pattern Description}
 
 For each CPSP, we provides a short description. This description will obviously be quite similar to the description of the NCS[[s]] in \ref{NCS_pres}, as they correspond to the same pattern, only from different abstraction levels.
@@ -87,7 +90,8 @@ In this section, we present the CPSP we identified from the NCS we encountered d
 
 \subsection{Conflicting Requests}
 
-In this situation a provider agent is requested to do different conflicting actions from several solicitors agents. This CPSP is probably the simplest one and was already identified as a recurring situation in previous works, since it is the direct instantiation of a NCS category (as presented in section \ref{amas_theory}). The use of a criticality measure as way to discriminate between the different requests [[TODO]].
+In this situation a provider agent is requested to do different conflicting actions from several solicitors agents. This CPSP is probably the simplest one and was already identified as a recurring situation in previous works, since it is the direct instantiation of a NCS category (as presented in section \ref{amas_theory}).
+
 The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_conflicts}.
 
 \begin{figure}
@@ -96,13 +100,15 @@ The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_conflicts}.
 \caption{Conflicting Requests blueprint.}\label{blueprint_conflicts}
 \end{figure}
 
-In order to apply the blueprint, the designer must be able to define a common and comparable measure of the \enquote{dissatisfaction} state of the solicitors.
+In order to apply the blueprint, the designer must be able to define a common and comparable measure of the \enquote{dissatisfaction} state of the solicitors. This \emph{criticality} must be transmitted with the requests made by the solicitor agent.
 
-As a remark, a measure of dissatisfaction present an advantage over a measure of satisfaction in the fact that it is often possible to estimate the state of maximal satisfaction of the agent (every requirement is perfectly satisfied), while it is not always possible to do so for the maximal dissatisfaction. 
 
-Consequently a measure of satisfaction would have a upper bound but no lower bound, while a measure of dissatisfaction has a lower bound and no upper bound. Consequently it is easier to manipulate a measure of dissatisfaction, which can easily be represented as a positive (possibly non-bounded) value.
+The use of a criticality measure as way to discriminate between the different requests is a \enquote{tried-and-true} technique which has been applied to multiple AMAS applications [[cite some]].\\
+As a remark, a measure of dissatisfaction present an advantage over a measure of satisfaction in the fact that it is often possible to estimate the state of maximal satisfaction of the agent (every requirement is perfectly satisfied), but not always possible to do so for the maximal dissatisfaction. Consequently a measure of satisfaction would have a upper bound but no lower bound, while a measure of dissatisfaction has a lower bound and no upper bound. This latter is easier to manipulate and reason with as it can be easily be represented by an unbounded positive value.
 
 \subsection{Cooperative Trajectories}
+
+[[TODO]]
 
 \begin{figure}
 \centering
@@ -123,6 +129,8 @@ Consequently a measure of satisfaction would have a upper bound but no lower bou
 
 \subsection{Cycle Solving}
 
+[[TODO]]
+
 \begin{figure}
 \centering
 \includegraphics[width=0.6\textwidth]{blueprint_cycles}
@@ -131,19 +139,28 @@ Consequently a measure of satisfaction would have a upper bound but no lower bou
 
 \subsection{Hidden Dependencies}
 
+The hidden Dependency CPSP arises when a solicitor agent assumes the agents to which it sends requests are independent providers, while one of them is in fact dependent of the other (transformer role). This pattern leads to a suboptimal behavior when the solicitor agent sends requests which are contradictory to the \enquote{top-most} provider agent. The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_hidden_dep}.
+
 \begin{figure}
 \centering
 \includegraphics[width=0.6\textwidth]{blueprint_hidden_dep}
-\caption{Cycle Solving blueprint.}\label{blueprint_hidden_dep}
+\caption{Hidden Dependencies blueprint.}\label{blueprint_hidden_dep}
 \end{figure}
 
+To apply this blueprint, the designer has to complement the messages exchanged by the agents with unique signatures containing an immutable \emph{origin} which uniquely identify the agent which is the origin of the request. The designer must also be able to define an \emph{influence} measure to be transmitted with the request, which represent the impact of the recipient on the solicitor. These \emph{influences} measures must be comparable for a same origin.
+
 \subsection{Asynchronous Requests}
+
+This CPSP arises when a provider agent receives requests from multiple solicitor agents, but these requests arrive in desynchronized manner. A possible suboptimal behavior can happen when the provider agent decides to satisfy a request from a solicitor, and receives afterward a more important request contradicting the first one. he blueprint of this CPSP is shown on \figurename{} \ref{blueprint_async}.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.6\textwidth]{blueprint_async}
-\caption{Cycle Solving blueprint.}\label{blueprint_async}
+\caption{Asynchronous Requests blueprint.}\label{blueprint_async}
 \end{figure}
+
+To apply this blueprint, the designer must be able to define an \emph{influence} measure for each solicitor agent to estimate, which represent the impact of the recipient on the solicitor. This \emph{influence} will allows the solicitor agent to determine when it received enough informations to make a sufficiently informed decision, without needing to wait for \emph{all} the answers to its requests.\\
+Alternatively, if answer delay of the solicited agents is negligible, or if for any other reason it is deemed acceptable that a solicitor agent waits for all the answers before taking a decision, the mechanism can be adapted to avoid using \emph{influence} altogether.
 
 \section{Conclusion on Collective Problem Solving Patterns}
 
