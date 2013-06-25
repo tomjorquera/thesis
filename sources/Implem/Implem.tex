@@ -1,10 +1,10 @@
-\part{Design, Implementation and Contribution Toward AMAS4Opt}
+\part{Design, Implementation and extending the AMAS4Opt Building Blocks}
 
-One of our concerns was not only to propose a new approach for continuous optimization, but also to put this approach in practice by integrating it into a proof-of-concept prototype. To this end we worked with domain specialists and software development experts to propose such a tool, basing ourselves upon the ADELFE method. This method aims to guide the development of AMAS-based softwares from high level user requirements to the implementation nuts and bolts. Using ADELFE we made a formal analysis of the domain and actor involved in the use of such tool.
+One of our concerns was not only to propose a new approach for continuous optimization, but also to put this approach in practice by integrating it into a working prototype. To this end we worked with domain specialists and software development experts to propose such a tool, basing ourselves upon the ADELFE method. This method aims to guide the development of AMAS-based softwares from high level user requirements to the implementation nuts and bolts. Using ADELFE we made a comprehensive analysis of the domain and actors involved in the use of such a tool.
 
-We also use the design tools developed in conjunction with the method to instantiate our MAS with the final end to integrate it with a functional end-user interface. Notably, the recent MAY framework, which was developed in order to provide suitable abstractions as well as reusable software components for the development of agents and multi-agents systems. We contributed to the enrichment of its component library by developing a a general and modular agent architecture consistent with the AMAS theory, in particular by proposing a modular skill stack principle, where different skills can be composed to address specific requirements.
+We also use the design tools provided with ADELFE to instantiate our MAS and integrate it into the prototype. Among these tools, we used notably the recent MAY framework. The goal of MAY is to provide suitable abstractions as well as reusable software components for the development of agents and multi-agents systems. We contributed to the enrichment of its components library by developing a general and modular agent architecture consistent with the AMAS theory, notably by proposing a modular skill stack principle, where different skills can be composed to address specific requirements.
 
-While such work could seems to concerns more software engineering experts than computer scientists, we will see how existing MAS oriented methods such as ADELFE are still too broad level to be successfully directly applied to any domain (and more so to continuous optimization) without an important agent expertise and extensive research work. We will detail how the scientific work we produced and presented in the previous part, especially the identification of various NCS and the mechanisms to solve them, can be generalized into \enquote{building blocks}. These building blocks could be then reused to guide the conception of other MAS for the domain of problem solving. This work places itself into a more general effort to provide a general reusable toolbox for assisting non experts in applying AMAS to the domain of optimization, under the name \emph{AMAS4Opt} (AMAS for Optimization).
+While such work could seems to concerns software engineering experts more than computer scientists, we will see how existing MAS oriented methods such as ADELFE are still too high-level to be successfully directly applied to any domain (and more so to continuous optimization) without an important agent expertise and extensive research work. We will detail how the scientific work we produced and presented in the previous part, especially the identification of various NCS[[s]] and the mechanisms to solve them, can be generalized into \enquote{building blocks}. These building blocks could then be reused to guide the design of other MAS in the domain of problem solving. This work places itself into a more general effort to provide a general reusable toolbox for assisting non experts in applying AMAS to the domain of optimization, under the name \emph{AMAS4Opt} (AMAS for Optimization).
 
 \chapter{ADELFE}\label{ADELFE_chapter}
 
@@ -12,9 +12,9 @@ While such work could seems to concerns more software engineering experts than c
 
 In section \ref{AMAS-ADELFE}, we succinctly presented ADELFE\footnote{\url{http:/www.irit.fr/ADELFE/}}, the method which has been proposed for the design of AMAS. In this chapter we get back in more details about this method and what benefits it provided for the design of our system. 
 
-ADELFE is a method devoted to software engineering of adaptive multi-agent systems, developed by ARTAL and IRIT and founded by the RNTL 2000 program. Like previously said, the name \enquote{ADELFE} is the French acronym for \enquote{toolkit to develop software with emergent functionality} (Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente).
+ADELFE is a method devoted to software engineering of adaptive multi-agent systems. It was initiated by a French government funded project lead by IRIT (see \url{http://irit.fr/ADELFE-Project} for details) and has been continuously  enhanced since. Like previously said, the name \enquote{ADELFE} is the French acronym for \enquote{toolkit to develop software with emergent functionality} (\textit{Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente}).
 
-The ADELFE method in itself is based the Rational Unifed Process (RUP) and is defined following the Software Process Engineering Meta-Model (SPEM)  \cite{bernon2003adelfe,picard04phdthesis}. Since its revision \cite{Ro2008.3}, it is composed of five \emph{Work Definitions} ($WD$), themselves decomposed in several \emph{activities} making use of UML as well as the AMAS-ML and muADL languages. An overview of the method is shown on \figurename{} \ref{ADELFE_phases}.
+The ADELFE method in itself is based on the Rational Unifed Process (RUP) and is defined following the Software Process Engineering Meta-Model (SPEM)  \cite{bernon2003adelfe,picard04phdthesis}. Since its revision \cite{Ro2008.3}, it is composed of five \emph{Work Definitions} ($WD$), themselves decomposed in several \emph{activities} making use of UML as well as the AMAS-ML and muADL languages. An overview of the method is shown on \figurename{} \ref{ADELFE_phases}.
 
 \begin{figure}
 \centering
@@ -22,8 +22,8 @@ The ADELFE method in itself is based the Rational Unifed Process (RUP) and is de
 \caption{Overview of the ADELFE Method}\label{ADELFE_phases}
 \end{figure}
 
-In regard of the RUP, ADELFE adds specific activities and roles which are specific to its approach for the design of AMAS.\\
-The final requirement study ($WD_2$), was complemented with activities 6 and 7-2 concerning the characterization of the system environment and the identification of cooperation failures during the determining of the use cases.During the Analysis ($WD_3$), additional activities 11 and 12 respectively check for the adequacy of AMAS to the problem and identify the agents involved in the system being built, while activity 13 is complemented with a step concerning the study of the relationships between agents. During the design ($WD_4$), activities 15 et 16 concerns the design of the system and the agents, while activity 17 concerning fast prototyping was added in order to be able to quickly test the proposed behavior of the agents. The development phase ($WD5$), which was not present in the initial version of ADELFE, concerns the architecture and the implementation of the agents and the system.
+In regard of the RUP, ADELFE adds supplementary activities and roles which are specific to its approach for the design of AMAS compliant software.\\
+The final requirement study ($WD_2$), was complemented with activities 6 and 7-2 concerning the characterization of the system environment and the identification of cooperation failures during the determining of the use cases. During the Analysis ($WD_3$), additional activities 11 and 12 respectively check for the adequacy of AMAS to the problem and identify the agents involved in the system being built, while activity 13 is complemented with a step concerning the study of the relationships between agents. During the design ($WD_4$), activities 15 et 16 concerns the design of the system and the agents, while activity 17 concerning fast prototyping was added in order to be able to quickly test the proposed behavior of the agents. The development phase ($WD5$), which was not present in the initial version of ADELFE, concerns the architecture and the implementation of the agents and the system.
 
 \section{Applying ADELFE for the Design of a Continuous Optimization Tool}
 
@@ -32,11 +32,9 @@ Based on the guidelines of the ADELFE methodology we defined the requirements of
 \item Our tool will allows users to solve multidisciplinary optimization problems.
 \item  The user will be able to load disciplinary models into the tool, express some constraints and objectives on these models and then use and interact with the tool to solve the defined problem.
 \item Our tool will be reusable from one optimization problem to another in different application domains and will be a generic tool.
-\item The user will be able to specify a specific resolution process to be used, but it will not be mandatory.
-\item The user will be able to load into the tool different models of the same discipline (i.e. aerodynamics, acoustics ...), but with a different fidelity. It will be possible for the user to specify the tool to take in account these different models during the problem solving.
 \item The user will be able to express uncertainties on some part of the models or input variables.
 \item The resolution will take into account these uncertainties.
-\item The tool will be able to integrate some well-known optimization techniques, and will allow the user to add new techniques to use during solving. The tool will also be able to interact with others optimization tools to ease the optimization process.
+\item The tool will be able to integrate well-known optimization techniques, and will allow the user to add new techniques to use during solving. The tool will also be able to interact with others optimization tools to ease the optimization process.
 
 \item The user will be able (at runtime):
 	\begin{compactitem}
@@ -65,7 +63,7 @@ The last WD of ADELFE corresponds to the design of the agent architecture and im
 
 \chapter{MAY Architecture}
 
-To implement the MAS, we used the Make Agents Yourself (MAY) framework  \cite{No2012.2}. MAY is a component-based framework which automatically generate an implementation of an agent architecture from a given description.
+To implement the MAS, we used the Make Agents Yourself (MAY) framework  \cite{No2012.2}. MAY is a component-based framework that automatically generates an implementation of an agent architecture from a given description.
 
 \section{Agent Architecture}
 
@@ -99,23 +97,23 @@ The \emph{behavior} view (\figurename{} \ref{Arch-behavior}) contains the compon
 \label{Arch-behavior}
 \end{figure}
 
-The \emph{Behavior} component contains the rules which dictate the behavior of the agent. This component can be seen as the [[chef d'orchestre]] of the architecture. This component exposes to the outside of the environment the \emph{Step} port, which is used to make the agent execute a step. During a step the \emph{Behavior} component executes the agent rules. These rules will in return make use of the others components of the agent.
+The \emph{Behavior} component contains the rules which dictate the behavior of the agent. This component can be seen as orchestrating the architecture. This component exposes to the outside of the environment the \emph{Step} port, which is used to make the agent execute a step. During a step the \emph{Behavior} component executes the agent rules. These rules will in return make use of the others components of the agent.
 
 it is this behavior component contains the behavioral algorithm presented in part \ref{MAS4Optim_part}. This component mostly contains the parts regarding the general steps of the agent behavior and making use of the more specialized methods  implemented in the \emph{Skills} and \emph{Aptitudes} components (for example, the exact computations involved in the detection of NCS).
 
-The \emph{State Vault} contains the state of the agent. It is used by the components which need to save and read some state variables. Centralizing all the states variables into one component provides several benefits. First it is easier to save and restore the state of the agent, as we just need to save the content of the vault. It is also simple to share some data between components, as long as these components have access to the vault. And it is easy to provide a view of the agent state by just reading the State Vault.\\
-This approach has however several drawbacks. It adds some boilerplate code when writing code using the agent state, as we need to explicitly read the value from the vault (and possibly store it to the vault if modified). It make more difficult to track side-effects, as it is not obvious to know which component uses which value. At last there is sadly no way to strictly enforce that components only use the State Vault for storing state values, as neither Java nor MAY can provide such guarantee.
+The \emph{State Vault} contains the state of the agent. It is used by the components that need to save and read some state variables. Centralizing all the states variables into one component provides several benefits. First it is easier to save and restore the state of the agent, as we just need to save the content of the vault. It is also simple to share some data between components, as long as these components have access to the vault. And it is easy to provide a view of the agent state by just reading the State Vault.\\
+This approach has however several drawbacks. It makes the code more verbose, as we need to explicitly read the value from the vault (and possibly store it to the vault if modified). It make more difficult to track side-effects, as it is not obvious to know which component uses which value. At last there is sadly no way to strictly enforce that components only use the State Vault for storing state values, as neither Java nor MAY can provide such guarantee.
 
 The \emph{Skills} component contains the skills of the agents. Each agent type has its own skills set, and skills can require to read and modify the agent state (thus the link between this component and the \emph{State Vault}). Some skills are used directly from the \emph{Behavior} rules but some skills can also be used by others skills.\\
-Some examples of skills are: for a \emph{Variable agent}, the capability to change its value based on the requests it received and its old value. For a model agent, the capability to translate a request it received to change one of its outputs into a set of requests to send to its inputs.\\
+Some examples of skills are: for a \emph{Variable agent}, the capability to change its value based on the requests it received and its old value. For a model agent, the capability to evaluate an internal model and get its output values.\\
 Skills have the somewhat unique properties that they are in themselves stackable, depending on each others. To address this concerns we proposed to define the \emph{Skills} component itself as a complete components architecture in itself. We discuss this point in more details in \ref{Skills_component_descr}.
 
 The \emph{Aptitudes} component contains the aptitudes accessible to the agents. Unlike skills, aptitudes are general capabilities which do not rely on the state of the agent. Consequently, all agent types have access to the same aptitudes, and there is only one implementation of the \emph{Aptitudes} component.\\
 Some aptitudes are used directly from the \emph{Behavior} rules but some aptitudes can also be used by skills or others aptitudes.
 Some examples of aptitudes are: ordering a set of requests from the most to the least important. Make some manipulations on the potentially complex exchanged values (adding, calculate the norm etc., used for example in the manipulation of uncertain values).
 
-The distinction between \emph{skills} and \emph{aptitudes} is not an easy one. The ADELFE method make the distinction between the two concept by defining skills to be inherent capabilities of the agents which cannot be abstracted from the application domain (for example the way a variable agent 
-changes it value in response to the requests it receives), while aptitudes are more general capabilities which could be reused between distinct systems (for example, using an Adaptive Value Tracker to track a value). The distinction between the two can be somewhat fuzzy, even more are often the firsts can depend on the seconds (for example, as a part of the skill concerning the change of its value, the variable agent will use an AVT).\\
+The distinction between \emph{skills} and \emph{aptitudes} is not an easy one. The ADELFE method make the distinction between the two concept by defining skills to be capabilities of the agents inherent to its function, which cannot be abstracted from the application domain (for example the way a variable agent 
+changes it value in response to the requests it receives), while aptitudes are more general \enquote{reasoning} capabilities, which could be reused between distinct systems (for example, using an Adaptive Value Tracker to track a value). The distinction between the two can be somewhat fuzzy, even more as often the firsts can depend on the seconds (for example, in the skill concerning the change of its value, the variable agent will use an AVT).\\
 In our implementation, we choose to address this concern by classifying as skills the capabilities of the agents which are related (by using or modifying) the internal state of the agent, while classifying as aptitudes the capabilities which require no such things. Hence the distinction in our component modeling where the \emph{Skills} component requires an access to the internal state of the agent, while this requirement is absent from the \emph{Aptitudes} agent.
 
 \subsubsection{Skills Component Architecture}\label{Skills_component_descr}
@@ -154,7 +152,7 @@ The \emph{communication} view (\figurename{} \ref{Arch-comm}) presents the compo
 \label{Arch-comm}
 \end{figure}
 
-This view contains the new component \emph{Message Box}, which contains the messages sent to the agent. The \emph{Message Box} stores the messages into the \emph{State Vault} and provides a direct access to the \emph{Skills} and {Behavior} components.
+This view contains the \emph{Message Box} component, which contains the messages sent to the agent. The \emph{Message Box} stores the messages into the \emph{State Vault} and provides a direct access to the \emph{Skills} and {Behavior} components.
 
 This figure presents several ports which need to be provided from the environment to the agent. The environment must give an unique \emph{Reference} to the agent, which will be used by the others agent to communicate with it. The environment must also provides some ports to communicate with the others agents and outside of the system.
 
@@ -162,9 +160,9 @@ This figure presents several ports which need to be provided from the environmen
 
 The \emph{monitoring} view (\figurename{} \ref{Arch-monitor}) presents the components related to the monitoring of the agent. 
 
-The new component introduced in this view is the \emph{Monitor}. The \emph{Monitor} provides to the environment to ports. The first port is used for external monitoring interfaces to subscribe to be informed of changes in the state of the agent. The second is used to provide informations concerning changes of a specific part of the agent. Thus, an external monitoring interface can subscribe to be notified when the state of the agent changed using the first port, and then use the second port to access to the specific informations it want to monitor.
+The new component introduced in this view is the \emph{Monitor}. The \emph{Monitor} provides two ports to the environment. The first port is used for external monitoring interfaces to subscribe to be informed of changes in the state of the agent. The second is used to provide informations concerning changes of a specific part of the agent. Thus, an external monitoring interface can subscribe in order to be notified when the state of the agent changed using the first port, and then use the second port to access to the specific informations it wants to monitor.
 
-In order to provide its capabilities, the monitor agent need to be informed by the \emph{Behavior} component before and after each step, to read and compare the monitored informations into the \emph{State Vault}.
+In order to provide its capabilities, the monitor component needs to be informed by the \emph{Behavior} component before and after each step, to read and compare the monitored informations into the \emph{State Vault}.
 
 \begin{figure}
 \centering
@@ -192,11 +190,11 @@ A more complex monitoring interface is provided by the \emph{System Monitor}. Th
 
 \section{Integration into the prototype}
 
-This implementation of the MAS was part of a collective development effort to provide a functional prototype. The goal of this prototype is to be a proof-of-concept tool of the possibilities offered by agent-based continuous optimization.
+This implementation of the MAS was part of a collective development effort to provide a functional prototype. The goal of this prototype is to be a end-user aimed tool of the possibilities offered by agent-based continuous optimization.
 
 The development of the prototype was carried mainly by three partners[[cite them?]], each in charge of a different aspect.
 
-The prototype can be divided in three parts: The Graphical User Interface (GUI), the core module (CORE) and the Multi-Agent Système (MAS). The CORE provides a common representation of the manipulated data and is in charge of maintaining consistency between the GUI and the MAS.
+The prototype can be divided in three parts: The Graphical User Interface (GUI), the core module (CORE) and the Multi-Agent System (MAS). The CORE provides a common representation of the manipulated data and is in charge of maintaining consistency between the GUI and the MAS.
 
 These three modules communicate using the OSGi framework\footnote{\url{http://www.osgi.org}}.
 
@@ -214,7 +212,7 @@ The GUI was build using the Eclipse Rich Client Platform (RCP)\footnote{\url{htt
 
 \bigskip
 
-By combining these three modules, we obtained a prototype which can be used to create optimization problems. To create an optimization problem, the user can either provide a textual definition or use the graphical tools. In the last case, the user defines different reusable components (variables, models \emph{etc.}). He is then able to drag-and-drop them from an element palette on a graph canvas and to draw links between the different elements, effectively creating the problem using our NDMO graphical representation. Either way, the problem is automatically translated as an instance of our MAS, which can be controlled by the user during the optimization process. A screenshot of our prototype, showing the graph canvas on which the graph of a problem is currently being created, is shown on \figurename{} \ref{tool}.
+By combining these three modules, we obtained a prototype which can be used to create optimization problems. To create a problem, the user can either provide a textual definition or use the graphical tools. In the last case, the user defines different reusable components (variables, models \emph{etc.}). He is then able to drag-and-drop them from an element palette on a graph canvas and to draw links between the different elements, effectively creating the problem using our NDMO graph representation. Either way, the problem is automatically translated in an instance of the MAS, which can be controlled by the user during the optimization process. A screenshot of our prototype, showing the graph canvas on which the graph of a problem is currently being created, is shown on \figurename{} \ref{tool}.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{tool}
