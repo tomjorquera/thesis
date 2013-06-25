@@ -1083,7 +1083,7 @@ The only modification which needs to be done for this mechanism to work concerns
 
 	$O \leftarrow $ \{ outputs \}\;
 	$Informs \leftarrow $ \{ received informs \}\;
-	$stillwaiting \leftarrow \forall output \in O,  (\displaystyle\sum_{info \in Informs}{ correlation(input_{info}, output) \leq 50\%})$\;
+	$stillwaiting \leftarrow \forall output \in O,  (\displaystyle\sum_{info \in Informs}{ influence(input_{info}, output) \leq 50\%})$\;
 
 \end{algorithm}
 
