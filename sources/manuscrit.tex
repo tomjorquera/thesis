@@ -4,8 +4,6 @@
 \usepackage{ParStartThese}
 \usepackage{FontsThese}
 \usepackage{UtilsThese}
-
-
 %%%%%%%%%%%%%%%%%%%
 \usepackage[english]{babel}
 \usepackage[
@@ -29,6 +27,9 @@
 
 \usepackage[pdftex]{graphicx}
 \usepackage{wrapfig,subcaption}
+
+\usepackage[tight]{shorttoc} %used to create an additional shorter table of content
+%\usepackage{tocloft}%to customize the (shorter) ToC
 
 %where to find the figures
 \graphicspath{ {StateoftheArt/figs/} {AMAS/figs/} {MAS4Optim/figs/} {Implem/figs/} {CPSP/figs/} {Experiments/figs/} }
@@ -71,8 +72,17 @@
 %\end{ThesisDedication}
 
 %\newpage
-%\thispagestyle{plain}
 %\input{Prelude/Remerciements}
+
+%short ToC
+%\begingroup
+%  \clearpage
+%	\makeatletter \renewcommand{\cftchapindent}{10pt} %ident the chapters
+%	\makeatletter \setlength\cftbeforechapskip{-2pt} %no space between chapters
+%	\makeatletter \renewcommand{\cftchapfont}{} %remove boldfont for chapters
+%	\makeatletter \setlength\cftbeforepartskip{2pt} %reduced space between part
+%	\shorttableofcontents{Summary}{0} %display parts and chapters only
+%\endgroup
 
 \Sommaire
 

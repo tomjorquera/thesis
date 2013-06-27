@@ -757,20 +757,20 @@ Jury members~:}\\[5mm]}
 \newcommand{\blob}{\setlength{\unitlength}{30mm}
 	\begin{picture}(0,0)
 		\colorbox{black}{
-			\makebox(0.4, 0.4)[c]{\textcolor{white}{\large\thechapter}}}
+			\makebox(0.4, 0.4)[c]{\textcolor{white}{\large\thepart}}}
 	\end{picture}}
 	
 	%\rule[-0.4\unitlength]{0.4\unitlength}{0.4\unitlength}}
 
 \newcommand\rblob{\setlength{\unitlength}{30mm}
 	\begin{picture}(0,0)
-	\put(0.43,-\value{chapter}){\blob}
+	\put(0.43,-\value{part}){\blob}
 	\end{picture}}
 	
 \newcommand\lblob{%
 	\setlength{\unitlength}{30mm}
 	\begin{picture}(0,0)
-	\put(-0.88,-\value{chapter}){\blob}
+	\put(-0.88,-\value{part}){\blob}
 	\end{picture}%
 	\leftmark
 }
@@ -1189,8 +1189,8 @@ Jury members~:}\\[5mm]}
   \setcounter{secnumdepth}{3}%
   \setcounter{tocdepth}{3}%
   \clearpage
- \pagestyle{mystyle3}
-  \def\baselinestretch{0.5}
+  \pagestyle{mystyle3}
+  %\def\baselinestretch{0.5}
   \tableofcontents
   
   % La commande \mainmatter (nouvelle commande LaTeX2e) permet de passer
@@ -1198,6 +1198,7 @@ Jury members~:}\\[5mm]}
   % et de faire commencer la nouvelle page 1 sur une page impaire.
   % On évitera donc d'utiliser directement \pagenumbering{arabic}.
   \mainmatter
+  \pagestyle{mystyle}
   \if@doubleinterligne
     \def\baselinestretch{1.1} %% double interligne en 11pt
     \else
