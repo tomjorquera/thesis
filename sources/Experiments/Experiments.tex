@@ -365,7 +365,9 @@ In order to corroborate this analysis, we studied the impact increasing the node
 
 \section{Analysis of Performances}
 
-Overall, we can conclude by observing these results that the time required for the agents to make a behavior cycle is not meaningfully impacted by the size of the problem. This property is an expected benefit of restricting the agents to local perception and decision process.
+Overall, we can conclude by observing these results that the time required for the agents to make a behavior cycle is not meaningfully impacted by the size of the problem. This property is an expected benefit of restricting the agents to local perception and decision process.\\
+The results also shown the impact of increasing the neighborhood size of the agents. The time increase correspond to the analysis we made concerning the computational complexity of the agent behavior (in \ref{NCS_pres}).  This analysis illustrates once more the importance of maintaining the behavior of the agents at a local level. Had the agent decision process involved not only its immediate neighbors, but also a large group of agent, the computational cost would have increased even more sharply with the size of the problem.\\
+As a remark, let us add that our implementation of the agent behavior was far from optimal from a performances point of view. In order to modify and experiment more easily on the agents, we voluntary kept separated into distinct modules the different solving mechanism of the agents. A more efficient implementation could factor several of the treatments in order to reduce the computational complexity, obtaining a non-negligible performances improvement in the process.
 
 \chapter{Others Experiments}
 
