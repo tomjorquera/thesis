@@ -467,6 +467,7 @@ Historically, evolutionary algorithms are divided in two main categories, based 
 
 \subsubsection{Non-elitist evolutionary algorithms}
 
+These \enquote{first-generation} algorithms 
 [[Vector Evaluated Genetic Algorithm (VEGA) Schaffer (1985) => Non Pareto]
 
 [[  Goldberg and Richardson (1987) =>  Simple Pareto domination scheme. • Sharing on whole population]]
@@ -474,11 +475,26 @@ Historically, evolutionary algorithms are divided in two main categories, based 
 
 \subsubsection{Elitist evolutionary algorithms}
 
-Different possibilities has been explored to introduce elitism in MOAE. A common approach is to use a second population consisting of elite, non-dominated individuals, which are used as recombination partners for the main population.
+Non-elitist techniques often have trouble to converge toward the Patero front, as well as to keep a good optimum diversity and to spread on the front. To remedy that issue, elitist algorithms propose various additional mechanisms:
+\begin{compactitem}
+\item maintaining an external \enquote{archive} population containing the optimum found so far
+\item using clustering technique to spread the solutions among the Pareto front
+\item introducing an additional preferential bias for non-dominated solution
 
 [[Signal that evolutionary algorithms have difficulties with more than two objectives ?]]
 
 \subsubsection{Analysis of evolutionary algorithms}
+
+Evolutionary algorithms propose an interesting Nature-inspired mechanism for solving MOO problems. By maintaining a population of candidate solutions and using selection pressure mechanisms, they make possible a throughout exploration of the Pareto front. The compromise between exploration and exploitation will be determined by the parametrization of the different genetic operators and the selection/crossing process. While this aspect can prove to be advantageous for the potential flexibility it brings, it is often difficult to guess what are the relevant parameters values. Consequently it can be necessary to iterate the optimization process in order to manually fine-tune the parameters.
+
+A major limitation of these methods is their potential computational cost. Such algorithms need to evaluate a relatively large number of candidate in order to create a good population of solutions. Computing all the candidate solutions can be prohibitive for computationally expensive problems.
+
+It has also be noted in [[Techniques for highly multiobjective optimisation: some nondominated points are better than others]] that many MOEA have poor scalability performances in regard of the number of objectives. This degradation of performances is attributed to the combined factors of:
+\begin{compactitem}
+\item the exponential complexity increase of the procedures in regard of the number of objectives
+\item the increase of non-dominated solution caused by the additional objectives
+\item the limited size of the archived population in regard to the number of potential candidates
+\end{compactitem}
 
 \chapter{Advanced Concepts for Optimization}
 
@@ -653,14 +669,14 @@ To reduce the sensitivity of the solution to noise, the SN ratio must be maximiz
 
 Tagushi was the first to propose a way to take in account the uncertainties in design. As it is nearly inevitable for such pioneering work, his approach suffers from several limitations. As the number of parameters increases, so do the number of experiments (for $N$ parameters and $M$ noise factors we need $2^N$ designs and $M2^N$ experiments). Moreover, the statistical measures proposed by Tagushi has been subject to much debate (for a discussion of these measures see \cite{nair1992taguchi}). However, Tagushi opened the way for the other methods in the field.
 
-\section{Optimization in Dynamic Environments with Population-Based Algorithms}
+\section{Optimization in Dynamic Environments with Population-Based Algorithms}\label{population_based}
 
 A special case of optimization is optimization in dynamic environments. In this kind of problem, the objective-function is likely to change with time. To avoid confusion, optimization in dynamic environment is distinct from \emph{dynamic programming} (another optimization field not addressed here) in the fact that the changes of the objective-function \emph{are not known beforehand}. Thus it is not possible to anticipate these changes during solving.
 Classical optimization techniques fail to solve this kind of problem as they are not meant to take into account these dynamics. These problems require specific optimization techniques, able to both find a moving optimum and to follow it when it changes.
 
 The main field concerning solving optimization problems in dynamic environment is population-based optimization (also called \emph{evolutionary computation}). Population-based optimization is a very prolific and diversified field, whose algorithms are often inspired from the observation of natural populations behavior. The underlying principle of this kind of algorithm is the use of a population of entities which are spread within the search space, with specific strategies in order to iteratively progress toward the solution. These strategies involve transformations applied to the entities that compose the population (moving, creating or destroying or otherwise altering them).
 
-\subsection{Evolutionary Algorithms}\label{population_based}
+\subsection{Evolutionary Algorithms}
 
 Evolutionary Algorithms (EA) are based on a Darwinist selection process. The main idea is to maintain a population of solutions which is iteratively improved by selecting, crossing and mutating the best individuals in regard of a given \emph{fitness function}. Most EA are based on the algorithm shown in algorithm \ref{evo_algo}.
 
