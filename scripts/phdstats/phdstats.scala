@@ -8,7 +8,7 @@ import scala.sys.process._
 val cachePath = "./.cache.data"
 val repoLocation = "../.././"
 
-val files = Seq("sources/MAS4Optim/MAS4Optim.tex", "sources/StateoftheArt/SoA.tex", "sources/Implem/Implem.tex", "sources/CPSP/CPSP.tex", "sources/AMAS/AMAS.tex", "sources/Experiments/Experiments.tex")
+val files = Seq("sources/MAS4Optim/MAS4Optim.tex", "sources/StateoftheArt/SoA.tex", "sources/Implem/Implem.tex", "sources/CPSP/CPSP.tex", "sources/AMAS/AMAS.tex", "sources/Experiments/Experiments.tex", "sources/Prelude/Introduction.tex", "sources/Prelude/Conclusion.tex")
 val legacyFiles = Seq("MAS4Optim/MAS4Optim.tex", "StateoftheArt/SoA.tex") //required for backward compatibility
 
 
