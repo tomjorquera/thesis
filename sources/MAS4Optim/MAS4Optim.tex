@@ -1,5 +1,7 @@
 \part{A Multi-Agent System for Continuous Optimization}\label{MAS4Optim_part}
 
+[[talk about self-adaptive capabilities]]
+
 In the previous part we discussed an inherent limitation of the current continuous optimization approaches. Not only the current methods are highly specialized, but they are also limited by the size and ultimately by the complexity of the problem. The most complex problems require specific approaches (MDO methods) in order to distribute this complexity while keeping a coherent view. However, these approaches are often complicated to put in practice and tend themselves to be specialized to certain problem types.
 
 In this part we present the main contribution of this thesis: a novel approach to solve complex continuous optimization problems using a MAS. We start by creating a new modeling of continuous optimization problems as entities graphs, and agentify these entities to produce a MAS based on the problem. We then design agent behaviors and specific mechanisms for the MAS to be able to solve the optimization problem in a distributed way, while maintaining a coherent view of the problem by propagating messages from neighbors to neighbors. 
@@ -245,7 +247,7 @@ This agent uses an external optimizer to estimate input values which would impro
 
 This agent modeling is the most direct and inclusive, considering every element of the problem as an autonomous agent. On \figurename{} \ref{SMA_class_diagram} we represent a class diagram of the agents, which is a slightly modified version of the domain class diagram of \figurename{} \ref{class_diag}. This modified class diagram puts more clearly in light which are the effective agents and how the agents are related among each other by input/output relationships. The bipartite nature of the graph in regard of \emph{value agents} and \emph{internal model agents} is clearly apparent. Two additional, non-agent entities, the  \emph{internal model} and the \emph{external optimizer} also made an appearance. The respective roles of these two entities will be detailed in the next chapters.
 
-\chapter{Agents Behavior}
+\chapter{Agents Behavior}\label{agent_behav_chap}
 
 We will now discuss the behavior of the five agent types identified in the previous chapter. The functioning of the system can be divided into two main tasks: problem simulation and collective solving.
 
