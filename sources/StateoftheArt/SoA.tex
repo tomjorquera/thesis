@@ -596,7 +596,7 @@ Nec(U) + \Pi(\bar{U}) = 1\\
 
 Necessity and possibility of an event $e$ can be viewed as lower and upper bounds to the probability of $e$.
 
-Possibility theory offers numerous tools similar to the ones of probability theory (so much that it was debated if the two theories are really different or if possibility theory was just a variation on probability theory). However, the capability of this theory to model expert knowledge specifically has made it quite popular in the context of uncertainty modeling.
+Possibility theory offers numerous tools similar to the ones of probability theory (so much in fact that it has been debated if the two theories are really different, or if possibility theory was just a variation on probability theory). However, the capability of this theory to model expert knowledge specifically has made it quite popular in the context of uncertainty modeling.
 
 \subsubsection{Evidence Theory}
 
@@ -631,11 +631,20 @@ Several rules have been proposed to combine informations coming from different (
 
 \subsubsection{Analysis of uncertainties modeling}
 
-[[NEED AN ANALYSIS OF UNCERTAINTY MODELING]]
+We have seen how different ways to represent the uncertainties have been proposed. Some of these methods are based on well-studied mathematical tools, such as probabilities theories, but may not be adapted to the lack of quantifiable information. To palliate this insufficiency, alternative representations have been developed, based on the expression of expert knowledge or of available evidences.
+
+In a similar way to optimization methods, the choice of the uncertainties representation to apply will depend on the context, on the sources of uncertainties to take in account and the proficiencies of the experts.
 
 \subsection{Using Uncertainty for Robust Optimization}
 
-[[From Jpg : un schéma exemple aussi avec un optimum global fragile et un optimum local robuste poru marquer l'idée en un coup d'oeil.]]
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{robust_optim}
+\caption{Example of robust optimum(a) and non-robust optimum (b)}\label{robust_optim_illu}
+\end{figure}
+
+On \figurename{} \ref{robust_optim_illu} a function with two optima can be seen. The minimum labeled $a$ is only a local optimum, being less optimal than the global minimum $b$. However, $a$ is more robust than $b$, in the sense that its neighborhood does not change drastically. A variation in the inputs, or in the actual results compared to the analytical model, will result in a lesser degradation of performances. Consequently, it can be deemed preferable to select $a$ instead of $b$, if the uncertainties would possibly result in a worst solution when trying to achieve the solution $b$.\\
+Specific methods have been dedicated to find solution which are both good (local optimum) and robust.
 
 \subsubsection{Taguchi Method - The firsts steps of Robust Optimization }
 
