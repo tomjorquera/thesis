@@ -2,7 +2,18 @@
 
 In this part we present some of the results we obtained with our system on several experiments.
 
-In order to evaluate our system, we experimented on three kinds of test cases. We started with small, \enquote{academic}, test cases, which were used to evaluate and tune the cooperative behavior of the agents. The optimization performances of the systems were then tested on bigger, \enquote{real-world} test cases [[and in some cases compared with existing methods]]. At last, we produced a third type of test cases which are automatically generated, in order to test raw performances and scalability properties of our system.
+Our validation approach for our system was divided in three phases:
+\begin{compactitem}
+\item Validating the mechanisms of our system on simple representative test cases
+\item Evaluating the optimization performances on bigger, \enquote{real-world} test cases provided by our partners, and comparison with existing methods on benchmark test cases
+\item Testing the raw performances and scalability capabilities of our stytem using automatically generated optimization problems.
+\end{compactitem}
+
+The first type of optimization problems are small enough to be solved by classical optimization techniques, however they exhibit interesting properties representative of complex optimization problem. We used these problem to identify and tune the required cooperative mechanisms for our system.
+
+The second type of optimization problems correspond to complex continuous optimization problems. They are either provided by our industrial partners (representing real-world cases of complex design optimization problems), or are used by the scientific community as benchmark for comparing MDO methods.
+
+The third type of optimization problems are algorithmically generated with the purpose of producing a base of problems of different sizes and topologies. This allows us to study the behavior when modifying the size of the problems to solve.
 
 We also made additional experiments in order to evaluate others functionalities of our systems: uncertainties propagation and adaptations to changes.
 
@@ -14,7 +25,105 @@ We also made additional experiments in order to evaluate others functionalities 
 
 [[Need to talk about oracle optimizers]]
 
-In this section we present some representative results we obtained among several test cases: Alexandrov Problem, Turbofan Problem, Viennet1 and Rosenbrock's valley, on which our system has been applied, and the experimental results we obtained. In each test cases, the MAS consistently converges towards the best (or one of the best) solution.
+This section presents some of the results we obtained on several test cases: Turbofan Problem, Viennet1, Rosenbrock's valley and Alexandrov. These test cases are not big enough to be truly qualified of \enquote{complex}, but exhibit specific properties which can be found in complex test cases. Consequently they are useful to study and validate the cooperative behavior of the agents.
+
+In each test cases, the MAS consistently converges towards the best (or one of the best) solution.
+
+\section{Turbofan Problem}
+
+We previously introduce the turbofan problem in \ref{modeling}. As stated before, the problem concerns two \emph{design variables} $pi\_c$ and $bpr$. $pi\_c$ is defined inside the interval [20 - 40] and $bpr$ inside [2 - 10]. The model produces three variables $Tdm0$, $s$ and $fr$.
+
+The problem has two objectives, maximizing  $Tdm0$ and minimizing $s$, under the constraint \(s \leq 155\) and \(fr \geq 4\).
+This problem exhibit contradictory criteria that need to be handled at different levels ($min s$ and $s \leq 155$ needs to be handled by $s$, the resulting request from $s$ and the others criteria must be handled by $Turbofan Model$), with cooperative trajectory requirements for $bpr$ and $pi\_c$.
+
+On \figurename{} \ref{snecma_res}, the system is executed 100 times with random starting points for each \emph{design variable}, using only internal optimization mechanisms. As we can see, the system consistently converges toward the same optimal solution.
+
+\begin{figure}[h]
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width = \textwidth]{./R_figs/generated/o1}	
+	\end{subfigure}
+	\hfill%for spacing
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width = \textwidth]{./R_figs/generated/o2}	
+	\end{subfigure}
+	\caption{Convergence of the Turbofan objectives for 100 random starting points}
+	\label{snecma_res}
+\end{figure}
+
+\section{Viennet1}
+
+The Viennet1 test case is part of a series of problems proposed in \cite{viennet1996multicriteria} to evaluate multi-criteria optimization techniques. This problem involves three objectives. Its analytical formulation is:
+\begin{align*}
+\text{Minimize } 	&o1 = x^2 + (y-1)^2 \\
+								&o2 = x^2 + (y+1)^2 \\
+								&o3 = (x-1)^2 + y^2 +2\\
+\text{where } 		&x, y \in  [-4;4]						
+\end{align*}				
+
+\figurename{} \ref{viennet_res} illustrates the convergence of the system toward a valid solution with 100 executions from randomly chosen starting points, using only internal optimization mechanisms.
+
+\begin{figure}[h]
+
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o1}	
+	\end{subfigure}
+	\hfill%for spacing
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o2}	
+	\end{subfigure}
+	\hfill%for spacing
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o3}	
+	\end{subfigure}
+	\caption{Convergence of Viennet1 objectives for 100 random starting points}
+	\label{viennet_res}
+\end{figure}
+
+\section{Rosenbrock's valley}
+
+Rosenbrock's valley is non-convex function commonly used to test convergence capabilities of an optimization method \cite{Rosenbrock01011960}.
+
+The analytical formulation of this problem (for two dimensions) is 
+$$\text{Minimize } f(x,y) = (1-x)^2 + 100(y - x^2)^2$$
+
+The Rosenbrock's valley problem is interesting in the fact that the global minimum is \enquote{hidden} into a narrow parabolic valley. The optimization method must thus get down into the valley and manage to follow its bottom until reaching the global optimum. Consequently it is a very adequate problem to test the cooperative trajectories mechanisms of our system.
+
+The results presented on \figurename{} \ref{rosenbrock_res} are for the two-dimensional version of the problem with a definition domain of [-5; 5] for each \emph{design variable}.
+
+\begin{figure}
+\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{Rosenbrock_function}
+		\caption{Rosenbrock's valley (from \href{http://commons.wikimedia.org/wiki/File:Rosenbrock_function.svg}{Martin Doege})}\label{rosenbrock_plot}
+	\end{subfigure}
+	%
+	\hfill%for spacing
+	%
+	\begin{subfigure}[b]{0.45\textwidth}	
+		\centering
+		[[TODO: put fig of cooperative trajectories]]
+		\caption{Example of cooperative trajectories on Rosebrock's valley (starting point [[TODO]])}\label{collective_traj_rosenbrock_plot}
+	\end{subfigure}
+	
+	\begin{subfigure}{0.4\textwidth}
+		\centering
+    	\includegraphics[width = \textwidth]{./R_figs/generated/minimizer}	
+		\caption{Convergence of Rosenbrock objective for 100 random starting points [[TODO: change axis label]]}\label{rosenbrock_res}
+	\end{subfigure}
+\end{figure}
+
+This problem was also used in \cite{Ilan:1994:MOM:887207} as an application example of the Collaborative Optimization method, presented in chapter \ref{MDO_chapter} (with performances varying from 141 to 1556  total iterations depending on the additional information used).
+
+\section{Alexandrov Problem}
+
+Our last test case is inspired from an academic example taken in literature by Alexandrov and al\cite{alexandrov2002analytical}. This example presents many of the commons characteristics of MDO problems: a cycle (albeit converging) and multiple criteria requiring cooperative trajectories. In the original article, the example was used to illustrate some properties of Collaborative Optimization, which we presented earlier, in terms of reformulation. While the paper only gave the structure of the problem, we adapted it with meaningful values and equations.
+
+The mathematical formulation of the problem and the corresponding agent graph can be seen in \figurename{} \ref{alexandrov}. Interestingly, the NDMO representation is quite similar to the one adopted by the original authors of the problem.
 
 \begin{figure}
 \centering
@@ -30,7 +139,7 @@ In this section we present some representative results we obtained among several
 		\caption{mathematical formulation.}\label{alexandrov:math}
 	\end{subfigure}
 	\hfill%for spacing
-	\begin{subfigure}[b]{0.5\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\includegraphics[width=\textwidth]{testcases-Alexandrov}%screen_Alexandrov}%}
 		\caption{corresponding agent graph.}\label{alexandrov:graph}
 	\end{subfigure}
@@ -38,10 +147,7 @@ In this section we present some representative results we obtained among several
 %\vspace{-20pt}
 \end{figure}
 
-\section{Alexandrov Problem}
-
-Our first test case is inspired from an academic example taken in literature by Alexandrov and al\cite{alexandrov2002analytical}. This simple example presents some of the commons characteristics of MDO problems, such as interdependent disciplines and multiple criteria. In the original article, the example was used to illustrate some properties of Collaborative Optimization, which we presented earlier, in terms of reformulation. While the paper only gave the structure of the problem, we adapted it with meaningful values and equations.
-The mathematical formulation of the problem and the corresponding agent graph can be seen in \figurename \ref{alexandrov}. Interestingly, the NDMO representation is quite similar to the one adopted by the original authors of the problem.
+On \figurename{} \ref{alexandrov_res_one}, the behavior of the \emph{design variables} agents l1, l2 and s, as well the evolution of the objective, can be observed on one instance of the problem with random starting points.
 
 \begin{figure}
 \centering
@@ -77,92 +183,50 @@ The mathematical formulation of the problem and the corresponding agent graph ca
 
 \end{figure}
 
-On \figurename \ref{alexandrov_res_one}, the behavior of the \emph{design variables} agents l1, l2 and s, as well the evolution of the objective, can be observed on one instance of the problem with random starting points. On \figurename \ref{alexandrov_res}, we show the evolution of the objective over 100 iterations with  starting points  for each \emph{design variable} randomly drawn over the interval [-100; 100]. We can see how the system converges towards the same optimum despite the wildly different initial conditions.
+On \figurename{} \ref{alexandrov_res}, we show the evolution of the objective over 100 iterations with  starting points  for each \emph{design variable} randomly drawn over the interval [-100; 100]. We can see how the system converges towards the same optimum despite the wildly different initial conditions.
 
 \begin{figure}
 \centering
-    \includegraphics[width=0.5\textwidth]{./R_figs/generated/o}
+    \includegraphics[width=0.4\textwidth]{./R_figs/generated/o}
 	\caption{Convergence of the Alexandrov objective for 100 random starting points}
 	\label{alexandrov_res}
 \end{figure}
 
-\section{Other Experiments}
-
-We now briefly present results we obtained on two others test cases, the Turbofan problem and Viennet1. For each case, the system was executed 100 times with random starting points for each \emph{design variable}.
-
-\subsection{Turbofan Problem}
-
-The turbofan problem we introduced in \figurename \ref{turbofan} is a based on a real-world optimization problem, albeit simplified for demonstration purpose, concerning the conception of a turbofan engine.
-
-As stated before, the problem concerns two \emph{design variables} $pi\_c$ and $bpr$. $pi\_c$ is defined inside the interval [20-40] and $bpr$ inside [2-10]. The model produces three variables $Tdm0$, $s$ and $fr$.
-The problem has two objectives, maximizing  $Tdm0$ and minimizing $s$, under the constraint \(s \leq 155\) and \(fr \geq 4\).
-The main interest and difficulty of this problem is the existence of two contradictory objectives.
-As we can see on \figurename \ref{snecma_res}, the system consistently converges toward the same optimal solution.
-
-\begin{figure}[h]
-	\begin{subfigure}[b]{0.49\textwidth}
-		\centering
-		\includegraphics[width = \textwidth]{./R_figs/generated/o1}	
-	\end{subfigure}
-	\hfill%for spacing
-	\begin{subfigure}[b]{0.49\textwidth}
-		\centering
-		\includegraphics[width = \textwidth]{./R_figs/generated/o2}	
-	\end{subfigure}
-	\caption{Convergence of the Turbofan objectives for 100 random starting points}
-	\label{snecma_res}
-\end{figure}
-
-\subsection{Viennet1}
-
-The Viennet1 test case is part of a series of problems proposed in \cite{viennet1996multicriteria} to evaluate multi-criteria optimization techniques. This problem involves three objectives. Its analytical formulation is:
-\begin{align*}
-\text{Minimize } 	&o1 = x^2 + (y-1)^2 \\
-								&o2 = x^2 + (y+1)^2 \\
-								&o3 = (x-1)^2 + y^2 +2\\
-\text{where } 		&x, y \in  [-4;4]						
-\end{align*}				
-
-\figurename \ref{viennet_res} illustrates the convergence of the system towards a valid solution.
-
-\begin{figure}[h]
-
-	\begin{subfigure}[b]{0.32\textwidth}
-		\centering
-		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o1}	
-	\end{subfigure}
-	\hfill%for spacing
-	\begin{subfigure}[b]{0.32\textwidth}
-		\centering
-		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o2}	
-	\end{subfigure}
-	\hfill%for spacing
-	\begin{subfigure}[b]{0.32\textwidth}
-		\centering
-		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o3}	
-	\end{subfigure}
-	\caption{Convergence of Viennet1 objectives for 100 random starting points}
-	\label{viennet_res}
-\end{figure}
-
-\subsection{Rosenbrock's valley}
-
-[[Ref ?]]
-
-Rosenbrock's valley is non-convex function commonly used to test convergence performances. The results presented here are for the two-dimensional version of the problem with a definition domain of [-5; 5] for each \emph{design variable}.
-The analytical formulation of this problem (for two dimensions) is 
-$$\text{Minimize } f(x,y) = (1-x)^2 + 100(y - x^2)^2$$
-The Rosenbrock's valley is interesting as the global minimum is \enquote{hidden} into a narrow parabolic valley. The optimization method must thus get down into the valley and follow its bottom until reaching the global optimum.
-
-\begin{figure}
-\centering
-    \includegraphics[width = 0.5\textwidth]{./R_figs/generated/minimizer}	
-	\caption{Convergence of Rosenbrock objective for 100 random starting points}
-\end{figure}
-
 \section{Analysis of Academic Test Cases}
 
-[[TODO]]
+In this section we presented several academic test cases exhibiting classical properties of complex continuous optimization problems. We shown how the system was able to consistently converge on each test case toward an optimum solution, for multiple starting points.
+
+Summarized results illustrating the convergence of the system. are presented on \tablename{} \ref{experiments_res}. The first group of values represents the number of evaluations which was needed for respectively 10\%, 50\% and 90\% of the instances to find the best solution. The second group represent the average distance to the best solution (trucated at $10^{-3}$) among all instances at different times (0\% being the start 100\% being the end of the solving in the worst case).
+
+\begin{table}
+\caption{Summary of experiments results for the tests cases}\label{experiments_res}
+
+\centering
+\begin{tabular}{|*3{c|} c  || *3{c|} c |}
+	\hline
+		& \multicolumn{3}{c||}	{nb. evaluations to best}
+		& \multicolumn{4}{c|}	{average distance to best} \\
+	\cline{2-8}
+		&	10\%		& 	50\%	&		90\%	&	0\% (start)		& 	30\%	&		60\%	&	100\% (end)\\
+	\hline
+	Alexandrov & 29 & 52 & 79 & 13109.169 & 803.126 & 5.685 & 0.059\\
+	\hline
+	Turbofan\_o1 & 16 & 38 & 50 & 67.654 & 14.971 & 0.743 & 0.313\\
+	Turbofan\_o2 & 10 & 23 & 35 & 23.876 & 1.853 & 0.143 & 0.101\\
+	\hline
+	viennet\_o1 & 4 & 17 & 31& 8.514 & 0.300 & 0.025 & 0.021\\
+	viennet\_o2 & 4 & 15 & 30 & 9.412 & 0.320 & 0.02 & 0.02\\
+	viennet\_o3 & 5 & 14 & 27 & 10.622 & 0.063 & 4.40E-004 & 1.68E-004\\
+	\hline
+\end{tabular}
+
+\end{table}
+
+[[TODO => Add Rosenbrock to the table]]
+
+These results tend to validate the correctness of our approach, proving that the conjunction of the agents nominal behaviors and cooperative mechanisms allows to solve correct solution to diverse optimization problems.
+
+We will now present the second part of our validation, by making experiment on larger test cases in order to validate the system behavior on complex problem and to compare the performances of our system with other complex optimization methods.
 
 \chapter{Large Tests Cases and Comparison with Existing Methods}
 
@@ -373,11 +437,13 @@ As a remark, let us add that our implementation of the agent behavior was far fr
 
 \section{Optimization under Uncertainties}
 
+[[TODO]]
+
 \section{Adaptation to Perturbations}
 
 \subsection{Perturbated Alexandrov}
  
-On \figurename \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous experimentation on the problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
+On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous experimentation on the problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
 
 \begin{figure}[]
 \centering
