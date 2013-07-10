@@ -9,13 +9,12 @@ Our validation approach for our system was divided in three phases:
 \item Testing the raw performances and scalability capabilities of our stytem using automatically generated optimization problems.
 \end{compactitem}
 
-The first type of optimization problems are small enough to be solved by classical optimization techniques, however they exhibit interesting properties representative of complex optimization problem. We used these problem to identify and tune the required cooperative mechanisms for our system.
+The first type of optimization problems are small enough to be solved by classical optimization techniques, however they exhibit interesting properties representative of complex optimization problem. We used these problem to identify and tune the required cooperative mechanisms for our system.\\
+We also made additional experiments in order to evaluate others functionalities of our systems: uncertainties propagation and adaptations to changes.
 
 The second type of optimization problems correspond to complex continuous optimization problems. They are either provided by our industrial partners (representing real-world cases of complex design optimization problems), or are used by the scientific community as benchmark for comparing MDO methods.
 
 The third type of optimization problems are algorithmically generated with the purpose of producing a base of problems of different sizes and topologies. This allows us to study the behavior when modifying the size of the problems to solve.
-
-We also made additional experiments in order to evaluate others functionalities of our systems: uncertainties propagation and adaptations to changes.
 
 \chapter{Behavior Validation using Academic Test Cases}
 
@@ -228,6 +227,111 @@ These results tend to validate the correctness of our approach, proving that the
 
 We will now present the second part of our validation, by making experiment on larger test cases in order to validate the system behavior on complex problem and to compare the performances of our system with other complex optimization methods.
 
+\section{Optimization under Uncertainties}
+
+[[TODO]]
+
+\section{Adaptation to Perturbations}
+
+\subsection{Perturbated Alexandrov}
+ 
+On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous experimentation on the problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
+
+\begin{figure}[]
+\centering
+  	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/l1_pertubated}
+		\label{alexandrov_res_pert:l1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/l2_pertubated}
+		\label{alexandrov_res_pert:l2}
+	\end{subfigure}
+
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/s_pertubated}
+		\label{alexandrov_res_pert:s}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/o_pertubated}
+		\label{alexandrov_res_pert:o}
+	\end{subfigure}
+	
+	\caption{Alexandrov agents behavior with perturbation (constraint change at dotted line)}
+	\label{alexandrov_res_pert}
+	
+\end{figure}
+
+\subsection{Turbofan Problem.}
+
+\begin{figure*}
+\centering
+
+  \subfloat{\begin{minipage}{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_pi_c}
+		\label{turbofan_res_pert:pi_c}
+	\end{minipage}}
+	\subfloat{\begin{minipage}{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_o1}
+		\label{turbofan_res_pert:o1}
+	\end{minipage}}
+	\subfloat{\begin{minipage}{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_c1}
+		\label{turbofan_res_pert:c1}
+	\end{minipage}}
+
+	\subfloat{\begin{minipage}{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_bpr}
+		\label{turbofan_res_pert:bpr}
+	\end{minipage}}
+	\subfloat{\begin{minipage}{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_o2}
+		\label{turbofan_res_pert:o2}
+	\end{minipage}}
+	\subfloat{\begin{minipage}{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_c2}
+		\label{turbofan_res_pert:c2}
+	\end{minipage}}
+	
+	\caption{Turbofan agents behavior with perturbations (changes at dotted lines)}
+	\label{turbofan_res_pert}
+\end{figure*}
+
+
+On \figurename{} \ref{turbofan_res_pert}, we illustrate the adaptation capabilities of the system by subjecting turbofan problem we introduced previously to a series of both strong and faster successive small changes to the problem topology (each perturbation is indicated  by a dotted line). \\
+First we create strong changes by modifying simultaneously both a constraint and the definition domain of $pi\_c$:
+\begin{description}
+\item[a.] $c1$ changed from $s <= 155$ to $s <= 165$, max bound of $pi\_c$ changed from 40 to 50
+\item[b.] $c1$ changed from $s <= 165$ to $s <= 145$, max bound of $pi\_c$ changed from 50 to 30
+\end{description}
+ Then milder perturbations by only changing the definition domain of the variable:
+\begin{description}
+\item[c.] max bound of $pi\_c$ changed from 30 to 35
+\item[d.] max bound of $pi\_c$ changed from 35 to 40
+\item[e.] max bound of $pi\_c$ changed from 40 to 45
+\end{description}
+The experiments show that the system consistently reacts to these perturbations by adapting itself in order to find a new solution for the modified problem.
+
+\subsection{Analysis of Adaptation Capabilities.}
+
+The experiments presented in this section illustrate an interesting property of our MAS. Despite the fact that we never explicitly defined specific behavior rules for the agents to handle dynamics changes, the system is able to dynamically take them in account and adapt to find new satisfactory solutions.
+
+This self-adaptive capability can be explained by two factors. First of all the agents had to be designed considering that previous information they receive can become outdated, as the different parts of the optimization problem do not necessarily converge at the same rate. To this first observation is added the fact that each agent has to keep its reasoning to a local level, since an agent trying to reason on a global level would eventually be overwhelmed by the complexity of the problem. 
+
+The consequence of these two factors is that agents indifferently handle changes caused by the "normal" exploration of the search space and changes made to the optimization problem by the designer. Indeed, from the point of view of an agent, a complex problem and a dynamically changing problem are indistinguishable, and mechanisms tailored to handle one will also help solving the other.
+
+By forcing ourselves to keep the agent behavior at a local level, we gained another advantage in addition of the scalability properties of the MAS. Complex optimization problems requires the agent reasoning to be kept at a local level, both in space (neighborhood and information perceived by the agents) and in time (memorization of the informations). In these conditions, the agent is then \enquote{naturally} able to take in account external changes, are they are not distinguishable from its point of view of \enquote{normal} changes occurring from the optimization process. This characteristic which could at first sight be perceived as a handicap for the agent is in fact a bearer of several benefits.
+
 \chapter{Large Tests Cases and Comparison with Existing Methods}
 
 \section{Preliminary Aircraft Design}
@@ -432,110 +536,3 @@ In order to corroborate this analysis, we studied the impact increasing the node
 Overall, we can conclude by observing these results that the time required for the agents to make a behavior cycle is not meaningfully impacted by the size of the problem. This property is an expected benefit of restricting the agents to local perception and decision process.\\
 The results also shown the impact of increasing the neighborhood size of the agents. The time increase correspond to the analysis we made concerning the computational complexity of the agent behavior (in \ref{NCS_pres}).  This analysis illustrates once more the importance of maintaining the behavior of the agents at a local level. Had the agent decision process involved not only its immediate neighbors, but also a large group of agent, the computational cost would have increased even more sharply with the size of the problem.\\
 As a remark, let us add that our implementation of the agent behavior was far from optimal from a performances point of view. In order to modify and experiment more easily on the agents, we voluntary kept separated into distinct modules the different solving mechanism of the agents. A more efficient implementation could factor several of the treatments in order to reduce the computational complexity, obtaining a non-negligible performances improvement in the process.
-
-\chapter{Others Experiments}
-
-\section{Optimization under Uncertainties}
-
-[[TODO]]
-
-\section{Adaptation to Perturbations}
-
-\subsection{Perturbated Alexandrov}
- 
-On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous experimentation on the problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
-
-\begin{figure}[]
-\centering
-  	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/l1_pertubated}
-		\label{alexandrov_res_pert:l1}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/l2_pertubated}
-		\label{alexandrov_res_pert:l2}
-	\end{subfigure}
-
-	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/s_pertubated}
-		\label{alexandrov_res_pert:s}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/o_pertubated}
-		\label{alexandrov_res_pert:o}
-	\end{subfigure}
-	
-	\caption{Alexandrov agents behavior with perturbation (constraint change at dotted line)}
-	\label{alexandrov_res_pert}
-	
-\end{figure}
-
-\subsection{Turbofan Problem.}
-
-\begin{figure*}
-\centering
-
-  \subfloat{\begin{minipage}{0.32\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_pi_c}
-		\label{turbofan_res_pert:pi_c}
-	\end{minipage}}
-	\subfloat{\begin{minipage}{0.32\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_o1}
-		\label{turbofan_res_pert:o1}
-	\end{minipage}}
-	\subfloat{\begin{minipage}{0.32\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_c1}
-		\label{turbofan_res_pert:c1}
-	\end{minipage}}
-
-	\subfloat{\begin{minipage}{0.32\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_bpr}
-		\label{turbofan_res_pert:bpr}
-	\end{minipage}}
-	\subfloat{\begin{minipage}{0.32\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_o2}
-		\label{turbofan_res_pert:o2}
-	\end{minipage}}
-	\subfloat{\begin{minipage}{0.32\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_c2}
-		\label{turbofan_res_pert:c2}
-	\end{minipage}}
-	
-	\caption{Turbofan agents behavior with perturbations (changes at dotted lines)}
-	\label{turbofan_res_pert}
-\end{figure*}
-
-
-On \figurename{} \ref{turbofan_res_pert}, we illustrate the adaptation capabilities of the system by subjecting turbofan problem we introduced previously to a series of both strong and faster successive small changes to the problem topology (each perturbation is indicated  by a dotted line). \\
-First we create strong changes by modifying simultaneously both a constraint and the definition domain of $pi\_c$:
-\begin{description}
-\item[a.] $c1$ changed from $s <= 155$ to $s <= 165$, max bound of $pi\_c$ changed from 40 to 50
-\item[b.] $c1$ changed from $s <= 165$ to $s <= 145$, max bound of $pi\_c$ changed from 50 to 30
-\end{description}
- Then milder perturbations by only changing the definition domain of the variable:
-\begin{description}
-\item[c.] max bound of $pi\_c$ changed from 30 to 35
-\item[d.] max bound of $pi\_c$ changed from 35 to 40
-\item[e.] max bound of $pi\_c$ changed from 40 to 45
-\end{description}
-The experiments show that the system consistently reacts to these perturbations by adapting itself in order to find a new solution for the modified problem.
-
-\subsection{Analysis of Adaptation Capabilities.}
-
-The experiments presented in this section illustrate an interesting property of our MAS. Despite the fact that we never explicitly defined specific behavior rules for the agents to handle dynamics changes, the system is able to dynamically take them in account and adapt to find new satisfactory solutions.
-
-This self-adaptive capability can be explained by two factors. First of all the agents had to be designed considering that previous information they receive can become outdated, as the different parts of the optimization problem do not necessarily converge at the same rate. To this first observation is added the fact that each agent has to keep its reasoning to a local level, since an agent trying to reason on a global level would eventually be overwhelmed by the complexity of the problem. 
-
-The consequence of these two factors is that agents indifferently handle changes caused by the "normal" exploration of the search space and changes made to the optimization problem by the designer. Indeed, from the point of view of an agent, a complex problem and a dynamically changing problem are indistinguishable, and mechanisms tailored to handle one will also help solving the other.
-
-By forcing ourselves to keep the agent behavior at a local level, we gained another advantage in addition of the scalability properties of the MAS. Complex optimization problems requires the agent reasoning to be kept at a local level, both in space (neighborhood and information perceived by the agents) and in time (memorization of the informations). In these conditions, the agent is then \enquote{naturally} able to take in account external changes, are they are not distinguishable from its point of view of \enquote{normal} changes occurring from the optimization process. This characteristic which could at first sight be perceived as a handicap for the agent is in fact a bearer of several benefits.
