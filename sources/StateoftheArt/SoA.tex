@@ -1,10 +1,10 @@
-\part{State of the Art}
+\part{Context of the Study and State of the Art}
 
 %\part{Optimization}
 
-\chapter{Optimization - Basic Concepts}
+\chapter{Continuous Optimization}
 
-[[TODO: Ajouter quelques refs]]
+\section{Basic Concepts}
 
 Before starting to present the different categories of optimization, we would like to take some time to define what exactly optimization is.\\
 In the more general way, optimizing is \emph{trying to find the best element among an element set}. When finding this best element is not trivial, we can rightfully talk of \emph{solving an optimization problem}. This seemingly simple definition implies in fact quite a lot.
@@ -42,7 +42,7 @@ From all the preceding, we can provide the minimal formulation of an optimizatio
 \end{align*}
 Where \emph{S} is the problem search space and \emph{f(x)} the objective function.
 
-\section{Continuous versus Discrete Optimization}
+\subsection{Continuous versus Discrete Optimization}
 
 Before going further into details, we must make an important distinction between \emph{continuous} optimization (also called \emph{numerical} optimization) and \emph{combinatorial} optimization. The difference between the two categories concerns the definition domain of the variables, and consequently the nature of the search space. For combinatorial optimization, the variables can only take a finite number of different values (their definition domain is a finite and enumerable set), while the definition domain of continuous optimization problem variables is, as the name implies, continuous (thus the variable can take an infinite number of values).
 
@@ -52,7 +52,7 @@ For the sake of completeness, let us add that there exists an optimization field
 
 In the context of this thesis, we will concern ourselves more specifically with continuous optimization. For more works concerning combinatorial optimization problems from a multi-agents systems perspective see [[REFS]].
 
-\section{No Free Lunch Theorem}
+\subsection{No Free Lunch Theorem}
 
 The No Free Lunch (NFL) Theorems for optimization are important results in the field, formalized by Wolpert and Macready \cite{585893}. The basic idea behind these theorems is that no optimization method outperforms the others when regarding the class of all the possible problems or, as the authors themselves say:
 \begin{quote}
@@ -85,9 +85,9 @@ One consequence of the NFL is that selecting an efficient optimization method fo
 
 On a side note, it can be added that, in addition to the case of continuous optimization, the possible existence of free lunches has been demonstrated for coevolutionary \cite{1545946} as well as multiobjective optimization \cite{1299403}.
 
-\chapter{Continuous Optimization}
+\section{Continuous Optimization Methods}
 
-As we have seen at the end of the last chapter, optimization methods have to make various compromises regarding applicability versus efficiency.  A great variety of methods exit in the literature, from generic methods applicable to a great variety of optimization problems to very specialized methods designed to be efficient in a specific context. These methods can be categorized by the type of problems they aim to solve or some inherent properties of the method.
+As we have seen at the end of the last section, optimization methods have to make various compromises regarding applicability versus efficiency.  A great variety of methods exit in the literature, from generic methods applicable to a great variety of optimization problems to very specialized methods designed to be efficient in a specific context. These methods can be categorized by the type of problems they aim to solve or some inherent properties of the method.
 
 Some possible criteria to discriminate based on the type of problem:
 \begin{itemize}
@@ -113,7 +113,7 @@ A rough proposal of organization of the different types of continuous optimizati
 \label{numerical_optim_tree}
 \end{figure}
 
-Presenting all the continuous optimization techniques would be far outside the scope of this work. In this part we will focus on presenting briefly the different optimization categories we identified in figure \ref{numerical_optim_tree}. We will reference some of the most representatives techniques to illustrate this presentation, but without going too much into the details of the techniques.
+Presenting all the continuous optimization techniques would be far outside the scope of this work. In the next sections we will focus on presenting briefly the different optimization categories we identified in figure \ref{numerical_optim_tree}. We will reference some of the most representatives techniques to illustrate this presentation, but without going too much into the details of the techniques.
 
 \section{Linear Optimization}\label{linear_optim}
 
@@ -200,10 +200,8 @@ For example, the Levenberg-Marquardt algorithm \cite{levenberg44,marquardt63}, w
 \subsubsection{With Constraints}
 
 One of the first proposal for solving constrained problems with derivative is a generalization of interior point (presented in \ref{linear_optim}). The idea is that a linear function with a non-convex search space can be transformed into a linear function over a convex search space (which is a requirement for applying interior point techniques), using \emph{self-concordant barrier functions}.
-[[BARRIER FUNCTION - WE WILL TALK ABOUT THIS LATER -> MENTION IT ?]]
-[[PICTURE OF BARRIER FUNCTION ??]]
 
-[[ADD A SCHEMA]]
+[[PICTURE OF BARRIER FUNCTION ??]]
 
 A barrier function is a function whose value increases to infinity when its input approaches a fixed boundary.
 The idea is to replace the constraint with a barrier function, which is composed to the objective-function. The barrier function is thus used as a penalty for a point that violates the constraint.
@@ -282,7 +280,7 @@ Several adaptations of the Simplex method (presented is \ref{linear_optim}) for 
 It is also very common to use relaxation techniques (\emph{Reformulation-Linearizion Techniques} or \emph{Semidefinite Programming}) to approximate the quadratic problem with a linear one. A widespread technique is to use a Branch and Cut, starting by replacing each non-linear term of the problem by a (linear) variable (for example, the term $x_ix_j$ would be replaced by the variable $v_{ij}$). For each replacement, a new constraint is added to maintain consistency of the solution (in our example, the new constraint would be $v_{ij} = x_ix_j$). Then these new constraints are themselves replaced by linear approximations.
 To see more details on the different relaxations strategies, refer to \cite{audet2000branch}.
 
-\subsection{Heuristic Methods}
+\subsection{Heuristic Methods}\label{optim_heuristic}
 
 When exact methods are too costly or non-applicable, it is often sufficient to get a good-enough solution. To this end it is possible to use heuristics to shorten the search space and ensure we obtain a solution in a reasonable time.
 
@@ -300,9 +298,75 @@ Another well-known technique is Simulated Annealing. This method is inspired fro
 Simulated annealing associate a global temperature and an energy measure to the state of the system (which represent the objective-function). Consequently the goal of the system is to minimize its energy. At each step, the method considers moving to one of the neighbors of the current point. The higher the temperature of the system, the more the system is susceptible to move, even if the neighbor is worse than the current point. As the temperature decreases, the system will favor more and more consistently solutions that decrease its energy.
 The temperature of the system is reduced over time following a specific cooling schedule. For example the temperature could be decreased a each step, or could be reduced only when the system reached an equilibrium.
 
-Some others stochastic techniques which can be applied, but are not restricted to, this kind of optimization problem are population-based algorithms, which will be presented in section \ref{population_based}.
+Some others stochastic techniques which can be applied are population-based optimization (also called \emph{evolutionary computation}). Population-based optimization is a very prolific and diversified field, whose algorithms are often inspired from the observation of natural populations behavior. The underlying principle of this kind of algorithm is the use of a population of entities which are spread within the search space, with specific strategies in order to iteratively progress toward the solution. These strategies involve transformations applied to the entities that compose the population (moving, creating or destroying or otherwise altering them).
 
-\section{Conclusion on Continuous Optimization}
+\subsubsection{Evolutionary Algorithms}
+
+Evolutionary Algorithms (EA) are based on a Darwinist selection process. The main idea is to maintain a population of solutions which is iteratively improved by selecting, crossing and mutating the best individuals in regard of a given \emph{fitness function}. Most EA are based on the algorithm shown in algorithm \ref{evo_algo}.
+
+\begin{algorithm}
+\caption{Evolutionary Algorithm Pseudocode}
+\label{evo_algo}
+
+	generate initial population\;
+	evaluate fitness of individuals\;
+	\Repeat{termination condition reached}{
+		evaluate select best-fit individuals\;
+		produce offspring based on selected individuals\;
+		evaluate fitness of offspring\;
+		replace least-fit population with offspring\;
+	}	
+\end{algorithm}
+
+\emph{Genetic algorithms} \cite{holland1992adaptation}, by far the most often used type of EA in optimization. In the context of genetic algorithms, each individual entity is defined by a specific \emph{genotype}, which represent a possible solution to the problem.
+Like we said previously, a global \emph{fitness function} is defined, which is used to evaluate the solutions represented by these individuals.
+
+Regarding a continuous optimization problem, the genotype of an entity would be a set of values assigned to the inputs of the problem, while the fitness function would be the objective-function.
+
+The optimization process iterates over two phases: \emph{selection} and \emph{generation of a new population}.
+In the selection phase, a subset of the current population is selected to be used in the generation of the new population. In the most basic approach, the selected individuals are the ones which obtain the best scores on the fitness function.
+The second phase generates a new population, based on the selected individuals. To produce the new population, a set of biology-inspired genetic operators is used. Two of the most common genetic operators are \emph{crossover} and \emph{mutation}. The crossover is the creation of a new individual, whose genotype is based on the combination  of two randomly selected \enquote{parents}. The mutation consists in randomly changing a part of the genotype of an individual.
+
+Together, these two operators can be seen as representatives of the exploitation versus exploration dilemma. The crossover operation is an attempt to exploit the best solutions found so far, while the mutation is done to maintain diversity in the population. 
+
+Most genetic algorithms proposals work on variations on these two phases. For example, some techniques will select not only the best fitted individuals, but also a small part of low fitted ones in order to increase the exploration of the search space. Some variants also modify the genetic operators or introduce additional ones. For example it is possible to do the crossover using more than two parents, or to introduce the notions of groups and migration.
+
+\subsubsection{Swarm Algorithms}
+
+Swarm algorithms focus on the decentralized exploration of the search space by a population of entities (commonly called \emph{agents} or \emph{boids}). These entities usually have only a local perception of the search space and individually decide how to move using simple rules.
+
+Particle Swarm Optimization (PSO) \cite{kennedy1995particle} is inspired from the flocking behavior of social animals (such as birds, fishes or bees). PSO consists of a swarm of particles initially spread across the search space. Each particle $i$ can perceive its neighborhood and moves according to its current position $x_i$ and velocity vector $\overrightarrow{v_i}$.
+During solving, each particle memorizes the best solution it found so far $x_i^*$. Based this information, a global best $x_g^*$ is calculated and provided to each particle for the next iteration.
+At each step, a particle updates its velocity based on the current velocity, its local best value and the global best value found. Then it moves according to its current position and velocity. The influence of these various parameters can be modulated using the coefficients $w$, representing the inertia, $c_l$ representing the influence of the local best solution and $c_g$, representing the influence of the global best solution.
+
+Algorithm \ref{PSO_algo} shows the principle of PSO.
+
+\begin{algorithm}
+\caption{PSO iteration}\label{PSO_algo}
+
+	\ForEach{particle}{
+		$\overrightarrow{v_i}(t) = w.\overrightarrow{v_i}(t-1) + c_l.rnd(x_i^*(t-1)-x_i(t-1)) + c_g.rnd(x_g^*(t-1)-x_i(t-1))$\;
+		$x_i(t) = x_i(t-1)+\overrightarrow{v_i}(t)$\;
+		\If{$x_i(t)$ better than $x_i^*$}{
+			$x_i^*$ = $x_i(t)$\;
+		}
+	}
+	$x_g^*$ = best of $x_i^*, \forall i$\;
+
+\end{algorithm}
+
+\subsubsection{Population-Based Algorithms for Optimization in Dynamic Environments}\label{population_based}
+
+A special case of optimization is optimization in dynamic environments. In this kind of problem, the objective-function is likely to change with time. To avoid confusion, optimization in dynamic environment is distinct from \emph{dynamic programming} (another optimization field not addressed here) in the fact that the changes of the objective-function \emph{are not known beforehand}. It is thus not possible to anticipate these changes during solving.
+Many optimization techniques fail to solve this kind of problem as they are not meant to take into account these dynamics. These problems require optimization techniques to be able to both find a moving optimum and to follow it when it changes.
+
+Population-based algorithms tackle the problem of a dynamic environment by maintaining a diverse population of solutions. Of course this kind of algorithm does not avoid the dilemma of exploration versus exploitation, and must usually choose between maintaining a high diversity of solutions and concentrating the population around the most promising regions. Most of these techniques include specific parameters to adjust the solving process toward more exploration or more exploitation (for example the coefficients regarding current velocity, local and global optima in PSO). The choice of finding the best parameters is once again handed down to the person which applies the method.
+
+Another inconvenient of Population-based approaches is the high number of evaluations they need to make. Indeed, each individual will require at least one evaluation of the whole problem. If the problem is very costly to evaluate, this kind of method may not be worth considering.
+
+Finally, this kind of method often has some difficulties to scale with the complexity of the problem. Genetic algorithms will often have difficulties solving problems where the search space is very large, and swarm algorithms will present difficulties when the search space has a high number of dimensions or with chaotic topologies.
+
+\section{Analysis of Continuous Optimization}
 
 This overview of continuous optimization illustrates how the different optimization techniques range from very efficient but highly specialized methods to broad scope methods with slower and more costly strategies.
 We have seen how the intuition provided by the NFL theorems is illustrated by the progression of the optimization techniques in general applicability and complexity.
@@ -336,9 +400,9 @@ We will now see some of the strategies have been proposed to deal with such prob
 
 \section{A Priori Methods}
 
-[[Utiliser un exemple simple pour comparaison]]
+A priori methods usually propose a strategy  to make the use of classical single-objective optimization methods on the problem possible. This may be done by discriminating between the different objective or by aggregating them into a new objective which will be used for the optimization.
 
-[[petite intro]]
+We will now see some examples of such methods.
 
 \subsection{Objectives Aggregation}
 
@@ -453,307 +517,39 @@ An illustration of a Pareto front can be seen on figure \ref{Front_Pareto}. The 
 \includegraphics[width=0.4\paperwidth]{Front_pareto}\\
 %\hfill\includegraphics[width=6em]{by-sa} \href{http://en.wikipedia.org/wiki/File:Front_pareto.svg}{\begin{small}Johann Dréo\end{small}}
 \caption{Illustration of the notion of Pareto Front (CC-BY-SA \href{http://en.wikipedia.org/wiki/File:Front_pareto.svg}{Johann Dréo})}
-
 \label{Front_Pareto}
 \end{figure}
 
-\subsection{Evolutionary Algorithms}
+\subsection{Multi-Objective Evolutionary Algorithms}
 
-[[Talk about scalability problems -> "Techniques for Highly Multiobjective Optimisation: Some Nondominated Points are Better than Others" by David Corne and Joshua Knowles]]
+A popular strategy to find the Pareto front is to use specialized variants of population-based heuristics methods (presented in section \ref{optim_heuristic}).  One of the most widespread approach concerns Multi-Objective Evolutionary Algorithms (MOEA).
 
-A widespread strategy to find the Pareto front is to use [[population-based]] metaheuristics, such as Multi-Objective Evolutionary Algorithms (MOEA). 
+MOEA are variants of EA specialized in the simultaneous tracking of several solutions, instead of providing a single solution. Historically, MOEA are divided in two main categories, based on whether or not they use elitism mechanisms, with some consensus concerning the superiority of elitist algorithms.
 
-Historically, evolutionary algorithms are divided in two main categories, based on whether or not they use elitism mechanisms, with some consensus concerning the superiority of elitist algorithms.
-
-\subsubsection{Non-elitist evolutionary algorithms}
-
-These \enquote{first-generation} algorithms 
-[[Vector Evaluated Genetic Algorithm (VEGA) Schaffer (1985) => Non Pareto]
-
-[[  Goldberg and Richardson (1987) =>  Simple Pareto domination scheme. • Sharing on whole population]]
-
-
-\subsubsection{Elitist evolutionary algorithms}
-
-Non-elitist techniques often have trouble to converge toward the Patero front, as well as to keep a good optimum diversity and to spread on the front. To remedy that issue, elitist algorithms propose various additional mechanisms:
+Non-elitist techniques often have trouble to converge toward the Pareto front, as well as to keep a good optimum diversity and to spread on the front. To remedy that issue, elitist algorithms propose various additional mechanisms:
 \begin{compactitem}
 \item maintaining an external \enquote{archive} population containing the optimum found so far
 \item using clustering technique to spread the solutions among the Pareto front
-\item introducing an additional preferential bias for non-dominated solution
+\item introducing an additional preferential bias toward non-dominated solution
+\end{compactitem}
 
-[[Signal that evolutionary algorithms have difficulties with more than two objectives ?]]
-
-\subsubsection{Analysis of evolutionary algorithms}
-
-Evolutionary algorithms propose an interesting Nature-inspired mechanism for solving MOO problems. By maintaining a population of candidate solutions and using selection pressure mechanisms, they make possible a throughout exploration of the Pareto front. The compromise between exploration and exploitation will be determined by the parametrization of the different genetic operators and the selection/crossing process. While this aspect can prove to be advantageous for the potential flexibility it brings, it is often difficult to guess what are the relevant parameters values. Consequently it can be necessary to iterate the optimization process in order to manually fine-tune the parameters.
+MOEA propose an interesting Nature-inspired mechanism for solving MOO problems. By maintaining a population of candidate solutions and using selection pressure mechanisms, they make possible a throughout exploration of the Pareto front. The compromise between exploration and exploitation will be determined by the parametrization of the different genetic operators and the selection/crossing process. While this aspect can prove to be advantageous for the potential flexibility it brings, it is often difficult to guess what are the relevant parameters values. Consequently it can be necessary to iterate the optimization process in order to manually fine-tune the parameters.
 
 A major limitation of these methods is their potential computational cost. Such algorithms need to evaluate a relatively large number of candidate in order to create a good population of solutions. Computing all the candidate solutions can be prohibitive for computationally expensive problems.
 
-It has also be noted in [[Techniques for highly multiobjective optimisation: some nondominated points are better than others]] that many MOEA have poor scalability performances in regard of the number of objectives. This degradation of performances is attributed to the combined factors of:
+It has also be noted in \cite{corne2007techniques} that many MOEA have poor scalability performances in regard of the number of objectives, often having trouble to handle more than five objectives. This degradation of performances is attributed to the combined factors of:
 \begin{compactitem}
 \item the exponential complexity increase of the procedures in regard of the number of objectives
 \item the increase of non-dominated solution caused by the additional objectives
 \item the limited size of the archived population in regard to the number of potential candidates
 \end{compactitem}
 
-\chapter{Advanced Concepts for Optimization}
+\section{Analysis of MOO}
 
-In this chapter, we present two advanced concepts regarding optimization: optimization under uncertainties and optimization in dynamic environments. In both cases, the goal is no longer to only find the best solution to the optimization problem, as the context of this problem implies some specific requirements.
+We have seen how a new concern, taking in account several objectives, has created the need for new optimization strategies.  Interestingly, many of these MOO-specific methods do not concentrate on the optimization process in itself, but on providing strategies to apply classical optimization techniques.
 
-In optimization under uncertainties, we take into account the fact that we are not in a ideal mathematical world: the instantiation of the problem in the physical world presents some limitations (for instance the length of a manufactured object is often not exactly as expected) and our knowledge (of a model, a process, etc.) is pervaded with imprecision.
-
-For optimization in dynamic environments, the objective functions are deterministic but change over time (and so do the optima). This kind of problem requires specific optimization techniques able to adapt to this changing goal.
-
-\section{Optimization Under Uncertainties}\label{SOA_uncertainties}
-
-In a pure mathematical world, all models are perfectly correct and have an infinite precision. However, in the physical world, our knowledge can be extremely limited. Moreover, high precision models can require a long time to be computed, making them prohibitively costly when used in the context of an optimization process. Finally, when the optimization problem is complex, a small approximation can result in large variations of the output, if the system is sensitive to parameters variations.
-
-In order to tackle these issues, several works have been done to take into account uncertainties into the optimization process. We propose to make a quick tour of the different ways which have been proposed to model and propagate uncertainties.
-A major concern regarding the modeling of uncertainties is the uncertainties \emph{propagation}. 
-
-\subsection{Several types of uncertainties}
-
-A distinction is usually made between \emph{aleatory} uncertainties and \emph{epistemic} uncertainties.
-
-\textbf{Aleatory uncertainties} are inherent to the studied system. They can represent for example variability in the material used, a physical variation regarding the manufacturing of some piece, the meteorological conditions to which a device will be exposed etc.
-These uncertainties are \emph{irreducible} as it is impossible to remove them with a better analysis of the system.
-
-\textbf{Epistemic uncertainties} result from an incomplete knowledge regarding the system. These uncertainties can result from a limited set of data or lack of knowledge regarding a physical phenomenon.
-The uncertainties are \emph{reducible} as it is possible to remove them with a better analysis of the system. However, removing epistemic uncertainty can often be too costly or too difficult in practice, thus they still need to be taken into account during the optimization process.
-
-For example, let's suppose we work on a model taking two variables as input and producing an output: $z=f(x,y)$.
-Based on known uncertainties on the inputs and the model, how easy is it to combine and propagate these information to determine the uncertainty regarding the output ? Or more formally, can we provide a propagator $P$ such as $u_z = P(u_x, u_y, u_f)$ (where $u_i$ is the uncertainty associated with the element $i$)? As we will see, the ease to obtain such a propagator $P$ depends on the chosen way to model the uncertainties.
-
-\subsection{Uncertainties Modeling Techniques}
-
-[[small intro]]
-
-\subsubsection{Probability Theory}
-
-Using the probability theory, uncertainty can be modeled using a distribution function. This modeling provides the advantages of a well-studied theoretical foundation, providing well-known combination and propagation techniques.
-
-Aleatory uncertainties can be characterized by obtaining a distribution function from a data sample.
-Well-known statistical techniques can be used to see for example if a data sample follows a known probability distribution, measuring \emph{goodness of fit}, that is, how well a data sample follows a given model, such as the Kolmogorov-Smirnov test \cite{Massey_1951}. 
-However, care must be taken as these techniques can introduce some more epistemic uncertainties which can lead to misleading results (for example in the case of insufficient data samples).
-
-Concerning epistemic uncertainty, it can be more difficult to estimate a relevant distribution function  [[TO EXPAND]]
-
-\subsubsection{Interval Analysis}
-
-Interval analysis can be an alternative to probability theory when the lack of information impedes modeling with a probability distribution, but where the uncertainty can still be bounded within a certain domain.
-How easy is it to propagate intervals depends on the involved models. For example in the case of a monotonic function the lower and upper bounds can be determined easily. In the general case, determining the boundaries is equivalent to solve an optimization problem and can thus be solved by using optimization algorithms. In the most extreme cases, one can apply sampling techniques, but this can become quite expensive.
-For some examples of existing techniques, one can refer to \cite{Kreinovich_2008}.
-
-A limit of interval analysis is the lack of a measure equivalent to probability, which limits the usefulness of this representation in the general case. This modeling can still prove useful in the context of worst case studies where inputs variables can be bounded with accuracy.
-
-\subsubsection{Fuzzy Sets}
-
-Fuzzy sets \cite{zadeh1965fuzzy} can be seen as a compromise for when we still lack enough information to use probability theory, but we have more knowledge than just the bounds of the uncertainty.
-
-Basically, fuzzy sets are sets where the membership of an element to the set is not absolute but gradual.
-In classical set theory, an element is or is not a member of a set. This notion can be formalized as a function $f_S: X \rightarrow \{0,1\}$ where 
-$\left\{
- 		 \begin{array}{rcr}
-			f_S(x) = 0 \Leftrightarrow x \not\in S\\
-			f_S(x) = 1 \Leftrightarrow x \in S
-		\end{array}
-	\right. $
-
-In the context of fuzzy sets, the equivalent function can be formalized as $f_S: X \rightarrow [0, 1]$, where $f_S(x)$ represents the degree of membership of $x$ to $S$. A value of 1 indicates a total membership to S, a value of 0 a complete absence of membership to S and the values in between specific degrees of membership.
-In this regard, fuzzy sets can be seen as a generalization of classical sets.
-
-Fuzzy sets quantification capability to represent vague information makes it attractive to model epistemic uncertainty, as it is more precise than interval analysis and well-suited to express expert knowledge. However this modeling is less powerful and expressive than probability theory, lacking for example a mean to represent an uncertainty measure equivalent to the probability of the probability theory. Indeed, the membership function is insufficient to characterize the likelihood of non-connected events.
-To overcome this limitation, the fuzzy set theory was extended into the possibility theory.
-
-\subsubsection{Possibility Theory}
-
-Possibility theory \cite{zadeh1978fuzzy} seems similar to probability theory. However, they are based on axioms which diverge on a fundamental point.
-The probability theory is based on the axiom of \emph{additivity}, which says that for two disjoints sets $U$ and $V$, $P(U \cup V) = P(U)+ P(V)$, that is the probability of at least one of two mutually exclusive events to be verified is the sum of the probabilities of each event.
-
-The possibility theory contains instead an axiom of \emph{sub-additivity} saying that for two disjoints sets $U$ and $V$, $\Pi(U \cup V) = \text{max }(\Pi(U), \Pi(V))$ (where $\Pi(X)$ reads as \enquote{possibility of X}).
-
-Let's take the basic example of a door which can be either open or closed. If we assume \enquote{the door is closed} has a probability of 1, it must follow that \enquote{the door is open} has a probability of 0, since the sum of these two complementary events must be 1.
-
-In the context of possibility theory, if we state that the possibility of \enquote{the door is closed} is 1, it is not incompatible with the possibility of the door to be open to be, for example, 0.4.
-
-The intuition behind this difference is that probability theory applies to the reality, while possibility theory applies to the knowledge one has regarding the reality, taking into account the \enquote{fuzziness} of one's knowledge. To cite the definition proposed by Nikolaidis et al. \cite{nikolaidis:386}:
-\begin{quote}
-\enquote{Possibility measures the degree to which: a) A person considers that an event can
-occur, or b) The degree to which the available evidence does not contradict the
-hypothesis that the event can occur.}
-\end{quote}
-
-As well as the notion of \emph{possibility}, possibility theory introduces the notion of \emph{necessity}. Basically, $Nec(U) = 1 - \Pi(\bar{U})$.
-This definition implies several interesting properties:
-
-$\left\{
-\begin{array}{l}
-Nec(U) \leq \Pi(U)\\
-Nec(U) + \Pi(\bar{U}) = 1\\
-\text{either } \Pi(U) = 1 \text{ or } Nec(U) = 0\\
-\end{array}
-\right.$
-
-Necessity and possibility of an event $e$ can be viewed as lower and upper bounds to the probability of $e$.
-
-Possibility theory offers numerous tools similar to the ones of probability theory (so much in fact that it has been debated if the two theories are really different, or if possibility theory was just a variation on probability theory). However, the capability of this theory to model expert knowledge specifically has made it quite popular in the context of uncertainty modeling.
-
-\subsubsection{Evidence Theory}
-
-Evidence theory \cite{shafer1976mathematical}, also known as Dempster-Shafer theory (DST), takes into account available evidences to provide a degree of belief concerning a fact.
-The basic idea of this theory is to represent the notion that the more evidences seem to confirm a proposition, the more we can believe the proposition to be true.
-
-Evidence theory represents a proposition as a set of elements. Thus some propositions can include others propositions (following the basic set inclusion definition). To these sets are assigned a basic belief assignment (BBA), also called \emph{mass}.
-
-From this mass can be calculated two measures:
-
-\begin{itemize}
-\item \emph{Belief:} $bel(S) = \displaystyle\sum_{S'\subseteq{S}} mass(S')$
-\item \emph{Plausibility:} $pl(S) = \displaystyle\sum_{S'|S' \cap S \neq \emptyset} mass(S')$
-\end{itemize}
-
-The mass measurement represents the amount of evidences which support the proposition, the likelihood of $S$. The belief and plausibility can be seen as lower and upper bounds to this likelihood.
-
-Once again we can obtain some interesting properties regarding these measures:
-
-$\left\{
-\begin{array}{l}
-bel(S) \leq mass(S) \leq pl(S)\\
-pl(S) = 1 - bel(\bar{S})\\
-bl(S) + bl(\bar{s}) \leq 1\\
-pl(S) + pl(\bar{s}) \geq 1\\
-\end{array}
-\right.$
-
-As with possibility theory, belief and plausibility can be used as lower and upper bounds for probability.
-
-Several rules have been proposed to combine informations coming from different (potentially conflicting) sources. To see an overview of these proposals, the reader can refer to \cite{sentz2002combination}.
-
-\subsubsection{Analysis of uncertainties modeling}
-
-We have seen how different ways to represent the uncertainties have been proposed. Some of these methods are based on well-studied mathematical tools, such as probabilities theories, but may not be adapted to the lack of quantifiable information. To palliate this insufficiency, alternative representations have been developed, based on the expression of expert knowledge or of available evidences.
-
-In a similar way to optimization methods, the choice of the uncertainties representation to apply will depend on the context, on the sources of uncertainties to take in account and the proficiencies of the experts.
-
-\subsection{Using Uncertainty for Robust Optimization}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.4\textwidth]{robust_optim}
-\caption{Example of robust optimum(a) and non-robust optimum (b)}\label{robust_optim_illu}
-\end{figure}
-
-On \figurename{} \ref{robust_optim_illu} a function with two optima can be seen. The minimum labeled $a$ is only a local optimum, being less optimal than the global minimum $b$. However, $a$ is more robust than $b$, in the sense that its neighborhood does not change drastically. A variation in the inputs, or in the actual results compared to the analytical model, will result in a lesser degradation of performances. Consequently, it can be deemed preferable to select $a$ instead of $b$, if the uncertainties would possibly result in a worst solution when trying to achieve the solution $b$.\\
-Specific methods have been dedicated to find solution which are both good (local optimum) and robust.
-
-\subsubsection{Taguchi Method - The firsts steps of Robust Optimization }
-
-Robust optimization tries to provide a solution which is both good and insensible to small variations of the inputs.
-
-The research on robust optimization has been initiated with Taguchi's robust design methodology\cite{tsui1992overview}, aiming at improving the quality of manufactured goods.
-In his methodology, Taguchi proposes a three-stages process :
-\begin{itemize}
-\item System design, where the designers determine the overall structure of the product at a high conceptual level;
-\item Parameter design, where the optimal values of the design variables are determined;
-\item Tolerance design, which focuses on reducing the variability of the  various parameters to fix an acceptable limit to the variability of quality for the product.
-\end{itemize}
-
-To help the designers during the parameter design phase, Taguchi introduced several measures, among them the Signal-to-Noise (SN) ratios. These ratios are used to estimate the sensitivity of a performance of the product to variations. Each ratio relates to a possible goal regarding the studied performance: larger the better, smaller the better, on target the best. These ratios are respectively noted $SN_L$, $SN_S$ and $SN_T$.
-By simulation or experimentation, one must first produce a data set.
-
-The $SN_L$ and $SN_S$ can be directly calculated as
-
-\[SN_L = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n \frac{1}{y_i^2} \right)\]
-\[SN_S = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n y_i^2 \right)\]
-
-For $SN_T$, we need first to measure the mean response, given by $\bar{y} = \frac{1}{n}\displaystyle\sum_{i=1}^n y_i$
-This mean can then be used to calculate the standard deviation as follows 
-\[S = \sqrt{\sum_{i=1}^n \frac{(y_i - \bar{y})^2}{n-1}}\]
-
- $SN_T$ can then be calculated as
- 
- \[ SN_T = 10\text{log}\left(\frac{\bar{y}^2}{S^2}\right) \]
- 
-To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi use the Design of Experiment\cite{sacks1989design}, a statistical procedure for determining the effect of multiple inputs on a desired output. by evaluation different designs using different noise factors (temperature, pressure \emph{etc.}), it is possible to obtain an array of SN rations on which a statistical data analysis allows to identify which design provides the best performances.
-
-Tagushi was the first to propose a way to take in account the uncertainties in design. As it is nearly inevitable for such pioneering work, his approach suffers from several limitations. As the number of parameters increases, so do the number of experiments (for $N$ parameters and $M$ noise factors we need $2^N$ designs and $M2^N$ experiments). Moreover, the statistical measures proposed by Tagushi has been subject to much debate (for a discussion of these measures see \cite{nair1992taguchi}). However, Tagushi opened the way for the other methods in the field.
-
-\section{Optimization in Dynamic Environments with Population-Based Algorithms}\label{population_based}
-
-A special case of optimization is optimization in dynamic environments. In this kind of problem, the objective-function is likely to change with time. To avoid confusion, optimization in dynamic environment is distinct from \emph{dynamic programming} (another optimization field not addressed here) in the fact that the changes of the objective-function \emph{are not known beforehand}. Thus it is not possible to anticipate these changes during solving.
-Classical optimization techniques fail to solve this kind of problem as they are not meant to take into account these dynamics. These problems require specific optimization techniques, able to both find a moving optimum and to follow it when it changes.
-
-The main field concerning solving optimization problems in dynamic environment is population-based optimization (also called \emph{evolutionary computation}). Population-based optimization is a very prolific and diversified field, whose algorithms are often inspired from the observation of natural populations behavior. The underlying principle of this kind of algorithm is the use of a population of entities which are spread within the search space, with specific strategies in order to iteratively progress toward the solution. These strategies involve transformations applied to the entities that compose the population (moving, creating or destroying or otherwise altering them).
-
-\subsection{Evolutionary Algorithms}
-
-Evolutionary Algorithms (EA) are based on a Darwinist selection process. The main idea is to maintain a population of solutions which is iteratively improved by selecting, crossing and mutating the best individuals in regard of a given \emph{fitness function}. Most EA are based on the algorithm shown in algorithm \ref{evo_algo}.
-
-\begin{algorithm}
-\caption{Evolutionary Algorithm Pseudocode}
-\label{evo_algo}
-
-	generate initial population\;
-	evaluate fitness of individuals\;
-	\Repeat{termination condition reached}{
-		evaluate select best-fit individuals\;
-		produce offspring based on selected individuals\;
-		evaluate fitness of offspring\;
-		replace least-fit population with offspring\;
-	}	
-\end{algorithm}
-
-\emph{Genetic algorithms} \cite{holland1992adaptation}, by far the most often used type of EA in optimization. In the context of genetic algorithms, each individual entity is defined by a specific \emph{genotype}, which represent a possible solution to the problem.
-Like we said previously, a global \emph{fitness function} is defined, which is used to evaluate the solutions represented by these individuals.
-
-Regarding a continuous optimization problem, the genotype of an entity would be a set of values assigned to the inputs of the problem, while the fitness function would be the objective-function.
-
-The optimization process iterates over two phases: \emph{selection} and \emph{generation of a new population}.
-In the selection phase, a subset of the current population is selected to be used in the generation of the new population. In the most basic approach, the selected individuals are the ones which obtain the best scores on the fitness function.
-The second phase generates a new population, based on the selected individuals. To produce the new population, a set of biology-inspired genetic operators is used. Two of the most common genetic operators are \emph{crossover} and \emph{mutation}. The crossover is the creation of a new individual, whose genotype is based on the combination  of two randomly selected \enquote{parents}. The mutation consists in randomly changing a part of the genotype of an individual.
-
-Together, these two operators can be seen as representatives of the exploitation versus exploration dilemma. The crossover operation is an attempt to exploit the best solutions found so far, while the mutation is done to maintain diversity in the population. 
-
-Most genetic algorithms proposals work on variations on these two phases. For example, some techniques will select not only the best fitted individuals, but also a small part of low fitted ones in order to increase the exploration of the search space. Some variants also modify the genetic operators or introduce additional ones. For example it is possible to do the crossover using more than two parents, or to introduce the notions of groups and migration.
-
-\subsection{Swarm Algorithms}
-
-Swarm algorithms focus on the decentralized exploration of the search space by a population of entities (commonly called \emph{agents} or \emph{boids}). These entities usually have only a local perception of the search space and individually decide how to move using simple rules.
-
-Particle Swarm Optimization (PSO) \cite{kennedy1995particle} is inspired from the flocking behavior of social animals (such as birds, fishes or bees). PSO consists of a swarm of particles initially spread across the search space. Each particle $i$ can perceive its neighborhood and moves according to its current position $x_i$ and velocity vector $\overrightarrow{v_i}$.
-During solving, each particle memorizes the best solution it found so far $x_i^*$. Based this information, a global best $x_g^*$ is calculated and provided to each particle for the next iteration.
-At each step, a particle updates its velocity based on the current velocity, its local best value and the global best value found. Then it moves according to its current position and velocity. The influence of these various parameters can be modulated using the coefficients $w$, representing the inertia, $c_l$ representing the influence of the local best solution and $c_g$, representing the influence of the global best solution.
-
-Algorithm \ref{PSO_algo} shows the principle of PSO.
-
-\begin{algorithm}
-\caption{PSO iteration}\label{PSO_algo}
-
-	\ForEach{particle}{
-		$\overrightarrow{v_i}(t) = w.\overrightarrow{v_i}(t-1) + c_l.rnd(x_i^*(t-1)-x_i(t-1)) + c_g.rnd(x_g^*(t-1)-x_i(t-1))$\;
-		$x_i(t) = x_i(t-1)+\overrightarrow{v_i}(t)$\;
-		\If{$x_i(t)$ better than $x_i^*$}{
-			$x_i^*$ = $x_i(t)$\;
-		}
-	}
-	$x_g^*$ = best of $x_i^*, \forall i$\;
-
-\end{algorithm}
-
-\subsection{Analysis of Population-Based Algorithms}
-
-Population-based algorithms tackle the problem of a dynamic environment by maintaining a diverse population of solutions. Of course this kind of algorithm does not avoid the dilemma of exploration versus exploitation, having to choose between maintaining a high diversity of solutions and concentrating the population around the most promising regions. Most of these techniques includes specific parameters to adjust the solving process toward more exploration or more exploitation (for example the coefficients regarding current velocity, local and global optima in PSO). The choice of finding the best parameters is once again handed down to the person which applies the method.
-
-Another inconvenient of Population-based approaches is the high number of evaluations they need to make. Indeed, each individual will require at least one evaluation of the whole problem. If the problem is very costly to evaluate, this kind of method may not be worth considering.
-
-Finally, this kind of method often has some difficulties to scale with the complexity of the problem. Genetic algorithms will often have difficulties solving problems where the search space is very large, and swarm algorithms will present difficulties when the 
-search space has a high number of dimensions or with chaotic topologies.
-
-\section{Conclusion on Advanced Concepts for Optimization}
-
-After studying the needs for taking in account multiple objectives, we have seen in this chapter how optimization problems often need integrate more advanced concerns than solely finding the best solution to a problem. With MOO, we had seen that the \enquote{best solution} was often a compromise between multiple objectives. We have now seen in this chapter that the best solution can sometimes be a solution which is suboptimal, but more robust than the analytical optimum, or that the best solution could change with the time.
-
-The analytical methods we have studied at the beginning of this part are quite inadequate to take in account these additional concerns, which are part of the real-world concerns faced by the designers and engineers. For this reason, new methods have been developed to get around these limitation. In both robust optimization and optimization in a dynamic environment, these methods usually work by making a large number of evaluations, either to study the robustness of a solution or to maintain a population of representative solutions.
+Some of these methods propose to aggregate the objectives, in order to be able to directly apply a mono-objective optimization techniques. However these methods require the expert to make some choices concerning the priorities of the objectives before having the possibilities to look at the different alternatives.\\
+Others approaches use population-based algorithms in order to maintain a set of solutions. However these approaches already quite costly in the mono-objective case, require even more evaluations of the problem.
 
 We will see in the next chapter how these methods are still insufficient to handle the most complex continuous optimization problems, due to the very fundamental assumption they make by considering the objective-function(s) to be trivial to evaluate. We will now see a kind of optimization problems which are so complex that a single evaluation of the problem is considered a cost, and some methods which have been proposed to handle such problems.
 
@@ -767,7 +563,7 @@ These kinds of problems are commonplace in the industry, especially in complex s
 \begin{figure}
 \centering
 \includegraphics[width=0.4\paperwidth]{Disciplines_Avion}
-\caption{Examples of aeronautics disciplines [[SOURCE]]}
+\caption{Examples of aeronautics disciplines (source unknown, partially based on the work of C. W. Miller \href{http://thehuwaldtfamily.org/jtrl/research/Airplane\%20Design/Dream\%20Airplane\%20Systems\%20Bias.pdf}{\emph{Dream Airplanes}})}
 \label{aero-disc}
 \end{figure}
 
@@ -1002,7 +798,185 @@ Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420}, represented in \
 
 The basic idea is to assign to each subsystem a value for the global variables. An optimization is done on the local variables of each subsystem to maximize their constraints margins. Based on the result of each subsystem, a global optimization is done to assign new values to the global variables. The process is then repeated iteratively.
 
-\section{Uncertainties in Multidisciplinary Optimization}
+\section{Design Optimization Under Uncertainties}\label{SOA_uncertainties}
+
+In a pure mathematical world, all models are perfectly correct and have an infinite precision. However, in the physical world, our knowledge can be extremely limited. Moreover, high precision models can require a long time to be computed, making them prohibitively costly when used in the context of an optimization process. Finally, when the optimization problem is complex and sensitive to parameters variations, a small approximation can result in large variations of the outputs.
+
+This difficulty is especially present in multidisciplinary design optimization problems. Not only the complexity of the disciplines themselves bring its share of modeling uncertainties related to the limited knowledge about the domains, but the product to be designed will pass through several manufacturing phases, each of them bringing its own part of uncertainties related to the production process.
+
+In order to tackle these issues, several works have been done to take into account uncertainties into the optimization process. We propose to make a quick tour of the different ways which have been proposed to model and propagate uncertainties.
+A major concern regarding the modeling of uncertainties is the uncertainties \emph{propagation}. 
+
+\subsection{Several types of uncertainties}
+
+A distinction is usually made between \emph{aleatory} uncertainties and \emph{epistemic} uncertainties.
+
+\textbf{Aleatory uncertainties} are inherent to the studied system. They can represent for example variability in the material used, a physical variation regarding the manufacturing of some piece, the meteorological conditions to which a device will be exposed etc.
+These uncertainties are \emph{irreducible} as it is impossible to remove them with a better analysis of the system.
+
+\textbf{Epistemic uncertainties} result from an incomplete knowledge regarding the system. These uncertainties can result from a limited set of data or lack of knowledge regarding a physical phenomenon.
+The uncertainties are \emph{reducible} as it is possible to remove them with a better analysis of the system. However, removing epistemic uncertainty can often be too costly or too difficult in practice, thus they still need to be taken into account during the optimization process.
+
+For example, let's suppose we work on a model taking two variables as input and producing an output: $z=f(x,y)$.
+Based on known uncertainties on the inputs and the model, how easy is it to combine and propagate these information to determine the uncertainty regarding the output ? Or more formally, can we provide a propagator $P$ such as $u_z = P(u_x, u_y, u_f)$ (where $u_i$ is the uncertainty associated with the element $i$)? As we will see, the ease to obtain such a propagator $P$ depends on the chosen way to model the uncertainties.
+
+\subsection{Uncertainties Modeling Techniques}
+
+We will now see several formal representations of uncertainties that have been proposed.
+
+\subsubsection{Probability Theory}
+
+Using the probability theory, uncertainty can be modeled using a distribution function. This modeling provides the advantages of a well-studied theoretical foundation, providing well-known combination and propagation techniques.
+
+Aleatory uncertainties can be characterized by obtaining a distribution function from a data sample.
+Well-known statistical techniques can be used to see for example if a data sample follows a known probability distribution, measuring \emph{goodness of fit}, that is, how well a data sample follows a given model, such as the Kolmogorov-Smirnov test \cite{Massey_1951}. 
+However, care must be taken as these techniques can introduce some more epistemic uncertainties which can lead to misleading results (for example in the case of insufficient data samples).
+
+Concerning epistemic uncertainty, it can be more difficult to estimate a relevant distribution function, as these uncertainties represent a limitation of knowledge about the concerned factor. While aleatory uncertainties can be studied to find some good approximation function (for example by making several production experiments in order to evaluate the variations in the product), it is most difficult to do so for epistemic uncertainty.
+
+\subsubsection{Interval Analysis}
+
+Interval analysis can be an alternative to probability theory when the lack of information impedes modeling with a probability distribution, but where the uncertainty can still be bounded within a certain domain.
+How easy is it to propagate intervals depends on the involved models. For example in the case of a monotonic function the lower and upper bounds can be determined easily. In the general case, determining the boundaries is equivalent to solve an optimization problem and can thus be solved by using optimization algorithms. In the most extreme cases, one can apply sampling techniques, but this can become quite expensive.
+For some examples of existing techniques, one can refer to \cite{Kreinovich_2008}.
+
+A limit of interval analysis is the lack of a measure equivalent to probability, which limits the usefulness of this representation in the general case. This modeling can still prove useful in the context of worst case studies where inputs variables can be bounded with accuracy.
+
+\subsubsection{Fuzzy Sets}
+
+Fuzzy sets \cite{zadeh1965fuzzy} can be seen as a compromise for when we still lack enough information to use probability theory, but we have more knowledge than just the bounds of the uncertainty.
+
+Basically, fuzzy sets are sets where the membership of an element to the set is not absolute but gradual.
+In classical set theory, an element is or is not a member of a set. This notion can be formalized as a function $f_S: X \rightarrow \{0,1\}$ where 
+$\left\{
+ 		 \begin{array}{rcr}
+			f_S(x) = 0 \Leftrightarrow x \not\in S\\
+			f_S(x) = 1 \Leftrightarrow x \in S
+		\end{array}
+	\right. $
+
+In the context of fuzzy sets, the equivalent function can be formalized as $f_S: X \rightarrow [0, 1]$, where $f_S(x)$ represents the degree of membership of $x$ to $S$. A value of 1 indicates a total membership to S, a value of 0 a complete absence of membership to S and the values in between specific degrees of membership.
+In this regard, fuzzy sets can be seen as a generalization of classical sets.
+
+Fuzzy sets quantification capability to represent vague information makes it attractive to model epistemic uncertainty, as it is more precise than interval analysis and well-suited to express expert knowledge. However this modeling is less powerful and expressive than probability theory, lacking for example a mean to represent an uncertainty measure equivalent to the probability of the probability theory. Indeed, the membership function is insufficient to characterize the likelihood of non-connected events.
+To overcome this limitation, the fuzzy set theory was extended into the possibility theory.
+
+\subsubsection{Possibility Theory}
+
+Possibility theory \cite{zadeh1978fuzzy} seems similar to probability theory. However, they are based on axioms which diverge on a fundamental point.
+The probability theory is based on the axiom of \emph{additivity}, which says that for two disjoints sets $U$ and $V$, $P(U \cup V) = P(U)+ P(V)$, that is the probability of at least one of two mutually exclusive events to be verified is the sum of the probabilities of each event.
+
+The possibility theory contains instead an axiom of \emph{sub-additivity} saying that for two disjoints sets $U$ and $V$, $\Pi(U \cup V) = \text{max }(\Pi(U), \Pi(V))$ (where $\Pi(X)$ reads as \enquote{possibility of X}).
+
+Let's take the basic example of a door which can be either open or closed. If we assume \enquote{the door is closed} has a probability of 1, it must follow that \enquote{the door is open} has a probability of 0, since the sum of these two complementary events must be 1.
+
+In the context of possibility theory, if we state that the possibility of \enquote{the door is closed} is 1, it is not incompatible with the possibility of the door to be open to be, for example, 0.4.
+
+The intuition behind this difference is that probability theory applies to the reality, while possibility theory applies to the knowledge one has regarding the reality, taking into account the \enquote{fuzziness} of one's knowledge. To cite the definition proposed by Nikolaidis et al. \cite{nikolaidis:386}:
+\begin{quote}
+\enquote{Possibility measures the degree to which: a) A person considers that an event can
+occur, or b) The degree to which the available evidence does not contradict the
+hypothesis that the event can occur.}
+\end{quote}
+
+As well as the notion of \emph{possibility}, possibility theory introduces the notion of \emph{necessity}. Basically, $Nec(U) = 1 - \Pi(\bar{U})$.
+This definition implies several interesting properties:
+
+$\left\{
+\begin{array}{l}
+Nec(U) \leq \Pi(U)\\
+Nec(U) + \Pi(\bar{U}) = 1\\
+\text{either } \Pi(U) = 1 \text{ or } Nec(U) = 0\\
+\end{array}
+\right.$
+\\
+
+Necessity and possibility of an event $e$ can be viewed as lower and upper bounds to the probability of $e$.
+
+Possibility theory offers numerous tools similar to the ones of probability theory (so much in fact that it has been debated if the two theories are really different, or if possibility theory was just a variation on probability theory). However, the capability of this theory to model expert knowledge specifically has made it quite popular in the context of uncertainty modeling.
+
+\subsubsection{Evidence Theory}
+
+Evidence theory \cite{shafer1976mathematical}, also known as Dempster-Shafer theory (DST), takes into account available evidences to provide a degree of belief concerning a fact.
+The basic idea of this theory is to represent the notion that the more evidences seem to confirm a proposition, the more we can believe the proposition to be true.
+
+Evidence theory represents a proposition as a set of elements. Thus some propositions can include others propositions (following the basic set inclusion definition). To these sets are assigned a basic belief assignment (BBA), also called \emph{mass}.
+
+From this mass can be calculated two measures:
+
+\begin{itemize}
+\item \emph{Belief:} $bel(S) = \displaystyle\sum_{S'\subseteq{S}} mass(S')$
+\item \emph{Plausibility:} $pl(S) = \displaystyle\sum_{S'|S' \cap S \neq \emptyset} mass(S')$
+\end{itemize}
+
+The mass measurement represents the amount of evidences which support the proposition, the likelihood of $S$. The belief and plausibility can be seen as lower and upper bounds to this likelihood.
+
+Once again we can obtain some interesting properties regarding these measures:
+
+$\left\{
+\begin{array}{l}
+bel(S) \leq mass(S) \leq pl(S)\\
+pl(S) = 1 - bel(\bar{S})\\
+bl(S) + bl(\bar{s}) \leq 1\\
+pl(S) + pl(\bar{s}) \geq 1\\
+\end{array}
+\right.$
+\\
+
+As with possibility theory, belief and plausibility can be used as lower and upper bounds for probability.
+
+Several rules have been proposed to combine informations coming from different (potentially conflicting) sources. To see an overview of these proposals, the reader can refer to \cite{sentz2002combination}.
+
+\subsubsection{Analysis of uncertainties modeling}
+
+We have seen how different ways to represent the uncertainties have been proposed. Some of these methods are based on well-studied mathematical tools, such as probabilities theories, but may not be adapted to the lack of quantifiable information. To palliate this insufficiency, alternative representations have been developed, based on the expression of expert knowledge or of available evidences.
+
+In a similar way to optimization methods, the choice of the uncertainties representation to apply will depend on the context, on the sources of uncertainties to take in account and the proficiencies of the experts.
+
+\subsection{Using Uncertainty for Robust Optimization}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{robust_optim}
+\caption{Example of robust optimum(a) and non-robust optimum (b)}\label{robust_optim_illu}
+\end{figure}
+
+On \figurename{} \ref{robust_optim_illu} a function with two optima can be seen. The minimum labeled $a$ is only a local optimum, being less optimal than the global minimum $b$. However, $a$ is more robust than $b$, in the sense that its neighborhood does not change drastically. A variation in the inputs, or in the actual results compared to the analytical model, will result in a lesser degradation of performances. Consequently, it can be deemed preferable to select $a$ instead of $b$, if the uncertainties would possibly result in a worst solution when trying to achieve the solution $b$.\\
+Specific methods have been dedicated to find solution which are both good (local optimum) and robust.
+
+\subsubsection{Taguchi Method - The firsts steps of Robust Optimization }
+
+Robust optimization tries to provide a solution which is both good and insensible to small variations of the inputs.
+
+The research on robust optimization has been initiated with Taguchi's robust design methodology\cite{tsui1992overview}, aiming at improving the quality of manufactured goods.
+In his methodology, Taguchi proposes a three-stages process :
+\begin{itemize}
+\item System design, where the designers determine the overall structure of the product at a high conceptual level;
+\item Parameter design, where the optimal values of the design variables are determined;
+\item Tolerance design, which focuses on reducing the variability of the  various parameters to fix an acceptable limit to the variability of quality for the product.
+\end{itemize}
+
+To help the designers during the parameter design phase, Taguchi introduced several measures, among them the Signal-to-Noise (SN) ratios. These ratios are used to estimate the sensitivity of a performance of the product to variations. Each ratio relates to a possible goal regarding the studied performance: larger the better, smaller the better, on target the best. These ratios are respectively noted $SN_L$, $SN_S$ and $SN_T$.
+By simulation or experimentation, one must first produce a data set.
+
+The $SN_L$ and $SN_S$ can be directly calculated as
+
+\[SN_L = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n \frac{1}{y_i^2} \right)\]
+\[SN_S = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n y_i^2 \right)\]
+
+For $SN_T$, we need first to measure the mean response, given by $\bar{y} = \frac{1}{n}\displaystyle\sum_{i=1}^n y_i$
+This mean can then be used to calculate the standard deviation as follows 
+\[S = \sqrt{\sum_{i=1}^n \frac{(y_i - \bar{y})^2}{n-1}}\]
+
+ $SN_T$ can then be calculated as
+ 
+ \[ SN_T = 10\text{log}\left(\frac{\bar{y}^2}{S^2}\right) \]
+ 
+To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi use the Design of Experiment\cite{sacks1989design}, a statistical procedure for determining the effect of multiple inputs on a desired output. by evaluation different designs using different noise factors (temperature, pressure \emph{etc.}), it is possible to obtain an array of SN rations on which a statistical data analysis allows to identify which design provides the best performances.
+
+Tagushi was the first to propose a way to take in account the uncertainties in design. As it is nearly inevitable for such pioneering work, his approach suffers from several limitations. As the number of parameters increases, so do the number of experiments (for $N$ parameters and $M$ noise factors we need $2^N$ designs and $M2^N$ experiments). Moreover, the statistical measures proposed by Tagushi has been subject to much debate (for a discussion of these measures see \cite{nair1992taguchi}). However, Tagushi opened the way for the other methods in the field.
+
+\subsection{Uncertainties in Multidisciplinary Optimization}
 
 The modeling of uncertainties in MDO problem is not fundamentally different from any other optimization problems. As with the other aspects of optimization, it is the complexity of the problem which make classical uncertainty propagation methods unfeasible in practice since too costly, as well as the heterogeneity of formalisms brought by different teams working in the different domains of the problem.
 
@@ -1024,9 +998,9 @@ Beyond this fundamental limitation, one major shortcomings of these methods is t
 
 Interestingly, different comparisons of multiple methods \cite{perez2004evaluation,Yi2008} showed that complex, multi-level methods (BLISS, CSSO ...) did not consistently outperform more \enquote{simple} mono-level methods (IDF, AAO ...) in regards of optimization performances (quality of solution, number of evaluations). In each case, the authors advanced that the advantages of complex MDO methods were more about an \enquote{organizational efficiency}, as these methods are more flexible and can more easily be adapted to existing organizational structures. While the ways to measure such properties can make such analysis debatable, this argument illustrates an important point about MDO methods: the complexity of the problem to solve is such that the main goal is not so much to efficiently solve it than to provide experts with simple and adapted tools in order to explore it. Sadly, the same evaluation works concluded that the more portable and flexible solutions were also the more difficult to put in practice.  Consequently, it seems that MDO methods suffer from a gap, not in regard to their computational efficiency (which seems nearly to be a secondary goal) but from the lack of a method which would be both flexible and simple to put in practice.
 
-\chapter{Conclusion on Optimization}
+\chapter*{Conclusion on Optimization}
 
-We have seen in this part how different types of optimization problems have been defined over time, depending on their topology, their complexity, their specificities.
+We have seen how different types of optimization problems have been defined over time, depending on their topology, their complexity, their specificities.
 
 Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure. Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. And a multi-disciplinary problem is basically an optimization problem so complex that standard optimization techniques fail. These distinctions are in no way indicative of a fundamental distinction between these different kinds of problems, but come solely from the limitations of the existing optimization techniques, which have to choose between being applicable in the general case and being efficient.
 
