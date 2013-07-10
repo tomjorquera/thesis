@@ -1164,19 +1164,19 @@ Jury members~:}\\[5mm]}
 
 \newcommand{\ListeFigures}[1]{%
   \cleardoublepage
-  \addcontentsline{toc}{chapter}{#1}
+  %\addcontentsline{toc}{chapter}{#1}
   \listoffigures
   \pagestyle{mystyle3}
 }
 \newcommand{\ListeTables}[1]{%
   \cleardoublepage
-  \addcontentsline{toc}{chapter}{#1}
+  %\addcontentsline{toc}{chapter}{#1}
   \listoftables
 }
 
 \newcommand{\Bibliographie}[1]{%
   \cleardoublepage
-  \addcontentsline{toc}{chapter}{\bibname}
+  %\addcontentsline{toc}{chapter}{\bibname}
   \bibliography{#1}
    \pagestyle{mystyle}
 }

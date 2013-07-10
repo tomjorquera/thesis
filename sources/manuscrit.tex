@@ -35,6 +35,7 @@
 
 \usepackage[tight]{shorttoc} %used to create an additional shorter table of content
 \usepackage{tocloft}%to customize the ToC
+\usepackage[nottoc]{tocbibind}%for the biblio to appear in the ToC
 
 %where to find the figures
 \graphicspath{ {StateoftheArt/figs/} {AMAS/figs/} {MAS4Optim/figs/} {Implem/figs/} {CPSP/figs/} {Experiments/figs/} }
@@ -96,6 +97,7 @@
 
 \pagestyle{mystyle3} %remove thumb-index (black boxes)
 \input{Prelude/Introduction}
+\clearpage	%required to avoid thumb-index on last page (why?)
 %%%%%%%%%%%%%%%%%%%
 \pagestyle{mystyle} %(re)activate default page style
 
