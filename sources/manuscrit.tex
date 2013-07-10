@@ -31,8 +31,10 @@
 \usepackage[pdftex]{graphicx}
 \usepackage{wrapfig,subcaption}
 
+\usepackage{booktabs} %for nice tables
+
 \usepackage[tight]{shorttoc} %used to create an additional shorter table of content
-%\usepackage{tocloft}%to customize the (shorter) ToC
+\usepackage{tocloft}%to customize the ToC
 
 %where to find the figures
 \graphicspath{ {StateoftheArt/figs/} {AMAS/figs/} {MAS4Optim/figs/} {Implem/figs/} {CPSP/figs/} {Experiments/figs/} }
@@ -78,16 +80,19 @@
 %\input{Prelude/Remerciements}
 
 %short ToC
-%\begingroup
-%  \clearpage
-%	\makeatletter \renewcommand{\cftchapindent}{10pt} %ident the chapters
-%	\makeatletter \setlength\cftbeforechapskip{-2pt} %no space between chapters
-%	\makeatletter \renewcommand{\cftchapfont}{} %remove boldfont for chapters
-%	\makeatletter \setlength\cftbeforepartskip{2pt} %reduced space between part
-%	\shorttableofcontents{Summary}{0} %display parts and chapters only
-%\endgroup
+\begingroup
+  \clearpage
+	\makeatletter \renewcommand{\cftchapindent}{10pt} %ident the chapters
+	\makeatletter \setlength\cftbeforechapskip{-2pt} %no space between chapters
+	\makeatletter \renewcommand{\cftchapfont}{} %remove boldfont for chapters
+	\makeatletter \setlength\cftbeforepartskip{2pt} %reduced space between part
+	\shorttableofcontents{Summary}{0} %display parts and chapters only
+\endgroup
 
-\Sommaire
+\begingroup
+	\makeatletter \renewcommand{\cftchapindent}{10pt} %ident the chapters
+	\Sommaire
+\endgroup
 
 \pagestyle{mystyle3} %remove thumb-index (black boxes)
 \input{Prelude/Introduction}

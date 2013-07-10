@@ -1187,7 +1187,7 @@ Jury members~:}\\[5mm]}
 
 \newcommand{\Sommaire}{%
   \setcounter{secnumdepth}{3}%
-  \setcounter{tocdepth}{3}%
+  \setcounter{tocdepth}{2}%
   \clearpage
   \pagestyle{mystyle3}
   %\def\baselinestretch{0.5}
