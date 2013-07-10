@@ -551,7 +551,7 @@ $O \leftarrow$ current output values\;
 		\BlankLine
 		\tcp{For each output, calculate the new correlation $\delta$}
 		\For{$o \leftarrow O$}{
-			$\delta_{i_{inform}, o} \leftarrow 	\dfrac{o_{t} - o_{t-1}}{i_{t} - i_{t-1}}$\;
+			$\delta_{i_{inform}, o} \leftarrow \dfrac{o_{t} - o_{t-1}}{i_{t} - i_{t-1}}$\;
 		}
 	}
 
@@ -811,71 +811,11 @@ An illustration on this mechanism can be seen on \figurename{} \ref{NCS_1_confli
 
 \subsection{Cooperative Trajectories}
 
-\subsubsection{For Model Agents}
-
-This NCS can be seen as an extension of the previous one (conflicting requests). It occurs when a model agent receives requests from its outputs which lead to contradictory changes on its inputs (\emph{Conflict} NCS). We presented in the previous section how using \emph{criticality} the model agent could discriminate between the requests by choosing to satisfy the most critical. However, in the specific case of the model agent, this mechanism is not the most efficient. Let us take a simple example, graphically represented in \figurename{} \ref{NCS_cooperatives_trajectories_models}.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.4\textwidth]{NCS_cooperatives_trajectories_models}
-\caption{Cooperative trajectories for model agent example}\label{NCS_cooperatives_trajectories_models}
-\end{figure}
-
-Suppose the following problem:
-
-\begin{align*}
-\text{Minimize } &b_1\\
-\text{Maximize } &b_2\\
-\end{align*}
-Where $b_1,b_2$ are outputs of the model $M(a_1,a_2)$ defined as
-\begin{align*}
-b_1 = &2a_1 + a_2\\
-b_2 = &a_1 + 2a_2\\
-\end{align*}
-
-Using conflicting requests mechanisms, the model agent $M$, upon receiving requests coming from the objective and constraint agents, would choose to fully satisfy the most critical request, disregarding completely the other. In this example, if the request of $b_1$, the first objective agent, is the most critical, the model agent would ask $a_1$ and $a_2$ both to decrease, and would ask them both to increase if the request of $b_2$, the second objective agent, was the most critical.\\
-With this mechanism, the model agent $M$ has only two possibilities: fully satisfy th request of $b_1$, or fully satisfy the request of $b_2$. However we can easily observe how, in this specific problem, the input variables $a_1$ and $a_2$ have different impacts on the two objectives. A variation of 1 for the variable $a_1$ will change the first objective $b_1$ by 2 and the second one $b_2$  by 1, while a variation of 1 for the variable $a_2$ will have the inverse effect.
-
-\paragraph*{Cooperative Trajectories using Participations}
-This observation leads to a third possibility: trying to satisfy both requests at once by propagating each request to the input agent(s) which is (or are) the most \enquote{involved}, which has the biggest impact for each request. Doing so allows a most efficient exploration of the search space by improving several criteria at once.
-
-[[Drawing of cooperative trajectory search space in 2D]]
-
-Let $M(I,O)$ be a model agent with a set of inputs $I$ and a set of outputs $O$.
-
-Let $\{r = <\Delta_{o_{\in O}}^{r}, crit>\}$ be a set of requests received for outputs $\{o \in O\}$, where $\Delta_{o}^{r}$ is the variation of output $o$ requested by the request $r$ and $crit$ the criticality of the request. By hypothesis, at most one request can concern the same output.\\
-Using an external optimizer, the agent obtains for each $r_k$ a set of corresponding input variations $\{\Delta_i^{r_k}\}_{i \in I}$.
-
-For each input $i$ of the model, we need to select a variation.
-First of all, we only keep the requested variations with the maximum criticality:  $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$.
-If $|\{\Delta_i^{r_{max}}\}| =  1$, then the agent knows which variation to request to the input agent.
-
-Otherwise, the model agent will discriminate using the relative participation of the input on the outputs concerned by the requests, calculated as follows: 
-$\Delta_i^* \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \dfrac{part_{i,o_{r_{max}}}}{\displaystyle\sum_{i \in I} part_{i,o}} \right\}$
-That is we select variation from the requests for which the relative participation of the input (in regard of the total participation) is the highest.
-
-If at this step $|\Delta_i^*| = 1$, the unique $\Delta_i^*$ is selected. If several conflicting requests have an equal maximal participation, they are considered equally important and one of them is selected randomly[[True?]].
-
-\begin{algorithm}
-\caption{Cooperative Trajectory - Model Agent}
-\label{algo_cooperative_trajectory_model}
-
-	\ForEach{$i \in I_M$}{
-		 $\{\Delta_i^{r_{max}}\} \leftarrow \{\Delta_i^r : crit_r = max \{crit_{r \in R}\}\}$\;
-		 \eIf{$|\{\Delta_i^{r_{max}}\}| = 1$}{
-		 	$\Delta_i^{r_{max}}$ is the variation requested to the input\;
-		 }
-		 {
-			$\{\Delta_i^*\} \leftarrow \left\{ \Delta_i^{r_{max}} : r_{max} = argmax \dfrac{inf_{i,o_{r_{max}}}}{\displaystyle\sum _{i \in I} inf_{i,o}} \right\}$\;
-		 }
-	}
-
-\end{algorithm}
-
 \subsubsection{For Variable Agents}
 
-We have seen in the previous section how it could be possible in some cases to propose a more efficient exploration of the search space by making model agents selectively propagate requests based on the participation of theirs inputs on theirs outputs. This mechanism based itself on the fact that all the requests pass by a model agent, which is able to \enquote{dispatch} the requests to different inputs.\\
-However, if we take the example problem, we can reformulate it as the following equivalent problem:
+This NCS can be seen as an extension of the previous one (conflicting requests). It occurs when a model agent receives requests from its outputs which lead to contradictory changes on its inputs (\emph{Conflict} NCS). We presented in the previous section how using \emph{criticality} the model agent could discriminate between the requests by choosing to satisfy the most critical. However, in some specific cases, this mechanism is not the most efficient. Let us take a simple example, graphically represented in \figurename{} \ref{NCS_cooperatives_trajectories_models}.
+
+Suppose the following problem:
 
 \begin{align*}
 \text{Minimize } &2a_1 + a_2\\
@@ -890,10 +830,152 @@ The graphical representation of this problem is shown in \figurename{} \ref{NCS_
 \caption{Cooperative trajectories for variables agents example}\label{NCS_cooperatives_trajectories_variables}
 \end{figure}
 
-Using this new formulation, no model agent is create during the MAS transformation of the problem, but the underlying problem between cooperative trajectories still exists but with an additional difficulty. As we already said, in order to be able to scale with the complexity of the problem, each agent must keep a local view. Consequently, the criteria agents are not aware of each other, and neither are the variable agents.\\
-We will now show how the variables agents can become aware of the NCS and coordinate to solve it without communicating with, or even acknowledging, each other.
+Using conflicting requests mechanisms, the model agent $M$, upon receiving requests coming from the objective and constraint agents, would choose to fully satisfy the most critical request, disregarding completely the other. In this example, if the request of $b_1$, the first objective agent, is the most critical, the model agent would ask $a_1$ and $a_2$ both to decrease, and would ask them both to increase if the request of $b_2$, the second objective agent, was the most critical.\\
+With this mechanism, the model agent $M$ has only two possibilities: fully satisfy th request of $b_1$, or fully satisfy the request of $b_2$. However we can easily observe how, in this specific problem, the input variables $a_1$ and $a_2$ have different impacts on the two objectives. A variation of 1 for the variable $a_1$ will change the first objective $b_1$ by 2 and the second one $b_2$  by 1, while a variation of 1 for the variable $a_2$ will have the inverse effect.
 
-[[TODO: Describe mechanisms]]
+\paragraph*{Cooperative Trajectories using Participations}
+This observation leads to a third possibility: trying to satisfy both requests at once by propagating each request to the input agent(s) which is (or are) the most \enquote{involved}, which has the biggest impact for each request. Doing so allows a most efficient exploration of the search space by improving several criteria at once.
+
+[[Drawing of cooperative trajectory search space in 2D]]
+
+This cooperative behavior intervenes only when the variable agent receives multiple contradictory requests with equivalent criticality (the criticality of the two request will be deemed equivalent if the difference is lower than a specific threshold $t_{crit}$ (that we chose to set at [[TODO: what value for the treshold]]). In this case, the agent cannot discriminate between the requests using the Conflicting requests cooperative mechanism, as the requests are deemed to be equally important. In order for the agent to be able to do the most helpful action, we introduce a new measure called \emph{participation}, propagated by the requests exchanged between agent.
+
+The meaning of this measure is the following: when an agent $A$ receives a request from an agent $B$, containing a participation $p$, it means that $B$ estimated the relative impact of $A$ on the request regarding its others inputs to be $p$ ($p \in [0,1]$).
+
+The participation is calculated as follow:
+[[TODO: How is the participation calculated?]]
+
+When a variable agent receive contradictory requests which are deemed to be equally critical, it chooses the request for which its participation is the highest.
+
+However, in this precise context, the agent cannot just compare the criticality at the a given moment [[TODO: why]]. Instead, the agent will memorize the requests and observe how the criticality of the next requests vary based on its actions. From on this observation, the agent makes an estimation of the impact of its action on the criticality of the senders, using the approximation hypothesis that varying in the same direction will cause the same variation of criticality on the senders. These estimations allow the agent to make a prediction on the future criticality of the senders if it increases or decreases.\\
+Consequently, the agent deems two requests $r_1$ and $r_2$ to be equally critical if the difference between their criticality $|crit_{r_1} - crit_{r_2}|$ is lower than $t_{crit}$ and if the difference between their anticipated criticality $| (crit_{r_1} + \Delta_1^{crit}) - (crit_{r_2} + \Delta_2^{crit})|$ is greater than $t_{crit}$. [[TODO: WTF?]]
+
+\begin{algorithm}
+\caption{Cooperative Trajectory - Variable Agent}
+\label{algo_cooperative_trajectory_variable}
+	$R \leftarrow $ received requests\;
+	$R_{mem} \leftarrow $ the previous memorized requests\;
+	
+	$t \leftarrow$ criticality comparison threshold\;
+	\BlankLine
+	\tcp{calculate criticality variations}
+	\ForEach{$r \in R$}{
+		$\Delta_c^r \leftarrow | criticality_r - criticality_{r_{mem}} |$\;
+	}
+	\BlankLine
+	\tcp{select request}
+	$r_{max} \leftarrow \displaystyle\operatorname*{arg\,max}_{r \in R}criticality_r$\;
+	$R_{equiv} \leftarrow \{ r \in R-\{r_{max}\}: | criticality_{r_{max}} - criticality_{r} | < t_{crit} 		\wedge 	(criticality_{r} + \Delta_c^{r}) - (criticality_{r_{max}} - \Delta_c^{r_{max}}) > t_{crit}\} $\;
+	\eIf{$R_{equiv} \neq \emptyset$}{
+		$r^* \leftarrow  \displaystyle\operatorname*{arg\,max}_{r \in R_{equiv} \cup \{r_{max}\}} participation_r$\;
+	}{
+		$r^* \leftarrow r_{max}$ \;
+	}
+	\BlankLine
+	\tcp{update memory}
+	$R_{mem} \leftarrow R$\;
+\end{algorithm}
+
+While we illustrated the need for cooperative trajectories in the case of contradictory requests there is another situation for which variable agents need to coordinate their variations in order to move efficiently through the search space. 
+
+This difficulty is illustrated on \figurename{} \ref{basin_fun_illustration}. On this figure is presented a 2-inputs functions we want to minimize (top-right corner), and 3 different trajectories. For each of these trajectories, the two inputs vary in the same direction, but with different strengths.\\
+We can see that, for the two dashed trajectories, the objective-function increases as the variation of one of the input is much greater than the variation of the other. Only on the non-dashed trajectory the objective is actually improved. The implication is that, even if all the inputs vary in the correct direction, if they do not coordinate the strengths of their variations they can cause a degradation of the objective.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{basin_function_with_trajs}
+\caption{Illustration of coordination requirements on a basin function with 3 different trajectories.}\label{basin_fun_illustration}
+\end{figure}
+
+With the nominal behavior, the agents would iterate and notice their mistake, compensating by changing direction. However this behavior would lead to a very inefficient trajectory. Consequently it is much more preferable that the agents coordinate their respective speeds in order to maintain a good trajectory. However, these variable are not related to each others in any way, and cannot communicate with each others. While we could create additional links to make the variables communicate among themselves, it would violate our locality principle. Instead, we propose a mechanism which base itself on the fact that the agents do not directly know each others, but know that the others agents exist and are cooperative. Consequently, by making careful iterative adjustments and observing the feedback of their environment, the agents can be able to estimate the impact of their variation in regard of the variations of the others variable agents, and adjust their speed in consequence.
+
+The basic idea is for the variable agent to create a representation of the trajectory it is following (in the 1-dimension space). It uses a \emph{trending trajectory} measure, noted $tt$, whose value varies between -1 and 1. A positive value for $tt$ means that the variable follow an \emph{increase} trajectory, while a negative value implies a \emph{decrease} trajectory. The higher the value of $|tt|$, the stronger the confidence of the agent into the trajectory.
+
+After the variable agent has selected a request, it updates $tt$ based on the direction requested. If the selected request asks the variable agent to decrease, $tt$ is decreased and \emph{vice versa}. The exact impact of the new request on $tt$ is controlled by a trending coefficient noted $\alpha_{trend}$, to which we attributed a value of 0.9.\\
+After updating $tt$, the agent will do the following:
+\begin{compactitem}
+\item $tt$ if low ($|tt|< 0.1$) or does not contradict the request (both the request and $tt$ indicate the same direction), the request is applied as is
+\item if $tt$ is high ($|tt|> 0.1$) and contradicts the request (the request and $tt$ indicate opposite directions), the agent does not apply the request, choosing instead to not change its value
+\item in the special case where the request asks the agent not to change value, the agent does so whatever the value of $tt$
+\end{compactitem}
+
+\begin{algorithm}
+\caption{Cooperative Trajectory - Speed Coordination}
+\label{algo_speed_coordination}
+	$r_s \leftarrow$ selected request\;
+	\BlankLine
+	\tcp{get sign of variation required by current selected request}
+	$\Delta_r \leftarrow value_{current} - value_{r_{s}}$\;
+	$\sigma_r \leftarrow \left\{
+ 									\begin{array}{rcr}
+   									-1 & if &\Delta_r < 0 \\
+   									0 & if &\Delta_r = 0\\
+    								1 & if &\Delta_r > 0 \\
+  								\end{array}
+								\right.$\;
+	\BlankLine
+	\tcp{update trending trajectory}
+	$tt \leftarrow$ memorized trending trajectory\;
+	$tt \leftarrow tt \times \alpha_{trend}	+ \sigma_r(1 - \alpha_{trend})$\;
+	\BlankLine
+	\tcp{apply the coordination action (using \tablename{} \ref{coord_act})} 
+	coordination_action($tt$, $\sigma_r$)	\;
+\end{algorithm}
+
+\begin{table}[htbp]
+\caption{Cooperative Trajectories - Coordination Actions}\label{coord_act}
+\centering
+\begin{tabular}{l|ll}
+		\toprule
+		$\boldsymbol{tt}$&$>-  0.1 $ & $< 0.1 $\\
+		\midrule
+		$\boldsymbol{\sigma_r}$ &&\\
+		+ & NOMINAL & WAIT\\
+		0 & WAIT & WAIT\\
+		- & WAIT & NOMINAL\\
+		\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{For Model Agents}
+
+We have seen in the previous section how it could be possible in some cases to propose a more efficient exploration of the search space by making variable agents cooperatively adjust their value based on the variation of the different requests they receive. However, if we take the example problem, we can reformulate it as the following equivalent problem:
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{NCS_cooperatives_trajectories_models}
+\caption{Cooperative trajectories for model agent example}\label{NCS_cooperatives_trajectories_models}
+\end{figure}
+
+\begin{align*}
+\text{Minimize } &b_1\\
+\text{Maximize } &b_2\\
+\end{align*}
+Where $b_1,b_2$ are outputs of the model $M(a_1,a_2)$ defined as
+\begin{align*}
+b_1 = &2a_1 + a_2\\
+b_2 = &a_1 + 2a_2\\
+\end{align*}
+
+Using this new formulation, the model agent will aggregate the requests it receives and only transmit one request to each variable agent. Consequently the variable agents will not be able to perceive the potential cooperative trajectory. In this case, it is the model agent which must detect the possibility of a cooperative trajectory.
+
+To this end, the model agent will use the same mechanisms than the variable agents. First it translates the requests sent by its outputs in requests on its inputs (using the classical propagation mechanisms). Then, for each input, the model agent will take the role of a variable agent and apply the cooperative trajectory mechanism for selecting a request among the requests destined to this input. After a request is selected for each input, the model agent will send the requests to its inputs agents.
+
+\begin{algorithm}
+\caption{Cooperative Trajectory - Model Agent}
+\label{algo_cooperative_trajectory_model}
+	$I \leftarrow$ the inputs set of the model agent\;
+	$R^{out} \leftarrow$ received requests\;
+	$O \leftarrow$ associated optimizer\;
+	\ForEach{$i \in I$}{
+		\tcp{translate received requests into requests on the input}
+		$R_i^{in} \leftarrow \{  O(r^{out}), \forall r^{out} \in R^{out}\}$\;
+		\tcp{apply variable cooperative trajectory on the input}
+		$r_i^* \leftarrow cooperative\_trajectory(i, R_i^{in})$\;
+		\tcp{send the selected request to $i$}
+		$send(i, r_i^*)$\;
+	}
+\end{algorithm}
 
 \subsection{Cycle Solving}\label{NCS_cycles}
 
@@ -1020,7 +1102,7 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 \label{algo_hidden_dependency_solving}
 
 	$R_{received} \leftarrow $ { received requests}\;
-	$R_{selected} \leftarrow \{ r \in R_{received} : \operatorname*{arg\,max}_{r \in R_{received}}(criticality_r) \}$\;
+	$R_{selected} \leftarrow \{ r \in R_{received} : \displaystyle\operatorname*{arg\,max}_{r \in R_{received}}(criticality_r) \}$\;
 
 	\If{$|R_{selected}| > 1 \wedge \forall( r_1, r_2 \in R_{selected}: origin_{r_1} = origin_{r_2})$}{
 
@@ -1032,7 +1114,7 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 			$Inf_- = \displaystyle\sum_{r \in R_{-}}{influence_r}$\;
 			$Inf_+ =\displaystyle\sum_{r \in R_{+}}{influence_r}$\;
 	
-			\eIf{$|Inf_-| > |Inf_+| 1$}
+			\eIf{$|Inf_-| > |Inf_+|$}
 			{
 				$R_{selected} \leftarrow R_-$\;
 			}
@@ -1316,7 +1398,7 @@ This problematic is not specific to our technique and is indeed  present all the
 
 As a remark we have seen how, by overloading some common mathematical operators, it was possible for the agents to manipulate uncertain values as if they were simple numerical values. Such work could be possibly done with complex numbers, matrix or others, arbitrarily complex, data structures, as long as the corresponding overloaded operators are provided.
 
-\chapter{Synthesis of the Contribution and Perspectives}
+\chapter*{Synthesis of the Contribution}
 
 In this part we presented a novel approach for complex continuous optimization using a multi-agent system do distribute the optimization process. We started our work with a new way to model a continuous optimization problem as an agent graph. This modeling allows for an easy and potentially automatic transformation of any problem as a graph, without requiring special knowledge or expertise regarding MAS. Moreover, this transformation does not requires any specific reformulation of the problem,  which can keep the natural formulation corresponding to its domain. Because of these properties we named our modeling Natural Domain Modeling for Optimization (NDMO).
 \\
@@ -1324,11 +1406,11 @@ To the best of our knowledge, this is the first proposal for providing a common 
 
 Based on this modeling, we proposed a simple nominal behavior where the agents try to solve individual goals and only has a limited, local perception of their neighbors. These agents can interface with external optimization techniques to solve local optimization problems (or alternatively use some internal optimization mechanisms), and exchange request and inform messages in order to keep a global coherence of the solution. A major distinction with MDO methods is that the global coherence of the problem is not a separate phase but is fully taken in account during the entire process.
 \\
-While our agents are already able to interface with external optimization methods, some refinements could be proposed. An example could be to, instead of providing each agent with an adequate optimizer, providing all the agents with an optimizer catalog where several optimization methods are presented and characterized. Based on their observation of the manipulated models, the agents could select the optimization method they deem the most appropriate, and even switch between different methods during the solving. Such mechanism would contribute even more to relieving the burden of  the designer, but would require to be effective an extensive study of the ontological properties of the field. An other improvement could concerns the internal optimization mechanisms we presented in algorithm \ref{algo_solving_internaloptim}. It could be possible to replace our simple linear approximation estimation by more astute techniques. For example, existing works concern  [[Parler travaux de Luc, Valérian etc.]]. Such methods could provide more precise estimations to be used by the agents.
+While our agents are already able to interface with external optimization methods, some refinements could be proposed. An example could be to, instead of providing each agent with an adequate optimizer, providing all the agents with an optimizer catalog where several optimization methods are presented and characterized. Based on their observation of the manipulated models, the agents could select the optimization method they deem the most appropriate, and even switch between different methods during the solving. Such mechanism would contribute even more to relieving the burden of  the designer, but would require to be effective an extensive study of the ontological properties of the field. An other improvement could concerns the internal optimization mechanisms we presented in algorithm \ref{algo_solving_internaloptim}. It could be possible to replace our simple linear approximation estimation by more astute techniques. Such methods could provide more precise estimations to be used by the agents.
 
 This nominal behavior being insufficient to solve some of the issues brought by the specificities of continuous optimization, we use the AMAS theory to identify a set of non cooperative situations, which represent specific patterns of configurations where the nominal behavior of the agents result in a sub-optimal handling of the optimization process. For each of these NCS, we proposed cooperative mechanisms which enrich the nominal behavior of the agent. These additional mechanisms allow to, when necessary, detect and identify the NCS, and to do corrective actions in order to re-establish the correct optimization process.
 \\
-The AMAS theory has proved to be an effective guide to the conception of our system. By maintaining a local view and concentrating on specific problematic situations, we obtained a behavior which is both scalable and modular. An interesting aspect of this work concerns the different NCS we identified. As our application domain is in itself quite abstracted and general, the NCS we encountered seems themselves to be of a more general nature than in some other works. In part \ref{CPSP} we will explore possible uses of this work to other domains than continuous optimization.
+The AMAS theory has proved to be an effective guide to the conception of our system. By maintaining a local view and concentrating on specific problematic situations, we obtained a behavior which is both scalable and modular. An interesting aspect of this work concerns the different NCS we identified. As our application domain is in itself quite abstracted and general, the NCS we encountered seems themselves to be of a more general nature than in some other works. In chapter \ref{CPSP} we will explore possible uses of this work to other domains than continuous optimization.
 
 We then showed how both our modeling and solving mechanisms are modular enough to be extended in order to handle additional concerns by proposing some modifications which allow to take in account the handling of uncertainties during the optimization process. We detailed the requirements for the agents to be able to handle uncertain values instead of normal numerical values, and we introduced the new concept of uncertainty propagator to provide, using the designers expertise of the uncertainties, an automatic mechanism for propagating heterogeneous uncertainties in the system.
 \\
