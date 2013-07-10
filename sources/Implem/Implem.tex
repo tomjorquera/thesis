@@ -1,4 +1,4 @@
-\part{Design, Implementation and extending the AMAS4Opt Building Blocks}
+\part{Design, Implementation and Extending the AMAS4Opt Building Blocks}
 
 One of our concerns was not only to propose a new approach for continuous optimization, but also to put this approach in practice by integrating it into a working prototype. To this end we worked with domain specialists and software development experts to propose such a tool, basing ourselves upon the ADELFE method. This method aims to guide the development of AMAS-based softwares from high level user requirements to the implementation nuts and bolts. Using ADELFE we made a comprehensive analysis of the domain and actors involved in the use of such a tool.
 
@@ -6,7 +6,7 @@ We also use the design tools provided with ADELFE to instantiate our MAS and int
 
 While such work could seems to concerns software engineering experts more than computer scientists, we will see how existing MAS oriented methods such as ADELFE are still too high-level to be successfully directly applied to any domain (and more so to continuous optimization) without an important agent expertise and extensive research work. We will detail how the scientific work we produced and presented in the previous part, especially the identification of various NCS[[s]] and the mechanisms to solve them, can be generalized into \enquote{building blocks}. These building blocks could then be reused to guide the design of other MAS in the domain of problem solving. This work places itself into a more general effort to provide a general reusable toolbox for assisting non experts in applying AMAS to the domain of optimization, under the name \emph{AMAS4Opt} (AMAS for Optimization).
 
-\chapter{ADELFE}\label{ADELFE_chapter}
+\chapter{ADELFE and MAY Architecture}\label{ADELFE_chapter}
 
 \section{Overview of ADELFE}
 
@@ -63,11 +63,9 @@ The next activities concerned the design of the agents themselves, their interac
 
 The last WD of ADELFE corresponds to the design of the agent architecture and implementation using MAY, the component-based framework developed in complement of ADELFE. While such framework aims ultimately to make the process as seamless and  automated than possible by providing reusable components, its early state implied once more some exploratory work on our part in order to produce, and in the end contribute to the MAY library with our own produced components. We will now see in the next chapter the architecture we proposed for a modular AMAS agent design.
 
-\chapter{MAY Architecture}
+\section{MAY Agent Architecture}
 
 To implement the MAS, we used the Make Agents Yourself (MAY) framework  \cite{No2012.2}. MAY is a component-based framework that automatically generates an implementation of an agent architecture from a given description.
-
-\section{Agent Architecture}
 
 The ADELFE methodology proposes an abstract agent architecture (represented in \figurename{} \ref{AMAS-ML_agent}), which we translated into the MAY architecture description language, SpeADL. In the context of our study, as the agents communicate and interact only by messages passing we could make some simplifications in regard of the original modeling of communications and actions capability of the agents. All our agents use the same AMAS architecture. They are differentiated by specific implementations of the components. For example, \emph{Model} and \emph{Variable} agents will have different implementations of the \emph{Behavior} component.\\
 The components of a MAY architecture are connected by \emph{ports}. A port can be though as a service interface, listing a set of available operations. Components expose lists of available and required ports. A component required ports must be linked to available ports provided by other components, satisfying these interfaces.
@@ -173,7 +171,7 @@ In order to provide its capabilities, the monitor component needs to be informed
 \label{Arch-monitor}
 \end{figure}
 
-\section{MAS Architecture}
+\section{MAY MAS Architecture}
 
 The MAY framework does not only allow to design the architecture of the agents, but can also be used to design the whole architecture of the MAS. This MAS architecture defines how the agents can interact among themselves and with their environment. Concerning our prototype, this architecture first provides support for the messages passing among the agents. The architecture of the system, which is explained below, is shown on \figurename{} \ref{Arch-MAS}.
 
@@ -190,7 +188,7 @@ Some interfaces for configuring and monitoring the agents are exposed to the out
 
 A more complex monitoring interface is provided by the \emph{System Monitor}. This component not only allows for advanced monitoring functionalities (like subscribing to changes notifications), but also handles the execution of the system though the \emph{Executor} component. The \emph{Executor} handles the low-level execution concerns, like creating threads and executing tasks, and is in charge of executing the code of the agents through the \emph{Scheduled} component. A very similar configuration (not presented on the diagram) allows the agents to exchange messages with the outside of the system. The \emph{System Monitor} is linked to a \emph{Controler} component, which is in charge of exposing a convenient execution control interface for the user or for an external program.
 
-\section{Integration into the prototype}
+\section{Integration into the Prototype}
 
 This implementation of the MAS was part of a collective development effort to provide a functional prototype. The goal of this prototype is to be a end-user aimed tool of the possibilities offered by agent-based continuous optimization.
 
