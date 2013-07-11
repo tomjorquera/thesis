@@ -101,7 +101,7 @@ In our Turbofan example on \figurename{} \ref{turbofan}, the $Turbofan$ function
 	$UeU0  \leftarrow \sqrt{\dfrac{\tau_r \times tau_c \times \tau_t-1}{\tau_r-1} \times \dfrac{\lambda}{\tau_r \times \tau_c}}$\;
 	$UfU0  \leftarrow \sqrt{\dfrac{\tau_r \times \tau_f-1}{\tau_r-1}}$\;
 	\;
-	\tcp{Outputs computation}	
+	\tcp{outputs computation}	
 	$Tdm0 \leftarrow u0 \times \dfrac{1}{(1+bpr)} \times (UeU0-1)+\dfrac{bpr}{1+bpr} \times (UfU0-1)) \times \alpha_{thrust}$;
 	%$f \leftarrow \dfrac{cp \times t0 \times (\tau_\lambda-\tau_r \times \tau_c)}{hfuel}$\;
 	$s \leftarrow \dfrac{f}{(1+bpr) \times Tdm0} \times 10e+06$\;
@@ -367,7 +367,7 @@ The behavior of the model agent is summarized in algorithm \ref{algo_simulating_
 		}
 	}
 	
-	\tcp{Send their value to new outputs}
+	\tcp{send their values to new outputs}
 	\If{$C' \neq \emptyset$}{
 		\ForEach{agent $o \in C'$}{
 			send($o$, new Inform($v'_o$))\;
@@ -426,7 +426,7 @@ In regard to problem simulation, constraint and objectives agents only role is t
 Their behavior is summarized in algorithm \ref{algo_simulating_criterion}.
 
 \begin{algorithm}
-\caption{Problem Simulation - Constraint/objective Agent Behavior}
+\caption{Problem Simulation - Constraint/Objective Agent Behavior}
 \label{algo_simulating_criterion}
 
 	$\{v_i\} \leftarrow$ new input values\;
@@ -536,7 +536,7 @@ The complete formula when several inputs are involved in the calculus of $o$ is 
 \caption{Collective Solving - Internal Optimizer Algorithm}
 \label{algo_solving_internaloptim}
 
-\emph{estimating correlation deltas}\;
+\tcp{estimating correlation deltas}\;
 $I \leftarrow$ current input values\;
 $O \leftarrow$ current output values\;
 	\For{$inform \leftarrow $ \{received inform messages\}}{
@@ -545,18 +545,18 @@ $O \leftarrow$ current output values\;
 		
 		$\{o_{t-1}\} \leftarrow \{$ old value of $o, \forall o \in O\}$\;
 		\BlankLine
-		\tcp{Reevaluate the outputs using the new input value}
+		\tcp{reevaluate the outputs using the new input value}
 		$I_{t} \leftarrow \{i \in I, i \neq i_{t-1}\} \cup \{i_t\}$\;
 		$\{o_{t}\} \leftarrow M(	I_{t})$\;
 		\BlankLine
-		\tcp{For each output, calculate the new correlation $\delta$}
+		\tcp{for each output, calculate the new correlation $\delta$}
 		\For{$o \leftarrow O$}{
 			$\delta_{i_{inform}, o} \leftarrow \dfrac{o_{t} - o_{t-1}}{i_{t} - i_{t-1}}$\;
 		}
 	}
 
 \BlankLine\BlankLine
-\emph{linear approximation optimization}\;
+\tcp{linear approximation optimization}\;
 $o^* \leftarrow $ target value for $o$\;
 $\Delta_o \leftarrow o^* - o_{current}$\;
 $\{\delta_i\} \leftarrow $ estimated correlations between all the inputs and the output\;
@@ -699,9 +699,15 @@ An important point is that each agent only has a partial knowledge local strateg
 
 \end{algorithm}
 
-\subsection{Agents Behavior and Co-design}
+\subsection{Adaptive Agents and Co-design}
 
-[[TALK ABOUT CO-DESIGN HERE]]
+As we said previously, one of our goals is for the system to be able to adapt to changes made in their environment, in order to allow the expert to experiment with the problem and observe the impact on the solution. This capability is especially relevant when the optimization problem is the representation of a complex system to design, as the designer may often have only an imperfect knowledge about the system to be designer. Using our system the designer can then change the problem and observe the effects on the design.
+
+However, in the behavioral algorithms we presented, we made nearly no mention of specific mechanisms for handling dynamics aspects of the problem. The reason is simple: the mechanisms we presented are already sufficient to take in account such dynamics, as we will demonstrate in the experiments. This intriguing property can be explained by to factor.  First of all the agents had to be designed considering that previous information they receive can become outdated, as the different parts of the optimization problem do not necessarily converge at the same rate. To this first observation is added the fact that each agent has to keep its reasoning to a local level, since an agent trying to reason on a global level would eventually be overwhelmed by the complexity of the problem. 
+
+The consequence of these two factors is that agents indifferently handle changes caused by the \enquote{normal} exploration of the search space and changes made to the optimization problem by the designer. Indeed, from the point of view of an agent, a complex problem and a dynamically changing problem are indistinguishable, and mechanisms tailored to handle one will also help solving the other.
+
+By forcing ourselves to keep the agent behavior at a local level, we gained another advantage in addition of the scalability properties of the MAS. Complex optimization problems requires the agent reasoning to be kept at a local level, both in space (neighborhood and information perceived by the agents) and in time (memorization of the informations). In these conditions, the agent is then \enquote{naturally} able to take in account external changes, are they are not distinguishable from its point of view of \enquote{normal} changes occurring from the optimization process. This characteristic which could at first sight be perceived as a handicap for the agent is in fact a bearer of several benefits.
 
 \section{Non-Cooperative Situations}\label{NCS_pres}
 
@@ -739,7 +745,6 @@ However the system designer has the difficult task to provide the agents which a
 %%
 In the proposed system, criticality is initially provided by constraint and objective agents and is propagated in the system through their requests.
 Let's illustrate this with a constraint of the type \(g(X) \leq t\), with \emph{X} input of the constraint, \emph{g(X)} the constraint equation and \emph{t} the threshold under which the constraint is satisfied. The basic requirements regarding the criticality of this agent is to be low when the constraint is satisfied and high when the constraint is violated. Thus, the criticality of this agent is function of its current value and of the threshold.
-
 
 \begin{figure}
 	\centering
@@ -809,49 +814,14 @@ An illustration on this mechanism can be seen on \figurename{} \ref{NCS_1_confli
 \caption{Criticality mechanism (the criticality of the requests is indicated in parenthesis).}\label{NCS_1_conflicting_requests}
 \end{figure}
 
-\subsection{Cooperative Trajectories}
+\paragraph*{Anticipating Criticality Variations of Conflicting Requests}
 
-\subsubsection{For Variable Agents}
-
-This NCS can be seen as an extension of the previous one (conflicting requests). It occurs when a model agent receives requests from its outputs which lead to contradictory changes on its inputs (\emph{Conflict} NCS). We presented in the previous section how using \emph{criticality} the model agent could discriminate between the requests by choosing to satisfy the most critical. However, in some specific cases, this mechanism is not the most efficient. Let us take a simple example, graphically represented in \figurename{} \ref{NCS_cooperatives_trajectories_models}.
-
-Suppose the following problem:
-
-\begin{align*}
-\text{Minimize } &2a_1 + a_2\\
-\text{Maximize } &a_1 + 2a_2\\
-\end{align*}
-
-The graphical representation of this problem is shown in \figurename{} \ref{NCS_cooperatives_trajectories_variables}.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.4\textwidth]{NCS_cooperatives_trajectories_variables}
-\caption{Cooperative trajectories for variables agents example}\label{NCS_cooperatives_trajectories_variables}
-\end{figure}
-
-Using conflicting requests mechanisms, the model agent $M$, upon receiving requests coming from the objective and constraint agents, would choose to fully satisfy the most critical request, disregarding completely the other. In this example, if the request of $b_1$, the first objective agent, is the most critical, the model agent would ask $a_1$ and $a_2$ both to decrease, and would ask them both to increase if the request of $b_2$, the second objective agent, was the most critical.\\
-With this mechanism, the model agent $M$ has only two possibilities: fully satisfy th request of $b_1$, or fully satisfy the request of $b_2$. However we can easily observe how, in this specific problem, the input variables $a_1$ and $a_2$ have different impacts on the two objectives. A variation of 1 for the variable $a_1$ will change the first objective $b_1$ by 2 and the second one $b_2$  by 1, while a variation of 1 for the variable $a_2$ will have the inverse effect.
-
-\paragraph*{Cooperative Trajectories using Participations}
-This observation leads to a third possibility: trying to satisfy both requests at once by propagating each request to the input agent(s) which is (or are) the most \enquote{involved}, which has the biggest impact for each request. Doing so allows a most efficient exploration of the search space by improving several criteria at once.
-
-[[Drawing of cooperative trajectory search space in 2D]]
-
-This cooperative behavior intervenes only when the variable agent receives multiple contradictory requests with equivalent criticality (the criticality of the two request will be deemed equivalent if the difference is lower than a specific threshold $t_{crit}$ (that we chose to set at [[TODO: what value for the treshold]]). In this case, the agent cannot discriminate between the requests using the Conflicting requests cooperative mechanism, as the requests are deemed to be equally important. In order for the agent to be able to do the most helpful action, we introduce a new measure called \emph{participation}, propagated by the requests exchanged between agent.
-
-The meaning of this measure is the following: when an agent $A$ receives a request from an agent $B$, containing a participation $p$, it means that $B$ estimated the relative impact of $A$ on the request regarding its others inputs to be $p$ ($p \in [0,1]$).
-
-The participation is calculated as follow:
-[[TODO: How is the participation calculated?]]
-
-When a variable agent receive contradictory requests which are deemed to be equally critical, it chooses the request for which its participation is the highest.
-
-However, in this precise context, the agent cannot just compare the criticality at the a given moment [[TODO: why]]. Instead, the agent will memorize the requests and observe how the criticality of the next requests vary based on its actions. From on this observation, the agent makes an estimation of the impact of its action on the criticality of the senders, using the approximation hypothesis that varying in the same direction will cause the same variation of criticality on the senders. These estimations allow the agent to make a prediction on the future criticality of the senders if it increases or decreases.\\
-Consequently, the agent deems two requests $r_1$ and $r_2$ to be equally critical if the difference between their criticality $|crit_{r_1} - crit_{r_2}|$ is lower than $t_{crit}$ and if the difference between their anticipated criticality $| (crit_{r_1} + \Delta_1^{crit}) - (crit_{r_2} + \Delta_2^{crit})|$ is greater than $t_{crit}$. [[TODO: WTF?]]
+This simple comparison of the criticalities at a given instant is the main way criticality was used in previous application of the AMAS theory. Since the goal of the agents is to reduce the maximal criticality among their neighbors, selecting the request of the most critical neighbor is a basic heuristic to achieve this end. We provide here an additional refinement by making the agents anticipate the effects of their action on the criticality of the other agents.\\
+The agent will memorize the requests and observe how the criticality of the next requests vary based on its actions. From on this observation, the agent makes an estimation of the impact of its action on the criticality of the senders, using the approximation hypothesis that varying in the same direction will cause the same variation of criticality on the senders. These estimations allow the agent to make a prediction on the future criticality of the senders if it increases or decreases.\\
+Consequently, the agent deems two requests $r_1$ and $r_2$, where $crit_{r_1} > crit-{r_2}$ to be of equivalent criticality if the difference between their criticality $|crit_{r_1} - crit_{r_2}|$ is lower than a given threshold $t_{crit}$  (which we set at 2\% of the maximum criticality) and if the difference between their anticipated criticality $| (crit_{r_1} + \Delta_1^{crit}) - (crit_{r_2} + \Delta_2^{crit})|$ is greater than $t_{crit}$.
 
 \begin{algorithm}
-\caption{Cooperative Trajectory - Variable Agent}
+\caption{Detecting Equivalent Contradictory Requests using Criticality Anticipation}
 \label{algo_cooperative_trajectory_variable}
 	$R \leftarrow $ received requests\;
 	$R_{mem} \leftarrow $ the previous memorized requests\;
@@ -862,23 +832,18 @@ Consequently, the agent deems two requests $r_1$ and $r_2$ to be equally critica
 	\ForEach{$r \in R$}{
 		$\Delta_c^r \leftarrow | criticality_r - criticality_{r_{mem}} |$\;
 	}
-	\BlankLine
-	\tcp{select request}
 	$r_{max} \leftarrow \displaystyle\operatorname*{arg\,max}_{r \in R}criticality_r$\;
 	$R_{equiv} \leftarrow \{ r \in R-\{r_{max}\}: | criticality_{r_{max}} - criticality_{r} | < t_{crit} 		\wedge 	(criticality_{r} + \Delta_c^{r}) - (criticality_{r_{max}} - \Delta_c^{r_{max}}) > t_{crit}\} $\;
-	\eIf{$R_{equiv} \neq \emptyset$}{
-		$r^* \leftarrow  \displaystyle\operatorname*{arg\,max}_{r \in R_{equiv} \cup \{r_{max}\}} participation_r$\;
-	}{
-		$r^* \leftarrow r_{max}$ \;
-	}
 	\BlankLine
 	\tcp{update memory}
 	$R_{mem} \leftarrow R$\;
 \end{algorithm}
 
-While we illustrated the need for cooperative trajectories in the case of contradictory requests there is another situation for which variable agents need to coordinate their variations in order to move efficiently through the search space. 
+By taking in account  not only the \enquote{spacial} aspect (which neighbor has what criticality) but also on the \enquote{temporal} aspect of its action (what will be the consequence of my action on my neighbors), the agent can make a more adequate decision.
 
-This difficulty is illustrated on \figurename{} \ref{basin_fun_illustration}. On this figure is presented a 2-inputs functions we want to minimize (top-right corner), and 3 different trajectories. For each of these trajectories, the two inputs vary in the same direction, but with different strengths.\\
+\paragraph*{Maintaining a Correct Trajectory with Successive Contradictory Requests}
+
+A last aspect of the handling of contradictory requests concerns th possibility for the agent to receive successively contradictory requests, possibly from the same origin. This situation can arise from the fact that some problem topologies requires the agents to move in a coordinated way across the search space.  This difficulty is illustrated on \figurename{} \ref{basin_fun_illustration}. On this figure is presented a 2-inputs functions we want to minimize (top-right corner), and 3 different trajectories. For each of these trajectories, the two inputs vary in the same direction, but with different strengths.\\
 We can see that, for the two dashed trajectories, the objective-function increases as the variation of one of the input is much greater than the variation of the other. Only on the non-dashed trajectory the objective is actually improved. The implication is that, even if all the inputs vary in the correct direction, if they do not coordinate the strengths of their variations they can cause a degradation of the objective.
 
 \begin{figure}
@@ -887,7 +852,7 @@ We can see that, for the two dashed trajectories, the objective-function increas
 \caption{Illustration of coordination requirements on a basin function with 3 different trajectories.}\label{basin_fun_illustration}
 \end{figure}
 
-With the nominal behavior, the agents would iterate and notice their mistake, compensating by changing direction. However this behavior would lead to a very inefficient trajectory. Consequently it is much more preferable that the agents coordinate their respective speeds in order to maintain a good trajectory. However, these variable are not related to each others in any way, and cannot communicate with each others. While we could create additional links to make the variables communicate among themselves, it would violate our locality principle. Instead, we propose a mechanism which base itself on the fact that the agents do not directly know each others, but know that the others agents exist and are cooperative. Consequently, by making careful iterative adjustments and observing the feedback of their environment, the agents can be able to estimate the impact of their variation in regard of the variations of the others variable agents, and adjust their speed in consequence.
+With the nominal behavior, the agents would iterate and notice their mistake, compensating by changing direction. However this behavior would lead to a very inefficient trajectory. Consequently it is much more preferable that the variable agents coordinate their respective movements in order to maintain a good trajectory. However, these variable are not related to each others in any way, and cannot communicate with each others. While we could create additional links to make the variables communicate among themselves, it would violate our locality principle. Instead, we propose a mechanism which base itself on the fact that the agents do not directly know each others, but know that the others agents exist and are cooperative. Consequently, by making careful adjustments and observing the feedback of their environment, the agents can be able to estimate the impact of their variation in regard of the variations of the others variable agents, and correct their movement in consequence.
 
 The basic idea is for the variable agent to create a representation of the trajectory it is following (in the 1-dimension space). It uses a \emph{trending trajectory} measure, noted $tt$, whose value varies between -1 and 1. A positive value for $tt$ means that the variable follow an \emph{increase} trajectory, while a negative value implies a \emph{decrease} trajectory. The higher the value of $|tt|$, the stronger the confidence of the agent into the trajectory.
 
@@ -936,6 +901,71 @@ After updating $tt$, the agent will do the following:
 		\bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Cooperative Trajectories}
+
+\subsubsection{For Variable Agents}
+
+This NCS can be seen as an extension of the previous one (conflicting requests). It occurs when a variable agent receives requests from its outputs which lead to contradictory changes on its inputs (\emph{Conflict} NCS). We presented in the previous section how using \emph{criticality} the agent could discriminate between the requests by choosing to satisfy the most critical. However, in some specific cases, this mechanism is not the most efficient. Let us take a simple example, graphically represented in \figurename{} \ref{NCS_cooperatives_trajectories_models}.
+
+Suppose the following problem:
+
+\begin{align*}
+\text{Minimize } &2a_1 + a_2\\
+\text{Maximize } &a_1 + 2a_2\\
+\end{align*}
+
+The graphical representation of this problem is shown in \figurename{} \ref{NCS_cooperatives_trajectories_variables}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{NCS_cooperatives_trajectories_variables}
+\caption{Cooperative trajectories for variables agents example}\label{NCS_cooperatives_trajectories_variables}
+\end{figure}
+
+Using conflicting requests mechanisms, each variable agent would, upon receiving requests coming from the objective and constraint agents, choose to fully satisfy the most critical request, disregarding completely the other. In this example, if the request of $b_1$, the first objective agent, is the most critical, $a_1$ and $a_2$ would both to decrease, they would both to increase if the request of $b_2$, the second objective agent, was the most critical.\\
+With this mechanism, the variable agents only have two possibilities: fully satisfy the request of $b_1$, or fully satisfy the request of $b_2$. However we can easily observe how, in this specific problem, the input variables $a_1$ and $a_2$ have different impacts on the two objectives. A variation of 1 for the variable $a_1$ will change the first objective $b_1$ by 2 and the second one $b_2$  by 1, while a variation of 1 for the variable $a_2$ will have the inverse effect.
+
+In such cases, the agents would start by fully helping the most critical to stabilize to a point where the criticalities of both requests are balanced., even if the point is not the most optimal.
+
+\paragraph*{Cooperative Trajectories using Participations}
+This observation leads to a third possibility: trying to satisfy both requests at once by satisfying for each variable agent the request on which it has the most \enquote{impact}. Doing so allows a most efficient exploration of the search space by improving several criteria at once.
+
+This cooperative behavior intervenes only when the variable agent receives multiple contradictory requests with equivalent criticalities (\emph{i.e.}, the agents have reached the point where the criticalities are balanced). In this case, the agent cannot discriminate between the requests using the Conflicting requests cooperative mechanism, as the requests are deemed to be equally important. In order for the agent to be able to do the most helpful action, we introduce a new measure called \emph{participation}, propagated with the requests exchanged between agent.
+
+The meaning of this measure is the following: when an agent $A$ receives a request from an agent $B$, containing a participation $p$, it means that $B$ estimated the relative impact of $A$ on the request regarding the impact of its others inputs to be $p$ ($p \in [0,1]$).
+
+To estimate the participation, we base ourselves on the correlation estimation mechanism introduced in section \ref{model_agent_solving}. The participation of an agent given by a request is thus calculated as follow:
+\begin{compactitem}
+\item Constraint/Objective agent: $participation_{i} = \dfrac{| correlation_{i} |}{\displaystyle \sum_{j \in I}{|correlation _{j}|}}$
+\item Model agent:  $participation_{i,o}\dfrac{| correlation_{i,o} |}{\displaystyle \sum_{j \in I}{|correlation _{j,o}|}} \times participation_{request}$
+\item Variable agent: the $participation$ of the received request is propagated as is
+\end{compactitem}
+
+When a variable agent receives contradictory requests which are deemed to be of equivalent criticality, it chooses to move in the direction which for which the total participation of the requests is the highest.
+
+\begin{algorithm}
+\caption{Cooperative Trajectory - Variable Agent}
+\label{algo_cooperative_trajectory_variable}
+	$R_{equiv} \leftarrow$ selected requests of equivalent criticality\;
+	
+		$R_- \leftarrow \{r \in R_{equiv} : value_{r} < value_{current}$\}\;
+		$R_+ \leftarrow \{r \in R_{equiv} : value_{r} > value_{current}$\}\;
+		
+		\If{$R_- \neq \emptyset \wedge R_+ \neq \emptyset$}{
+			\tcp{select direction with the highest total participation}
+			$Part_- = \displaystyle\sum_{r \in R_{-}}{participation_r}$\;
+			$Part_+ =\displaystyle\sum_{r \in R_{+}}{participation_r}$\;
+	
+			\eIf{$|Part_-| > |Part_+|$}
+			{
+				$R_{selected} \leftarrow R_-$\;
+			}
+			{
+				$R_{selected} \leftarrow R_+$\;
+			}
+		}
+\end{algorithm}
 
 \subsubsection{For Model Agents}
 
@@ -1022,16 +1052,16 @@ An example of diverging cycle is shown in \figurename{} \ref{NCS_cycles_fig}
 
 [[TOFIX: will probably be outdated + must write the synthesis algorithm]]
 \paragraph*{Detecting Cycles using Messages Signatures}
-To address the detection of cycles, each message is uniquely signed to register its origin. When an agent initiates a message sending by itself (i.e. not as the result of a received message), it \emph{signs} the message with its unique agent "ID" and an unique message number. The association of these two elements is the \emph{origin signature}.
+To address the detection of cycles, each message is uniquely signed to register its origin. When an agent initiates a message sending by itself (i.e. not as the result of a received message), it \emph{signs} the message with its unique agent \enquote{ID} and an unique message number. The association of these two elements is the \emph{origin signature}.
 
 When an agent sends a message in response to a received message, it adds to the sent message the origin signature of the message causing its action. This way, the signature origin is preserved from message to message and can be used to pinpoint the origin of an activity of the system.
 
-The \emph{Output agents} will be in charge of detecting and handling cycles, as they are in the best position for this. Indeed, being at the junction between criteria and models (or between different models), they are often the ones that can detect cycles the earliest.
+The output agents will be in charge of detecting and handling cycles, as they are in the best position for this. Indeed, being at the junction between criteria and models (or between different models), they are often the ones that can detect cycles the earliest.
 
 To detect a cycle,  the output agent creates a correspondence table associating for each origin agent the last signature it received from it. When receiving a message, the agent checks its origin. If the origin agent is not present in the table, the agent adds it. If it is present, it compares the new signature with the one it memorized. If the signatures are different, the agent replaces the old signature with the new one (as the new signature corresponds to a more recent request). If the two signatures match, then there is a cycle.
 
 \paragraph*{Finding Fixed Points}
-In case of a cycle, the output agent must now determine if the cycle is converging or diverging towards the fixed point. As in the general case all models are black boxes, the output agent needs to observe the evolution of output values while iterating through the cycle. If the difference between successive values is decreasing, the cycle is converging towards the fixed point, else the cycle is diverging as the variables are going in the "wrong direction". To this end, the output agent memorizes the difference between its old and new value, and continues as usual. When receiving the next message from the cycle, it calculates the new difference which enables it to decide if the cycle is converging or not towards the fixed point.
+In case of a cycle, the output agent must now determine if the cycle is converging or diverging towards the fixed point. As in the general case all models are black boxes, the output agent needs to observe the evolution of output values while iterating through the cycle. If the difference between successive values is decreasing, the cycle is converging towards the fixed point, else the cycle is diverging as the variables are going in the \enquote{wrong direction}. To this end, the output agent memorizes the difference between its old and new value, and continues as usual. When receiving the next message from the cycle, it calculates the new difference which enables it to decide if the cycle is converging or not towards the fixed point.
 
 If the cycle is converging, the output agent does not need to do any special action. But in case of a diverging cycle, instead of taking the requested value, the agent emits to its model a request for the opposite direction (\emph{i.e.}, if the value of the output should have increased of \emph{n}, the agent will request a new value corresponding to a decrease of \emph{n}). The request will propagate through the cycle until the fixed point is found.
 [[END TOFIX]]
@@ -1101,7 +1131,7 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 \caption{Hidden dependency detection and solving by variable agents}
 \label{algo_hidden_dependency_solving}
 
-	$R_{received} \leftarrow $ { received requests}\;
+	$R_{received} \leftarrow $ received requests\;
 	$R_{selected} \leftarrow \{ r \in R_{received} : \displaystyle\operatorname*{arg\,max}_{r \in R_{received}}(criticality_r) \}$\;
 
 	\If{$|R_{selected}| > 1 \wedge \forall( r_1, r_2 \in R_{selected}: origin_{r_1} = origin_{r_2})$}{
@@ -1110,7 +1140,7 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 		$R_+ \leftarrow \{r \in R_{selected} : value_{r} > value_{current}$\}\;
 		
 		\If{$R_- \neq \emptyset \wedge R_+ \neq \emptyset$}{
-			\tcp{A hidden dependency NCS is detected}
+			\tcp{a hidden dependency NCS is detected}
 			$Inf_- = \displaystyle\sum_{r \in R_{-}}{influence_r}$\;
 			$Inf_+ =\displaystyle\sum_{r \in R_{+}}{influence_r}$\;
 	
@@ -1167,7 +1197,7 @@ The only modification which needs to be done for this mechanism to work concerns
 
 	$O \leftarrow $ \{ outputs \}\;
 	$Informs \leftarrow $ \{ received informs \}\;
-	$stillwaiting \leftarrow \forall output \in O,  (\displaystyle\sum_{info \in Informs}{ influence(input_{info}, output) \leq 50\%})$\;
+	$stillwaiting \leftarrow \forall output \in O,  \displaystyle\sum_{info \in Informs}{ influence(input_{info}, output) \leq 50\%}$\;
 
 \end{algorithm}
 
@@ -1180,20 +1210,16 @@ In this section we presented several problematic configurations (NCS) which can 
 \begin{table}
 \caption{Non Cooperative Situations Summary}\label{NCS_summary}
 \centering
-\begin{tabular}{|c|p{5cm}|p{5cm}|}
-	\hline
-		NCS  & Description &  Cooperative Mechanisms\\
-	\hline
+\begin{tabular}{lp{5.5cm}p{4.5cm}}
+	\toprule
+	NCS  & Description &  Cooperative Mechanisms\\
+	\midrule
 	Conflicting Requests & An agent receives several incompatible requests & Criticality\\
-	\hline
-	Cooperative Trajectories & An agent receives seemingly incompatible requests, which can each be satisfied & [[??]]\\
-	\hline
-	Cycle Solving & Several agents are involved in a diverging cycle  & sender timestamps, origin timestamps\\
-	\hline
-	Hidden Dependencies & An agent sends seemingly independent requests to  dependent agents & origin timestamps, influence\\
-	\hline
-	Asynchronous Messages & Agents receive messages in untimely manner & influence\\
-	\hline
+	Cooperative Trajectories & An agent receives seemingly incompatible requests, which can each be satisfied & Participation\\
+	Cycle Solving & Several agents are involved in a diverging cycle  & Signature\\
+	Hidden Dependencies & An agent sends seemingly independent requests to  dependent agents & Signature, Influence\\
+	Asynchronous Messages & Agents receive messages in untimely manner & Influence\\
+	\bottomrule
 \end{tabular}
 
 \end{table}
@@ -1202,20 +1228,17 @@ In this section we presented several problematic configurations (NCS) which can 
 In each case, we proposed general mechanisms for the agents to be able to detect and correct the NCS in order to maintain a correct and efficient optimization process. In general, we had to provide enough information for the involved agents to detect and correct the NCS. The different mechanisms are summarized in \tablename{} \ref{NCS_mechanisms_summary}
 
 \begin{table}
-\caption{Non Cooperative Solving Mechanisms}\label{NCS_mechanisms_summary}
+\caption{Non Cooperative Situations Solving Mechanisms}\label{NCS_mechanisms_summary}
 \centering
-\begin{tabular}{|c|p{3.5cm}|p{3.5cm}|p{5cm}|}
-	\hline
-		Mechanism & Description & NCS Involved & Properties\\
-	\hline
+\begin{tabular}{lp{4cm}p{4cm}p{3.5cm}}
+	\toprule
+	Mechanism & Description & NCS Involved & Properties\\
+	\midrule
 	Criticality & A aggregated measure to indicate the state of the agent & Conflicting Requests & Comparable between different agents\\
-	\hline
-	Sender/Origin Timestamps & A unique signature composed of the unique id of the sender/origin of the message and a (local) time step & Cycles Solving, Hidden Dependencies, Asynchronous Messages, [[Cooperative Trajectories ?]] & Comparable by sender/origin, allows a partial ordering of the messages (by sender/origin)\\
-	\hline
+	Signature & A unique signature composed of the unique id of the sender/origin of the message and a (local) timestamp & Cycles Solving, Hidden Dependencies, Asynchronous Messages & Comparable, allows a partial ordering of the messages by sender/origin\\
 	Influence & An indicator of the impact value of the receiver on the origin & Hidden Dependencies & Comparable by origin\\
-	\hline
-	 [[Participation ??]]& & & & 
-	\hline
+	 Participation & An indicator of the relative impact of the receiver on the origin relative to the rest of the system & Cooperative Trajectories &  Comparable between different senders\\
+	\bottomrule
 \end{tabular}
 \end{table}
 
@@ -1228,18 +1251,16 @@ We now provide a quick complexity analysis of the different solving mechanisms.
 The main work for solving this NCS consists in finding the request(s) with the highest criticality. This very simple operation can be done by examining each received request in sequence and have a complexity of $\mathcal{O}(n)$ in the number of requests.\\
 The solving of this NCS does not require sending additional messages
 
-\paragraph*{Cooperative Trajectories - Models}
+\paragraph*{Cooperative Trajectories }
 
-To solve this NCS, the model agent must, for each input, choses the selected request for which the input is the most important. The complexity of the algorithm is thus $\mathcal{O}(n \times i)$, $n$ being the number of selected requests and $i$ the number of inputs.\\
-When solving this NCS, the model agent sends the same number of messages then in the nominal case.
+When solving this NCS, the agent must group the requests before comparing the total participation of the two groups. The grouping and total participations calculation can be factorized into a single pass algorithm of complexity $\mathcal{O}(n)$ regarding the number of requests.
+The agent will not need to send additional messages for solving this NCS.
 
-\paragraph*{Cooperative Trajectories - Variables}
-
-[[TODO]]
+For models agents, the algorithm will need to be applied on each input, consequently its complexity will be  $\mathcal{O}(n \times i)$, $i$ being the number of inputs.
 
 \paragraph*{Cycle Solving}
 
-[[TODO]]
+To detect a cycle, the agent need to compare the signature of each received message with the memorized origin signatures. The complexity of this comparison is $\mathcal{O}(n \times m)$, $n$ being the number of received messages and $m$ being the number of signatures.
 
 \paragraph*{Hidden Dependencies}
 When solving this NCS, the agent needs to detect which selected requests come from the same origin, group them, before comparing the total influences of the two groups. The detection, grouping and total influence calculation can all be factorized into a single pass algorithm of complexity $\mathcal{O}(n)$ regarding the number of requests.\\
@@ -1294,7 +1315,7 @@ One can instead propose the following probabilistic constraint $P(x < 10) > 90\%
 
 Taking in account uncertainties requires modifications at several levels. The most obvious concerns the data structure. On the deterministic version, the data exchanged by the agent were simply real values \footnote{With the obvious limitation of the representation of real numbers on a machine.}. To be able to exchange uncertain values, the agents require a more complex data structure.
 
-As we presented earlier, there are many ways to represent uncertainties, each of them having specific requirements. For example, an interval representation requires two values, the minimum and maximum boundaries, while an uncertainty expressed by a set of measures obtained with Monte Carlos experiments can require the storage of hundreds of thousands points. As we want to maintain the possibility for the designers to choose how they represent uncertainties, we need to provide an abstraction for the agents to be able to consistently handle uncertain values whatever the specific representation [[CORRECT ENGLISH?]].
+As we presented earlier, there are many ways to represent uncertainties, each of them having specific requirements. For example, an interval representation requires two values, the minimum and maximum boundaries, while an uncertainty expressed by a set of measures obtained with Monte Carlos experiments can require the storage of hundreds of thousands points. As we want to maintain the possibility for the designers to choose how they represent uncertainties, we need to provide an abstraction for the agents to be able to consistently handle uncertain values whatever the specific representation.
 
 To this end, we specified the minimum set of operations the agents require. To be able to manipulate an uncertain value, an agent needs to be able to :
 \begin{compactitem}
