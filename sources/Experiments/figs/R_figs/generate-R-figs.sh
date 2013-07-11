@@ -13,7 +13,7 @@ Rscript config.r "./res_Viennet1/" "viennet_o1"
 Rscript config.r "./res_Viennet1/" "viennet_o2"
 Rscript config.r "./res_Viennet1/" "viennet_o3"
 
-Rscript config.r "./res_Rosenbrock/" "minimizer"
+Rscript config.r "./res_Rosenbrock/" "objective"
 Rscript config.r "./res_Rosenbrock/" "x1"
 Rscript config.r "./res_Rosenbrock/" "x2"
 

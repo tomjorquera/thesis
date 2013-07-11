@@ -18,12 +18,6 @@ The third type of optimization problems are algorithmically generated with the p
 
 \chapter{Behavior Validation using Academic Test Cases}
 
-[[TODO: introduce better the different test cases]]
-
-[[need an overhaul of the section]]
-
-[[Need to talk about oracle optimizers]]
-
 This section presents some of the results we obtained on several test cases: Turbofan Problem, Viennet1, Rosenbrock's valley and Alexandrov. These test cases are not big enough to be truly qualified of \enquote{complex}, but exhibit specific properties which can be found in complex test cases. Consequently they are useful to study and validate the cooperative behavior of the agents.
 
 In each test cases, the MAS consistently converges towards the best (or one of the best) solution.
@@ -105,14 +99,14 @@ The results presented on \figurename{} \ref{rosenbrock_res} are for the two-dime
 	%
 	\begin{subfigure}[b]{0.45\textwidth}	
 		\centering
-		[[TODO: put fig of cooperative trajectories]]
-		\caption{Example of cooperative trajectories on Rosebrock's valley (starting point [[TODO]])}\label{collective_traj_rosenbrock_plot}
+		\includegraphics[width=\textwidth]{cooperative_trajectories_example}
+		\caption{Example of cooperative trajectories on Rosebrock's valley (starting point (-2, 4))}\label{collective_traj_rosenbrock_plot}
 	\end{subfigure}
 	
 	\begin{subfigure}{0.4\textwidth}
 		\centering
-    	\includegraphics[width = \textwidth]{./R_figs/generated/minimizer}	
-		\caption{Convergence of Rosenbrock objective for 100 random starting points [[TODO: change axis label]]}\label{rosenbrock_res}
+    	\includegraphics[width = \textwidth]{./R_figs/generated/objective}	
+		\caption{Convergence of Rosenbrock objective for 100 random starting points}\label{rosenbrock_res}
 	\end{subfigure}
 \end{figure}
 
@@ -201,27 +195,27 @@ Summarized results illustrating the convergence of the system. are presented on 
 \caption{Summary of experiments results for the tests cases}\label{experiments_res}
 
 \centering
-\begin{tabular}{|*3{c|} c  || *3{c|} c |}
-	\hline
-		& \multicolumn{3}{c||}	{nb. evaluations to best}
-		& \multicolumn{4}{c|}	{average distance to best} \\
+\begin{tabular}{cccc|cccc}
+	\toprule
+		& \multicolumn{3}{c|}	{nb. evaluations to best}
+		& \multicolumn{4}{c}	{average distance to best} \\
 	\cline{2-8}
 		&	10\%		& 	50\%	&		90\%	&	0\% (start)		& 	30\%	&		60\%	&	100\% (end)\\
-	\hline
-	Alexandrov & 29 & 52 & 79 & 13109.169 & 803.126 & 5.685 & 0.059\\
-	\hline
-	Turbofan\_o1 & 16 & 38 & 50 & 67.654 & 14.971 & 0.743 & 0.313\\
-	Turbofan\_o2 & 10 & 23 & 35 & 23.876 & 1.853 & 0.143 & 0.101\\
-	\hline
-	viennet\_o1 & 4 & 17 & 31& 8.514 & 0.300 & 0.025 & 0.021\\
-	viennet\_o2 & 4 & 15 & 30 & 9.412 & 0.320 & 0.02 & 0.02\\
-	viennet\_o3 & 5 & 14 & 27 & 10.622 & 0.063 & 4.40E-004 & 1.68E-004\\
-	\hline
+	\toprule
+	Turbofan\_o1 & 22 & 38 & 50 & 67.654 & 21.563 & 1.78 & 0.313\\
+	Turbofan\_o2 & 14 & 23 & 32 & 23.876 & 2.485 & 0.387 & 0.101\\
+	\midrule
+	Viennet\_o1 & 8 & 17 & 29 & 8.514 & 0.458 & 0.033 & 0.021\\
+	Viennet\_o2 & 9 & 15 & 27 & 9.412 & 0.37 & 0.043 & 0.021\\
+	Viennet\_o3 & 9 & 14 & 23 & 10.622 & 0.102 & 0.001 & 0.0	\\
+	\midrule
+	Rosenbrock & 19 & 47 & 56 & 13749.427 & 123.44 & 4.564 & 2.201\\
+	\midrule
+	Alexandrov & 36 & 52 & 70 & 13109.169 & 1236.501 & 15.434 & 0.059\\
+	\bottomrule
 \end{tabular}
 
 \end{table}
-
-[[TODO => Add Rosenbrock to the table]]
 
 These results tend to validate the correctness of our approach, proving that the conjunction of the agents nominal behaviors and cooperative mechanisms allows to solve correct solution to diverse optimization problems.
 
@@ -233,7 +227,7 @@ We will now present the second part of our validation, by making experiment on l
 
 \section{Adaptation to Perturbations}
 
-\subsection{Perturbated Alexandrov}
+\subsection{Perturbated Alexandrov Problem}
  
 On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous experimentation on the problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
 
@@ -266,7 +260,7 @@ On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the m
 	
 \end{figure}
 
-\subsection{Turbofan Problem.}
+\subsection{Perturbated Turbofan Problem}
 
 \begin{figure*}
 \centering
@@ -322,16 +316,6 @@ First we create strong changes by modifying simultaneously both a constraint and
 \end{description}
 The experiments show that the system consistently reacts to these perturbations by adapting itself in order to find a new solution for the modified problem.
 
-\subsection{Analysis of Adaptation Capabilities.}
-
-The experiments presented in this section illustrate an interesting property of our MAS. Despite the fact that we never explicitly defined specific behavior rules for the agents to handle dynamics changes, the system is able to dynamically take them in account and adapt to find new satisfactory solutions.
-
-This self-adaptive capability can be explained by two factors. First of all the agents had to be designed considering that previous information they receive can become outdated, as the different parts of the optimization problem do not necessarily converge at the same rate. To this first observation is added the fact that each agent has to keep its reasoning to a local level, since an agent trying to reason on a global level would eventually be overwhelmed by the complexity of the problem. 
-
-The consequence of these two factors is that agents indifferently handle changes caused by the "normal" exploration of the search space and changes made to the optimization problem by the designer. Indeed, from the point of view of an agent, a complex problem and a dynamically changing problem are indistinguishable, and mechanisms tailored to handle one will also help solving the other.
-
-By forcing ourselves to keep the agent behavior at a local level, we gained another advantage in addition of the scalability properties of the MAS. Complex optimization problems requires the agent reasoning to be kept at a local level, both in space (neighborhood and information perceived by the agents) and in time (memorization of the informations). In these conditions, the agent is then \enquote{naturally} able to take in account external changes, are they are not distinguishable from its point of view of \enquote{normal} changes occurring from the optimization process. This characteristic which could at first sight be perceived as a handicap for the agent is in fact a bearer of several benefits.
-
 \chapter{Large Tests Cases and Comparison with Existing Methods}
 
 \section{Preliminary Aircraft Design}
@@ -385,17 +369,17 @@ Consequently, the only method dominating our own in regard of this criterion is 
 \begin{table}
 \caption{Classification by criteria (based on \cite{perez2004evaluation})}
 \centering
-\begin{tabular}{c|ccccc}
-
+\begin{tabular}{cccccc}
+		\toprule
 			& Accuracy & Efficiency & Transparency & Simplicity & Portability\\
-		\hline
+		\midrule
 		b\tn{a1}est& \textbf{AMAS} & \textbf{AMAS} & \textbf{AMAS} & MDF & \textbf{AMAS}\\
 			& MDF & IDF & MDF & IDF, \textbf{AMAS} & CO\\
 			& IDF & BLISS & IDF &  & CSSO\\
 			& BLISS & CSSO & CO & CO & BLISS\\
 			& CO & CO & CSSO & CSSO & IDF\\
 		wo\tn{a2}rst& CSSO & MDF & BLISS & BLISS & MDF\\
-
+		\bottorule
 \end{tabular}
 \tikz[remember picture,overlay]
     \path[->, very thick] (a1.south) edge (a2.north -| a1.south);
