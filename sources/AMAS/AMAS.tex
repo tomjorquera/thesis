@@ -90,35 +90,29 @@ A classical use of DCOP is unsolvable CSP[[s]], problems where there is no solut
 
 \begin{center}
 \begin{tabular}{ccc}
-\textbf{$x_1$}	& \textbf{$x_3$} & \textbf{$c_{13}(x_1,x_3)$}\\
-\hline
+\toprule
+$\boldsymbol{x_1}$	& $\boldsymbol{x_3}$ & $\boldsymbol{c_{13}(x_1,x_3)}$\\
+\midrule
 0   & 0	& 1\\
-\hline
 1   & 0	& 0\\
-\hline
 0   & 1	& 0\\
-\hline
 1   & 1	& 1\\
-\hline
 0   & 2	& 0\\
-\hline
 1   & 2	& 0\\
+\bottomrule
 \end{tabular}
 \quad
 \begin{tabular}{ccc}
-\textbf{$x_2$}	& \textbf{$x_3$} & \textbf{$c_{23}(x_2,x_3)$}\\
-\hline
+\toprule
+$\boldsymbol{x_2}$	& $\boldsymbol{x_3}$ & $\boldsymbol{c_{23}(x_2,x_3)}$\\
+\midrule
 1   & 0	& 0\\
-\hline
 2   & 0	& 0\\
-\hline
 1   & 1	& 1\\
-\hline
 2   & 1	& 0\\
-\hline
 1   & 2	& 0\\
-\hline
 2   & 2	& 1\\
+\bottomrule
 \end{tabular}
 \end{center}
 
@@ -249,16 +243,16 @@ Based on these conditions, a set of \emph{Non Cooperative Situations}(NCS) has b
 
 \begin{figure}
 \centering
-\begin{tabular}{|c|c|}
-\hline
+\begin{tabular}{ll}
+\toprule
 \textbf{Violated condition}	& \textbf{Corresponding NCS} \\
-\hline
+\midrule
 $C_{perception}$     & Incomprehension, Ambiguity\\
-\hline
+
 $C_{decision}$      & Incompetence, Unproductiveness \\
-\hline
+
 $C_{action}$     & Uselessness, Competition, Conflict\\
-\hline
+\bottomrule
 \end{tabular}
 \caption{The conditions for cooperation and corresponding NCS}
 \label{NCS}
@@ -298,7 +292,7 @@ Obviously, such general principles cannot hold systematically true and some prob
 
 \subsection{ADELFE - A Method for Designing AMAS}\label{AMAS-ADELFE}
 
-ADELFE \cite{bernon2003adelfe} is a method dedicated to the development of AMAS. The name \enquote{ADELFE} is the French acronym for "toolkit to develop software with emergent functionality" (\textit{Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente}). While ADELFE is not the only method devoted to guide the design of a MAS, its specificity concerns the fact that it is specifically tailored for AMAS.
+ADELFE \cite{bernon2003adelfe} is a method dedicated to the development of AMAS. The name \enquote{ADELFE} is the French acronym for \enquote{toolkit to develop software with emergent functionality} (\textit{Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente}). While ADELFE is not the only method devoted to guide the design of a MAS, its specificity concerns the fact that it is specifically tailored for AMAS.
 
 The ambition of ADELFE is to provide be-all and end-all method to guide engineers during all the phases of the design of an AMAS, from the high-level requirements to the \enquote{nuts and bolts} implantation details. This ambition was the driving factor for multiple projects with the objective of improve or complement ADELFE with additional tools, such as the Make Agents Yourself (MAY) framework  \cite{No2012.2}, used to automatically generate agent architecture implementations.
 
