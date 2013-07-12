@@ -87,7 +87,7 @@ On a side note, it can be added that, in addition to the case of continuous opti
 
 \section{Continuous Optimization Methods}
 
-As we have seen at the end of the last section, optimization methods have to make various compromises regarding applicability versus efficiency.  A great variety of methods exit in the literature, from generic methods applicable to a great variety of optimization problems to very specialized methods designed to be efficient in a specific context. These methods can be categorized by the type of problems they aim to solve or some inherent properties of the method.
+As we have seen at the end of the last section, optimization methods have to make various compromises regarding applicability versus efficiency. A great variety of methods exit in the literature, from generic methods applicable to a great variety of optimization problems to very specialized methods designed to be efficient in a specific context. These methods can be categorized by the type of problems they aim to solve or some inherent properties of the method.
 
 Some possible criteria to discriminate based on the type of problem:
 \begin{itemize}
@@ -128,7 +128,7 @@ A \emph{convex} search space is a set where all the lines segments linking the p
 		\includegraphics[width=\textwidth]{Convex_polygon_illustration1}
 		\caption{Convex search space}\label{convexVSconcave:conc}
 	\end{subfigure}
-  	\begin{subfigure}{0.35\textwidth}
+	\begin{subfigure}{0.35\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Convex_polygon_illustration2}
 		\caption{Concave search space}\label{convexVSconcave:conv}
@@ -171,7 +171,7 @@ Basically, if we make the following assumption:
 
 then we can estimate the derivative as follow:
 
-\begin{equation*}f'(x) \approx \frac{f(x + d)  - f(x)}{d}\end{equation*}
+\begin{equation*}f'(x) \approx \frac{f(x + d) - f(x)}{d}\end{equation*}
 
 \subsubsection{Without Constraint}
 
@@ -190,7 +190,7 @@ where $d_i$ is the direction vector and $s_i$ the step size coefficient.
 \paragraph{Line search}
 
 Line search is the most basic approach. It first determines which direction would improve the objective function, then decide of a step size to move toward it.
-Some of the most well-known linear search methods are gradient descent, Newton's and Quasi-Newton methods \cite{dennis1983numerical}. The gradient method simply uses a step size proportional to the value of the gradient. The Newton's and Quasi-Newton methods however try to find a solution to the equation $\nabla f(x)=0$ ($\nabla f(x)$ being the gradient of $f$). The Newton's method use the gradient  and the Hessian matrix of $f$ to estimate a good step size, while the Quasi-Newton methods avoid the disadvantages of using the Hessian (which can involve costly operations) for example by replacing it with an approximation based on the variation of the gradient.
+Some of the most well-known linear search methods are gradient descent, Newton's and Quasi-Newton methods \cite{dennis1983numerical}. The gradient method simply uses a step size proportional to the value of the gradient. The Newton's and Quasi-Newton methods however try to find a solution to the equation $\nabla f(x)=0$ ($\nabla f(x)$ being the gradient of $f$). The Newton's method use the gradient and the Hessian matrix of $f$ to estimate a good step size, while the Quasi-Newton methods avoid the disadvantages of using the Hessian (which can involve costly operations) for example by replacing it with an approximation based on the variation of the gradient.
 
 \paragraph{Trust region}
 
@@ -286,7 +286,7 @@ When exact methods are too costly or non-applicable, it is often sufficient to g
 
 For example, a simple strategy can be to run a local optimization technique several times with different initialization points, in order to increase the coverage of the search space.
 
-Expanding on this strategy is the \emph{Tabu search} metaheuristic. The idea of Tabu Search is to execute the same algorithm several times. To avoid converging  toward the same point, the previous solutions are memorized and are not allowed to be revisited. Thus the method has less chances to be quickly trapped in local optima.
+Expanding on this strategy is the \emph{Tabu search} metaheuristic. The idea of Tabu Search is to execute the same algorithm several times. To avoid converging toward the same point, the previous solutions are memorized and are not allowed to be revisited. Thus the method has less chances to be quickly trapped in local optima.
 The tabu search can be extended with several levels of memory to influence the search toward the most interesting regions of the search space.
 
 Another class of heuristics introduces randomization into the search process in order to obtain a good coverage of the search space. These strategies are said to be \emph{stochastic}.
@@ -325,7 +325,7 @@ Regarding a continuous optimization problem, the genotype of an entity would be 
 
 The optimization process iterates over two phases: \emph{selection} and \emph{generation of a new population}.
 In the selection phase, a subset of the current population is selected to be used in the generation of the new population. In the most basic approach, the selected individuals are the ones which obtain the best scores on the fitness function.
-The second phase generates a new population, based on the selected individuals. To produce the new population, a set of biology-inspired genetic operators is used. Two of the most common genetic operators are \emph{crossover} and \emph{mutation}. The crossover is the creation of a new individual, whose genotype is based on the combination  of two randomly selected \enquote{parents}. The mutation consists in randomly changing a part of the genotype of an individual.
+The second phase generates a new population, based on the selected individuals. To produce the new population, a set of biology-inspired genetic operators is used. Two of the most common genetic operators are \emph{crossover} and \emph{mutation}. The crossover is the creation of a new individual, whose genotype is based on the combination of two randomly selected \enquote{parents}. The mutation consists in randomly changing a part of the genotype of an individual.
 
 Together, these two operators can be seen as representatives of the exploitation versus exploration dilemma. The crossover operation is an attempt to exploit the best solutions found so far, while the mutation is done to maintain diversity in the population. 
 
@@ -394,13 +394,13 @@ The formulation of a MOO problem does not differ significantly from the formulat
 MOO problems are quite a radical departure from previous optimization problems type we have seen. Many approaches have been proposed, the majority of which can be separated in two categories: \emph{a priori} and \emph{a posteriori} approaches. \textbf{A priori approaches} aim at discriminating between the objectives \emph{before} the optimization process. This often consists into combining the different objectives into one, before applying a classical optimization method on the new, aggregated objective.
 On the opposite, \textbf{a posteriori methods} try to provide a set of efficient solutions among which the decider will choose.
 A priori approaches are considered easier, but not very efficient, whereas a posteriori approaches provide more diversity of solutions as well as more insight about the nature of the problem.
-A third category can also be considered: the \emph{interactive} methods. Basically, these methods iterate between decision and search phases. For example, an interactive  method could work by quickly providing intermediate solutions to the decision-maker, which would in return refines the search using them.
+A third category can also be considered: the \emph{interactive} methods. Basically, these methods iterate between decision and search phases. For example, an interactive method could work by quickly providing intermediate solutions to the decision-maker, which would in return refines the search using them.
 
 We will now see some of the strategies have been proposed to deal with such problems. A recommended reading for the interested reader is the very complete overview by Marler \emph{et al.} in \cite{marler2004survey}. 
 
 \section{A Priori Methods}
 
-A priori methods usually propose a strategy  to make the use of classical single-objective optimization methods on the problem possible. This may be done by discriminating between the different objective or by aggregating them into a new objective which will be used for the optimization.
+A priori methods usually propose a strategy to make the use of classical single-objective optimization methods on the problem possible. This may be done by discriminating between the different objective or by aggregating them into a new objective which will be used for the optimization.
 
 We will now see some examples of such methods.
 
@@ -416,7 +416,7 @@ A slightly more sophisticated way is the weighted sum method, where a coefficien
 
 Where $w_i$ are the coefficients representing the relative preferences between the objectives.
 
-This method enables to express a preference between different objectives, as well as bringing back on comparable scale different objectives. However, one now has to decide of the coefficients to choose. Furthermore, this method can hide some information concerning the solution, for example an extremely poor result in one of the objectives, compensated by small improvements in all the others.  The method also present some limitations in the fact that it does not guarantee that the final solution will be an acceptable point, nor that a continuous variations of the points will leads to a continuous distribution of the solutions. it is also not possible to obtain solution points situated in a non convex region of the solution set \cite{marler2004survey}.
+This method enables to express a preference between different objectives, as well as bringing back on comparable scale different objectives. However, one now has to decide of the coefficients to choose. Furthermore, this method can hide some information concerning the solution, for example an extremely poor result in one of the objectives, compensated by small improvements in all the others. The method also present some limitations in the fact that it does not guarantee that the final solution will be an acceptable point, nor that a continuous variations of the points will leads to a continuous distribution of the solutions. it is also not possible to obtain solution points situated in a non convex region of the solution set \cite{marler2004survey}.
 
 \subsection{Lexicographic Method}
 
@@ -495,7 +495,7 @@ Conversely, if from a system state A it is possible to find a new state B where 
 
 \definition{Pareto-dominance}{Given A and B two vectors describing different resources allocations in a system, \(A \prec B \Leftrightarrow (\forall i \text{ }A_i \leq B_i \land \exists j \text{ } A_j < B_j\)). }
 
-Note that, to complicate a little the understanding of this notion, the definition of domination depends of whether we actually want to \emph{maximize} or \emph{minimize} the resource allocation. Note that in this definition we wanted to maximize resources allocation, so \(A \prec B\) reads \enquote{B dominates A}. If we want to \emph{minimize} the allocation, the meaning is inverted and  \(A \prec B\) reads \enquote{A dominates B}.
+Note that, to complicate a little the understanding of this notion, the definition of domination depends of whether we actually want to \emph{maximize} or \emph{minimize} the resource allocation. Note that in this definition we wanted to maximize resources allocation, so \(A \prec B\) reads \enquote{B dominates A}. If we want to \emph{minimize} the allocation, the meaning is inverted and \(A \prec B\) reads \enquote{A dominates B}.
 As it is the standard convention in optimization to express problems in terms of minimization, for the rest of this thesis we will use \(A \prec B\) with the meaning of \enquote{A dominates B}, unless otherwise specified.
 
 Based on this relation of dominance, it is possible to provide a definition of Pareto-optimality.
@@ -522,7 +522,7 @@ An illustration of a Pareto front can be seen on figure \ref{Front_Pareto}. The 
 
 \subsection{Multi-Objective Evolutionary Algorithms}
 
-A popular strategy to find the Pareto front is to use specialized variants of population-based heuristics methods (presented in section \ref{optim_heuristic}).  One of the most widespread approach concerns Multi-Objective Evolutionary Algorithms (MOEA).
+A popular strategy to find the Pareto front is to use specialized variants of population-based heuristics methods (presented in section \ref{optim_heuristic}). One of the most widespread approach concerns Multi-Objective Evolutionary Algorithms (MOEA).
 
 MOEA are variants of EA specialized in the simultaneous tracking of several solutions, instead of providing a single solution. Historically, MOEA are divided in two main categories, based on whether or not they use elitism mechanisms, with some consensus concerning the superiority of elitist algorithms.
 
@@ -546,7 +546,7 @@ It has also be noted in \cite{corne2007techniques} that many MOEA have poor scal
 
 \section{Analysis of MOO}
 
-We have seen how a new concern, taking in account several objectives, has created the need for new optimization strategies.  Interestingly, many of these MOO-specific methods do not concentrate on the optimization process in itself, but on providing strategies to apply classical optimization techniques.
+We have seen how a new concern, taking in account several objectives, has created the need for new optimization strategies. Interestingly, many of these MOO-specific methods do not concentrate on the optimization process in itself, but on providing strategies to apply classical optimization techniques.
 
 Some of these methods propose to aggregate the objectives, in order to be able to directly apply a mono-objective optimization techniques. However these methods require the expert to make some choices concerning the priorities of the objectives before having the possibilities to look at the different alternatives.\\
 Others approaches use population-based algorithms in order to maintain a set of solutions. However these approaches already quite costly in the mono-objective case, require even more evaluations of the problem.
@@ -571,7 +571,7 @@ To handle such complex systems, most strategies propose to decompose it into sev
 
 \begin{itemize}
 \item product (also called object) decomposition, based on the physical components of the system. This kind of decomposition is not always adequate and often subjective;
-\item process  (also called sequential) decomposition, based on the workflow of elements/informations involved into the design process. This decomposition is most adequate when the design process is linear.
+\item process (also called sequential) decomposition, based on the workflow of elements/informations involved into the design process. This decomposition is most adequate when the design process is linear.
 \item domain (also called aspect) decomposition, based on the knowledge domains, the disciplines, involved. This kind of decomposition is the basis of MDO methods.
 \end{itemize}
 
@@ -731,7 +731,7 @@ All variables are considered as design variable for the optimizer, and the analy
 \end{wrapfigure}
 
 This transformation allows the analysis phase to be very quick, as we only need to evaluate the residuals of the equality constraints representing the equations.
-However, the drawbacks of IDF are even more important, as AAO requires an even bigger reformulation of the problem, introducing a lot of duplicated variables and consistency  constraints to the problem. This reformulation also complicates the optimization phase.
+However, the drawbacks of IDF are even more important, as AAO requires an even bigger reformulation of the problem, introducing a lot of duplicated variables and consistency constraints to the problem. This reformulation also complicates the optimization phase.
 
 \section{Multi-Level Methods}
 
@@ -757,7 +757,7 @@ Collaborative Optimization (CO) \cite{Ilan:1994:MOM:887207}, illustrated on \fig
 \caption{CO method}\label{co_graph}
 \end{wrapfigure}
 
-CO is best-suited for MDO problems with a low coupling between disciplines. The authors have argued that one advantage of CO is that it closely matches the discipline decomposition of the problem, as the scope domain-specific variables and constraints are limited to the related disciplines. Thus, the discipline optimizations can be done by domain experts  who have a strong understanding of the subproblems.
+CO is best-suited for MDO problems with a low coupling between disciplines. The authors have argued that one advantage of CO is that it closely matches the discipline decomposition of the problem, as the scope domain-specific variables and constraints are limited to the related disciplines. Thus, the discipline optimizations can be done by domain experts who have a strong understanding of the subproblems.
 
 \subsection{Bilevel Integrated System Synthesis}
 
@@ -773,7 +773,7 @@ BLISS shares similarities with CSSO however, local variables are assigned to the
 For each discipline optimization problem, an approximation of the global objective-functions and constraints is build using linear approximation considering only the variables of the discipline.
 
 The optimization process cycle alternates as follow: first a system-wide analysis is done (which includes the analysis of each subsystem) and used to provide the approximate objective-functions. Then a discipline-level optimization of the objective-functions approximations, which is used for a system optimization concerning the shared variables. These results are then used by the new system analysis at the start of the next step.
-   
+
 \subsection{MDO based on Independent Subspaces}
 
 MDO based on Independent Subspaces (MDOIS) \cite{NME:NME1380}, whose representation is shown on \figurename{} \ref{mdois_graph} has been developed for handling problems where the different disciplines are coupled (i.e. some outputs of one discipline are used as inputs by the others and vice versa) but they do not share any design variable or criterion.
@@ -953,7 +953,7 @@ In his methodology, Taguchi proposes a three-stages process :
 \begin{itemize}
 \item System design, where the designers determine the overall structure of the product at a high conceptual level;
 \item Parameter design, where the optimal values of the design variables are determined;
-\item Tolerance design, which focuses on reducing the variability of the  various parameters to fix an acceptable limit to the variability of quality for the product.
+\item Tolerance design, which focuses on reducing the variability of the various parameters to fix an acceptable limit to the variability of quality for the product.
 \end{itemize}
 
 To help the designers during the parameter design phase, Taguchi introduced several measures, among them the Signal-to-Noise (SN) ratios. These ratios are used to estimate the sensitivity of a performance of the product to variations. Each ratio relates to a possible goal regarding the studied performance: larger the better, smaller the better, on target the best. These ratios are respectively noted $SN_L$, $SN_S$ and $SN_T$.
@@ -992,11 +992,11 @@ MDO methods try to address the problem of complex continuous optimization proble
 This transformation of a highly coupled system to a loosely coupled one cannot fail to remember the comparison of Wilden \cite{wilden2003system} between \enquote{hot} (complex) and \enquote{cold} (complicated) systems, the first ones being highly connected and integrated networks, the second ones loosely integrated and mostly in a tree-like structures (we will indeed see in the next parts how this representation of the system as an integrated network of components is relevant).\\
 By reducing the complexity of the problem, MDO methods indeed ease the optimization process, but the price of this transformation is the necessity to include intermediate steps in order to re-establish a coherent \enquote{view} of the whole system. By taking a reductionist approach, the MDO methods are bound to suffer for this additional cost, requiring multiple back-and-forth due to their maimed modeling.
 
-On a side note, we can wonder about the existence of inherently identifiable,  separable disciplines. One can argue that this distinction between discipline does not correspond to a natural separation inherent to the system to design, but is a consequence of the current division on experts into separate expertise fields. Is the fact that an airplane design problem can be decomposed between aerodynamic, geometry, \emph{etc.} an inherent property due to the nature of the problem ? Or is the reason that this problem was constructed in the first place by aggregating the work of experts coming from these fields? In this context, it is not really surprising that the disciplines corresponding to these fields will be strongly internally connected and only weakly connected to the others. And on another hand, it is easy to imagine how experts from these different fields will tend to favor a divide into disciplines which correspond to their specific expertise field. Consequently, by maintaining this division between these arbitrary disciplines, MDO methods are bound by the reductionism which led to the distinction between these disciplines in the first place.
+On a side note, we can wonder about the existence of inherently identifiable, separable disciplines. One can argue that this distinction between discipline does not correspond to a natural separation inherent to the system to design, but is a consequence of the current division on experts into separate expertise fields. Is the fact that an airplane design problem can be decomposed between aerodynamic, geometry, \emph{etc.} an inherent property due to the nature of the problem ? Or is the reason that this problem was constructed in the first place by aggregating the work of experts coming from these fields? In this context, it is not really surprising that the disciplines corresponding to these fields will be strongly internally connected and only weakly connected to the others. And on another hand, it is easy to imagine how experts from these different fields will tend to favor a divide into disciplines which correspond to their specific expertise field. Consequently, by maintaining this division between these arbitrary disciplines, MDO methods are bound by the reductionism which led to the distinction between these disciplines in the first place.
 
 Beyond this fundamental limitation, one major shortcomings of these methods is the heavy work and expertise they require from the engineer to be put in practice. To actually perform the optimization process, one must have a deep understanding of the models involved as well as of the chosen method itself. This is mandatory to be able to correctly reformulate the models according to the formalism the method requires, as well as to work out what is the most efficient way to organize the models in regard to the method. Since by definition MDO involves disciplines of different natures, it is often impossible for one person to possess all the required knowledge, needing the involvement of a whole team in the process. Moreover, answering all these requirements implies a lot of work \emph{before} even starting the optimization process.
 
-Interestingly, different comparisons of multiple methods \cite{perez2004evaluation,Yi2008} showed that complex, multi-level methods (BLISS, CSSO ...) did not consistently outperform more \enquote{simple} mono-level methods (IDF, AAO ...) in regards of optimization performances (quality of solution, number of evaluations). In each case, the authors advanced that the advantages of complex MDO methods were more about an \enquote{organizational efficiency}, as these methods are more flexible and can more easily be adapted to existing organizational structures. While the ways to measure such properties can make such analysis debatable, this argument illustrates an important point about MDO methods: the complexity of the problem to solve is such that the main goal is not so much to efficiently solve it than to provide experts with simple and adapted tools in order to explore it. Sadly, the same evaluation works concluded that the more portable and flexible solutions were also the more difficult to put in practice.  Consequently, it seems that MDO methods suffer from a gap, not in regard to their computational efficiency (which seems nearly to be a secondary goal) but from the lack of a method which would be both flexible and simple to put in practice.
+Interestingly, different comparisons of multiple methods \cite{perez2004evaluation,Yi2008} showed that complex, multi-level methods (BLISS, CSSO ...) did not consistently outperform more \enquote{simple} mono-level methods (IDF, AAO ...) in regards of optimization performances (quality of solution, number of evaluations). In each case, the authors advanced that the advantages of complex MDO methods were more about an \enquote{organizational efficiency}, as these methods are more flexible and can more easily be adapted to existing organizational structures. While the ways to measure such properties can make such analysis debatable, this argument illustrates an important point about MDO methods: the complexity of the problem to solve is such that the main goal is not so much to efficiently solve it than to provide experts with simple and adapted tools in order to explore it. Sadly, the same evaluation works concluded that the more portable and flexible solutions were also the more difficult to put in practice. Consequently, it seems that MDO methods suffer from a gap, not in regard to their computational efficiency (which seems nearly to be a secondary goal) but from the lack of a method which would be both flexible and simple to put in practice.
 
 \chapter*{Conclusion on Optimization}
 

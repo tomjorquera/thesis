@@ -6,9 +6,9 @@ In the previous part we discussed an inherent limitation of the current continuo
 
 In this part we present the main contribution of this thesis: a novel approach to solve complex continuous optimization problems using a MAS. We start by creating a new modeling of continuous optimization problems as entities graphs, and agentify these entities to produce a MAS based on the problem. We then design agent behaviors and specific mechanisms for the MAS to be able to solve the optimization problem in a distributed way, while maintaining a coherent view of the problem by propagating messages from neighbors to neighbors. 
 
-First we propose a new way to model a continuous optimization as a MAS. We want our modeling must be general enough to allow any continuous optimization problem to be transformed in such a way. We also want it simple enough to be automated, which is not only a requirement in the case of big problems, but also a way for the MAS to work \enquote{behind the scenes}, without requiring the user of the system to have a specific knowledge of multi-agent related concepts. Since optimization specialists often possess expert  knowledge and techniques associated to the problems they want to solve, we would like our modeling to be able to integrate with external optimization tools. Our last requirement is the model to allow the person in charge of the optimization process to be able to express the problem in the formulation which is the most natural for him, without requiring the problem to be reformulated in any way.
+First we propose a new way to model a continuous optimization as a MAS. We want our modeling must be general enough to allow any continuous optimization problem to be transformed in such a way. We also want it simple enough to be automated, which is not only a requirement in the case of big problems, but also a way for the MAS to work \enquote{behind the scenes}, without requiring the user of the system to have a specific knowledge of multi-agent related concepts. Since optimization specialists often possess expert knowledge and techniques associated to the problems they want to solve, we would like our modeling to be able to integrate with external optimization tools. Our last requirement is the model to allow the person in charge of the optimization process to be able to express the problem in the formulation which is the most natural for him, without requiring the problem to be reformulated in any way.
 
-After presenting our modeling, we design an agent-based algorithm for the solving of complex continuous optimization problems. We expose the basic, nominal workflow of the system, how the agents try to optimize the different parts of the system and exchanges inform and request messages in order to propagate changes and coordinate the optimization process. We then see how specific configurations related to complex continuous optimization problems can cause this nominal optimization workflow to fail. Using the AMAS theory, we categorize these configurations into different non cooperative situations, for each of which we will propose additional cooperative mechanisms in  order to detect, solve the NCS and re-establish the correct optimization process.
+After presenting our modeling, we design an agent-based algorithm for the solving of complex continuous optimization problems. We expose the basic, nominal workflow of the system, how the agents try to optimize the different parts of the system and exchanges inform and request messages in order to propagate changes and coordinate the optimization process. We then see how specific configurations related to complex continuous optimization problems can cause this nominal optimization workflow to fail. Using the AMAS theory, we categorize these configurations into different non cooperative situations, for each of which we will propose additional cooperative mechanisms in order to detect, solve the NCS and re-establish the correct optimization process.
 
 At last, we see how our agent modeling can be extended by proposing some modification in our system in order to be able to take in account the handling of uncertainties during the optimization process. We first see how the expression of the problem is changed by the integration of uncertainties. We modify the structure of the information exchanged by the agents and identify some key operation they require in order to be able to manipulate exchanged data. Finally we propose a generic mechanism for experts to be able to express how different representations of uncertainties can be transformed in the context of the problem to solve.
 
@@ -21,7 +21,7 @@ As we previously stated, when solving complex continuous problems, existing tech
 \begin{figure}[]
 	\centering
 	\includegraphics[width=0.75\textwidth]{Turbofan_operation}
-	\caption{Illustration of a Turbofan engine (CC SA-BY  \href{http://en.wikipedia.org/wiki/File:Turbofan_operation.svg}{K. Aainsqatsi})}
+	\caption{Illustration of a Turbofan engine (CC SA-BY \href{http://en.wikipedia.org/wiki/File:Turbofan_operation.svg}{K. Aainsqatsi})}
 	\label{turbofan_illu}
 \end{figure}
 
@@ -57,7 +57,6 @@ On \figurename{} \ref{turbofan:math}, the analytic expression of this optimizati
 			\includegraphics[width=\textwidth]{testcases-Turbofan-annoted}
 			\caption{corresponding entities graph.}\label{turbofan:graph}
 	\end{subfigure}
-
 \caption{Turbofan problem.}
 \label{turbofan}
 
@@ -89,24 +88,24 @@ In our Turbofan example on \figurename{} \ref{turbofan}, the $Turbofan$ function
 	$ttburn 		= 1560.0$\;
 	$\pi_f 		= 1.7$\;
 	\;
-	$r          \leftarrow (\gamma-1) \times \dfrac{cp}{\gamma}$\;
-	$a0         \leftarrow \sqrt{\gamma \times r \times t0}$\;
-	$u0         \leftarrow m0 \time a0$\;
-	$\tau_r      \leftarrow 1+\dfrac{\gamma-1}{2} \times m0^2$\;
+	$r	\leftarrow (\gamma-1) \times \dfrac{cp}{\gamma}$\;
+	$a0	\leftarrow \sqrt{\gamma \times r \times t0}$\;
+	$u0	\leftarrow m0 \times a0$\;
+	$\tau_r	\leftarrow 1+\dfrac{\gamma-1}{2} \times m0^2$\;
 	$\tau_\lambda \leftarrow \dfrac{ttburn}{t0}$\;
-	$\tau_c      \leftarrow \pi_c^{\dfrac{\gamma-1}{\eta_c \times \gamma}}$\;
-	$\tau_f      \leftarrow \pi_f^{\dfrac{\gamma-1}{\eta_f \times \gamma}}$\;
-	$\tau_t      \leftarrow 1-\dfrac{tau_r}{tau_\lambda} \times ((\tau_c-1)+bpr \time (\tau_f-1))$\;
+	$\tau_c	\leftarrow \pi_c^{\dfrac{\gamma-1}{\eta_c \times \gamma}}$\;
+	$\tau_f	\leftarrow \pi_f^{\dfrac{\gamma-1}{\eta_f \times \gamma}}$\;
+	$\tau_t	\leftarrow 1-\dfrac{tau_r}{tau_\lambda} \times ((\tau_c-1)+bpr \times (\tau_f-1))$\;
 
-	$UeU0  \leftarrow \sqrt{\dfrac{\tau_r \times tau_c \times \tau_t-1}{\tau_r-1} \times \dfrac{\lambda}{\tau_r \times \tau_c}}$\;
-	$UfU0  \leftarrow \sqrt{\dfrac{\tau_r \times \tau_f-1}{\tau_r-1}}$\;
+	$UeU0	\leftarrow \sqrt{\dfrac{\tau_r \times tau_c \times \tau_t-1}{\tau_r-1} \times \dfrac{\lambda}{\tau_r \times \tau_c}}$\;
+	$UfU0	\leftarrow \sqrt{\dfrac{\tau_r \times \tau_f-1}{\tau_r-1}}$\;
 	\;
 	\tcp{outputs computation}	
-	$Tdm0 \leftarrow u0 \times \dfrac{1}{(1+bpr)} \times (UeU0-1)+\dfrac{bpr}{1+bpr} \times (UfU0-1)) \times \alpha_{thrust}$;
-	%$f \leftarrow \dfrac{cp \times t0 \times (\tau_\lambda-\tau_r \times \tau_c)}{hfuel}$\;
-	$s \leftarrow \dfrac{f}{(1+bpr) \times Tdm0} \times 10e+06$\;
+	$Tdm0	\leftarrow u0 \times \dfrac{1}{(1+bpr)} \times (UeU0-1)+\dfrac{bpr}{1+bpr} \times (UfU0-1)) \times \alpha_{thrust}$;
+	%$f	\leftarrow \dfrac{cp \times t0 \times (\tau_\lambda-\tau_r \times \tau_c)}{hfuel}$\;
+	$s	\leftarrow \dfrac{f}{(1+bpr) \times Tdm0} \times 10e+06$\;
 	%$rend_p \leftarrow 2 \times \dfrac{ UeU0-1+bpr \times (UfU0-1)}{UeU0^2-1+bpr \times (UfU0^2-1)}$\;
-	$fr     \leftarrow \dfrac{UeU0-1}{UfU0-1}$\;
+	$fr	\leftarrow \dfrac{UeU0-1}{UfU0-1}$\;
 
 \end{algorithm}
 
@@ -181,7 +180,7 @@ A \emph{model agent} takes charge of a model of the problem. It interacts with t
 \end{figure}
 
 To find the input values corresponding to a specific desired output value, the \emph{model agent} uses an external optimizer. This optimizer is provided by the engineer based on expert domain-dependent knowledge regarding the structure of the model itself.
-It is important to underline that the optimizer is used only to solve the local problem of the \emph{model agent}, and is  not used to solve the problem globally.
+It is important to underline that the optimizer is used only to solve the local problem of the \emph{model agent}, and is not used to solve the problem globally.
 
 \subsection{Variable Agent}
 
@@ -234,7 +233,7 @@ As we will see in the next section, the \emph{output agent} is distinct from the
 It should be noted that, to estimate the input values required to satisfy the constraint on its computed value, this agent employs the same technique as the \emph{model agent} (\textit{i.e.} an external optimizer).
 
 \subsection{Objective Agent}
-The  \emph{objective agent} is in charge of an objective of the problem. This agent sends requests to its inputs aiming to improve its objective, and recalculates the objective when receiving  \emph{value changed} messages from its inputs.
+The \emph{objective agent} is in charge of an objective of the problem. This agent sends requests to its inputs aiming to improve its objective, and recalculates the objective when receiving \emph{value changed} messages from its inputs.
 
 This agent uses an external optimizer to estimate input values which would improve the objective, as the model and constraint agents.
 
@@ -245,7 +244,7 @@ This agent uses an external optimizer to estimate input values which would impro
 \caption{System class diagram}\label{SMA_class_diagram}
 \end{figure}
 
-This agent modeling is the most direct and inclusive, considering every element of the problem as an autonomous agent. On \figurename{} \ref{SMA_class_diagram} we represent a class diagram of the agents, which is a slightly modified version of the domain class diagram of \figurename{} \ref{class_diag}. This modified class diagram puts more clearly in light which are the effective agents and how the agents are related among each other by input/output relationships. The bipartite nature of the graph in regard of \emph{value agents} and \emph{internal model agents} is clearly apparent. Two additional, non-agent entities, the  \emph{internal model} and the \emph{external optimizer} also made an appearance. The respective roles of these two entities will be detailed in the next chapters.
+This agent modeling is the most direct and inclusive, considering every element of the problem as an autonomous agent. On \figurename{} \ref{SMA_class_diagram} we represent a class diagram of the agents, which is a slightly modified version of the domain class diagram of \figurename{} \ref{class_diag}. This modified class diagram puts more clearly in light which are the effective agents and how the agents are related among each other by input/output relationships. The bipartite nature of the graph in regard of \emph{value agents} and \emph{internal model agents} is clearly apparent. Two additional, non-agent entities, the \emph{internal model} and the \emph{external optimizer} also made an appearance. The respective roles of these two entities will be detailed in the next chapters.
 
 \chapter{Agents Behavior}\label{agent_behav_chap}
 
@@ -262,7 +261,7 @@ Collective solving concerns the optimization of the problem. The agent behaviora
 		\caption{Informs flow for simulation}\label{messages_flow:inf}
 	\end{subfigure}
 	\hfill
-  	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{testcases-Turbofan-requests}
 		\caption{Requests flow for solving}\label{messages_flow:req}
@@ -280,7 +279,7 @@ Collective solving concerns the optimization of the problem. The agent behaviora
 
 \end{figure}
 
-The agents behaviors regarding these two parts can be studied quite independently, we will thus present them separately.  It is however important to remember that these two parts are not executed separately. At runtime the agents will simulate the problem and solve it in parallel. Moreover, the different parts of the system will not necessarily work in a synchronous fashion. The effective messages flow of the system will more probably be akin to the \figurename{} \ref{messages_flow:eff}.
+The agents behaviors regarding these two parts can be studied quite independently, we will thus present them separately. It is however important to remember that these two parts are not executed separately. At runtime the agents will simulate the problem and solve it in parallel. Moreover, the different parts of the system will not necessarily work in a synchronous fashion. The effective messages flow of the system will more probably be akin to the \figurename{} \ref{messages_flow:eff}.
 
 \section{Problem Simulation}
 
@@ -316,7 +315,7 @@ The behavior of the variable agent is summarized in algorithm \ref{algo_simulati
 \label{algo_simulating_variable}
 
 	$C \leftarrow$ previously connected agents\;
-	$C'\leftarrow$  newly connected agents\;
+	$C'\leftarrow$ newly connected agents\;
 		
 	$v \leftarrow$ previous value\;
 	$v'\leftarrow$ new value\;
@@ -354,7 +353,7 @@ The behavior of the model agent is summarized in algorithm \ref{algo_simulating_
 \label{algo_simulating_model}
 
 	$C \leftarrow$ previously connected output agents\;
-	$C'\leftarrow$  newly connected output agents\;
+	$C'\leftarrow$ newly connected output agents\;
 	
 	$\{v_i\} \leftarrow$ new input values\;
 			
@@ -394,7 +393,7 @@ The behavior of the output agent is summarized in algorithm \ref{algo_simulating
 \label{algo_simulating_output}
 
 	$C \leftarrow$ previously connected agents\;
-	$C'\leftarrow$  newly connected agents\;
+	$C'\leftarrow$ newly connected agents\;
 		
 	$v \leftarrow$ previous value\;
 	$v'\leftarrow$ new value\;
@@ -479,7 +478,7 @@ While changing value based not on the value requested but on the direction can s
 
 [[Give analytical formulation of the AVT]]
 
-One could wonder why the variable agent uses such a seemingly contrived method instead of just taking the requested value. It should be remembered that the variable agent can be connected to several parts of the problem and can receive contradictory requests from different origins over time (as we said, the case where the variable receives contradictory requests at the same time will also be studied later). Thus, the variable agent must have a way to take into account these contradictory requirements to find an adequate compromise. Moreover, until the system (or at least this part of it) has stabilized, the values requested has very little chance of being exact. The value can thus be considered as a  indication of the direction in which the requesting agent desire the variable to go. As the system stabilizes, the precision of the AVT is improved and the value of the variable is closer and closer to the exact correct value.
+One could wonder why the variable agent uses such a seemingly contrived method instead of just taking the requested value. It should be remembered that the variable agent can be connected to several parts of the problem and can receive contradictory requests from different origins over time (as we said, the case where the variable receives contradictory requests at the same time will also be studied later). Thus, the variable agent must have a way to take into account these contradictory requirements to find an adequate compromise. Moreover, until the system (or at least this part of it) has stabilized, the values requested has very little chance of being exact. The value can thus be considered as an indication of the direction in which the requesting agent desire the variable to go. As the system stabilizes, the precision of the AVT is improved and the value of the variable is closer and closer to the exact correct value.
 
 This behavior is summarized in algorithm \ref{algo_solving_variable}.
 
@@ -562,7 +561,7 @@ $\Delta_o \leftarrow o^* - o_{current}$\;
 $\{\delta_i\} \leftarrow $ estimated correlations between all the inputs and the output\;
 \For{$i \leftarrow $ inputs}{
 	\tcp{calculate the input variation}
-	$\Delta_i \leftarrow \Delta_o \times  \dfrac{\delta_i}{\displaystyle\sum_{i \in \text{inputs}}{\delta_i}}$\;
+	$\Delta_i \leftarrow \Delta_o \times \dfrac{\delta_i}{\displaystyle\sum_{i \in \text{inputs}}{\delta_i}}$\;
 }
 \end{algorithm}
 
@@ -589,7 +588,7 @@ Like for simulation, output agents have a similar role to variable agents during
 With the objective agents, the constraint agents are the origins of the requests which are propagated into the system. The goal of a constraint agent is to ensure the constraint of which it is in charge is satisfied. To this end, the constraint agent calculates a target value for the constraint, estimates corresponding target values for its inputs and sends them as requests to the agents in charge of these inputs. When the constraint is satisfied, the constraint agent tries to ensure it will keep being satisfied. To this end it continues to send requests to move its current value further and further from the threshold.
 
 The problematic behind finding corresponding input values for the target value is similar to the one of the model agent of finding adequate inputs values from the outputs. As we said at the end of section \ref{modeling}, constraint agents (and objective agents) are similar to model agents in the fact that both have control of an \emph{internal model}. Thus, constraint agents can use an external optimizer to find adequate target values for its inputs. The only difference with model agents being that, instead of having a value requested by an output, the constraint agent estimates itself its own target value.\\
-In the same way, constraint agents can use the same internal optimization mechanism than model agents, presented in algorithm \ref{algo_solving_internaloptim},  when not provided with an external optimizer.
+In the same way, constraint agents can use the same internal optimization mechanism than model agents, presented in algorithm \ref{algo_solving_internaloptim}, when not provided with an external optimizer.
 
 The behavior of a constraint agent with a \enquote{lower or equal} constraint is described in algorithm \ref{algo_solving_constraint}. This algorithm is easily adapted to the others constraint types.
 
@@ -610,7 +609,7 @@ $\{ \Delta^*_i \} \leftarrow Optimizer(v - \Delta^*)$\;
 }
 \end{algorithm}
 
-It should be noted that, even when the constraint is satisfied, the constraint agent continues to send requests to its inputs. This behavior can be justified by several reasons.  First of all, the goal of the constraint agent is to ensure its constraint stays satisfied, so when the constraint is already  satisfied the constraint agent has interest in \enquote{pushing} its current value afar from the frontier.\\
+It should be noted that, even when the constraint is satisfied, the constraint agent continues to send requests to its inputs. This behavior can be justified by several reasons. First of all, the goal of the constraint agent is to ensure its constraint stays satisfied, so when the constraint is already satisfied the constraint agent has interest in \enquote{pushing} its current value afar from the frontier.\\
 The other reason is to help its neighbors agents to keep a coherent view of their relations. Indeed, as the system is interactive, the designer can decide at any time to remove or change the constraint. As a consequence it is not possible for the agents to simply keep in memory the constraints they are linked to, as these informations can become obsolete at any time. A simple way to remedy to this situation is for the constraint to not assume the others agents will memorize its requirements and to keep sending them requests.
 
 \subsection{Objective Agent}
@@ -651,13 +650,13 @@ An important point is that each agent only has a partial knowledge local strateg
 	\Repeat{resolution end}{
 		analyze received messages\;
 		\If{received new information messages}{
-	        recalculate outputs\;
-	        inform depending agents\;
-	    }     
+			recalculate outputs\;
+			inform depending agents\;
+	 	}
 		\If{received new requests}{
-	        use optimizer to find adequate inputs\;
-	        propagate requests to input agents\;
-	   }
+			use optimizer to find adequate inputs\;
+			propagate requests to input agents\;
+		}
 	}
 }
 
@@ -665,10 +664,10 @@ An important point is that each agent only has a partial knowledge local strateg
 	\Repeat{resolution end}{
 		analyze received messages\;
 		\If{received new requests}{
-	       select most important\;
-	       adjust value\;
-	       inform depending agents\;
-	    }
+			select most important\;
+			adjust value\;
+			inform depending agents\;
+		}
 	}
 }
 
@@ -676,24 +675,24 @@ An important point is that each agent only has a partial knowledge local strateg
 	\Repeat{resolution end}{
 		analyze received messages\;
 		\If{received new information messages}{
-	        update its value\;
-	        inform depending agents\;
-	    }      
+			update its value\;
+		inform depending agents\;
+		}
 		\If{received new requests}{
-	        select most important\;
-	        transmit selected request to model agent\;
-	    }
-    }
+			select most important\;
+			transmit selected request to model agent\;
+		}
+	}
 }
 
 \Bv{Constraint/Objective Agent}{
 	\Repeat{resolution end}{
 		analyze received messages\;
 		\If{received new information messages}{
-	        update its value\;
-	        use optimizer to find adequate inputs\;
-	        send new requests to variable/output agents\;
-	    }
+			update its value\;
+			use optimizer to find adequate inputs\;
+			send new requests to variable/output agents\;
+		}
 	}
 }
 
@@ -703,7 +702,7 @@ An important point is that each agent only has a partial knowledge local strateg
 
 As we said previously, one of our goals is for the system to be able to adapt to changes made in their environment, in order to allow the expert to experiment with the problem and observe the impact on the solution. This capability is especially relevant when the optimization problem is the representation of a complex system to design, as the designer may often have only an imperfect knowledge about the system to be designer. Using our system the designer can then change the problem and observe the effects on the design.
 
-However, in the behavioral algorithms we presented, we made nearly no mention of specific mechanisms for handling dynamics aspects of the problem. The reason is simple: the mechanisms we presented are already sufficient to take in account such dynamics, as we will demonstrate in the experiments. This intriguing property can be explained by to factor.  First of all the agents had to be designed considering that previous information they receive can become outdated, as the different parts of the optimization problem do not necessarily converge at the same rate. To this first observation is added the fact that each agent has to keep its reasoning to a local level, since an agent trying to reason on a global level would eventually be overwhelmed by the complexity of the problem. 
+However, in the behavioral algorithms we presented, we made nearly no mention of specific mechanisms for handling dynamics aspects of the problem. The reason is simple: the mechanisms we presented are already sufficient to take in account such dynamics, as we will demonstrate in the experiments. This intriguing property can be explained by to factor. First of all the agents had to be designed considering that previous information they receive can become outdated, as the different parts of the optimization problem do not necessarily converge at the same rate. To this first observation is added the fact that each agent has to keep its reasoning to a local level, since an agent trying to reason on a global level would eventually be overwhelmed by the complexity of the problem. 
 
 The consequence of these two factors is that agents indifferently handle changes caused by the \enquote{normal} exploration of the search space and changes made to the optimization problem by the designer. Indeed, from the point of view of an agent, a complex problem and a dynamically changing problem are indistinguishable, and mechanisms tailored to handle one will also help solving the other.
 
@@ -749,9 +748,9 @@ Let's illustrate this with a constraint of the type \(g(X) \leq t\), with \emph{
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{\textwidth}
-	  \centering
-	  \scriptsize
-	  
+	\centering
+	\scriptsize
+	
 		\[criticality_{t,\eta,\epsilon}(x)=
 			\begin{cases}
 				0		&\text{if \( x < \; t - \epsilon \) },\\
@@ -764,7 +763,7 @@ Let's illustrate this with a constraint of the type \(g(X) \leq t\), with \emph{
 		$\gamma = -2/ \epsilon,$\\
 		$\delta = -\gamma (\epsilon - \eta )/2,$\\
 		$\text{and } 0 < \eta < \epsilon.$
-	  \caption{Analytical formulation.}\label{crit_func}
+	\caption{Analytical formulation.}\label{crit_func}
 	\end{subfigure}
 	
 	\begin{subfigure}[b]{\textwidth}
@@ -778,7 +777,7 @@ Let's illustrate this with a constraint of the type \(g(X) \leq t\), with \emph{
 
 To compute it, we use the barrier function defined on \figurename{} \ref{crit_func}. It takes as input \(x\), the current value of the constraint. It is parameterized by \(t\), the threshold, and by \(\eta\) and \(\epsilon\) that both regulate the shape of the function as seen on \figurename{} \ref{crit_shapes}. Its value always varies between \(0\) and \(1\).
 The \(\epsilon\) can be adjusted by a domain expert if needed: the higher it is, the faster the constraint increases in criticality.
-In our experiments, we used $\epsilon = 0.1$ and  $\eta$ was set to roughly a third of $\epsilon$, \textit{i.e.} 0.03.
+In our experiments, we used $\epsilon = 0.1$ and $\eta$ was set to roughly a third of $\epsilon$, \textit{i.e.} 0.03.
 This function allows a smooth transition between two states and provides several interesting properties: it is continuous, differentiable, requires few parameters, is computed quickly and is relatively easy to grasp.
 
 [[Faire référence aux fonctions barrières présentées auparavant ?]]
@@ -818,11 +817,11 @@ An illustration on this mechanism can be seen on \figurename{} \ref{NCS_1_confli
 
 This simple comparison of the criticalities at a given instant is the main way criticality was used in previous application of the AMAS theory. Since the goal of the agents is to reduce the maximal criticality among their neighbors, selecting the request of the most critical neighbor is a basic heuristic to achieve this end. We provide here an additional refinement by making the agents anticipate the effects of their action on the criticality of the other agents.\\
 The agent will memorize the requests and observe how the criticality of the next requests vary based on its actions. From on this observation, the agent makes an estimation of the impact of its action on the criticality of the senders, using the approximation hypothesis that varying in the same direction will cause the same variation of criticality on the senders. These estimations allow the agent to make a prediction on the future criticality of the senders if it increases or decreases.\\
-Consequently, the agent deems two requests $r_1$ and $r_2$, where $crit_{r_1} > crit-{r_2}$ to be of equivalent criticality if the difference between their criticality $|crit_{r_1} - crit_{r_2}|$ is lower than a given threshold $t_{crit}$  (which we set at 2\% of the maximum criticality) and if the difference between their anticipated criticality $| (crit_{r_1} + \Delta_1^{crit}) - (crit_{r_2} + \Delta_2^{crit})|$ is greater than $t_{crit}$.
+Consequently, the agent deems two requests $r_1$ and $r_2$, where $crit_{r_1} > crit-{r_2}$ to be of equivalent criticality if the difference between their criticality $|crit_{r_1} - crit_{r_2}|$ is lower than a given threshold $t_{crit}$ (which we set at 2\% of the maximum criticality) and if the difference between their anticipated criticality $| (crit_{r_1} + \Delta_1^{crit}) - (crit_{r_2} + \Delta_2^{crit})|$ is greater than $t_{crit}$.
 
 \begin{algorithm}
 \caption{Detecting Equivalent Contradictory Requests using Criticality Anticipation}
-\label{algo_cooperative_trajectory_variable}
+\label{algo_criticality_anticipation}
 	$R \leftarrow $ received requests\;
 	$R_{mem} \leftarrow $ the previous memorized requests\;
 	
@@ -839,11 +838,11 @@ Consequently, the agent deems two requests $r_1$ and $r_2$, where $crit_{r_1} > 
 	$R_{mem} \leftarrow R$\;
 \end{algorithm}
 
-By taking in account  not only the \enquote{spacial} aspect (which neighbor has what criticality) but also on the \enquote{temporal} aspect of its action (what will be the consequence of my action on my neighbors), the agent can make a more adequate decision.
+By taking in account not only the \enquote{spacial} aspect (which neighbor has what criticality) but also on the \enquote{temporal} aspect of its action (what will be the consequence of my action on my neighbors), the agent can make a more adequate decision.
 
 \paragraph*{Maintaining a Correct Trajectory with Successive Contradictory Requests}
 
-A last aspect of the handling of contradictory requests concerns th possibility for the agent to receive successively contradictory requests, possibly from the same origin. This situation can arise from the fact that some problem topologies requires the agents to move in a coordinated way across the search space.  This difficulty is illustrated on \figurename{} \ref{basin_fun_illustration}. On this figure is presented a 2-inputs functions we want to minimize (top-right corner), and 3 different trajectories. For each of these trajectories, the two inputs vary in the same direction, but with different strengths.\\
+A last aspect of the handling of contradictory requests concerns th possibility for the agent to receive successively contradictory requests, possibly from the same origin. This situation can arise from the fact that some problem topologies requires the agents to move in a coordinated way across the search space. This difficulty is illustrated on \figurename{} \ref{basin_fun_illustration}. On this figure is presented a 2-inputs functions we want to minimize (top-right corner), and 3 different trajectories. For each of these trajectories, the two inputs vary in the same direction, but with different strengths.\\
 We can see that, for the two dashed trajectories, the objective-function increases as the variation of one of the input is much greater than the variation of the other. Only on the non-dashed trajectory the objective is actually improved. The implication is that, even if all the inputs vary in the correct direction, if they do not coordinate the strengths of their variations they can cause a degradation of the objective.
 
 \begin{figure}
@@ -873,10 +872,9 @@ After updating $tt$, the agent will do the following:
 	$\Delta_r \leftarrow value_{current} - value_{r_{s}}$\;
 	$\sigma_r \leftarrow \left\{
  									\begin{array}{rcr}
-   									-1 & if &\Delta_r < 0 \\
-   									0 & if &\Delta_r = 0\\
-    								1 & if &\Delta_r > 0 \\
-  								\end{array}
+ 									-1 & if &\Delta_r < 0 \\
+ 									0 & if &\Delta_r = 0\\ 										1 & if &\Delta_r > 0 \\
+								\end{array}
 								\right.$\;
 	\BlankLine
 	\tcp{update trending trajectory}
@@ -884,7 +882,7 @@ After updating $tt$, the agent will do the following:
 	$tt \leftarrow tt \times \alpha_{trend}	+ \sigma_r(1 - \alpha_{trend})$\;
 	\BlankLine
 	\tcp{apply the coordination action (using \tablename{} \ref{coord_act})} 
-	coordination_action($tt$, $\sigma_r$)	\;
+	coordination\_action($tt$, $\sigma_r$)	\;
 \end{algorithm}
 
 \begin{table}[htbp]
@@ -892,7 +890,7 @@ After updating $tt$, the agent will do the following:
 \centering
 \begin{tabular}{l|ll}
 		\toprule
-		$\boldsymbol{tt}$&$>-  0.1 $ & $< 0.1 $\\
+		$\boldsymbol{tt}$ & $>-0.1$ & $< 0.1$\\
 		\midrule
 		$\boldsymbol{\sigma_r}$ &&\\
 		+ & NOMINAL & WAIT\\
@@ -924,7 +922,7 @@ The graphical representation of this problem is shown in \figurename{} \ref{NCS_
 \end{figure}
 
 Using conflicting requests mechanisms, each variable agent would, upon receiving requests coming from the objective and constraint agents, choose to fully satisfy the most critical request, disregarding completely the other. In this example, if the request of $b_1$, the first objective agent, is the most critical, $a_1$ and $a_2$ would both to decrease, they would both to increase if the request of $b_2$, the second objective agent, was the most critical.\\
-With this mechanism, the variable agents only have two possibilities: fully satisfy the request of $b_1$, or fully satisfy the request of $b_2$. However we can easily observe how, in this specific problem, the input variables $a_1$ and $a_2$ have different impacts on the two objectives. A variation of 1 for the variable $a_1$ will change the first objective $b_1$ by 2 and the second one $b_2$  by 1, while a variation of 1 for the variable $a_2$ will have the inverse effect.
+With this mechanism, the variable agents only have two possibilities: fully satisfy the request of $b_1$, or fully satisfy the request of $b_2$. However we can easily observe how, in this specific problem, the input variables $a_1$ and $a_2$ have different impacts on the two objectives. A variation of 1 for the variable $a_1$ will change the first objective $b_1$ by 2 and the second one $b_2$ by 1, while a variation of 1 for the variable $a_2$ will have the inverse effect.
 
 In such cases, the agents would start by fully helping the most critical to stabilize to a point where the criticalities of both requests are balanced., even if the point is not the most optimal.
 
@@ -938,7 +936,7 @@ The meaning of this measure is the following: when an agent $A$ receives a reque
 To estimate the participation, we base ourselves on the correlation estimation mechanism introduced in section \ref{model_agent_solving}. The participation of an agent given by a request is thus calculated as follow:
 \begin{compactitem}
 \item Constraint/Objective agent: $participation_{i} = \dfrac{| correlation_{i} |}{\displaystyle \sum_{j \in I}{|correlation _{j}|}}$
-\item Model agent:  $participation_{i,o}\dfrac{| correlation_{i,o} |}{\displaystyle \sum_{j \in I}{|correlation _{j,o}|}} \times participation_{request}$
+\item Model agent: $participation_{i,o}\dfrac{| correlation_{i,o} |}{\displaystyle \sum_{j \in I}{|correlation _{j,o}|}} \times participation_{request}$
 \item Variable agent: the $participation$ of the received request is propagated as is
 \end{compactitem}
 
@@ -999,7 +997,7 @@ To this end, the model agent will use the same mechanisms than the variable agen
 	$O \leftarrow$ associated optimizer\;
 	\ForEach{$i \in I$}{
 		\tcp{translate received requests into requests on the input}
-		$R_i^{in} \leftarrow \{  O(r^{out}), \forall r^{out} \in R^{out}\}$\;
+		$R_i^{in} \leftarrow \{O(r^{out}), \forall r^{out} \in R^{out}\}$\;
 		\tcp{apply variable cooperative trajectory on the input}
 		$r_i^* \leftarrow cooperative\_trajectory(i, R_i^{in})$\;
 		\tcp{send the selected request to $i$}
@@ -1028,7 +1026,7 @@ x = a2 \times y
 \end{gather*}
 where \emph{x}, \emph{y} are variables and \emph{a}1, \emph{a2} fixed parameters.
  
-The aim is to find coherent values for \emph{x} and \emph{y}. Since models are black boxes, so we cannot directly infer the solution. Depending on the parameters \emph{a1} and \emph{a2} (and excluding the trivial case of \(a1, a2  = 0\)), this structure behaves differently: 
+The aim is to find coherent values for \emph{x} and \emph{y}. Since models are black boxes, so we cannot directly infer the solution. Depending on the parameters \emph{a1} and \emph{a2} (and excluding the trivial case of \(a1, a2 = 0\)), this structure behaves differently: 
  
 \begin{compactitem}
 \item \(a1, a2 = 1\): in this case any value for both \emph{x} and \emph{y} satisfies the problem, there is an infinity of fixed points
@@ -1058,7 +1056,7 @@ When an agent sends a message in response to a received message, it adds to the 
 
 The output agents will be in charge of detecting and handling cycles, as they are in the best position for this. Indeed, being at the junction between criteria and models (or between different models), they are often the ones that can detect cycles the earliest.
 
-To detect a cycle,  the output agent creates a correspondence table associating for each origin agent the last signature it received from it. When receiving a message, the agent checks its origin. If the origin agent is not present in the table, the agent adds it. If it is present, it compares the new signature with the one it memorized. If the signatures are different, the agent replaces the old signature with the new one (as the new signature corresponds to a more recent request). If the two signatures match, then there is a cycle.
+To detect a cycle, the output agent creates a correspondence table associating for each origin agent the last signature it received from it. When receiving a message, the agent checks its origin. If the origin agent is not present in the table, the agent adds it. If it is present, it compares the new signature with the one it memorized. If the signatures are different, the agent replaces the old signature with the new one (as the new signature corresponds to a more recent request). If the two signatures match, then there is a cycle.
 
 \paragraph*{Finding Fixed Points}
 In case of a cycle, the output agent must now determine if the cycle is converging or diverging towards the fixed point. As in the general case all models are black boxes, the output agent needs to observe the evolution of output values while iterating through the cycle. If the difference between successive values is decreasing, the cycle is converging towards the fixed point, else the cycle is diverging as the variables are going in the \enquote{wrong direction}. To this end, the output agent memorizes the difference between its old and new value, and continues as usual. When receiving the next message from the cycle, it calculates the new difference which enables it to decide if the cycle is converging or not towards the fixed point.
@@ -1197,11 +1195,11 @@ The only modification which needs to be done for this mechanism to work concerns
 
 	$O \leftarrow $ \{ outputs \}\;
 	$Informs \leftarrow $ \{ received informs \}\;
-	$stillwaiting \leftarrow \forall output \in O,  \displaystyle\sum_{info \in Informs}{ influence(input_{info}, output) \leq 50\%}$\;
+	$stillwaiting \leftarrow \forall output \in O, \displaystyle\sum_{info \in Informs}{ influence(input_{info}, output) \leq 50\%}$\;
 
 \end{algorithm}
 
-In our implementation, we did not concern ourself with potential loss of messages, which can happen when the designer intervenes on the system by removing existing agents while messages are transiting. For a \enquote{production-ready} version of the algorithm, such potential losses should be taken into account. Otherwise some agents may hang indefinitely waiting for  lost messages. A simple way to remediate to this problem is to add timeouts to the agents. Timeouts are a well-studied problem in computer networks, and adequate algorithms can be proposed based on the works in the existing literature (see \cite{jacobson1988congestion} for example).
+In our implementation, we did not concern ourself with potential loss of messages, which can happen when the designer intervenes on the system by removing existing agents while messages are transiting. For a \enquote{production-ready} version of the algorithm, such potential losses should be taken into account. Otherwise some agents may hang indefinitely waiting for lost messages. A simple way to remediate to this problem is to add timeouts to the agents. Timeouts are a well-studied problem in computer networks, and adequate algorithms can be proposed based on the works in the existing literature (see \cite{jacobson1988congestion} for example).
 
 \subsection{Summary of Non-Cooperative Situations}
 
@@ -1212,12 +1210,12 @@ In this section we presented several problematic configurations (NCS) which can 
 \centering
 \begin{tabular}{lp{5.5cm}p{4.5cm}}
 	\toprule
-	NCS  & Description &  Cooperative Mechanisms\\
+	NCS & Description & Cooperative Mechanisms\\
 	\midrule
 	Conflicting Requests & An agent receives several incompatible requests & Criticality\\
 	Cooperative Trajectories & An agent receives seemingly incompatible requests, which can each be satisfied & Participation\\
-	Cycle Solving & Several agents are involved in a diverging cycle  & Signature\\
-	Hidden Dependencies & An agent sends seemingly independent requests to  dependent agents & Signature, Influence\\
+	Cycle Solving & Several agents are involved in a diverging cycle & Signature\\
+	Hidden Dependencies & An agent sends seemingly independent requests to dependent agents & Signature, Influence\\
 	Asynchronous Messages & Agents receive messages in untimely manner & Influence\\
 	\bottomrule
 \end{tabular}
@@ -1237,7 +1235,7 @@ In each case, we proposed general mechanisms for the agents to be able to detect
 	Criticality & A aggregated measure to indicate the state of the agent & Conflicting Requests & Comparable between different agents\\
 	Signature & A unique signature composed of the unique id of the sender/origin of the message and a (local) timestamp & Cycles Solving, Hidden Dependencies, Asynchronous Messages & Comparable, allows a partial ordering of the messages by sender/origin\\
 	Influence & An indicator of the impact value of the receiver on the origin & Hidden Dependencies & Comparable by origin\\
-	 Participation & An indicator of the relative impact of the receiver on the origin relative to the rest of the system & Cooperative Trajectories &  Comparable between different senders\\
+	 Participation & An indicator of the relative impact of the receiver on the origin relative to the rest of the system & Cooperative Trajectories & Comparable between different senders\\
 	\bottomrule
 \end{tabular}
 \end{table}
@@ -1256,7 +1254,7 @@ The solving of this NCS does not require sending additional messages
 When solving this NCS, the agent must group the requests before comparing the total participation of the two groups. The grouping and total participations calculation can be factorized into a single pass algorithm of complexity $\mathcal{O}(n)$ regarding the number of requests.
 The agent will not need to send additional messages for solving this NCS.
 
-For models agents, the algorithm will need to be applied on each input, consequently its complexity will be  $\mathcal{O}(n \times i)$, $i$ being the number of inputs.
+For models agents, the algorithm will need to be applied on each input, consequently its complexity will be $\mathcal{O}(n \times i)$, $i$ being the number of inputs.
 
 \paragraph*{Cycle Solving}
 
@@ -1272,7 +1270,7 @@ The algorithm for waiting request is trivial and can be executed in constant tim
 This mechanism requires the sending of additional messages from (non-criterion) output agents which themselves do not have any output agent. In the best case, there is no such agent, thus no additional message is sent. In the worst case all outputs agent are concerned, and need each to send one additional message (message complexity of $\mathcal{O}(o)$, $o$ being the number of outputs).
 
 \paragraph*{}
-It can  be seen that, overall, the cooperative mechanisms we proposed to solve the various NCS are quite reasonably efficient in their complexity. This property is important in order for the system to be able to scale to bigger and more complex optimization problem. We managed to keep the complexity of the algorithms low by keeping the reasoning of the agents to a local level, limiting their perceptions to their neighborhood and only very synthetic information about the rest of the system (criticality, origin \emph{etc.}). Moreover, it should be noted that, in many problems, some of the agents will only have a minimal role in the solving, being connected only to one agent in input and one agent in output. For these agents, the complexity of these mechanism will be minimal as they will always receive at most one message. Only in the utmost complex and coupled problems will the majority of the agent be involved in the solving of NCS.
+It can be seen that, overall, the cooperative mechanisms we proposed to solve the various NCS are quite reasonably efficient in their complexity. This property is important in order for the system to be able to scale to bigger and more complex optimization problem. We managed to keep the complexity of the algorithms low by keeping the reasoning of the agents to a local level, limiting their perceptions to their neighborhood and only very synthetic information about the rest of the system (criticality, origin \emph{etc.}). Moreover, it should be noted that, in many problems, some of the agents will only have a minimal role in the solving, being connected only to one agent in input and one agent in output. For these agents, the complexity of these mechanism will be minimal as they will always receive at most one message. Only in the utmost complex and coupled problems will the majority of the agent be involved in the solving of NCS.
 
 A concern could be raised about the composition of these different mechanisms. Indeed an agent can be involved in several NCS at once. In this case, would not the combination of these mechanisms cause exponential increase of complexity? While this concern could be correct in theory, in practice the different solving mechanisms play the role of successive filters regarding the received messages. Consequently, later mechanisms work on a far lower number of messages than the earlier ones. The typical example is the conflicting requests mechanisms, which will eliminate all the requests which are not deemed critical enough. The others mechanisms will only have to take in account the requests which were conserved by this first filter. More so, it should be noted that, while the different mechanisms have be presented separately, a large part of the processing they do on the messages can be factorized, in order to increase the overall efficiency. While in our implementation we did not do such optimization (in order to keep the mechanisms separated and code easier to work with), such improvements would be of course strongly recommended for a more \enquote{production-ready} implementation of the system.\\
 To conclude on this remark, we can safely say that the composition of the different cooperative mechanisms is not of additive complexity, but only bring a marginal increase in the total complexity of the agent behavior.
@@ -1357,7 +1355,7 @@ The Monte Carlo Experiment is not an uncertainty law \emph{per se} but a series 
 \item the mean can be obtained with $\dfrac{\displaystyle\sum_n{x_n}}{n}$.
 \item the standard deviation is obtained by first calculating the variance using the formula $Var(X) = E(X^2) - E(X)^2$ (possible as we can calculate the mean), then taking the square root to obtain the standard deviation.
 \item the drawing of a random value consists of drawing a value $i$ between $1$ and $n$ and returning the corresponding point $x_i$
-\item the cumulative probability of $t$ is calculated as  $P(X < t) = \dfrac{|\{x_i, \forall x_i < t\}|}{|\{x_n\}|}$ (where $|\{x\}|$ is the cardinality of the set $\{x\}$), \emph{i.e.} the number of elements lower than $t$ divided by the total number of elements.
+\item the cumulative probability of $t$ is calculated as $P(X < t) = \dfrac{|\{x_i, \forall x_i < t\}|}{|\{x_n\}|}$ (where $|\{x\}|$ is the cardinality of the set $\{x\}$), \emph{i.e.} the number of elements lower than $t$ divided by the total number of elements.
 \item the inverse cumulative probability of $p$ is obtained as $ t = $ [[TODO]].
 \end{compactitem}
 
@@ -1415,19 +1413,19 @@ This extension to our modeling allow to take in account not only values but unce
 While this mechanism require for the users to provide the uncertainties propagators, it has the advantage that this specific effort has to be done only once, as the resulting propagator can be reusable at will. In this way it can greatly reduce the time different teams need to spend together to overcome the difficulties induced by different working practices. It also open the possibility of propagators libraries, which can be shared and imported as needed.
 
 A note of warning however, the representation of uncertainties is inherently imprecise. In the same way that the modeling of a system contains imprecision, so does the modeling of the uncertainties used to represent this very same imprecision (and so would do the uncertainties used to represent the imprecision on the uncertainties...). Like discussed before, this imprecision is an inherent limitation of the real world. As the uncertainties modeling is in itself factor of uncertainties, it follows that the transformation between two different uncertainties representations will in itself contains some part of imprecision (if only because the passage from one representation to another can lead to information loss, \emph{e.g.} passing from a normal law to an interval modeling).\\
-This problematic is not specific to our technique and is indeed  present all the same if the uncertainties propagation is done \enquote{manually}. But it is worth reminding, as this complete automation of the propagation could hide it from the mind of the designer.
+This problematic is not specific to our technique and is indeed present all the same if the uncertainties propagation is done \enquote{manually}. But it is worth reminding, as this complete automation of the propagation could hide it from the mind of the designer.
 
 As a remark we have seen how, by overloading some common mathematical operators, it was possible for the agents to manipulate uncertain values as if they were simple numerical values. Such work could be possibly done with complex numbers, matrix or others, arbitrarily complex, data structures, as long as the corresponding overloaded operators are provided.
 
 \chapter*{Synthesis of the Contribution}
 
-In this part we presented a novel approach for complex continuous optimization using a multi-agent system do distribute the optimization process. We started our work with a new way to model a continuous optimization problem as an agent graph. This modeling allows for an easy and potentially automatic transformation of any problem as a graph, without requiring special knowledge or expertise regarding MAS. Moreover, this transformation does not requires any specific reformulation of the problem,  which can keep the natural formulation corresponding to its domain. Because of these properties we named our modeling Natural Domain Modeling for Optimization (NDMO).
+In this part we presented a novel approach for complex continuous optimization using a multi-agent system do distribute the optimization process. We started our work with a new way to model a continuous optimization problem as an agent graph. This modeling allows for an easy and potentially automatic transformation of any problem as a graph, without requiring special knowledge or expertise regarding MAS. Moreover, this transformation does not requires any specific reformulation of the problem, which can keep the natural formulation corresponding to its domain. Because of these properties we named our modeling Natural Domain Modeling for Optimization (NDMO).
 \\
-To the best of our knowledge, this is the first proposal for providing a common modeling of continuous problems as agents graphs. While we cannot guarantee that is specific modeling will be adopted, it is surely a first step toward opening the field to other contributions.  One could wonder if, by dividing the problem into different entities, NDMO would not fall into the same pitfall than MDO methods, applying to the problem a reductionist approach. However, a fundamental distinction is that MDO methods \emph{modify the initial problem in order to reduce its complexity}, while our modeling does not make such modification. On the contrary this modeling fully conserve the interdependencies between the different elements, maintaining an integral and integrative formulation of the problem.
+To the best of our knowledge, this is the first proposal for providing a common modeling of continuous problems as agents graphs. While we cannot guarantee that is specific modeling will be adopted, it is surely a first step toward opening the field to other contributions. One could wonder if, by dividing the problem into different entities, NDMO would not fall into the same pitfall than MDO methods, applying to the problem a reductionist approach. However, a fundamental distinction is that MDO methods \emph{modify the initial problem in order to reduce its complexity}, while our modeling does not make such modification. On the contrary this modeling fully conserve the interdependencies between the different elements, maintaining an integral and integrative formulation of the problem.
 
 Based on this modeling, we proposed a simple nominal behavior where the agents try to solve individual goals and only has a limited, local perception of their neighbors. These agents can interface with external optimization techniques to solve local optimization problems (or alternatively use some internal optimization mechanisms), and exchange request and inform messages in order to keep a global coherence of the solution. A major distinction with MDO methods is that the global coherence of the problem is not a separate phase but is fully taken in account during the entire process.
 \\
-While our agents are already able to interface with external optimization methods, some refinements could be proposed. An example could be to, instead of providing each agent with an adequate optimizer, providing all the agents with an optimizer catalog where several optimization methods are presented and characterized. Based on their observation of the manipulated models, the agents could select the optimization method they deem the most appropriate, and even switch between different methods during the solving. Such mechanism would contribute even more to relieving the burden of  the designer, but would require to be effective an extensive study of the ontological properties of the field. An other improvement could concerns the internal optimization mechanisms we presented in algorithm \ref{algo_solving_internaloptim}. It could be possible to replace our simple linear approximation estimation by more astute techniques. Such methods could provide more precise estimations to be used by the agents.
+While our agents are already able to interface with external optimization methods, some refinements could be proposed. An example could be to, instead of providing each agent with an adequate optimizer, providing all the agents with an optimizer catalog where several optimization methods are presented and characterized. Based on their observation of the manipulated models, the agents could select the optimization method they deem the most appropriate, and even switch between different methods during the solving. Such mechanism would contribute even more to relieving the burden of the designer, but would require to be effective an extensive study of the ontological properties of the field. An other improvement could concerns the internal optimization mechanisms we presented in algorithm \ref{algo_solving_internaloptim}. It could be possible to replace our simple linear approximation estimation by more astute techniques. Such methods could provide more precise estimations to be used by the agents.
 
 This nominal behavior being insufficient to solve some of the issues brought by the specificities of continuous optimization, we use the AMAS theory to identify a set of non cooperative situations, which represent specific patterns of configurations where the nominal behavior of the agents result in a sub-optimal handling of the optimization process. For each of these NCS, we proposed cooperative mechanisms which enrich the nominal behavior of the agent. These additional mechanisms allow to, when necessary, detect and identify the NCS, and to do corrective actions in order to re-establish the correct optimization process.
 \\

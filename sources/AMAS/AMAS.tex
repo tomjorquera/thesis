@@ -79,7 +79,7 @@ In order to simplify the representation, the constraints of a CSP are often bina
 
 \end{figure}
 
-From this graph representation, the DCSP formalism\cite{yokoo1998distributed} models a CSP  as an agent graph, with each agent in charge of assigning a value to a variable based on local and shared constraints. A DCSP is described as a quadruplet <$X, D, C, A$>. $X, D$ and $C$ have the same meaning than in the CSP formalism, while $A$ is the set of agents. For each agent in $A$ has the responsibility of a subset of $X$ and knows the constraints related to the variables in its care. The most common assumption is that each agent has the responsibility for one and only one variable. See \figurename{} \ref{dcsp} for an illustration of the graph transformation of a DCSP.
+From this graph representation, the DCSP formalism\cite{yokoo1998distributed} models a CSP as an agent graph, with each agent in charge of assigning a value to a variable based on local and shared constraints. A DCSP is described as a quadruplet <$X, D, C, A$>. $X, D$ and $C$ have the same meaning than in the CSP formalism, while $A$ is the set of agents. For each agent in $A$ has the responsibility of a subset of $X$ and knows the constraints related to the variables in its care. The most common assumption is that each agent has the responsibility for one and only one variable. See \figurename{} \ref{dcsp} for an illustration of the graph transformation of a DCSP.
 
 One classical example of DCSP solver is Asynchronous Backtracking (ABT) \cite{Yokoo:2001:DCS:380145}. ABT creates a total ordering on the agents and models the relations between agents as directed links, in order to make the network cycle-free. In ABT agents exchange \emph{nogoods}, which are conditional constraints (the constraint is valid as long as other agents do not change states). When an agent detects a \emph{nogood}, it checks if it can change its state in order to solve it. If it is possible it does so and informs the agents to which it is linked. Else it propagate it to the lowest priority agent it knows (based on the established ordering) involved in the \emph{nogood}, creating new links if necessary.
 
@@ -93,12 +93,12 @@ A classical use of DCOP is unsolvable CSP[[s]], problems where there is no solut
 \toprule
 $\boldsymbol{x_1}$	& $\boldsymbol{x_3}$ & $\boldsymbol{c_{13}(x_1,x_3)}$\\
 \midrule
-0   & 0	& 1\\
-1   & 0	& 0\\
-0   & 1	& 0\\
-1   & 1	& 1\\
-0   & 2	& 0\\
-1   & 2	& 0\\
+0 & 0	& 1\\
+1 & 0	& 0\\
+0 & 1	& 0\\
+1 & 1	& 1\\
+0 & 2	& 0\\
+1 & 2	& 0\\
 \bottomrule
 \end{tabular}
 \quad
@@ -106,12 +106,12 @@ $\boldsymbol{x_1}$	& $\boldsymbol{x_3}$ & $\boldsymbol{c_{13}(x_1,x_3)}$\\
 \toprule
 $\boldsymbol{x_2}$	& $\boldsymbol{x_3}$ & $\boldsymbol{c_{23}(x_2,x_3)}$\\
 \midrule
-1   & 0	& 0\\
-2   & 0	& 0\\
-1   & 1	& 1\\
-2   & 1	& 0\\
-1   & 2	& 0\\
-2   & 2	& 1\\
+1 & 0	& 0\\
+2 & 0	& 0\\
+1 & 1	& 1\\
+2 & 1	& 0\\
+1 & 2	& 0\\
+2 & 2	& 1\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -125,10 +125,10 @@ In the context of this framework, many techniques have been proposed. One of the
 
 Another well-known algorithm is Optimal Asynchronous Partial Overlay (OptAPO) \cite{Mailler-355}. this algorithm is an adaptation of Asynchronous Partial Overlay (APO), which was proposed for solving DCSP. OptAPO, as APO, is based on the principle of \emph{Cooperative Mediation}, where the agents try to identify parts of the problems which can be solved in a centralized way (using centralized solvers such as Branch-and-Bound). During solving, some of the agents take the role of mediator during \emph{mediator sessions}, where they compute a solution to a part of the whole problem and propose solution to the others agents involved into the mediation.
 
-The DCOP formalism is very popular in its own right as it allows a clear framework on how to represent this type of combinatorial problems without putting too much restriction on how the problem  is solved. The exact information shared by the agents, and the way they communicate among themselves is not constrained. However this formalism is not without limitations.\\
+The DCOP formalism is very popular in its own right as it allows a clear framework on how to represent this type of combinatorial problems without putting too much restriction on how the problem is solved. The exact information shared by the agents, and the way they communicate among themselves is not constrained. However this formalism is not without limitations.\\
 While some works successfully used DCOP in the context of continuous optimization\cite{stranders2009decentralised}, this formalism is not adequate to handle the full range of continuous optimization problems. DCOP was conceived for a specific type of problems where the difficulty resides in the combination of multiple constraints. These problems are supposed to be easily decomposable into several cost functions, where the cost values associated to the variables states are supposed to be known. This major assumption does not stand for complex continuous optimization problems (such as MDO problems for example), where the complexity of the models and their interdependencies cause this information to be unavailable in most cases. Modeling such problems with DCOP would be impossible in most case, as most agents would potentially be related to every other agent and the cost functions would be unknown.
 
-It is interesting to note that many methods require non-trivial changes to the topology of the agent graph to work (acyclic graph, tree structure ...), both in the context of DCSP and DCOP. These changes can  be potentially extensive operations in themselves, and must be applied carefully lest the relevance of the results be compromised. Consequently, most existing agent-based optimization techniques for DCOP may require a strong expertise to be efficiently applied\cite{Ka2011.6}.
+It is interesting to note that many methods require non-trivial changes to the topology of the agent graph to work (acyclic graph, tree structure ...), both in the context of DCSP and DCOP. These changes can be potentially extensive operations in themselves, and must be applied carefully lest the relevance of the results be compromised. Consequently, most existing agent-based optimization techniques for DCOP may require a strong expertise to be efficiently applied\cite{Ka2011.6}.
 
 \subsubsection{Multi-Agent Systems for Continuous Optimization}
 
@@ -213,11 +213,11 @@ From this categorization, the theory draws its formal definition (and fundamenta
 		\includegraphics[width=\textwidth]{system_legend}
 	\end{subfigure}
 	
-\caption{Illustration of functionally adequate  and internal cooperative medium systems.}
+\caption{Illustration of functionally adequate and internal cooperative medium systems.}
 \label{adequacy_comp}
 \end{figure}
 
-An illustration this axiom is shown on \figurename{} \ref{adequacy_comp_1} and  \figurename{} \ref{adequacy_comp_2}.
+An illustration this axiom is shown on \figurename{} \ref{adequacy_comp_1} and \figurename{} \ref{adequacy_comp_2}.
 
 
 %\definition{Internal cooperative medium system}{A system in which the agents only have cooperative interactions with each others or their environment[[?]]}
@@ -247,11 +247,11 @@ Based on these conditions, a set of \emph{Non Cooperative Situations}(NCS) has b
 \toprule
 \textbf{Violated condition}	& \textbf{Corresponding NCS} \\
 \midrule
-$C_{perception}$     & Incomprehension, Ambiguity\\
+$C_{perception}$ & Incomprehension, Ambiguity\\
 
-$C_{decision}$      & Incompetence, Unproductiveness \\
+$C_{decision}$ & Incompetence, Unproductiveness \\
 
-$C_{action}$     & Uselessness, Competition, Conflict\\
+$C_{action}$ & Uselessness, Competition, Conflict\\
 \bottomrule
 \end{tabular}
 \caption{The conditions for cooperation and corresponding NCS}
@@ -294,7 +294,7 @@ Obviously, such general principles cannot hold systematically true and some prob
 
 ADELFE \cite{bernon2003adelfe} is a method dedicated to the development of AMAS. The name \enquote{ADELFE} is the French acronym for \enquote{toolkit to develop software with emergent functionality} (\textit{Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente}). While ADELFE is not the only method devoted to guide the design of a MAS, its specificity concerns the fact that it is specifically tailored for AMAS.
 
-The ambition of ADELFE is to provide be-all and end-all method to guide engineers during all the phases of the design of an AMAS, from the high-level requirements to the \enquote{nuts and bolts} implantation details. This ambition was the driving factor for multiple projects with the objective of improve or complement ADELFE with additional tools, such as the Make Agents Yourself (MAY) framework  \cite{No2012.2}, used to automatically generate agent architecture implementations.
+The ambition of ADELFE is to provide be-all and end-all method to guide engineers during all the phases of the design of an AMAS, from the high-level requirements to the \enquote{nuts and bolts} implantation details. This ambition was the driving factor for multiple projects with the objective of improve or complement ADELFE with additional tools, such as the Make Agents Yourself (MAY) framework \cite{No2012.2}, used to automatically generate agent architecture implementations.
 
 However, as for most general engineering methods, a current limitation of ADELFE is that it only provide high-level guidelines concerning the behavior and architecture of the agents, staying at a general, abstract level. This current limitation makes difficult for a non-expert in AMAS to actually provide an adequate instantiation for the problem he wants to solve. It is the same analysis in \cite{Ka2011.6} which led the author to prone a specialized variant of the method containing additional guidelines and tools for applying AMAS in the context of problem solving.
 
@@ -304,7 +304,7 @@ We will go into greater details concerning the inner workings of ADELFE and how 
 
 We presented here the AMAS theory. This theory presents a way to model systems by their constituting parts, the interactions between themselves as well as with the environment and identify the special category of internal cooperative medium systems.
 
-An interesting aspect of this theory  is that it provides a guidance to build a multi-agent system based on the problem to solve. Classical solving methods often use a very rigid formalism which needs to be followed. For example, genetic algorithms are a very powerful technique, but they require the problem to fit the genetic representation/fitness function model. To use these kinds of methods, one would now be presented to a whole new problem: \enquote{how can I express my problem to fit the solution I want to employ ?}
+An interesting aspect of this theory is that it provides a guidance to build a multi-agent system based on the problem to solve. Classical solving methods often use a very rigid formalism which needs to be followed. For example, genetic algorithms are a very powerful technique, but they require the problem to fit the genetic representation/fitness function model. To use these kinds of methods, one would now be presented to a whole new problem: \enquote{how can I express my problem to fit the solution I want to employ ?}
 
 While a non-negligible part of real-world problems are more or less straightforwardly translatable in such formalisms, there is still a whole range of problems for which this translation is not so easy. This can be either because no method adequate enough for the domain was proposed, or because there is no consensual representation of the domain. For these problems, the AMAS theory can provide an interesting asset as the design of the MAS is based on the problem domain. The solution is adapted to the problem, instead of requiring the problem to be adapted to the solution.
 

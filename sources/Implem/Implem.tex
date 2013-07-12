@@ -15,9 +15,9 @@ While such work could seems to concerns software engineering experts more than c
 
 In section \ref{AMAS-ADELFE}, we succinctly presented ADELFE\footnote{\url{http:/www.irit.fr/ADELFE/}}, the method which has been proposed for the design of AMAS. In this chapter we get back in more details about this method and what benefits it provided for the design of our system. 
 
-ADELFE is a method devoted to software engineering of adaptive multi-agent systems. It was initiated by a French government funded project lead by IRIT (see \url{http://irit.fr/ADELFE-Project} for details) and has been continuously  enhanced since. Like previously said, the name \enquote{ADELFE} is the French acronym for \enquote{toolkit to develop software with emergent functionality} (\textit{Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente}).
+ADELFE is a method devoted to software engineering of adaptive multi-agent systems. It was initiated by a French government funded project lead by IRIT (see \url{http://irit.fr/ADELFE-Project} for details) and has been continuously enhanced since. Like previously said, the name \enquote{ADELFE} is the French acronym for \enquote{toolkit to develop software with emergent functionality} (\textit{Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente}).
 
-The ADELFE method in itself is based on the Rational Unifed Process (RUP) and is defined following the Software Process Engineering Meta-Model (SPEM)  \cite{PiGl2004.1,BeCaGlPi2005.1}. Since its revision \cite{Ro2008.3}, it is composed of five \emph{Work Definitions} ($WD$), themselves decomposed in several \emph{activities} making use of UML as well as the AMAS-ML and muADL languages. An overview of the method is shown on \figurename{} \ref{ADELFE_phases}.
+The ADELFE method in itself is based on the Rational Unifed Process (RUP) and is defined following the Software Process Engineering Meta-Model (SPEM) \cite{PiGl2004.1,BeCaGlPi2005.1}. Since its revision \cite{Ro2008.3}, it is composed of five \emph{Work Definitions} ($WD$), themselves decomposed in several \emph{activities} making use of UML as well as the AMAS-ML and muADL languages. An overview of the method is shown on \figurename{} \ref{ADELFE_phases}.
 
 \begin{figure}
 \centering
@@ -35,7 +35,7 @@ The final requirement study ($WD_2$), was complemented with activities 6 and 7-2
 Based on the guidelines of the ADELFE methodology we defined the requirements of the tool we proposed to develop. The following functionalities were identified:
 \begin{compactitem}
 \item Our tool will allow users to solve multidisciplinary optimization problems.
-\item  The user will be able to load disciplinary models into the tool, express some constraints and objectives on these models and then use and interact with the tool to solve the defined problem.
+\item The user will be able to load disciplinary models into the tool, express some constraints and objectives on these models and then use and interact with the tool to solve the defined problem.
 \item Our tool will be reusable from one optimization problem to another in different application domains and will be a generic tool.
 \item The user will be able to express uncertainties on some parts of the models or input variables.
 \item The resolution will take into account these uncertainties.
@@ -43,10 +43,10 @@ Based on the guidelines of the ADELFE methodology we defined the requirements of
 
 \item The user will be able (at runtime):
 	\begin{compactitem}
-    \item to monitor the system activity,
-    \item to observe time history qualitative indicators,
-    \item to adjust its parameters.
-    \end{compactitem}
+	\item to monitor the system activity,
+	\item to observe time history qualitative indicators,
+	\item to adjust its parameters.
+	\end{compactitem}
 \end{compactitem}
 
 \begin{figure}
@@ -60,15 +60,15 @@ Several entities interacting with the tool were also identified. The \emph{Metho
 The different use cases which were identified for each of these entities are presented in \figurename{} \ref{Use_cases}.
 
 The domain analysis (activity 10) roughly correspond to the work we provided in \ref{modeling}, as this activity correspond to the study of the application domain in interaction with the domain experts. The domain modeling roughly corresponds to an extended version of NDMO, with some additions and adjustments regarding the expected functionalities of the prototype. These adjustments concerns mainly the introduction of the \emph{workspace} and \emph{project} concepts, which allows the designer to organized its work, as well as the introduction of the external optimizer and uncertainties propagators as domain entities, in order to provide a more seamless integration of these tools into the prototype.\\
-ADELFE then advocates an AMAS adequacy verification (activity 11), in which one checks using a set of questions if AMAS are a relevant solution for the problem to solve. We discussed at length in chapter \ref{AMAS_chapter} the advantages of the AMAS approach. Without much surprise the results of this activity were strongly in favor of using an AMAS solution, as the problem we aim to solve  is highly distributed, is not easily solvable by known algorithms, is potentially non-linear and evolving.
+ADELFE then advocates an AMAS adequacy verification (activity 11), in which one checks using a set of questions if AMAS are a relevant solution for the problem to solve. We discussed at length in chapter \ref{AMAS_chapter} the advantages of the AMAS approach. Without much surprise the results of this activity were strongly in favor of using an AMAS solution, as the problem we aim to solve is highly distributed, is not easily solvable by known algorithms, is potentially non-linear and evolving.
 
 The next activities concerned the design of the agents themselves, their interactions, the identification and solving of the Non Cooperative Situations. The work concerning these activities is without much doubt the most difficult, involving in the ADELFE method the participation of an \enquote{agent designer}. Indeed, this part of the ADELFE method stays at a high abstraction level, and we can say without much controversy that the process of designing the agents is still highly exploratory, probably currently more related to a scientific study than to an engineering development. In this regard, our contribution presented in part \ref{MAS4Optim_part} provides the expected answers to these activities.
 
-The last WD of ADELFE corresponds to the design of the agent architecture and implementation using MAY, the component-based framework developed in complement of ADELFE. While such framework aims ultimately to make the process as seamless and  automated than possible by providing reusable components, its early state implied once more some exploratory work on our part in order to produce, and in the end contribute to the MAY library with our own produced components. We will now see in the next chapter the architecture we proposed for a modular AMAS agent design.
+The last WD of ADELFE corresponds to the design of the agent architecture and implementation using MAY, the component-based framework developed in complement of ADELFE. While such framework aims ultimately to make the process as seamless and automated than possible by providing reusable components, its early state implied once more some exploratory work on our part in order to produce, and in the end contribute to the MAY library with our own produced components. We will now see in the next chapter the architecture we proposed for a modular AMAS agent design.
 
 \section{MAY Agent Architecture}
 
-To implement the MAS, we used the Make Agents Yourself (MAY) framework  \cite{No2012.2}. MAY is a component-based framework that automatically generates an implementation of an agent architecture from a given description.
+To implement the MAS, we used the Make Agents Yourself (MAY) framework \cite{No2012.2}. MAY is a component-based framework that automatically generates an implementation of an agent architecture from a given description.
 
 The ADELFE methodology proposes an abstract agent architecture (represented in \figurename{} \ref{AMAS-ML_agent}), which we translated into the MAY architecture description language, SpeADL. In the context of our study, as the agents communicate and interact only by messages passing we could make some simplifications in regard of the original modeling of communications and actions capability of the agents. All our agents use the same AMAS architecture. They are differentiated by specific implementations of the components. For example, \emph{Model} and \emph{Variable} agents will have different implementations of the \emph{Behavior} component.\\
 The components of a MAY architecture are connected by \emph{ports}. A port can be though as a service interface, listing a set of available operations. Components expose lists of available and required ports. A component required ports must be linked to available ports provided by other components, satisfying these interfaces.
@@ -102,7 +102,7 @@ The \emph{behavior} view (\figurename{} \ref{Arch-behavior}) contains the compon
 
 The \emph{Behavior} component contains the rules which dictate the behavior of the agent. This component can be seen as orchestrating the architecture. This component exposes to the outside of the environment the \emph{Step} port, which is used to make the agent execute a step. During a step the \emph{Behavior} component executes the agent rules. These rules will in return make use of the other components of the agent. [[RMK MPG: 1 exemple de règles cf 13.1 (??)]]
 
-This behavior component contains the behavioral algorithms presented in chapter \ref{agent_behav_chap}. This component mostly contains the parts regarding the general steps of the agent behavior and making use of the more specialized methods  implemented in the \emph{Skills} and \emph{Aptitudes} components (for example, the exact computations involved in the detection of NCS).
+This behavior component contains the behavioral algorithms presented in chapter \ref{agent_behav_chap}. This component mostly contains the parts regarding the general steps of the agent behavior and making use of the more specialized methods implemented in the \emph{Skills} and \emph{Aptitudes} components (for example, the exact computations involved in the detection of NCS).
 
 The \emph{State Vault} contains the state of the agent. It is used by the components that need to save and read some state variables. Centralizing all the states variables into one component provides several benefits. First it is easier to save and restore the state of the agent, as we just need to save the content of the vault. It is also simple to share some data between components, as long as these components have access to the vault. And it is easy to provide a view of the agent state by just reading the State Vault.\\
 This approach has however several drawbacks. It makes the code more verbose, as we need to explicitly read the value from the vault (and possibly store it to the vault if modified). It makes more difficult to track side-effects, as it is not obvious to know which component uses which value. At last there is sadly no way to strictly enforce that components only use the State Vault for storing state values, as neither Java nor MAY can provide such guarantee.
@@ -121,7 +121,7 @@ In our implementation, we choose to address this concern by classifying as skill
 
 \subsubsection{Skills Component Architecture}\label{Skills_component_descr}
 
-As stated, one of the more complex components of the agents is the one which encapsulate its skills. Indeed, each agent type has its own specific skills, and the skills in themselves can intervene at different levels or even be used by other skills. This specificity justifies the implementation of the internals of the \emph{Skills} component itself as component architecture. As skills are, by definition, specific to the application domain this modeling concerns more the explicit handling of the dependencies between \enquote{skillsets} than the reuse of the components. However, as some skills, while being specific to our application, are shared by several agent types. Based on the agent class diagram presented in \figurename{} \ref{SMA_class_diagram}, we derived the skills components tree presented in \figurename{} \ref{skills:graph}. As an example, \figurename{} \ref{skills:example} shows the composition of the \emph{Skills} component of a model agent.  As a remark, we see on the left figure that variable and output agents share the same skills. This pragmatic choice comes from the fact that, since the user can act on the problem at any time, a variable agent can become an output agent and \emph{vice versa}.
+As stated, one of the more complex components of the agents is the one which encapsulate its skills. Indeed, each agent type has its own specific skills, and the skills in themselves can intervene at different levels or even be used by other skills. This specificity justifies the implementation of the internals of the \emph{Skills} component itself as component architecture. As skills are, by definition, specific to the application domain this modeling concerns more the explicit handling of the dependencies between \enquote{skillsets} than the reuse of the components. However, as some skills, while being specific to our application, are shared by several agent types. Based on the agent class diagram presented in \figurename{} \ref{SMA_class_diagram}, we derived the skills components tree presented in \figurename{} \ref{skills:graph}. As an example, \figurename{} \ref{skills:example} shows the composition of the \emph{Skills} component of a model agent. As a remark, we see on the left figure that variable and output agents share the same skills. This pragmatic choice comes from the fact that, since the user can act on the problem at any time, a variable agent can become an output agent and \emph{vice versa}.
 
 \begin{figure}[]
 \centering
