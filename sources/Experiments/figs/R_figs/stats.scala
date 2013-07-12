@@ -8,7 +8,7 @@ val experiments = collection.immutable.SortedMap[String, Double](
 			,"res_Viennet1/viennet_o1.csv" -> 2
 			,"res_Viennet1/viennet_o2.csv" -> 2
 			,"res_Viennet1/viennet_o3.csv" -> 2
-			,"res_Rosenbrock/minimizer.csv" -> 1
+			,"res_Rosenbrock/objective.csv" -> 0 
 );
 
 
