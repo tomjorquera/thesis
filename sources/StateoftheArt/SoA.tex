@@ -6,49 +6,49 @@
 
 \section{Basic Concepts}
 
-Before starting to present the different categories of optimization, we would like to take some time to define what exactly optimization is.\\
-In the more general way, optimizing is \emph{trying to find the best element among an element set}. When finding this best element is not trivial, we can rightfully talk of \emph{solving an optimization problem}. This seemingly simple definition implies in fact quite a lot.
+Before starting to present the different categories of optimization, we would like to take a moment to define what exactly \emph{is} optimization.\\
+In the most general way, optimizing is \emph{trying to find the best element among an elements set}. When finding this best element is not trivial, we can rightfully talk about \emph{solving an optimization problem}. This seemingly simple definition implies in fact quite a lot.
 
-First of all it requires a defined set of elements to choose from. As we will see, the topology of the set is of the utmost importance for choosing the way of solving the problem. This set of elements is often named the \emph{search space}, \emph{solution space} or \emph{domain}. In \enquote{simple} optimization problems, the search space can be simply defined by a set of elements (for example \{a,b,c\} or \ensuremath{\mathbb{R}}) associated with a set of \emph{constraints}. For large problems, the search space can be defined by calculus-heavy equations, empirical models, complex algorithms ... or even a mix of all of the above.
+First of all it requires a defined set of elements to choose from. As we will see, the topology of the set is of the utmost importance when deciding of a method to solve the problem. This set of elements is often named the \emph{search space}, \emph{solution space} or \emph{domain}. In \enquote{basic} optimization problems, the search space can be simply defined by a set of elements (for example $\{a,b,c\}$ or $\mathbb{R}$) associated with a set of \emph{constraints}. For large problems, the search space can be defined by calculus-heavy equations, empirical models, complex algorithms... or even a mix of all of the above.
 
-\definition{Search space}{the set containing all the possible candidates for the optimization problem.}
+\definition{Search space}{the set containing all the possible candidate solutions for the optimization problem.}
 
-While we said that the search space can be defined by a set of constraints, it is often more convenient to express the constraints separately. For example, if the search space of an optimization problem is defined over all the real numbers lower than 2, instead of defining the search space as [-\(\infty\) : 2], it will usually be refereed as \(\mathbb{R}\), with the added constraint \(x < 2\). Usually we say the problem to be \emph{subject to (s. t.)} the constraint \(x < 2\).\\
-In theory these two formulations should be equivalent. In practice however, these constraints are often the result of a real-world concern, and thus subject to some inherent imprecision. Let us imagine an optimization problem defined by an engineer trying to design an aircraft. Among the constraints defined by the engineers, the aircraft weight must be lower or equal to 40t. Does it means that a solution for which the weight of the aircraft would be 40t \emph{and 200g} would be completely unacceptable? Obviously not, the designer may be willing to accept some concessions in regard of the violation of this constraint. In engineering design, this is a common situation, and making these constraints explicit can be advantageous.
+While we said that the search space can be defined by a set of constraints, it is often more convenient to express the constraints separately. For example, if the search space of an optimization problem is defined over all the real numbers lower than 2, instead of defining the search space as $[-\infty, 2]$, it will usually be refereed as $\mathbb{R}$, with the added constraint $x < 2$. Usually we say the problem to be \emph{subject to} (s.t.) the constraint $x < 2$.\\
+In theory these two formulations should be equivalent. In practice however, these constraints are often the result of a real-world concern, and thus subject to some inherent imprecisions. Let us imagine an optimization problem defined by an engineer trying to design an aircraft. Among the constraints defined by the engineer, the aircraft weight must be lower or equal to 40t. Does it means that a solution for which the weight of the aircraft would be 40t \emph{and 200g} would be completely unacceptable? Obviously not, the designer may be willing to accept some concessions in regard of the violation of this constraint. In engineering design, this is a common situation, and making these constraints explicit can be advantageous.
 
-Since we want to find the best element of this solution space, we have to determine what makes an element better than another. Usually, the possible solutions are compared through a specific function called the \emph{objective function}. Some alternate names are \emph{criterion} or \emph{cost function}. The best element would be the one for which the objective function returns a minimal (or alternatively, maximal\footnote{Obviously we sometimes want to find the \emph{maximal} value that is solution of a problem, however minimizing f(x) is equivalent to maximizing (-f(x)). So maximization problems can be expressed as minimization problems, and vice-versa. Traditionally, optimization problems are often expressed in the terms of finding a \emph{minimal} value since the two possibilities are equivalents.}) value. It should be noted that it is possible for a problem to admit several equivalent solutions in regard of the objective function.
+Since we want to find the best element of this solution space, we have to determine what makes an element better than another. Usually, the possible solutions are compared through a specific function called the \emph{objective-function}, or \emph{cost function}. The best element would be the one for which the objective function returns a minimal (or alternatively, maximal\footnote{Obviously we sometimes want to find the \emph{maximal} value that is solution of a problem, however minimizing $f(x)$ is equivalent to maximizing $-f(x)$. So maximization problems can be expressed as minimization problems, and \emph{vice-versa}. Traditionally, optimization problems are usually expressed in the terms of finding a \emph{minimal} value since the two possibilities are equivalents.}) value. It should be noted that it is possible for a problem to admit several equivalent solutions in regard of the objective-function.
 
-\definition{Objective function}{a function defined over the search space of the optimization problems, expressing the aim of a stakeholder for this problem.}
+\definition{Objective-function}{a function defined over the search space of the optimization problem, expressing the goal of a stakeholder for this problem.}
 
-When the search space is very large, or its topology is complicated, it can be really long or difficult to find the best solution and, more important, to be sure that the solution is the best. In fact, in these problems, the only way to find the best solution with certainty is an exhaustive exploration of the search space. Since it can be very costly regarding time and computation, instead of finding the best solution, we settle for the best known, which is considered to be \enquote{good enough}, for example because this solution is the best of its neighborhood for a subset of the search space. The absolute best solution is called the \emph{global optimum}, while the best known solution is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, where methods which are driven by local optima are said to be \emph{local optimization methods}.
+When the search space is very large, or its topology is complicated, it can be really long or difficult to find the best solution and, more important, to be sure that the solution is the best. In fact, the only way to find the best solution with certainty may be an exhaustive exploration of the search space. Since it can be very costly regarding time and computation, instead of finding the best solution, we settle for the best \emph{known}, which is considered to be \enquote{good enough}, for example because this solution is the best of its neighborhood in a subset of the search space. The absolute best solution is called the \emph{global optimum}, while the best solution in a neighborhood is called a \emph{local optimum}. In a similar fashion, methods which try to find the global solution are said to be \emph{global optimization methods}, while methods which are driven by local optima are said to be \emph{local optimization methods}.
 
 \definition{Optimizing}{finding an element of the search space that minimizes (or maximizes) the value of the objective-function}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.4\paperwidth]{searchSpace}
-\caption{Examples of local and global optima - $a$ and $b$ are global maxima, $c$ is a local minimum, $d$ is a local maximum and $e$ is a global minimum.}
+\caption{Examples of local and global optima - $a$ and $b$ are global maxima, $c$ is a local minimum, $d$ is a local maximum and $e$ is the global minimum.}
 \label{localAndGlobalOptims}
 \end{figure}
 
-In figure \ref{localAndGlobalOptims}, we can see different examples of global and local optima. The points labeled \emph{a} and \emph{b} are both global maxima, as they have the same value. The points
+On \figurename{} \ref{localAndGlobalOptims}, we can see different examples of global and local optima. The points labeled \emph{a} and \emph{b} are both global maxima, as they have the same value. The points
 \emph{c} and \emph{d} are respectively local minimum and maximum, while \emph{e} is the global minimum.
 
 From all the preceding, we can provide the minimal formulation of an optimization problem as follows:
 
 \begin{align*}
 \text{minimize } &f(x) \\
-\text{subject to } &(x \in S)
+\text{for } &x \in S
 \end{align*}
-Where \emph{S} is the problem search space and \emph{f(x)} the objective function.
+Where \emph{S} is the search space of the problem and \emph{f(x)} the objective-function.
 
 \subsection{Continuous versus Discrete Optimization}
 
-Before going further into details, we must make an important distinction between \emph{continuous} optimization (also called \emph{numerical} optimization) and \emph{combinatorial} optimization. The difference between the two categories concerns the definition domain of the variables, and consequently the nature of the search space. For combinatorial optimization, the variables can only take a finite number of different values (their definition domain is a finite and enumerable set), while the definition domain of continuous optimization problem variables is, as the name implies, continuous (thus the variable can take an infinite number of values).
+We must make an important distinction between \emph{continuous} optimization (also called \emph{numerical} optimization) and \emph{combinatorial} optimization. The difference between the two categories concerns the definition domain of the variables, and consequently the nature of the search space. For combinatorial optimization, the variables can only take a finite number of different values (their definition domain is a finite and enumerable set), while the definition domain of continuous optimization problem variables is, as the name implies, continuous (thus the variable can take an infinite number of values).
 
-This distinction has a profound impact on the nature of the problems. While the search space of a combinatorial optimization problem is finite, a continuous optimization problem can have an infinite number of potential solutions. Interestingly, this distinction does not implies that continuous optimization problems are inherently harder to solve than discrete ones. While combinatorial optimization problems can be NP-complete in the general case, some continuous optimization problems can easily be solved in polynomial time (even large ones). This surprising properties comes from the fact that complexity of combinatorial optimization problem comes from the difficulty to efficiently explore the different possibles variables states combinations, whereas for continuous optimization, the difficulty comes more from the shape of the search space. In simple continuous optimization problems, the search space will be very regular, and the optimum easy to find, while optimization problems with complicated, \enquote{chaotic} search spaces will be much more difficult to solve.
+This distinction has a profound impact on the nature of the problems. While the search space of a combinatorial optimization problem is finite, a continuous optimization problem can have an infinite number of potential solutions. Interestingly, this distinction does not implies that continuous optimization problems are inherently harder to solve than discrete ones. While combinatorial optimization problems can be NP-complete in the general case, some continuous optimization problems can easily be solved in polynomial time (even large ones). This surprising property comes from the fact that the complexity of combinatorial optimization problems comes from the difficulty to efficiently explore the different possibles variables states combinations, whereas for continuous optimization, the difficulty comes more from the shape of the search space. In simple continuous optimization problems, the search space will be very regular and the optimum easy to find, while optimization problems with complicated, \enquote{chaotic} search spaces will be much more difficult to solve.
 
-For the sake of completeness, let us add that there exists an optimization field which is at the border between continuous and combinatorial optimization, named \emph{Integer programming}\footnote{in this context, \enquote{programming} must not be mistaken with computer programming but be understood as a synonym for \enquote{optimization}. This peculiar use of the word comes from the historical origins of the optimization field.}, in which the variables are must take integer values but are not restricted to a bounded definition domain (making their definition set countable but infinite). An extension of these problems are \emph{mixed-integer programs}, where some of the variables are restricted to integer values and some are not. For more informations on integer programming, the reader can refers to \cite{schrijver1998theory}. Integer programming an combinatorial optimization are sometimes regrouped under the \emph{discrete optimization} category. The terms \emph{combinatorial} and \emph{discrete} seems to often be used somewhat interchangeably.
+For the sake of completeness, let us add that there exists an optimization field which is at the border between continuous and combinatorial optimization, named \emph{Integer programming}\footnote{in this context, \enquote{programming} must not be mistaken with computer programming but be understood as a synonym for \enquote{optimization}. This peculiar use of the word comes from the historical origins of the optimization field.}, in which the variables must take integer values but are not restricted to a bounded definition domain (making their definition set countable but infinite). An extension of these problems are \emph{mixed-integer programs}, where some of the variables are restricted to integer values and some are not. For more informations on integer programming, the reader can refers to \cite{schrijver1998theory}. Integer programming and combinatorial optimization are sometimes regrouped under the \emph{discrete optimization} category. However, the terms \emph{combinatorial} and \emph{discrete} seems to often be used somewhat interchangeably.
 
 In the context of this thesis, we will concern ourselves more specifically with continuous optimization. For more works concerning combinatorial optimization problems from a multi-agents systems perspective see [[REFS]].
 
@@ -58,7 +58,7 @@ The No Free Lunch (NFL) Theorems for optimization are important results in the f
 \begin{quote}
 \enquote{any two algorithms are equivalent when their performance is averaged across all possible problems.}
 \end{quote}
-If an algorithm outperforms another on certain types of optimization problems, there must be others classes of problems where this algorithm performs worse.
+If an algorithm outperforms another on certain types of optimization problems, there must be other classes of problems where this algorithm performs worse.
 
 The NFL theorems are based on several assumptions:
 \begin{itemize}
@@ -69,25 +69,25 @@ The NFL theorems are based on several assumptions:
 
 \end{itemize}
 
-The first assumption limits the scope of NFL theorems to the realm of combinatorial optimization, as continuous optimization problems contain by nature an infinity of elements. Indeed, it has been shown that, in the context of continuous optimization, free lunches were indeed possible \cite{Auger-s00453-008-9244-5} (but possibly at the cost of very big memory footprint). Thus this result does not impact directly the scope of this work, but we believe that it is still a good illustration of one of the main problematics of the optimization research field, which is that one must often compromise between universality and efficiency. Even in the context of continuous optimization, where the existence of free lunches has been demonstrated, it is probable that we will never find a be-all and end-all optimization technique. This point is for example discussed in \cite{Doe05}.
+The first assumption limits the scope of NFL theorems to the realm of combinatorial optimization, as continuous optimization problems contain by nature an infinity of elements. Indeed, it has been shown that, in the context of continuous optimization, free lunches were possible \cite{Auger-s00453-008-9244-5} (but possibly at the cost of very big memory footprint). Thus this result does not impact directly the scope of this work, but we believe that it is still a good illustration of one of the main problematics of the optimization research field, which is that one must often compromise between universality and efficiency. Even in the context of continuous optimization, where the existence of free lunches has been demonstrated, it is probable that we will never find a be-all and end-all optimization technique. This point is for example discussed in \cite{Doe05}.
 
-One example which can be connected to the NFL is the compromise between exploration and exploitation. Basically, an optimization method must often make a compromise between using the previous results to converge toward a region of the search space and exploring the remaining of the search space to find a better region.
-For example: some gradient-based methods will use the evaluated points to converge toward a local optimum, but can miss a better solution as they explored the search space insufficiently. On the opposite, some others methods can make a thorough exploration of the search space (by partitioning or random drawing points), but will be slow to converge towards the exact optimum.
-It is often possible to parametrize the method to tune the compromise between exploration and exploitation regarding the nature of the problem at hand but a relevant parametrization requires a sufficient knowledge of the properties of the problem and therefore a parametrized method is efficient only for a specific problem.
+One example which can be connected to the NFL is the compromise between exploration and exploitation. Basically, an optimization method must often make a compromise between using the previous results to converge inside a region of the search space and exploring the rest of the search space to find a better region.
+For example: some gradient-based methods will use the evaluated points to converge toward a local optimum, but can miss a better solution as they insufficiently explored the search space. On the opposite, some other methods can make a thorough exploration of the search space (by partitioning or randomly selected points), but will be slow to converge toward the exact optimum.
+It is often possible to parametrize the method to tune the compromise between exploration and exploitation regarding the nature of the problem at hand, but a relevant parametrization requires a sufficient knowledge of the properties of the problem and therefore the parametrized method is only efficient for the specific problem.
 
-Of course, the NFL theorems consider \emph{all the possible objective-functions}. One could argue that \enquote{interesting} problems (at least from en engineering point of view) are not distributed evenly over such a space, but correspond to a subset for which some optimization methods are more efficient than others. This is why optimization as a scientific research domain makes sense. 
+Of course, the NFL theorems consider \emph{all the possible problems}. One could argue that \enquote{interesting} problems (at least from an engineering point of view) are not distributed evenly over such a space, but correspond to a subset for which some optimization methods are more efficient than others. This is one of the reasons why optimization as a scientific research domain still makes sense. 
 
-This distinction has been formalized by differentiating \emph{incompressible} from \emph{compressible} objective-functions. Incompressible objective-functions are random and it is thus impossible to develop an optimization method to find the solution efficiently, since good and bad values are randomly distributed. Of course, such \enquote{impossible} objectives function make for the major part of all the possible objective-functions \cite{English:3-540-45356-3_7}.
-As we said, the set of \enquote{interesting} objective-functions, or even the set of real-world related ones is much much more restrained. And for this specific category, some optimizers are better than others. 
-However, as we will see in the next sections, the variety of \enquote{interesting} optimization problems is still important enough to have resulted in a great variety of specific optimization techniques.
+This distinction has been formalized by differentiating \emph{incompressible} from \emph{compressible} objective-functions. Incompressible objective-functions are random and it is thus impossible to develop an optimization method to find the solution efficiently, since good and bad values are randomly distributed. Of course, such \enquote{impossible} objective-functions make for the major part of all the possible search space \cite{English:3-540-45356-3_7}.\\
+As we said, the set of \enquote{interesting} objective-functions, or even the set of real-world related ones, is much much more restrained. And for this specific category, some optimizers are better than others. 
+However, as we will see in the next sections, the variety of \enquote{interesting} optimization problems is still important enough to have resulted in multiple specific optimization techniques.
 
-One consequence of the NFL is that selecting an efficient optimization method for a given problem requires to have at least a minimum insight on the properties of the problem. No algorithm can be deemed most efficient for the general case.
+One consequence of the NFL is that selecting an efficient optimization method for a given problem requires to have at least a minimum insight on the properties of the problem. No algorithm can be deemed to be the most efficient in the general case.
 
-On a side note, it can be added that, in addition to the case of continuous optimization, the possible existence of free lunches has been demonstrated for coevolutionary \cite{1545946} as well as multiobjective optimization \cite{1299403}.
+On a side note, it can be added that, in addition to the case of continuous optimization, the possible existence of free lunches has been demonstrated for coevolutionary \cite{1545946} as well as multiobjective \cite{1299403} optimization problems.
 
 \section{Continuous Optimization Methods}
 
-As we have seen at the end of the last section, optimization methods have to make various compromises regarding applicability versus efficiency. A great variety of methods exit in the literature, from generic methods applicable to a great variety of optimization problems to very specialized methods designed to be efficient in a specific context. These methods can be categorized by the type of problems they aim to solve or some inherent properties of the method.
+As we have seen at the end of the last section, optimization methods have to make various compromises regarding applicability versus efficiency. A great number of methods exit in the literature, from general methods applicable to a variety of optimization problems to very specialized methods designed to be efficient in a specific context. These methods can be categorized by the type of problems they aim to solve or some inherent properties of the method.
 
 Some possible criteria to discriminate based on the type of problem:
 \begin{itemize}
@@ -103,21 +103,21 @@ For the method in itself:
 \item is the method deterministic or stochastic?
 \end{itemize}
 
-Based on the shape of the search space and our requirements regarding the method, we will try to choose the most adequate optimization method. As always, the more information known regarding the problem, the more we would be able to select a specialized method with a great efficiency. If very few information is known, it could be necessary to use black-box optimization methods, that is methods that do not make any assumption regarding the nature of the problem. These techniques can suffice in themselves to get a good-enough result, or can be used as a prelude of more specialized techniques if enough information is gathered.
+Based on the shape of the search space and our requirements regarding the method, we must try to choose the most adequate optimization method. As always, the more information known regarding the problem, the more we will be able to select a specialized method with a great efficiency. If very few information is known, it could be necessary to use black-box optimization methods, that is methods that do not make any assumption regarding the nature of the problem. These techniques can suffice in themselves to get a good-enough result, or can be used as a prelude of more specialized techniques if enough information is gathered.
 
-A rough proposal of organization of the different types of continuous optimization can be seen in \ref{numerical_optim_tree}.
+A rough proposal of organization of the different types of continuous optimization can be seen on \figurename{} \ref{numerical_optim_tree}.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{numerical_optim-crop}
-\caption{Types of continuous optimization methods}
+\caption{Types of continuous optimization methods.}
 \label{numerical_optim_tree}
 \end{figure}
 
-Presenting all the continuous optimization techniques would be far outside the scope of this work. In the next sections we will focus on presenting briefly the different optimization categories we identified in figure \ref{numerical_optim_tree}. We will reference some of the most representatives techniques to illustrate this presentation, but without going too much into the details of the techniques.
+Presenting all the continuous optimization techniques would be far outside the scope of this work. In the next sections we will focus on presenting briefly the different optimization categories we identified on \figurename{} \ref{numerical_optim_tree}. We will reference some of the most representatives techniques to illustrate this presentation, but without going too much into the details of the techniques.
 
 \section{Linear Optimization}\label{linear_optim}
 
-Linear optimization focuses on the solving of problems where the objective-function and constraints are linear (that is, $f(x+y) = f(x)+f(y)$ and $f(ax) = af(x)$) and the search space convex.
+Linear optimization focuses on the solving of problems where the objective-function and constraints are linear (that is, $f(x+y) = f(x)+f(y)$ and $f(ax) = af(x)$), and the search space convex.
 
 A \emph{convex} search space is a set where all the lines segments linking the points of the set are fully contained inside the set (if it is not the case, the set is said to be \emph{concave}). An illustration of the difference between convex and concave search spaces is shown on \figurename{} \ref{convexVSconcave}.
 
@@ -134,23 +134,23 @@ A \emph{convex} search space is a set where all the lines segments linking the p
 		\caption{Concave search space}\label{convexVSconcave:conv}
 	\end{subfigure}
 	
-	\caption{Convex and concave search spaces (from \href{http://commons.wikimedia.org/wiki/Category:Files_by_User:Oleg_Alexandrov_from_en.wikipedia}{Oleg Alexandrov})}
+	\caption{Convex and concave search spaces (from \href{http://commons.wikimedia.org/wiki/Category:Files_by_User:Oleg_Alexandrov_from_en.wikipedia}{Oleg Alexandrov}).}
 	\label{convexVSconcave}
 
 \end{figure}
 
 A linear problem with $n$ variables and $m$ constraints can be expressed as:
 \begin{align*}
-\text{min } & a_1x_1 + a_2x_2... + a_nx_n\\
+\text{min } & a_1x_1 + a_2x_2 + ... + a_nx_n\\
 \text{subject to } &x_i \geq 0, \forall i \in 0,n\\
 &a_{11}x_1 + a_{12}x_2 + ... + a_{1n}x_n + b_1 \geq 0\\
 &...\\
 &a_{m1}x_1 + a_{m2}x_2 + ... + a_{mn}x_n + b_m \geq 0
 \end{align*}
 
-This kind of problem is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm \cite{dantzig1998linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a continuous optimization problem and to be one of the founding works of the field.
+This kind of problems is the most basic one. The most well-known method to solve linear problems is the Simplex algorithm \cite{dantzig1998linear}, published by Dantzig in 1947 (based on the work of Leonid Kantorovich). The Simplex algorithm is considered to be the first formal algorithm to solve a continuous optimization problem and to be one of the founding works of the field.
 
-The basic idea of the simplex algorithm is that the solution space is the convex polyhedron, and the optimal solution is necessarily on one of its vertices. Another property is that a vertex which is not the optimal solution will have at least an edge leading toward a better vertex.
+The basic idea of the simplex algorithm take advantage of the fact that the solution space of such problems is a convex polyhedron, for which the optimal solution is necessarily on one of its vertices. Another property is that a vertex which is not the optimal solution will have at least an edge leading toward a better vertex.
 The simplex algorithm starts on one of the vertices, and tries to follow an edge to a vertex which improves the objective-function. The algorithm iterates until it has found a vertex with no edge leading toward a better point (the optimal solution) or until it reaches an unbound edge (in this case the problem is not bounded).
 
 While the simplex algorithm is considered to be very efficient for most cases, some alternatives have been proposed. The most noteworthy is the interior point method and its derivatives. Contrary to the simplex method, this method actually traverses the interior of the solution space (hence its name). The original method proposed by Karmarkar \cite{Karmarkar:1984:NPA:800057.808695} travels through the search space by iteratively finding the best solution over a restricted region delimited by a sphere around the current point.
@@ -158,53 +158,51 @@ While the simplex algorithm is considered to be very efficient for most cases, s
 \section{Local Methods}
 
 Unconstrained local optimization methods concentrate on finding local optima either because the search space is too big or to complex to find a global optimum in a reasonable time, or because we prefer to quickly find a good enough solution.
- Moreover, if the objective-function is convex, the local optimum is also the global optimum, in this context local methods can be an easy mean to obtain the best solution.
+ Moreover, if the search space is convex, the local optimum is also the global optimum. In such context local methods can be an easy mean to obtain the best solution.
 
 \subsection{Using Derivatives}
 
 If the derivatives are available, it is possible to propose very efficient optimization techniques to converge toward a local optimum.
 
-In some cases, even if the derivatives are not available, it is possible to obtain an approximation of the derivatives using for example a finite difference method. The basic idea of finite difference is to estimate the derivative from the ratio between the variation of the input and the variation of the output of the function.
+In some cases, even if the derivatives are not available, it is possible to obtain an approximation of the derivatives, using for example a finite difference method. The basic idea of finite difference is to estimate the derivative from the ratio between the variation of the input and the variation of the output of the function.
 Basically, if we make the following assumption:
 
-\begin{equation*}f(x + d) \approx f(x) +df'(x)\end{equation*}
+$$f(x + d) \approx f(x) +df'(x)$$
 
 then we can estimate the derivative as follow:
 
-\begin{equation*}f'(x) \approx \frac{f(x + d) - f(x)}{d}\end{equation*}
+$$f'(x) \approx \frac{f(x + d) - f(x)}{d}$$
 
 \subsubsection{Without Constraint}
 
 Methods of this kind can be mostly classified in two broad families: line search and trust region.
 Both families are iterative approaches but differ in the information they use to select the next search point.
 
-The general idea is, from a random starting point $x_0$, to iteratively evaluate a new point using a direction and a step size.
-By adjusting the ways the direction and step size are chosen, we can obtain a whole selection of algorithms with varying behaviors.
+The common idea of these methods is, from a random starting point $x_0$, to iteratively evaluate a new point using a direction and a step size.
+By adjusting the way the direction and step size are chosen, we can obtain a whole range of algorithms with varying behaviors.
 
 Formally, from the point $x_i$, the new point $x_{i+1}$ is calculated with:
 
-\[ x_{i+1} = x_i +s_id_i \]
+$$x_{i+1} = x_i +s_i d_i$$
 
 where $d_i$ is the direction vector and $s_i$ the step size coefficient.
 
 \paragraph{Line search}
 
 Line search is the most basic approach. It first determines which direction would improve the objective function, then decide of a step size to move toward it.
-Some of the most well-known linear search methods are gradient descent, Newton's and Quasi-Newton methods \cite{dennis1983numerical}. The gradient method simply uses a step size proportional to the value of the gradient. The Newton's and Quasi-Newton methods however try to find a solution to the equation $\nabla f(x)=0$ ($\nabla f(x)$ being the gradient of $f$). The Newton's method use the gradient and the Hessian matrix of $f$ to estimate a good step size, while the Quasi-Newton methods avoid the disadvantages of using the Hessian (which can involve costly operations) for example by replacing it with an approximation based on the variation of the gradient.
+Some of the most well-known linear search methods are gradient descent, Newton's and Quasi-Newton methods \cite{dennis1983numerical}. The gradient method simply uses a step size proportional to the value of the gradient. The Newton's and Quasi-Newton methods however try to find a solution to the equation $\nabla f(x)=0$ ($\nabla f(x)$ being the gradient of $f$). The Newton's method uses the gradient and the Hessian matrix of $f$ to estimate a good step size, while Quasi-Newton methods avoids the disadvantages of using the Hessian (which can involve costly operations), for example by replacing it with an approximation based on the variations of the gradient.
 
 \paragraph{Trust region}
 
-Trust region methods use the neighborhood of the current point to approximate the shape of the objective-function in the neighborhood of the current point. This approximation is then used to find the minimum in a localized region around the current point. Contrary to line search methods, these methods start by selecting a step size (the size of the region around the current point) and choose the direction after.
+Trust region methods use the neighborhood of the current point to approximate the shape of the objective-function. This approximation is then used to find the minimum in a localized region around the current point. Contrary to line search methods, these methods start by selecting a step size (the size of the region around the current point) and choose the direction after.
 For example, the Levenberg-Marquardt algorithm \cite{levenberg44,marquardt63}, whose primary application is least squares problems, uses the Jacobian matrix conjugated with a damping factor to iteratively refine the approximate functions.
 
 \subsubsection{With Constraints}
 
 One of the first proposal for solving constrained problems with derivative is a generalization of interior point (presented in \ref{linear_optim}). The idea is that a linear function with a non-convex search space can be transformed into a linear function over a convex search space (which is a requirement for applying interior point techniques), using \emph{self-concordant barrier functions}.
 
-[[PICTURE OF BARRIER FUNCTION ??]]
-
 A barrier function is a function whose value increases to infinity when its input approaches a fixed boundary.
-The idea is to replace the constraint with a barrier function, which is composed to the objective-function. The barrier function is thus used as a penalty for a point that violates the constraint.
+The idea is to replace the constraint with a barrier function which is composed to the objective-function. The barrier function is thus used as a penalty for points that violate the constraint.
 
 For example, taking the following constrained optimization problem:
 
@@ -213,11 +211,11 @@ For example, taking the following constrained optimization problem:
 \text{ subject to } &x > 0
 \end{align*}
 
-Suppose we are provided with a barrier function $b_c(x)$ whose value increases toward infinity as x decreases toward 0 ($\lim_{x \to 0^+}b_c(x) = \infty$). We can now use the new unconstrained optimization problem:	
+Suppose we are provided with a barrier function $b_c(x)$ whose value increases toward infinity as x decreases toward 0 ($\lim_{x \to 0^+}b_c(x) = +\infty$). We can now use the new unconstrained optimization problem:	
 
-$$\text{minimize } (f_{obj}(x) + b_c(x))$$
+$$\text{minimize } f_{obj}(x) + b_c(x)$$
 
-Another method, which had for some time dominated this part of the continuous optimization field is Sequential Quadratic Programming (SQP) \cite{boggs1995sequential}. SQP proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
+Another method, that dominated for some time this part of the continuous optimization field, is Sequential Quadratic Programming (SQP) \cite{boggs1995sequential}. SQP proposes to replace the problem to solve by a sequence of quadratic problems, usually more easily solvable.
 SQP is based on a very powerful result of continuous optimization, the Karush-Kuhn-Tucker (KKT) conditions \cite{kuhn1951nonlinear}. The KKT conditions are necessary conditions for a solution $x*$ in a nonlinear optimization problem to be a local optimum. They state that for $x*$ to be a local optimum to an optimization problem with $i$ inequality constraints $gi$ and $j$ equality constraints $h_j$, there must exist some $\mu_i$ and $\lambda_j$ such as:
 
 $\left\{
@@ -236,7 +234,7 @@ The SQP can be viewed as an equivalent of Newton's method to the KKT conditions 
 
 Sometimes we cannot use derivatives in the optimization process, either because the derivatives are not available or too costly to compute.
 
-A very popular method is the Nelder-Mead algorithm \cite{Nelder01011965}. This algorithm places a simplex\footnote{The concept of simplex is a generalization of the concept of triangle in arbitrary dimension. A triangle is a simplex in 2 dimensions, a tetrahedron a simplex in 3 dimensions. It should be noted that the Simplex algorithm, presented in \ref{linear_optim} does not actually use simplices during solving, despite that its misleading name implies, but is simply inspired from the concept.} on the search space and applies to it a sequence of transformations by moving its edges.
+A very popular method is the Nelder-Mead algorithm \cite{Nelder01011965}. This algorithm places a simplex\footnote{The concept of simplex is a generalization of the concept of triangle in arbitrary dimensions. A triangle is a simplex in 2 dimensions, a tetrahedron a simplex in 3 dimensions. It should be noted that the Simplex algorithm, presented in \ref{linear_optim} does not actually use simplices during solving, despite its misleading name, but is simply inspired from the concept.} on the search space and applies to it a sequence of transformations by moving its edges.
 
 At each iteration, a new test point is calculated (for example the symmetric of the worst vertex of the simplex regarding the gravity center of the others points). If this point is better than every vertices, then the simplex is stretched toward it. If this point is worse than the current vertices, then we suppose we are stepping over the valley which contain an optimum. In this case the simplex is contracted to be able to explore the valley. Else, we simply replace the worst vertex by the new point. The iterations stop when the simplex has reached a specified size.\\
 An illustration of the Nelder-Mead algorithm is shown on \figurename{} \ref{nelder-mead}.
@@ -244,14 +242,14 @@ An illustration of the Nelder-Mead algorithm is shown on \figurename{} \ref{neld
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{Nelder-Mead}
-\caption{Illustration of Nelder-Mead algorithm}\label{nelder-mead}
+\caption{Illustration of Nelder-Mead algorithm.}\label{nelder-mead}
 \end{figure}
 
 Several derivative-free algorithms interpolate the objective-function with a simpler one. These methods starting with several evaluation points of the objective-function to build a simpler function on which it is possible to apply a known optimization method. Based on the result of the optimization, we can update the interpolation model and reiterate. Some possible interpolation methods include various polynomial interpolation methods, kriging \emph{etc.}
 
-\section{Global Method}
+\section{Global Methods}
 
-While local optimization methods aim only for an optimum into a limited part of the search space, global optimization methods aim for the globally best solution of the problem. Global optimization methods concentrate on providing strategies to explore the search space.
+While local optimization methods aim only for an optimum into a limited part of the search space, global optimization methods aim for the global best solution of the problem. These methods concentrate on providing strategies to explore the search space.
 
 Depending on the nature of the problem, it may be impossible to guarantee that the best solution will be found by any means other than a complete exploration of the search space (which is in itself an impossible task in the context of continuous optimization).
 
@@ -262,14 +260,14 @@ Minimize $f(x) =$ $\begin{cases}
  		 					1& \text{otherwise}
  		 			\end{cases}$
  		 			
-There is no efficient strategy to find the global optimum to such a problem (unless knowing the equations, a thus the solution, beforehand).
+There is no efficient strategy to find the global optimum to such a problem (unless knowing the equations, and thus the solution, beforehand).
 
 Consequently, obtaining the global optimum of an optimization problem with certainty will be possible or not depending on the properties of the problem.
 As with local optimization methods, several kinds of approaches have been proposed to solve problems with different properties.
 
 \subsection{Exact Methods}
 
-These methods aims at providing a guarantee about the optimality of the solution. These methods cannot be used for every optimization problem, as they need to use some properties of the problem to prove that the solution is a global optimum.
+These methods aims at providing a guarantee about the optimality of the solution. They cannot be applied to every optimization problems, as they need to use some properties of the problem to prove that the solution found is a global optimum.
 
 For example, as we said before, if an optimization problem is convex then a local solution is also a global solution. Consequently, for convex problems local optimization methods can be used with the guarantee that the solution found will be the best one.
 
@@ -277,17 +275,19 @@ As with linear programming, a specific class of problems belongs to the field of
 
 Several adaptations of the Simplex method (presented is \ref{linear_optim}) for QP have been proposed (see for example \cite{wolfe1959simplex, dantzig1998linear, van1964simplicial}).
 
-It is also very common to use relaxation techniques (\emph{Reformulation-Linearizion Techniques} or \emph{Semidefinite Programming}) to approximate the quadratic problem with a linear one. A widespread technique is to use a Branch and Cut, starting by replacing each non-linear term of the problem by a (linear) variable (for example, the term $x_ix_j$ would be replaced by the variable $v_{ij}$). For each replacement, a new constraint is added to maintain consistency of the solution (in our example, the new constraint would be $v_{ij} = x_ix_j$). Then these new constraints are themselves replaced by linear approximations.
+It is also very common to use relaxation techniques (\emph{Reformulation-Linearizion Techniques} or \emph{Semidefinite Programming}) to approximate the quadratic problem with a linear one. A widespread technique is to use a Branch and Cut, starting by replacing each non-linear term of the problem by a (linear) variable. For example, the term $x_ix_j$ would be replaced by the variable $v_{ij}$. For each replacement, a new constraint is added to maintain the consistency of the solution. In our example, the new constraint would be $v_{ij} = x_ix_j$. Then these new constraints are themselves replaced by linear approximations.
 To see more details on the different relaxations strategies, refer to \cite{audet2000branch}.
 
 \subsection{Heuristic Methods}\label{optim_heuristic}
 
-When exact methods are too costly or non-applicable, it is often sufficient to get a good-enough solution. To this end it is possible to use heuristics to shorten the search space and ensure we obtain a solution in a reasonable time.
+[[TODO: REFS ?]]
+
+When exact methods are too costly or non-applicable, it is often sufficient to get a good enough solution. To this end it is possible to use heuristics to reduce the search space and ensure we obtain a solution in a reasonable time.
 
 For example, a simple strategy can be to run a local optimization technique several times with different initialization points, in order to increase the coverage of the search space.
 
-Expanding on this strategy is the \emph{Tabu search} metaheuristic. The idea of Tabu Search is to execute the same algorithm several times. To avoid converging toward the same point, the previous solutions are memorized and are not allowed to be revisited. Thus the method has less chances to be quickly trapped in local optima.
-The tabu search can be extended with several levels of memory to influence the search toward the most interesting regions of the search space.
+Expanding on this strategy is the \emph{Tabu search} metaheuristic. The idea of Tabu search is to execute the same algorithm several times. To avoid converging toward the same point, the previous solutions are memorized and are not allowed to be revisited. Thus the method has less chances to be quickly trapped in local optima.
+The Tabu search can be extended with several levels of memory to influence the search toward the most interesting regions of the search space.
 
 Another class of heuristics introduces randomization into the search process in order to obtain a good coverage of the search space. These strategies are said to be \emph{stochastic}.
 
@@ -298,7 +298,7 @@ Another well-known technique is Simulated Annealing. This method is inspired fro
 Simulated annealing associate a global temperature and an energy measure to the state of the system (which represent the objective-function). Consequently the goal of the system is to minimize its energy. At each step, the method considers moving to one of the neighbors of the current point. The higher the temperature of the system, the more the system is susceptible to move, even if the neighbor is worse than the current point. As the temperature decreases, the system will favor more and more consistently solutions that decrease its energy.
 The temperature of the system is reduced over time following a specific cooling schedule. For example the temperature could be decreased a each step, or could be reduced only when the system reached an equilibrium.
 
-Some others stochastic techniques which can be applied are population-based optimization (also called \emph{evolutionary computation}). Population-based optimization is a very prolific and diversified field, whose algorithms are often inspired from the observation of natural populations behavior. The underlying principle of this kind of algorithm is the use of a population of entities which are spread within the search space, with specific strategies in order to iteratively progress toward the solution. These strategies involve transformations applied to the entities that compose the population (moving, creating or destroying or otherwise altering them).
+Some others stochastic techniques which can be applied are population-based optimization. Population-based optimization is a very prolific and diversified field, whose algorithms are often inspired from the observation of natural populations behavior. The underlying principle of this kind of algorithm is the use of a population of entities which are spread within the search space, with specific strategies in order to iteratively progress toward the solution. These strategies involve transformations applied to the entities that compose the population (moving, creating or destroying or otherwise altering them).
 
 \subsubsection{Evolutionary Algorithms}
 
@@ -309,27 +309,26 @@ Evolutionary Algorithms (EA) are based on a Darwinist selection process. The mai
 \label{evo_algo}
 
 	generate initial population\;
-	evaluate fitness of individuals\;
 	\Repeat{termination condition reached}{
-		evaluate select best-fit individuals\;
+		evaluate fitness and select best-fit individuals\;
 		produce offspring based on selected individuals\;
 		evaluate fitness of offspring\;
 		replace least-fit population with offspring\;
 	}	
 \end{algorithm}
 
-\emph{Genetic algorithms} \cite{holland1992adaptation}, by far the most often used type of EA in optimization. In the context of genetic algorithms, each individual entity is defined by a specific \emph{genotype}, which represent a possible solution to the problem.
+\emph{Genetic algorithms} \cite{holland1992adaptation} are by far the most often used type of EA in optimization. In the context of genetic algorithms, each individual entity is defined by a specific \emph{genotype}, which represents a possible solution to the problem.
 Like we said previously, a global \emph{fitness function} is defined, which is used to evaluate the solutions represented by these individuals.
 
 Regarding a continuous optimization problem, the genotype of an entity would be a set of values assigned to the inputs of the problem, while the fitness function would be the objective-function.
 
 The optimization process iterates over two phases: \emph{selection} and \emph{generation of a new population}.
-In the selection phase, a subset of the current population is selected to be used in the generation of the new population. In the most basic approach, the selected individuals are the ones which obtain the best scores on the fitness function.
-The second phase generates a new population, based on the selected individuals. To produce the new population, a set of biology-inspired genetic operators is used. Two of the most common genetic operators are \emph{crossover} and \emph{mutation}. The crossover is the creation of a new individual, whose genotype is based on the combination of two randomly selected \enquote{parents}. The mutation consists in randomly changing a part of the genotype of an individual.
+In the selection phase, a subset of the current population is selected to be used in the generation of the new population. In the most basic approaches, the selected individuals are the ones which obtain the best scores on the fitness function.
+The second phase generates a new population, based on the selected individuals. To produce the new individuals, a set of biology-inspired genetic operators is used. Two of the most common genetic operators are \emph{crossover} and \emph{mutation}. The crossover is the creation of a new individual, whose genotype is based on the combination of two randomly selected \enquote{parents}. The mutation consists in randomly changing a part of the genotype of an individual.
 
 Together, these two operators can be seen as representatives of the exploitation versus exploration dilemma. The crossover operation is an attempt to exploit the best solutions found so far, while the mutation is done to maintain diversity in the population. 
 
-Most genetic algorithms proposals work on variations on these two phases. For example, some techniques will select not only the best fitted individuals, but also a small part of low fitted ones in order to increase the exploration of the search space. Some variants also modify the genetic operators or introduce additional ones. For example it is possible to do the crossover using more than two parents, or to introduce the notions of groups and migration.
+Most genetic algorithms proposals work on variations on these two phases. For example, some techniques will select not only the best fitted individuals, but also a small part of low fitted ones in order to increase the exploration of the search space. Some variants also modify the genetic operators or introduce additional new ones. For example it is possible to do the crossover using more than two parents, or to introduce the notions of groups and migration.
 
 \subsubsection{Swarm Algorithms}
 
@@ -339,7 +338,7 @@ Particle Swarm Optimization (PSO) \cite{kennedy1995particle} is inspired from th
 During solving, each particle memorizes the best solution it found so far $x_i^*$. Based this information, a global best $x_g^*$ is calculated and provided to each particle for the next iteration.
 At each step, a particle updates its velocity based on the current velocity, its local best value and the global best value found. Then it moves according to its current position and velocity. The influence of these various parameters can be modulated using the coefficients $w$, representing the inertia, $c_l$ representing the influence of the local best solution and $c_g$, representing the influence of the global best solution.
 
-Algorithm \ref{PSO_algo} shows the principle of PSO.
+Algorithm \ref{PSO_algo} presents the principle of an iteration of PSO.
 
 \begin{algorithm}
 \caption{PSO iteration}\label{PSO_algo}
@@ -351,18 +350,18 @@ Algorithm \ref{PSO_algo} shows the principle of PSO.
 			$x_i^*$ = $x_i(t)$\;
 		}
 	}
-	$x_g^*$ = best of $x_i^*, \forall i$\;
+	$x_g^*$ = max($x_i^*$)\;
 
 \end{algorithm}
 
 \subsubsection{Population-Based Algorithms for Optimization in Dynamic Environments}\label{population_based}
 
-A special case of optimization is optimization in dynamic environments. In this kind of problem, the objective-function is likely to change with time. To avoid confusion, optimization in dynamic environment is distinct from \emph{dynamic programming} (another optimization field not addressed here) in the fact that the changes of the objective-function \emph{are not known beforehand}. It is thus not possible to anticipate these changes during solving.
-Many optimization techniques fail to solve this kind of problem as they are not meant to take into account these dynamics. These problems require optimization techniques to be able to both find a moving optimum and to follow it when it changes.
+A special case of optimization is optimization in a dynamic environment. In this kind of problems, the objective-function is likely to change with time. To avoid confusion, optimization in dynamic environment is distinct from \emph{dynamic programming} (another optimization field not addressed here) in the fact that the changes of the objective-function \emph{are not known beforehand}. It is thus not possible to anticipate these changes during solving.
+Many optimization techniques fail to solve this kind of problems as they are not meant to take into account these dynamics. These problems require optimization techniques to be able to both find a moving optimum and to follow it when it changes.
 
-Population-based algorithms tackle the problem of a dynamic environment by maintaining a diverse population of solutions. Of course this kind of algorithm does not avoid the dilemma of exploration versus exploitation, and must usually choose between maintaining a high diversity of solutions and concentrating the population around the most promising regions. Most of these techniques include specific parameters to adjust the solving process toward more exploration or more exploitation (for example the coefficients regarding current velocity, local and global optima in PSO). The choice of finding the best parameters is once again handed down to the person which applies the method.
+Population-based algorithms tackle the problem of a dynamic environment by maintaining a diverse population of solutions. Of course this kind of algorithm does not avoid the dilemma of exploration versus exploitation, and must usually choose between maintaining a high diversity of solutions and concentrating the population around the most promising regions. Most of these techniques include specific parameters to adjust the solving process toward more exploration or more exploitation (for example the coefficients regarding current velocity, local and global optima in PSO). The choice of finding the best parameters is once again handed down to the person applying the method.
 
-Another inconvenient of Population-based approaches is the high number of evaluations they need to make. Indeed, each individual will require at least one evaluation of the whole problem. If the problem is very costly to evaluate, this kind of method may not be worth considering.
+Another inconvenient of population-based approaches is the high number of evaluations they require. Indeed, each individual will need at least one evaluation of the whole problem. If the problem is very costly to evaluate, this kind of method may not be worth considering.
 
 Finally, this kind of method often has some difficulties to scale with the complexity of the problem. Genetic algorithms will often have difficulties solving problems where the search space is very large, and swarm algorithms will present difficulties when the search space has a high number of dimensions or with chaotic topologies.
 
@@ -375,7 +374,7 @@ An interesting observation is how specialized methods can concentrate on exploit
 
 From this basic compromise we can see how continuous optimization has given birth to such a plethora of methods, as every optimization technique is torn between this basic compromise.
 
-All the methods we presented in this chapter share an inherent limitation due to the way they handle the problem. By using a centralized algorithm with a global view of the problem, in charge of the evaluating each point and deciding which new point to explore, these approaches require a complete re-evaluation of the entire problem at every iteration. In the next parts we will see increasingly complex problems, where the size of the problem, its topology and additional concerns not strictly related to the pure optimization make a complete evaluation of the problem increasingly costly, up to a point where applying methods such as the one we have presented in this chapter becomes too prohibitive.
+All the methods we presented in this chapter share an inherent limitation due to the way they handle the problem. By using a centralized algorithm, with a global view of the problem, in charge of the evaluating each point and deciding which new point to explore, these approaches require a complete re-evaluation of the entire problem at every iteration. In the next parts we will see increasingly complex problems, where the size of the problem, its topology and additional concerns not strictly related to the pure optimization make a complete evaluation of the problem increasingly costly, up to a point where applying methods such as the one we have presented in this chapter becomes too prohibitive.
 
 \chapter{Multi-Objective Optimization}
 
