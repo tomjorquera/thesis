@@ -378,96 +378,98 @@ All the methods we presented in this chapter share an inherent limitation due to
 
 \chapter{Multi-Objective Optimization}
 
-Multi-Objective Optimization (MOO), also called multi-criteria optimization, departs significantly from previous categories of optimization in the fact that you have to consider multiple objective functions instead of only one. A main aspect of MOO is the way to conciliate these objectives, which are usually contradictory.
-An example of real-world everyday MOO problem could be choosing the mean of transportation for a travel, trying to find a balance between speed and cost. Airplane is the fastest way of transportation, but is expensive. While car is slower, it is cheaper (if several people share the car). Train is slower than plane, more expensive than car, but can preferred as the best compromise. However, some solutions are strictly worse than others (in our example, renting an helicopter would probably be both more expensive and slower than buying a seat on a commercial airplane).
-From this example we can see that, for an MOO problem, there rarely is a clear-cut \enquote{best} solution. And more importantly that even some solutions which are not optimum for \emph{any} of the objectives can be deemed satisfying. Only when each objective is completely independent, or when no objective is contradictory to another, then an MOO problem can be handled as a set of separated mono-objective optimization problems.
+Multi-Objective Optimization (MOO), also called multi-criteria optimization, departs significantly from previous categories of optimization in the fact that you have to consider multiple objective functions instead of only one. A main aspect of MOO is the way to conciliate these objectives, that are usually contradictory.
+An example of real-world everyday MOO problem could be choosing the mean of transportation for a travel, trying to find a balance between speed and cost. Airplane is the fastest way of transportation, but is expensive. While car is slower, it is cheaper (especially if several people share the car). Train is slower than plane, more expensive than car, but can preferred as the best compromise. However, some solutions are strictly worse than others (in our example, renting an helicopter would probably be both more expensive and slower than buying a seat on a commercial airplane).
+
+From this example we can see that, for an MOO problem, there is rarely a clear-cut \enquote{best} solution. And, more importantly, that even some solutions which are not optimum for \emph{any} of the objectives can be deemed satisfying compromises. Only when each objective is completely independent, or when no objective is contradictory to another, then an MOO problem can be handled as a set of separated mono-objective optimization problems.
 A solution vector which would be optimum for each objective is sometimes called \emph{utopia point}, or \emph{shadow minimum}, and is used as a reference comparison in some of the MOO techniques we present.
 
 The formulation of a MOO problem does not differ significantly from the formulation of a \enquote{classical} optimization problem, the only difference being that instead of minimizing one objective function, we aim to minimize several ones:
 
 \begin{align*}
-\text{minimize } & (f_1(x), f_2(x), ..., f_n(x))\\
-\text{subject to } & (x \in S)
+\text{minimize } & f_1(x), f_2(x), ..., f_n(x)\\
+\text{for } & x \in S
 \end{align*}
 
-MOO problems are quite a radical departure from previous optimization problems type we have seen. Many approaches have been proposed, the majority of which can be separated in two categories: \emph{a priori} and \emph{a posteriori} approaches. \textbf{A priori approaches} aim at discriminating between the objectives \emph{before} the optimization process. This often consists into combining the different objectives into one, before applying a classical optimization method on the new, aggregated objective.
+MOO problems are quite a radical departure from previous optimization problems we have seen. Many approaches have been proposed, the majority of which can be separated in two categories: a priori and a posteriori approaches. \textbf{A priori approaches} aim at discriminating between the objectives \emph{before} the optimization process. This often consists in combining the different objectives into a single one, before applying a classical optimization method on the new, aggregated objective.\\
 On the opposite, \textbf{a posteriori methods} try to provide a set of efficient solutions among which the decider will choose.
-A priori approaches are considered easier, but not very efficient, whereas a posteriori approaches provide more diversity of solutions as well as more insight about the nature of the problem.
+A priori approaches are considered easier, but not very efficient, whereas a posteriori approaches provide more diversity of solutions as well as more insight about the nature of the problem.\\
 A third category can also be considered: the \emph{interactive} methods. Basically, these methods iterate between decision and search phases. For example, an interactive method could work by quickly providing intermediate solutions to the decision-maker, which would in return refines the search using them.
 
-We will now see some of the strategies have been proposed to deal with such problems. A recommended reading for the interested reader is the very complete overview by Marler \emph{et al.} in \cite{marler2004survey}. 
+We will now see some of the strategies that have been proposed to deal with such problems. A recommended reading for the interested reader is the very complete overview by Marler \emph{et al.} in \cite{marler2004survey}. 
 
 \section{A Priori Methods}
 
-A priori methods usually propose a strategy to make the use of classical single-objective optimization methods on the problem possible. This may be done by discriminating between the different objective or by aggregating them into a new objective which will be used for the optimization.
-
-We will now see some examples of such methods.
+A priori methods usually propose a strategy to make possible the use of classical single-objective optimization methods on the problem. This may be done by discriminating between the different objectives or by aggregating them into a new objective which will be used for the optimization.
 
 \subsection{Objectives Aggregation}
 
-The first approach is to transform the MOO problem back to a mono-objective optimization problem, by aggregating the different objectives into one. This can be expressed as follow : \(f_g = aggr(f_1, f_2, ..., f_n)\), where \(f_1, f_2, ..., f_n\) are the original objectives and \(f_g\) the aggregated one, which will be used with classical mono-objective optimization methods.
+The first approach is to transform the MOO problem back to a mono-objective optimization problem, by aggregating the different objectives into one. This can be expressed as follow: $f_g = aggr(f_1, f_2, ..., f_n)$, where $f_1, f_2, ..., f_n$ are the original objectives and $f_g$ the aggregated one, which will be used with classical mono-objective optimization methods.
 
-Concerning the choice of the aggregation function, different strategies can be used. The simplest strategy is to use a classical function such as addition, multiplication, mean, max or min of the objectives, and variations of the preceding (exponential sum, ...): these methods present the major drawback of requiring the aggregated values to be comparable. Going back to our travel example, is it relevant to simply add duration and cost ?
+Concerning the choice of the aggregation function, different strategies can be used. The simplest strategy is to use a classical function such as addition, multiplication, mean, max or min of the objectives, and variations of the preceding (exponential sum, ...). These methods present the major drawback of requiring the aggregated values to be comparable. Going back to our travel example, is it relevant to simply add together duration and cost?
 
 A slightly more sophisticated way is the weighted sum method, where a coefficient is attributed to each objective before adding them \cite{Marler2010} :
 
-\[ f(x) =\displaystyle\sum_{i=1}^n w_i f_i(x) \]
+$$f(x) =\displaystyle\sum_{i=1}^n w_i f_i(x)$$
 
-Where $w_i$ are the coefficients representing the relative preferences between the objectives.
+where $w_i$ are the coefficients representing the relative preferences between the objectives.
 
-This method enables to express a preference between different objectives, as well as bringing back on comparable scale different objectives. However, one now has to decide of the coefficients to choose. Furthermore, this method can hide some information concerning the solution, for example an extremely poor result in one of the objectives, compensated by small improvements in all the others. The method also present some limitations in the fact that it does not guarantee that the final solution will be an acceptable point, nor that a continuous variations of the points will leads to a continuous distribution of the solutions. it is also not possible to obtain solution points situated in a non convex region of the solution set \cite{marler2004survey}.
+This method allows to express a preference between different objectives, as well as bringing different objectives to a comparable scale. However, one now has to decide the values to select for the coefficients.\\
+Furthermore, this method can hide some information concerning the solution, for example an extremely poor result in one of the objectives, compensated by small improvements in all the others. The method also presents some limitations in the fact that it does not guarantee that the final solution will be an acceptable point, nor that a continuous variations of the points will leads to a continuous distribution of the solutions. It is also not possible to obtain solution points situated in a non convex region of the solution set \cite{marler2004survey}.
 
 \subsection{Lexicographic Method}
 
-In this iterative method, the objectives functions are arranged and optimized by order of importance. The result of the optimization at a given step becomes a constraint to satisfy for the following steps.
+In this iterative method, the objective-functions are arranged and optimized by order of importance. The result of the optimization at a given step becomes a constraint to satisfy for the following steps.
 
 Formally, the problem becomes an ordered set of optimization problems, where each iteration can be expressed as follow:
 
 \begin{align*}
-\text{min } &f_i(x) \\
-\text{subject to } &f_j(x) \leq f_j(x_j^*) \\
-j = &1, ..., i-1
+\text{min } &f_i(x)\\
+\text{subject to } &f_j(x) \leq f_j(x_j^*)\\
+\text{for } j = &1, ..., i-1
 \end{align*}
 
 It is also possible to replace inequalities by equality constraints \cite{stadler1988multicriteria}. Another variation, sometimes called hierarchical method \cite{osyczka1984multicriterion}, introduces a constraint relaxation coefficient $\delta$ where the new formulation of the constraints becomes:
 
-\[ f_j(x) \leq \left(1 + \frac{\delta_j}{100}\right) f_j(x_j^*) \]
+$$f_j(x) \leq \left(1 + \frac{\delta_j}{100}\right) f_j(x_j^*)$$
 
 \subsection{$\epsilon$-constraint Method}
 
 The $\epsilon$-constraint method \cite{4308298} proposes to change the expression of the problem by keeping only one objective (the one deemed the most important) and transforming the others into inequality constraints.
 
-For example, the problem \[\text{min } f_1, f_2, ...,f_n\] where $f_1$ is deemed the most important objective would be transformed in
+For example, the problem
+$$\text{min } f_1, f_2, ...,f_n$$
+where $f_1$ is deemed the most important objective would be transformed in
 \begin{align*}
 \text{min } &f_1 \\
 \text{subject to } &f_2 \leq \epsilon_2, ..., f_n \leq \epsilon_n
 \end{align*}
 
-Where $\epsilon_2, ..., \epsilon_n$ must be chosen by the designer.
-Depending of the selection of $\epsilon_2, ..., \epsilon_n$, it is possible to obtain a formulation where no feasible solution exists.
+where $\epsilon_2, ..., \epsilon_n$ must be chosen by the designer.
+Depending of the selection of $\epsilon_2, ..., \epsilon_n$, there is a risk to obtain a formulation where no feasible solution exists.
 See \cite{marler2004survey} for a discussion about the different proposed methods for selecting $\epsilon$.
 
 \subsection{Goal Programming}
 
-The idea of Goal Programming (also called Target Vector Optimization) \cite{charnes1957management} is to fix for each objective an associated goal to reach. Each objective can be over- or underachieving its goal, allowing the designer to provide a rough idea of the initial design goals.
+The idea of Goal Programming (also called Target Vector Optimization) \cite{charnes1957management} is to assign to each objective an associated goal to reach. Each objective can be over- or underachieving its goal, allowing the designer to provide a rough idea of the initial design goals.
 
 The new objective is to minimize the total deviation $\displaystyle\sum_{i=1}^n |f_i - g_i|$ where $g_i$ is the goal associated to objective $f_i$.
 
-Goal Programming is very easy to use and quite popular, and can work even when the designer provided some unreachable goals, but provides no guarantee for the optimality of the solution.
+Goal Programming is very easy to use and quite popular, and can work even when the designer provides some unreachable goals, but give no guarantee about the optimality of the solution.
 
 \subsection{MinMax Method}
 
-This method uses the separately attainable minima of the objectives (the so-called \emph{utopia point}) and try to minimize the maximum deviation of the objectives relative to those minima \cite{osyczka1984multicriterion}:
+This method uses the separately attainable minima of the objectives (the so-called \emph{utopia point}) and try to minimize the maximum deviation of the objectives relative to these minima \cite{osyczka1984multicriterion}:
 
-\[ \text{min } f = \text{ max } \left( \frac{f_i - f_i^0}{f_i^0} \right) \]
+\[ \text{min } \text{ max } \left( \frac{f_i - f_i^0}{f_i^0} \right) \]
 
 where $f_i^0$ represents the separately attainable minimum of the objective $f_i$.
 
-This method can also be used similarly to Goal Programming, where the separately attainable minima are replaced by goal given by the designer.
+This method can also be used similarly to Goal Programming, where the separately attainable minima are replaced by goals given by the designer.
 
 A variant of this method, called weighted min-max, or weighted Tchebycheff method, uses the following formulation:
 
-\[ \text{min } f = \text{ max } w_i |f_i - f_i^0| \]
+$$\text{min } f = \text{ max } w_i |f_i - f_i^0|$$
 
 where $w_i$ are coefficient provided by the designer.
 
@@ -476,9 +478,9 @@ where $w_i$ are coefficient provided by the designer.
 A priori methods provide a simple and efficient way to tackle the problem of multiple objectives, as they allow to reduce the problem to a mono-objective one.
 However, a drawback of these methods is the need for the designer to have a good knowledge of the problem, to know the correct way to combine/compare the different objectives functions. In the general case, the designer may not have enough experience or information to make such decisions.
 
-In the case where the designer would have enough knowledge to meaningfully use such a method, the introduction of this knowledge can risk to introduce a bias in the resulting solution, orienting the optimization process toward \enquote{standard} solutions at the expense of possible non-conventional ones.
+In the case where the designer would have enough knowledge to meaningfully use such methods, the introduction of this knowledge may introduce a bias in the resulting solution, orienting the optimization process toward \enquote{standard} solutions at the expense of possible non-conventional ones.
 
-Moreover, aggregation techniques tend to break when the objectives are not comparable, requiring once more knowledge from the designer to introduce adjustment coefficients to re-equilibrate the aggregation function.
+Moreover, aggregation techniques tend to break when the objectives are not comparable, requiring once more knowledge from the designer to introduce adjustment coefficients in order to \enquote{re-equilibrate} the aggregation function.
 
 \section{A Posteriori Methods}
 
@@ -486,16 +488,15 @@ We have seen that, while convenient, \emph{a priori} methods can be quite restri
 
 \subsection{Pareto Dominance}
 
-A radically different approach has been proposed, using the concepts of Pareto dominance and Pareto optimality. These concepts were originally developed in economical sciences first by Francis Edgeworth and later Vilfredo Pareto \cite{nla.cat-vn2742363}. The initial application of the concepts was to propose a minimal definition of \enquote{efficiency}, regarding allocation of resources inside an economical system.
+A radically different approach has been proposed, using the concepts of Pareto dominance and Pareto optimality. These concepts were originally developed in economical sciences, first by Francis Edgeworth and later Vilfredo Pareto \cite{nla.cat-vn2742363}. The initial application of the concepts was to propose a minimal definition of \enquote{efficiency}, regarding allocation of resources inside an economical system.
 
-The main idea is that a state where it is impossible to improve the resources allocation for an individual without worsening the situation of at least another is described as \emph{Pareto efficient}, or \emph{Pareto optimal}.
-
+The main idea is define as \emph{Pareto efficient} (\emph{Pareto optimal}) a state where it is impossible to improve the resources allocation for an individual without worsening the situation of at least another\footnote{As a remark, these definitions of efficiency and optimality do not give any information about the fairness of the allocation, or the well-being of the involved parties. From this point of view, a monopolistic situation where one individual would control all the available resources is as optimal as a situation where all the resources are equally divided between the individuals.}.\\
 Conversely, if from a system state A it is possible to find a new state B where at least one individual's situation is improved without worsening the situation of another, the state A will be said to be \emph{Pareto inefficient}. The state B will be said to \emph{dominate} the state A in terms of Pareto optimality, and the passage from A to B will said to be a \emph{Pareto improvement}. This relation of Pareto dominance is usually noted \(\prec\).
 
-\definition{Pareto-dominance}{Given A and B two vectors describing different resources allocations in a system, \(A \prec B \Leftrightarrow (\forall i \text{ }A_i \leq B_i \land \exists j \text{ } A_j < B_j\)). }
+\definition{Pareto-dominance}{Given A and B two vectors describing resources allocations to different individuals in a system, \(A \prec B \Leftrightarrow (\forall i \text{ }A_i \leq B_i \land \exists j \text{ } A_j < B_j\)). }
 
-Note that, to complicate a little the understanding of this notion, the definition of domination depends of whether we actually want to \emph{maximize} or \emph{minimize} the resource allocation. Note that in this definition we wanted to maximize resources allocation, so \(A \prec B\) reads \enquote{B dominates A}. If we want to \emph{minimize} the allocation, the meaning is inverted and \(A \prec B\) reads \enquote{A dominates B}.
-As it is the standard convention in optimization to express problems in terms of minimization, for the rest of this thesis we will use \(A \prec B\) with the meaning of \enquote{A dominates B}, unless otherwise specified.
+Note that, to complicate a little the understanding of this notion, the definition of domination depends of whether we actually want to \emph{maximize} or \emph{minimize} the resource allocation. In the previous economical definition we wanted to maximize resources allocation, so \(A \prec B\) reads \enquote{B dominates A}. If we want to \emph{minimize} the allocation, the meaning is inverted and \(A \prec B\) reads \enquote{A dominates B}.
+%As it is the standard convention in optimization to express problems in terms of minimization, for the rest of this thesis we will use \(A \prec B\) with the meaning of \enquote{A dominates B}, unless otherwise specified.
 
 Based on this relation of dominance, it is possible to provide a definition of Pareto-optimality.
 
@@ -503,13 +504,11 @@ Based on this relation of dominance, it is possible to provide a definition of P
 
 \definition{Pareto front}{the set of Pareto-optimal solutions.}
 
-It is also possible to classify the solutions by rank: a solution which is dominated by no other is said to be of rank 0 (and to be Pareto-optimal). A solution which is dominated by at most a solution of rank 0 is said to be of rank 1 and so on.
-
-As a remark, these definitions of efficiency and optimality do not give any information about the fairness of the allocation, or the well-being of the involved parties. From this point of view, a monopolistic situation where one individual would control all the available resources is as optimal as a situation where all the resources are equally divided between the individuals.
+It is also possible to classify the solutions by ranks: a solution which is dominated by no other is said to be of rank 0 (and to be Pareto-optimal). A solution which is dominated by a solution of at most rank 0 is said to be of rank 1 and so on.
 
 These definitions of dominance and optimality can be used to characterize the possible solutions of MOO problem. In this case, the problem is not to find an optimal solution anymore, but to find the Pareto front of the problem.
 
-An illustration of a Pareto front can be seen on figure \ref{Front_Pareto}. The elements A and B are Pareto-optimal, while C is not.
+An illustration of a Pareto front can be seen on figure \ref{Front_Pareto}. The elements A and B are Pareto-optimal, while C is not, being dominated by A and B.
 
 \begin{figure}
 \centering
@@ -521,34 +520,35 @@ An illustration of a Pareto front can be seen on figure \ref{Front_Pareto}. The 
 
 \subsection{Multi-Objective Evolutionary Algorithms}
 
-A popular strategy to find the Pareto front is to use specialized variants of population-based heuristics methods (presented in section \ref{optim_heuristic}). One of the most widespread approach concerns Multi-Objective Evolutionary Algorithms (MOEA).
+A popular strategy to find the Pareto front is to use specialized variants of population-based heuristics methods (presented in section \ref{optim_heuristic}). One of the most widespread approaches concerns Multi-Objective Evolutionary Algorithms (MOEA).
 
 MOEA are variants of EA specialized in the simultaneous tracking of several solutions, instead of providing a single solution. Historically, MOEA are divided in two main categories, based on whether or not they use elitism mechanisms, with some consensus concerning the superiority of elitist algorithms.
 
 Non-elitist techniques often have trouble to converge toward the Pareto front, as well as to keep a good optimum diversity and to spread on the front. To remedy that issue, elitist algorithms propose various additional mechanisms:
 \begin{compactitem}
 \item maintaining an external \enquote{archive} population containing the optimum found so far
-\item using clustering technique to spread the solutions among the Pareto front
-\item introducing an additional preferential bias toward non-dominated solution
+\item using clustering techniques to spread the solutions among the Pareto front
+\item introducing an additional preferential bias toward non-dominated solutions
 \end{compactitem}
 
-MOEA propose an interesting Nature-inspired mechanism for solving MOO problems. By maintaining a population of candidate solutions and using selection pressure mechanisms, they make possible a throughout exploration of the Pareto front. The compromise between exploration and exploitation will be determined by the parametrization of the different genetic operators and the selection/crossing process. While this aspect can prove to be advantageous for the potential flexibility it brings, it is often difficult to guess what are the relevant parameters values. Consequently it can be necessary to iterate the optimization process in order to manually fine-tune the parameters.
+MOEA propose an interesting Nature-inspired mechanism for solving MOO problems. By maintaining a population of candidate solutions and using selection pressure mechanisms, they make possible a throughout exploration of the Pareto front.\\
+The compromise between exploration and exploitation will be determined by the parametrization of the different genetic operators and the selection/crossing process. While this aspect can prove to be advantageous for the potential flexibility it brings, it is often difficult to guess what are the relevant parameters values. Consequently it can be necessary to iterate the optimization process in order to manually fine-tune the parameters.
 
-A major limitation of these methods is their potential computational cost. Such algorithms need to evaluate a relatively large number of candidate in order to create a good population of solutions. Computing all the candidate solutions can be prohibitive for computationally expensive problems.
+A major limitation of these methods is their potential computational cost. Such algorithms need to evaluate a relatively large number of candidates in order to create a good population of solutions. Computing all the candidate solutions can be prohibitive for computationally expensive problems.
 
-It has also be noted in \cite{corne2007techniques} that many MOEA have poor scalability performances in regard of the number of objectives, often having trouble to handle more than five objectives. This degradation of performances is attributed to the combined factors of:
+It has also be noted in \cite{corne2007techniques} that many MOEA have poor scalability performances in regard of the number of objectives, often having troubles to handle more than five objectives. This degradation of performances is attributed to the combined factors of:
 \begin{compactitem}
 \item the exponential complexity increase of the procedures in regard of the number of objectives
-\item the increase of non-dominated solution caused by the additional objectives
-\item the limited size of the archived population in regard to the number of potential candidates
+\item the increase in number of non-dominated solutions caused by the additional objectives
+\item the limited size of the archived population in regard to the increasing number of candidates
 \end{compactitem}
 
 \section{Analysis of MOO}
 
 We have seen how a new concern, taking in account several objectives, has created the need for new optimization strategies. Interestingly, many of these MOO-specific methods do not concentrate on the optimization process in itself, but on providing strategies to apply classical optimization techniques.
 
-Some of these methods propose to aggregate the objectives, in order to be able to directly apply a mono-objective optimization techniques. However these methods require the expert to make some choices concerning the priorities of the objectives before having the possibilities to look at the different alternatives.\\
-Others approaches use population-based algorithms in order to maintain a set of solutions. However these approaches already quite costly in the mono-objective case, require even more evaluations of the problem.
+Some of these methods propose to aggregate the objectives, in order to be able to directly apply mono-objective optimization techniques. However these methods require the expert to make some choices concerning the priorities of the objectives before having the possibilities to look at the different alternatives.\\
+Others approaches use population-based algorithms in order to maintain a set of solutions. However these approaches, already quite costly in the mono-objective case, require even more evaluations of the problem.
 
 We will see in the next chapter how these methods are still insufficient to handle the most complex continuous optimization problems, due to the very fundamental assumption they make by considering the objective-function(s) to be trivial to evaluate. We will now see a kind of optimization problems which are so complex that a single evaluation of the problem is considered a cost, and some methods which have been proposed to handle such problems.
 
