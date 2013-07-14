@@ -55,8 +55,8 @@ In the context of this thesis, we will concern ourselves more specifically with 
 \subsection{No Free Lunch Theorem}
 
 The No Free Lunch (NFL) Theorems for optimization are important results in the field, formalized by Wolpert and Macready \cite{585893}. The basic idea behind these theorems is that no optimization method outperforms the others when regarding the class of all the possible problems or, as the authors themselves say:
-\begin{quote}
-\enquote{any two algorithms are equivalent when their performance is averaged across all possible problems.}
+\begin{quote}\textit{
+\enquote{any two algorithms are equivalent when their performance is averaged across all possible problems.}}
 \end{quote}
 If an algorithm outperforms another on certain types of optimization problems, there must be other classes of problems where this algorithm performs worse.
 
@@ -514,7 +514,7 @@ An illustration of a Pareto front can be seen on figure \ref{Front_Pareto}. The 
 \centering
 \includegraphics[width=0.4\paperwidth]{Front_pareto}\\
 %\hfill\includegraphics[width=6em]{by-sa} \href{http://en.wikipedia.org/wiki/File:Front_pareto.svg}{\begin{small}Johann Dréo\end{small}}
-\caption{Illustration of the notion of Pareto Front (CC-BY-SA \href{http://en.wikipedia.org/wiki/File:Front_pareto.svg}{Johann Dréo})}
+\caption{Illustration of the notion of Pareto Front (CC-BY-SA \href{http://en.wikipedia.org/wiki/File:Front_pareto.svg}{Johann Dréo}).}
 \label{Front_Pareto}
 \end{figure}
 
@@ -554,31 +554,31 @@ We will see in the next chapter how these methods are still insufficient to hand
 
 \chapter{Multidisciplinary Optimization}\label{MDO_chapter}
 
-Multidisciplinary Design Optimization (MDO), often abbreviated Multidisciplinary Optimization , concerns the optimization of complex systems which involves several interacting disciplines. Each discipline in itself can contain this own variables, objectives and constraints. These problems often involve several of the optimization problematics we examined in the previous chapters (non-linearity, multiples objectives and constraints, uncertainties etc.) and are usually too complex to be handled by classical optimization methods for several reasons. Evaluating the global function of the problem is considered to be expensive, as it involve complicated models, requiring extensive calculus. The optimization problem usually contains not just contradictory objectives, but whole conflicting disciplines. The complexity of the problem is also increased by the fact that the different parts of the problem are interdependent and can potentially add several layers of intermediate calculus, making difficult to estimate the impact of the different design variables on the different criteria.\\
-In this regard, we can say that MDO problems tend to regroup and amplify all the difficulties encountered with the previous types of optimization problems.
+Multidisciplinary Design Optimization (MDO), often abbreviated Multidisciplinary Optimization, concerns the optimization of complex systems which involves several interacting disciplines. Each discipline in itself can contain this own variables, objectives and constraints. These problems often involve several of the optimization problematics we examined in the previous chapters (non-linearity, multiples objectives and constraints, uncertainties \emph{etc.}) and are usually too complex to be handled by classical optimization methods for several reasons. Evaluating the global function of the problem is considered to be expensive, as it involve complicated models, requiring extensive calculus. The optimization problem usually contains not just contradictory objectives, but whole conflicting disciplines. The complexity of the problem is also increased by the fact that the different parts of the problem are interdependent and can potentially add several layers of intermediate calculus, making difficult to estimate the impact of the design variables on the different criteria.\\
+In this regard, we can say that MDO problems regroup and amplify all the difficulties encountered with the previous types of optimization problems.
 
-These kinds of problems are commonplace in the industry, especially in complex systems design such as aeronautic and aerospace engineering, where parts of the design are often done by different experts teams. For example designing an aircraft can be formalized as a MDO problem involving several disciplines such as mechanics, aerodynamics, acoustics etc. (see \figurename\ \ref{aero-disc}).
+These kinds of problems are commonplace in the industry, especially in complex systems design such as aeronautics and aerospace engineering, where parts of the design are often done by different experts teams. For example, designing an aircraft can be formalized as a MDO problem involving several disciplines such as mechanics, aerodynamics, acoustics etc. (see \figurename\ \ref{aero-disc}).
 
 \begin{figure}
 \centering
 \includegraphics[width=0.4\paperwidth]{Disciplines_Avion}
-\caption{Examples of aeronautics disciplines (source unknown, partially based on the work of C. W. Miller \href{http://thehuwaldtfamily.org/jtrl/research/Airplane\%20Design/Dream\%20Airplane\%20Systems\%20Bias.pdf}{\emph{Dream Airplanes}})}
+\caption{Examples of aeronautics disciplines (source unknown, partially based on the work of C. W. Miller \href{http://thehuwaldtfamily.org/jtrl/research/Airplane\%20Design/Dream\%20Airplane\%20Systems\%20Bias.pdf}{\emph{Dream Airplanes}}).}
 \label{aero-disc}
 \end{figure}
 
-To handle such complex systems, most strategies propose to decompose it into several sub-systems of lesser complexity. Concerning engineering, several decomposition strategies have been proposed\cite{kusiak1995decomposition}:
+To handle such complex systems, most strategies propose to decompose the problem into several sub-systems of lesser complexity. Concerning engineering, several decomposition strategies have been proposed\cite{kusiak1995decomposition}:
 
 \begin{itemize}
-\item product (also called object) decomposition, based on the physical components of the system. This kind of decomposition is not always adequate and often subjective;
-\item process (also called sequential) decomposition, based on the workflow of elements/informations involved into the design process. This decomposition is most adequate when the design process is linear.
-\item domain (also called aspect) decomposition, based on the knowledge domains, the disciplines, involved. This kind of decomposition is the basis of MDO methods.
+\item Product (also called object) decomposition, based on the physical components of the system. This kind of decomposition is not always adequate and often subjective.
+\item Process (also called sequential) decomposition, based on the workflow of elements/informations involved into the design process. This decomposition is most adequate when the design process is linear.
+\item Domain (also called aspect) decomposition, based on the knowledge domains, the disciplines, involved. This kind of decomposition is the basis of MDO methods.
 \end{itemize}
 
 The AIAA MDO Technical Committee proposed the following definition of MDO\footnote{\url{https://info.aiaa.org/tac/adsg/MDOTC/Web\%20Pages/aboutmdo.aspx}} \cite{american1991current}:
  \begin{quote}\textit{
 \enquote{A methodology for the design of complex engineering systems and subsystems that coherently exploits the synergism of mutually interacting phenomena.}}
 \end{quote}
-MDO methods are not optimization methods \emph{per se}. Instead they focus on providing an optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as presented above. In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to a complex problem. Martin and Lambe \cite{Lambe:2011:A} note several other terms have been used in the literature: \enquote{architecture}, \enquote{method}, \enquote{methodology}, \enquote{problem formulation}, \enquote{strategy}, \enquote{procedure} or \enquote{algorithm}.
+MDO methods are not optimization methods \emph{per se}. Instead they focus on providing an optimization strategy for optimizing the different disciplines while maintaining a global coherence. In fact, the optimization of the disciplines is done using classical optimization methods such as the ones presented before. In this regard, MDO methods could be seen as optimization meta-methods, or methodologies, as they provide methods to best apply optimization methods to complex problems. Martin and Lambe \cite{Lambe:2011:A} note many of the terms that have been used in the literature: \enquote{architecture}, \enquote{method}, \enquote{methodology}, \enquote{problem formulation}, \enquote{strategy}, \enquote{procedure} or \enquote{algorithm}.
 
 Alexandrov and Lewis illustrated their discussion on Collaborative Optimization \cite{NataliaM.:2000:ACA:886733} with the following theoretical test case:
 
@@ -604,11 +604,11 @@ For example, the following optimization problem:
 
 (where $f_1$ and $f_2$ represent two disciplines depending on $x$)
 
-could become :
+could become:
 
 \begin{align*}
 \text{Minimize } &f(f_1(x_1), f_2(x_2))\\
-\text{s.t. } &x_1=x_2
+\text{subject to } &x_1=x_2
 \end{align*}
 
 The shared variable $x$ has been replaced by two independent variables $x_1$ and $x_2$, and a new constraint $x_1=x_2$ has been added to ensure the consistency of the design.
@@ -617,7 +617,7 @@ Several specific terms are in use in the domain of MDO:
 
 \begin{itemize}
 
-\item \emph{Design variable}: a variable of the problem which can be chosen by the designer. The goal of the optimization process is to find good values for the design variables of the problem. A design variable is said to be \emph{local} (or \emph{private}) if it is relevant to only one discipline, or \emph{shared} (or \emph{public}) if it is used by several of them.
+\item \emph{Design variable}: a variable of the problem which can be chosen by the designer. The goal of the optimization process is to find good values for the design variables of the problem. A design variable is said to be \emph{local} (or \emph{private}) if it is relevant to only one discipline, and \emph{shared} (or \emph{public}) if it is used by several of them.
 
 \item \emph{Discipline Analysis}: The evaluation of the output variables of a single discipline, based on given values for the input variables, ensuring that all the values involved in the discipline are consistent.
 
@@ -627,7 +627,7 @@ Several specific terms are in use in the domain of MDO:
 
 \end{itemize}
 
-The classical approach to categorize MDO methods was to separate mono- and multi-level methods.
+The classical approach to categorize MDO methods is to separate mono- and multi-level methods.\\
 Mono-level methods use a single optimizer and a non hierarchical structure, while multi-level methods use a hierarchical structure and possibly several optimizers.
 
 %\section{An Illustration of Coupled Systems Problematics: Fixed Point Iteration}
@@ -682,28 +682,16 @@ Mono-level methods use a single optimizer and a non hierarchical structure, whil
 
 \subsection{Multidisciplinary Feasible}
 
-MultiDisciplinary Feasible (MDF) \cite{cramer1994problem}, represented in \figurename{} \ref{mdf_graph}, is the most basic and classical MDO method. This approach ensures at each optimization step that the design is consistent as a whole, taking into account all the disciplines together (hence the name). The optimizer only use the design variables, objective functions and constraints.
-Basically, MDF alternates between a MDA (multidisciplinary analysis) and a global optimization phase, ensuring the design to be globally consistent at each optimization step. At each step, the result proposed by the optimizer is used to do a full MDF whose results are used in return for the next optimization iteration.
+MultiDisciplinary Feasible (MDF) \cite{cramer1994problem}, represented in \figurename{} \ref{mdf_graph}, is the most basic and classical MDO method. This approach ensures at each optimization step that the design is consistent as a whole, taking into account all the disciplines together (hence the name). The optimizer only uses the design variables, objective-functions and constraints.
+Basically, MDF alternates between a MDA (multidisciplinary analysis) and a global optimization phase, ensuring the design to be globally consistent at each optimization step. At each step, the result proposed by the optimizer is used to do the full MDA whose results are used in return for the next optimization iteration.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 \includegraphics[width=0.4\textwidth]{mdo_mdf}
-\caption{MDF method}\label{mdf_graph}
+\caption{MDF method.}\label{mdf_graph}
 \end{wrapfigure}
 
-As it is so straightforward, MDF requires no reformulation of the problem, unlike most of the others MDO methods, and in so is really easy to use. As the design is consistent at each step, the optimization process can provide a solution at any time (but it will not guarantee that the proposed solution will satisfy the constraints, as this concerns depend on the optimization technique used). However, since MDA is supposed to be costly, MDF is often considered to be quite inefficient, since it never exploits the parallelization opportunities due to the separation of the disciplines. MDF does not provide any guarantee of convergence.
-
-\subsubsection{Asymmetric Subspace Optimization}
-
-Asymmetric Subspace Optimization (ASO), shown on \figurename{} \ref{aso_graph}, is a relatively recent work of Chittick and Martins \cite{Chittick:2007:B} to improve on MDF for MDO problems where some disciplines are specifically more costly to analyze than the others. The classical illustration given is the one of high-fidelity aerostructural optimization, where the analysis of aerodynamics is significantly more heavier than the structural analysis. An intermediate optimization phase for the structure is introduced during the MDA, in order to reduce the number of iterations needed at the global level.
-
-\begin{wrapfigure}{r}{0.5\textwidth}
-\centering
-\includegraphics[width=0.4\textwidth]{mdo_aso}
-\caption{ASO method}\label{aso_graph}
-\end{wrapfigure}
-
-This approach can lead to significant improvements over MDF in the context of disciplines with significant analysis costs. However when the analysis costs of the disciplines are comparable, this approach is less efficient than MDF, as it introduces additional optimization step.
+As it is so straightforward, MDF requires no reformulation of the problem, unlike most of the other MDO methods, and in so is really easy to use. As the design is consistent at each step, the optimization process can provide a solution at any time (but it will not guarantee that the proposed solution will satisfy the constraints, as this concern depend on the optimization technique used). However, since MDA is supposed to be costly, MDF is often considered to be quite inefficient, since it never exploits the parallelization opportunities due to the separation of the disciplines. MDF does not provide any guarantee of convergence.
 
 \subsection{Individual Discipline Feasible}
 
@@ -713,113 +701,122 @@ Instead of a full MDA (as in MDF), IDF alternates the optimization with independ
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 \includegraphics[width=0.4\textwidth]{mdo_idf}
-\caption{IDF method}\label{idf_graph}
+\caption{IDF method.}\label{idf_graph}
 \end{wrapfigure}
 
-However, as the variables shared among the disciplines are not guaranteed to be consistent, IDF needs to introduce a reformulation of the problem where the shared variable are duplicated among the disciplines and several equality constraints need to be added to ensure the eventual consistency.
+However, as the variables shared among the disciplines are not guaranteed to be consistent, IDF needs to introduce a reformulation of the problem where the shared variables are duplicated among the disciplines, and several equality constraints are added to ensure the eventual consistency.
 
-\subsection{All-at-Once}
+\subsection{All-At-Once}
 
-All-at-Once (AAO) \cite{haftka1985simultaneous, cramer1994problem}, represented on \figurename{} \ref{aao_graph}, can be seen as the extreme opposite of MDF, given that it does not try to maintain consistency neither at the global nor discipline level during the optimization process until convergence.
+All-At-Once (AAO) \cite{haftka1985simultaneous, cramer1994problem}, represented on \figurename{} \ref{aao_graph}, can be seen as the extreme opposite of MDF, given that it does not try to maintain consistency neither at the global nor discipline level during the optimization process until it reaches convergence.
 All variables are considered as design variable for the optimizer, and the analysis equations are transformed into equality constraints.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 \includegraphics[width=0.4\textwidth]{mdo_aao}
-\caption{AAO method}\label{aao_graph}
+\caption{AAO method.}\label{aao_graph}
 \end{wrapfigure}
 
 This transformation allows the analysis phase to be very quick, as we only need to evaluate the residuals of the equality constraints representing the equations.
-However, the drawbacks of IDF are even more important, as AAO requires an even bigger reformulation of the problem, introducing a lot of duplicated variables and consistency constraints to the problem. This reformulation also complicates the optimization phase.
+However, the drawbacks already present in IDF are even more important, as AAO requires an even bigger reformulation of the problem, introducing many duplicated variables and consistency constraints to the problem. This reformulation also makes the optimization phase more complex.
 
 \section{Multi-Level Methods}
 
 \subsection{Concurrent Subspace Optimization}
 
-Concurrent Subspace Optimization (CSSO) \cite{wujek1997concurrent}, which can be seen on \figurename{} \ref{csso_graph} is one of the firsts multi-levels MDO methods. Before the optimization, the problem is decomposed in several subspaces related to the different disciplines. Each optimization iteration then start by a system analysis, followed by a series of subspaces optimization (possibly concurrently), where each optimization tries to solve the global problem by using approximate models of the rest of the system. After the subspaces optimizations, a full MDA is done (using only the approximate models) to perform a global optimization. The result of the global optimization in then used in the next system analysis.
+Concurrent Subspace Optimization (CSSO) \cite{wujek1997concurrent}, which can be seen on \figurename{} \ref{csso_graph}, is one of the first multi-level MDO methods. Before the optimization, the problem is decomposed in several subspaces related to the different disciplines. Each optimization iteration then starts by a system analysis, followed by a series of subspaces optimization (possibly concurrently), where each optimization tries to solve the global problem by using approximate models of the rest of the system. After the subspaces optimizations, a full MDA is done (using only the approximate models) to perform a global optimization. The result of the global optimization is then used in the next system analysis.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 \includegraphics[width = 0.4\textwidth]{mdo_csso}
-\caption{CSSO method}\label{csso_graph}
+\caption{CSSO method.}\label{csso_graph}
 \end{wrapfigure}
 
 Originally, CSSO was developed for single-objective optimization problems. However several efforts have been made to extend CSSO to multi-objective problems (see \cite{zhang2011} for an overview of the different works in this regard).
 
 \subsection{Collaborative Optimization}
 
-Collaborative Optimization (CO) \cite{Ilan:1994:MOM:887207}, illustrated on \figurename{} \ref{co_graph}, reformulates the problem by replacing dependencies between disciplines by equalities constraints. This transformation allows to solve in parallel discipline-level optimizations problems. A system-level optimizer is then used to minimize the discrepancies (via the added equalities constraints), while maintaining the satisfaction of the disciplines constraints.
+Collaborative Optimization (CO) \cite{Ilan:1994:MOM:887207}, illustrated on \figurename{} \ref{co_graph}, reformulates the problem by replacing dependencies between disciplines by equality constraints. This transformation allows to solve the discipline-level optimizations problems in parallel. A system-level optimizer is then used to minimize the discrepancies (via the added equality constraints), while maintaining the satisfaction of the disciplines constraints.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 \includegraphics[width = 0.4\textwidth]{mdo_co}
-\caption{CO method}\label{co_graph}
+\caption{CO method.}\label{co_graph}
 \end{wrapfigure}
 
-CO is best-suited for MDO problems with a low coupling between disciplines. The authors have argued that one advantage of CO is that it closely matches the discipline decomposition of the problem, as the scope domain-specific variables and constraints are limited to the related disciplines. Thus, the discipline optimizations can be done by domain experts who have a strong understanding of the subproblems.
+CO is best-suited for MDO problems with a low coupling between disciplines. The authors have argued that one advantage of CO is that it closely matches the discipline decomposition of the problem, as the domain-specific variables and constraints are limited to the related disciplines. Thus, the disciplines optimization can be done by domain experts who have a strong understanding of the subproblems.
 
 \subsection{Bilevel Integrated System Synthesis}
 
-Bi-Level Integrated System Synthesis (BLISS) \cite{J.:1998:BIS:886310}, shown on \figurename{} \ref{bliss_graph}, has been developed to separate local and shared variables, in order to ease the distribution of the optimization process (be it in regard of expert teams or computational resources).
-BLISS shares similarities with CSSO however, local variables are assigned to the disciplines optimizations while the global variables are assigned to the global system optimization.
+Bi-Level Integrated System Synthesis (BLISS) \cite{J.:1998:BIS:886310}, shown on \figurename{} \ref{bliss_graph}, has been developed to separate local and shared variables, in order to ease the distribution of the optimization process (both in regard of experts teams or computational resources).
+BLISS shares similarities with CSSO with the difference that local variables are assigned to the disciplines optimizations while the global variables are assigned to the global system optimization.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 \includegraphics[width = 0.4\textwidth]{mdo_bliss}
-\caption{BLISS method}\label{bliss_graph}
+\caption{BLISS method.}\label{bliss_graph}
 \end{wrapfigure}
 
-For each discipline optimization problem, an approximation of the global objective-functions and constraints is build using linear approximation considering only the variables of the discipline.
+For each discipline optimization problem, an approximation of the global objective-functions and constraints is build, using linear approximation considering only the variables of the discipline.
 
 The optimization process cycle alternates as follow: first a system-wide analysis is done (which includes the analysis of each subsystem) and used to provide the approximate objective-functions. Then a discipline-level optimization of the objective-functions approximations, which is used for a system optimization concerning the shared variables. These results are then used by the new system analysis at the start of the next step.
 
+\subsection{Asymmetric Subspace Optimization}
+
+Asymmetric Subspace Optimization (ASO), shown on \figurename{} \ref{aso_graph}, is a work of Chittick and Martins \cite{Chittick:2007:B} to improve on MDF for MDO problems where some disciplines are significantly more costly to analyze than the others. The classical illustration given is the one of high-fidelity aerostructural optimization, where the analysis of aerodynamics is significantly more heavier than the structural analysis. An intermediate optimization phase for the structure is introduced during the MDA, in order to reduce the number of iterations needed at the global level.
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+\centering
+\includegraphics[width=0.4\textwidth]{mdo_aso}
+\caption{ASO method.}\label{aso_graph}
+\end{wrapfigure}
+
+This approach can lead to significant improvements over MDF in the context of disciplines with significant analysis costs. However when the analysis costs of the disciplines are comparable, this approach is less efficient than MDF, as it introduces additional optimization steps.
+
 \subsection{MDO based on Independent Subspaces}
 
-MDO based on Independent Subspaces (MDOIS) \cite{NME:NME1380}, whose representation is shown on \figurename{} \ref{mdois_graph} has been developed for handling problems where the different disciplines are coupled (i.e. some outputs of one discipline are used as inputs by the others and vice versa) but they do not share any design variable or criterion.
+MDO based on Independent Subspaces (MDOIS) \cite{NME:NME1380}, whose representation is shown on \figurename{} \ref{mdois_graph} has been developed for handling problems where the different disciplines are coupled (i.e. some outputs of one discipline are used as inputs by the others and \emph{vice versa}) but they do not share any design variable or criterion.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 \includegraphics[width = 0.4\textwidth]{mdo_mdois}
-\caption{MDOIS method}\label{mdois_graph}
+\caption{MDOIS method.}\label{mdois_graph}
 \end{wrapfigure}
 
-MDOIS decomposes the system in separate subsystems, for each an optimization problem is defined, with its own design variables, objective-function and constraints. The coupling variables are considered constant for these subproblems. After each subsystem has solved its optimization problem, the new values of its variables are used in a system-wide analysis to be re-injected for the next iteration of subsystem optimization.
+MDOIS decomposes the system in separate subsystems. For each subsystem an optimization problem is defined, with its own design variables, objective-function and constraints. The coupling variables are considered constant for these subproblems. After each subsystem has solved its optimization problem, the new values of its variables are used in a system-wide analysis to be re-injected for the next iteration of subsystem optimization.
 
 \subsection{Quasiseparable Subsystems Decomposition}
 
-Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420}, represented in \figurename{} \ref{qsd_graph}, is another specialized method for systems which can be decomposed into subproblems which only depend on local variables and global design variable but not on values produced by others subsystems.
+Quasiseparable Subsystems Decomposition (QSD) \cite{1389-4420}, represented in \figurename{} \ref{qsd_graph}, is another specialized method for systems which can be decomposed into subproblems which only depend on local variables and global design variables, but not on values produced by others subsystems.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 \includegraphics[width = 0.4\textwidth]{mdo_qsd}
-\caption{QSD method}\label{qsd_graph}
+\caption{QSD method.}\label{qsd_graph}
 \end{wrapfigure}
 
-The basic idea is to assign to each subsystem a value for the global variables. An optimization is done on the local variables of each subsystem to maximize their constraints margins. Based on the result of each subsystem, a global optimization is done to assign new values to the global variables. The process is then repeated iteratively.
+The basic idea is to assign to each subsystem a value for the global variables. An optimization is done on the local variables of each subsystem to maximize its constraints margins. Based on the result of each subsystem, a global optimization is done to assign new values to the global variables. The process is then repeated iteratively.
 
 \section{Design Optimization Under Uncertainties}\label{SOA_uncertainties}
 
-In a pure mathematical world, all models are perfectly correct and have an infinite precision. However, in the physical world, our knowledge can be extremely limited. Moreover, high precision models can require a long time to be computed, making them prohibitively costly when used in the context of an optimization process. Finally, when the optimization problem is complex and sensitive to parameters variations, a small approximation can result in large variations of the outputs.
+When the optimization problem is used in the context of real-world applications, it is often necessary to take into account the many sources of uncertainties. While in a pure mathematical world, all models are perfectly correct and have an infinite precision, in the physical world our knowledge can be extremely limited. Moreover, high precision models can require a long time to be computed, making them prohibitively costly when used in the context of an optimization process. Finally, when the optimization problem is complex and sensitive to parameters variations, a small approximation can result in large variations of the outputs.
 
-This difficulty is especially present in multidisciplinary design optimization problems. Not only the complexity of the disciplines themselves bring its share of modeling uncertainties related to the limited knowledge about the domains, but the product to be designed will pass through several manufacturing phases, each of them bringing its own part of uncertainties related to the production process.
+These difficulties are especially present in MDO problems. Not only the complexity of the disciplines themselves bring its share of modeling uncertainties related to the limited knowledge about the domains, but the product to be designed will pass through several manufacturing phases, each of them bringing its own part of uncertainties related to the production process.
 
-In order to tackle these issues, several works have been done to take into account uncertainties into the optimization process. We propose to make a quick tour of the different ways which have been proposed to model and propagate uncertainties.
-A major concern regarding the modeling of uncertainties is the uncertainties \emph{propagation}. 
+In order to tackle these issues, several works have been done to take into account uncertainties into the optimization process. A major concern regarding the modeling of uncertainties is the uncertainties \emph{propagation}. We propose to make a quick tour of the different ways which have been proposed to model and propagate uncertainties.
 
 \subsection{Several types of uncertainties}
 
 A distinction is usually made between \emph{aleatory} uncertainties and \emph{epistemic} uncertainties.
 
-\textbf{Aleatory uncertainties} are inherent to the studied system. They can represent for example variability in the material used, a physical variation regarding the manufacturing of some piece, the meteorological conditions to which a device will be exposed etc.
-These uncertainties are \emph{irreducible} as it is impossible to remove them with a better analysis of the system.
+\textbf{Aleatory uncertainties} are inherent to the studied system. They can represent for example variability in the material used, a physical variation regarding the manufacturing of some piece, the meteorological conditions to which a device will be exposed \emph{etc.} These uncertainties are \emph{irreducible} as it is impossible to remove them with a better analysis of the system.
 
-\textbf{Epistemic uncertainties} result from an incomplete knowledge regarding the system. These uncertainties can result from a limited set of data or lack of knowledge regarding a physical phenomenon.
-The uncertainties are \emph{reducible} as it is possible to remove them with a better analysis of the system. However, removing epistemic uncertainty can often be too costly or too difficult in practice, thus they still need to be taken into account during the optimization process.
-
-For example, let's suppose we work on a model taking two variables as input and producing an output: $z=f(x,y)$.
-Based on known uncertainties on the inputs and the model, how easy is it to combine and propagate these information to determine the uncertainty regarding the output ? Or more formally, can we provide a propagator $P$ such as $u_z = P(u_x, u_y, u_f)$ (where $u_i$ is the uncertainty associated with the element $i$)? As we will see, the ease to obtain such a propagator $P$ depends on the chosen way to model the uncertainties.
+\textbf{Epistemic uncertainties} result from an incomplete knowledge regarding the system. These uncertainties can result from a limited set of data or lack of knowledge regarding a physical phenomenon. The uncertainties are \emph{reducible} as it is possible to remove them with a better analysis of the system. However, removing epistemic uncertainty can often be too costly or too difficult in practice, thus they still need to be taken into account during the optimization process.
 
 \subsection{Uncertainties Modeling Techniques}
+
+Suppose we work on a model taking two variables as input and producing an output: $z=f(x,y)$.
+Based on known uncertainties on the inputs and the model, how easy is it to combine and propagate these information to determine the uncertainty regarding the output? Or more formally, can we provide a propagator $P$ such as $u_z = P(u_x, u_y, u_f)$ (where $u_i$ is the uncertainty associated with the element $i$)? As we will see, the ease to obtain such a propagator $P$ depends on the chosen way to model the uncertainties.
 
 We will now see several formal representations of uncertainties that have been proposed.
 
@@ -827,19 +824,20 @@ We will now see several formal representations of uncertainties that have been p
 
 Using the probability theory, uncertainty can be modeled using a distribution function. This modeling provides the advantages of a well-studied theoretical foundation, providing well-known combination and propagation techniques.
 
-Aleatory uncertainties can be characterized by obtaining a distribution function from a data sample.
-Well-known statistical techniques can be used to see for example if a data sample follows a known probability distribution, measuring \emph{goodness of fit}, that is, how well a data sample follows a given model, such as the Kolmogorov-Smirnov test \cite{Massey_1951}. 
+Aleatory uncertainties can be characterized by obtaining a distribution function from a data sample. Well-known statistical techniques can be used to see for example if a data sample follows a known probability distribution, measuring \emph{goodness of fit} methods, that is, how well a data sample follows a given model, such as the Kolmogorov-Smirnov test \cite{Massey_1951}.\\
 However, care must be taken as these techniques can introduce some more epistemic uncertainties which can lead to misleading results (for example in the case of insufficient data samples).
 
-Concerning epistemic uncertainty, it can be more difficult to estimate a relevant distribution function, as these uncertainties represent a limitation of knowledge about the concerned factor. While aleatory uncertainties can be studied to find some good approximation function (for example by making several production experiments in order to evaluate the variations in the product), it is most difficult to do so for epistemic uncertainty.
+Concerning epistemic uncertainty, it can be more difficult to estimate a relevant distribution function, as these uncertainties represent a limitation of knowledge about the concerned factors. While aleatory uncertainties can be studied to find some good approximation function (for example by making several production experiments in order to evaluate the variations in the product), it is most difficult to do so for epistemic uncertainty.
 
 \subsubsection{Interval Analysis}
 
-Interval analysis can be an alternative to probability theory when the lack of information impedes modeling with a probability distribution, but where the uncertainty can still be bounded within a certain domain.
-How easy is it to propagate intervals depends on the involved models. For example in the case of a monotonic function the lower and upper bounds can be determined easily. In the general case, determining the boundaries is equivalent to solve an optimization problem and can thus be solved by using optimization algorithms. In the most extreme cases, one can apply sampling techniques, but this can become quite expensive.
+Interval analysis can be an alternative to probability theory when the lack of information impedes modeling with a probability distribution but where the uncertainty can still be bounded within a certain domain.
+How easy is it to propagate intervals depends on the involved models.
+
+For example, in the case of a monotonic function the lower and upper bounds can be determined easily. In the general case, determining the boundaries is equivalent to solve an optimization problem and can thus be done by using optimization algorithms. In the most extreme cases, one can apply sampling techniques, but this can become quite expensive.
 For some examples of existing techniques, one can refer to \cite{Kreinovich_2008}.
 
-A limit of interval analysis is the lack of a measure equivalent to probability, which limits the usefulness of this representation in the general case. This modeling can still prove useful in the context of worst case studies where inputs variables can be bounded with accuracy.
+A limit of interval analysis is the lack of a measure equivalent to probability, which limits the usefulness of this representation in the general case. This modeling can still prove useful in the context of worst case studies where input variables can be bounded with accuracy.
 
 \subsubsection{Fuzzy Sets}
 
@@ -849,57 +847,58 @@ Basically, fuzzy sets are sets where the membership of an element to the set is 
 In classical set theory, an element is or is not a member of a set. This notion can be formalized as a function $f_S: X \rightarrow \{0,1\}$ where 
 $\left\{
  		 \begin{array}{rcr}
-			f_S(x) = 0 \Leftrightarrow x \not\in S\\
-			f_S(x) = 1 \Leftrightarrow x \in S
+			f_S(x \in X) = 0 \Leftrightarrow x \not\in S\\
+			f_S(x\in X) = 1 \Leftrightarrow x \in S
 		\end{array}
 	\right. $
 
-In the context of fuzzy sets, the equivalent function can be formalized as $f_S: X \rightarrow [0, 1]$, where $f_S(x)$ represents the degree of membership of $x$ to $S$. A value of 1 indicates a total membership to S, a value of 0 a complete absence of membership to S and the values in between specific degrees of membership.
+In the context of fuzzy sets, the equivalent function can be formalized as $f_S: X \rightarrow [0, 1]$, where $f_S(x \in X)$ represents the degree of membership of $x$ to $S$. A value of 1 indicates a complete membership to S, a value of 0 a complete absence of membership to S and the values in between specific degrees of membership.
 In this regard, fuzzy sets can be seen as a generalization of classical sets.
 
 Fuzzy sets quantification capability to represent vague information makes it attractive to model epistemic uncertainty, as it is more precise than interval analysis and well-suited to express expert knowledge. However this modeling is less powerful and expressive than probability theory, lacking for example a mean to represent an uncertainty measure equivalent to the probability of the probability theory. Indeed, the membership function is insufficient to characterize the likelihood of non-connected events.
+
 To overcome this limitation, the fuzzy set theory was extended into the possibility theory.
 
 \subsubsection{Possibility Theory}
 
-Possibility theory \cite{zadeh1978fuzzy} seems similar to probability theory. However, they are based on axioms which diverge on a fundamental point.
-The probability theory is based on the axiom of \emph{additivity}, which says that for two disjoints sets $U$ and $V$, $P(U \cup V) = P(U)+ P(V)$, that is the probability of at least one of two mutually exclusive events to be verified is the sum of the probabilities of each event.
+Possibility theory \cite{zadeh1978fuzzy} seems similar to probability theory. However, they are based on axioms which diverge on a fundamental point.\\
+The probability theory is based on the axiom of \emph{additivity}, which says that for two disjoint sets $U$ and $V$, $P(U \cup V) = P(U)+ P(V)$, that is the probability of at least one of two mutually exclusive events to be verified is the sum of the probabilities of each event.
 
-The possibility theory contains instead an axiom of \emph{sub-additivity} saying that for two disjoints sets $U$ and $V$, $\Pi(U \cup V) = \text{max }(\Pi(U), \Pi(V))$ (where $\Pi(X)$ reads as \enquote{possibility of X}).
+The possibility theory contains instead an axiom of \emph{sub-additivity}, saying that for two disjoints sets $U$ and $V$, $\Pi(U \cup V) = \text{max }(\Pi(U), \Pi(V))$ (where $\Pi(X)$ reads as \enquote{possibility of X}).
 
-Let's take the basic example of a door which can be either open or closed. If we assume \enquote{the door is closed} has a probability of 1, it must follow that \enquote{the door is open} has a probability of 0, since the sum of these two complementary events must be 1.
+Let's take the basic example of a door which can be either open or closed. If we assume \enquote{the door is closed} has a probability of 0.9, it must follow that \enquote{the door is open} has a probability of 0.1, since the sum of these two complementary events must be 1. The probability of the door to be either open or closed is $0.9+0.1 = 1$.
 
-In the context of possibility theory, if we state that the possibility of \enquote{the door is closed} is 1, it is not incompatible with the possibility of the door to be open to be, for example, 0.4.
+In the context of possibility theory, if we state that the possibility of \enquote{the door is closed} is 0.9, it is not incompatible with the possibility of the door to be open to be, for example, 0.4. The possibility of the door to be either open or closed is $max(0.9,0.4) = 0.9$.
 
 The intuition behind this difference is that probability theory applies to the reality, while possibility theory applies to the knowledge one has regarding the reality, taking into account the \enquote{fuzziness} of one's knowledge. To cite the definition proposed by Nikolaidis et al. \cite{nikolaidis:386}:
-\begin{quote}
+\begin{quote}\textit{
 \enquote{Possibility measures the degree to which: a) A person considers that an event can
 occur, or b) The degree to which the available evidence does not contradict the
-hypothesis that the event can occur.}
+hypothesis that the event can occur.}}
 \end{quote}
 
 As well as the notion of \emph{possibility}, possibility theory introduces the notion of \emph{necessity}. Basically, $Nec(U) = 1 - \Pi(\bar{U})$.
-This definition implies several interesting properties:
+This definition brings several interesting properties:
 
 $\left\{
 \begin{array}{l}
 Nec(U) \leq \Pi(U)\\
 Nec(U) + \Pi(\bar{U}) = 1\\
-\text{either } \Pi(U) = 1 \text{ or } Nec(U) = 0\\
+\Pi(U) + \Pi(\bar{U}) \geq 1\\
 \end{array}
 \right.$
 \\
 
 Necessity and possibility of an event $e$ can be viewed as lower and upper bounds to the probability of $e$.
 
-Possibility theory offers numerous tools similar to the ones of probability theory (so much in fact that it has been debated if the two theories are really different, or if possibility theory was just a variation on probability theory). However, the capability of this theory to model expert knowledge specifically has made it quite popular in the context of uncertainty modeling.
+Possibility theory offers numerous tools similar to the ones of probability theory (so much in fact that it has been debated if the two theories are really different, or if possibility theory was merely a variation on probability theory). However, the capability of this theory to model expert knowledge has made it quite popular in the context of uncertainty modeling.
 
 \subsubsection{Evidence Theory}
 
-Evidence theory \cite{shafer1976mathematical}, also known as Dempster-Shafer theory (DST), takes into account available evidences to provide a degree of belief concerning a fact.
+Evidence theory \cite{shafer1976mathematical}, also known as Dempster-Shafer theory (DST), takes into account available evidences to provide a degree of belief concerning a fact.\\
 The basic idea of this theory is to represent the notion that the more evidences seem to confirm a proposition, the more we can believe the proposition to be true.
 
-Evidence theory represents a proposition as a set of elements. Thus some propositions can include others propositions (following the basic set inclusion definition). To these sets are assigned a basic belief assignment (BBA), also called \emph{mass}.
+Evidence theory represents a proposition $S$ as a set of elements. Thus some propositions can include others propositions (following the basic set inclusion definition). To these sets are assigned a basic belief assignment (BBA), also called mass.
 
 From this mass can be calculated two measures:
 
@@ -908,7 +907,7 @@ From this mass can be calculated two measures:
 \item \emph{Plausibility:} $pl(S) = \displaystyle\sum_{S'|S' \cap S \neq \emptyset} mass(S')$
 \end{itemize}
 
-The mass measurement represents the amount of evidences which support the proposition, the likelihood of $S$. The belief and plausibility can be seen as lower and upper bounds to this likelihood.
+The mass measurement represents the amount of evidences which support the proposition, the likelihood of $S$. The belief and plausibility can be seen as lower and upper bounds to this likelihood and, as with possibility theory, can also be used as lower and upper bounds for probability.
 
 Once again we can obtain some interesting properties regarding these measures:
 
@@ -920,13 +919,11 @@ bl(S) + bl(\bar{s}) \leq 1\\
 pl(S) + pl(\bar{s}) \geq 1\\
 \end{array}
 \right.$
-\\
 
-As with possibility theory, belief and plausibility can be used as lower and upper bounds for probability.
 
 Several rules have been proposed to combine informations coming from different (potentially conflicting) sources. To see an overview of these proposals, the reader can refer to \cite{sentz2002combination}.
 
-\subsubsection{Analysis of uncertainties modeling}
+\subsubsection{Analysis of Uncertainties Modeling}
 
 We have seen how different ways to represent the uncertainties have been proposed. Some of these methods are based on well-studied mathematical tools, such as probabilities theories, but may not be adapted to the lack of quantifiable information. To palliate this insufficiency, alternative representations have been developed, based on the expression of expert knowledge or of available evidences.
 
@@ -934,76 +931,77 @@ In a similar way to optimization methods, the choice of the uncertainties repres
 
 \subsection{Using Uncertainty for Robust Optimization}
 
-\begin{figure}
-\centering
-\includegraphics[width=0.4\textwidth]{robust_optim}
-\caption{Example of robust optimum(a) and non-robust optimum (b)}\label{robust_optim_illu}
-\end{figure}
-
 On \figurename{} \ref{robust_optim_illu} a function with two optima can be seen. The minimum labeled $a$ is only a local optimum, being less optimal than the global minimum $b$. However, $a$ is more robust than $b$, in the sense that its neighborhood does not change drastically. A variation in the inputs, or in the actual results compared to the analytical model, will result in a lesser degradation of performances. Consequently, it can be deemed preferable to select $a$ instead of $b$, if the uncertainties would possibly result in a worst solution when trying to achieve the solution $b$.\\
 Specific methods have been dedicated to find solution which are both good (local optimum) and robust.
 
-\subsubsection{Taguchi Method - The firsts steps of Robust Optimization }
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{robust_optim}
+\caption{Example of robust optimum (a) and non-robust optimum (b).}\label{robust_optim_illu}
+\end{figure}
+
+\subsubsection{Taguchi Method - The first steps of Robust Optimization }
 
 Robust optimization tries to provide a solution which is both good and insensible to small variations of the inputs.
 
 The research on robust optimization has been initiated with Taguchi's robust design methodology\cite{tsui1992overview}, aiming at improving the quality of manufactured goods.
-In his methodology, Taguchi proposes a three-stages process :
+
+In his methodology, Taguchi proposes a three-stages process:
 \begin{itemize}
-\item System design, where the designers determine the overall structure of the product at a high conceptual level;
-\item Parameter design, where the optimal values of the design variables are determined;
+\item System design, where the designers determine the overall structure of the product at a high conceptual level.
+\item Parameter design, where the optimal values of the design variables are determined.
 \item Tolerance design, which focuses on reducing the variability of the various parameters to fix an acceptable limit to the variability of quality for the product.
 \end{itemize}
 
-To help the designers during the parameter design phase, Taguchi introduced several measures, among them the Signal-to-Noise (SN) ratios. These ratios are used to estimate the sensitivity of a performance of the product to variations. Each ratio relates to a possible goal regarding the studied performance: larger the better, smaller the better, on target the best. These ratios are respectively noted $SN_L$, $SN_S$ and $SN_T$.
-By simulation or experimentation, one must first produce a data set.
+To help the designers during the parameter design phase, Taguchi introduces several measures, among them the Signal-to-Noise (SN) ratios. These ratios are used to estimate the sensitivity of a performance of the product to variations. Each ratio relates to a possible goal regarding the studied performance: larger the better, smaller the better, on target the best. These ratios are respectively noted $SN_L$, $SN_S$ and $SN_T$.
 
-The $SN_L$ and $SN_S$ can be directly calculated as
+By simulation or experimentation, one must first produce a data set.The $SN_L$ and $SN_S$ can be directly calculated as
 
-\[SN_L = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n \frac{1}{y_i^2} \right)\]
-\[SN_S = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n y_i^2 \right)\]
+$$SN_L = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n \frac{1}{y_i^2} \right)$$
+$$SN_S = -10\text{log}\left( \frac{1}{n} \sum_{i=1}^n y_i^2 \right)$$
 
 For $SN_T$, we need first to measure the mean response, given by $\bar{y} = \frac{1}{n}\displaystyle\sum_{i=1}^n y_i$
-This mean can then be used to calculate the standard deviation as follows 
-\[S = \sqrt{\sum_{i=1}^n \frac{(y_i - \bar{y})^2}{n-1}}\]
+This mean can then be used to calculate the standard deviation as follows
+$$S = \sqrt{\sum_{i=1}^n \frac{(y_i - \bar{y})^2}{n-1}}$$
 
  $SN_T$ can then be calculated as
  
- \[ SN_T = 10\text{log}\left(\frac{\bar{y}^2}{S^2}\right) \]
+ $$SN_T = 10\text{log}\left(\frac{\bar{y}^2}{S^2}\right)$$
  
-To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi use the Design of Experiment\cite{sacks1989design}, a statistical procedure for determining the effect of multiple inputs on a desired output. by evaluation different designs using different noise factors (temperature, pressure \emph{etc.}), it is possible to obtain an array of SN rations on which a statistical data analysis allows to identify which design provides the best performances.
+To reduce the sensitivity of the solution to noise, the SN ratio must be maximized. To this end, Taguchi uses Design of Experiment\cite{sacks1989design}, a statistical procedure for determining the effects of multiple inputs on a desired output. By evaluation different designs using different noise factors (temperature, pressure \emph{etc.}), it is possible to obtain an array of SN rations on which a statistical data analysis allows to identify which design provides the best performances.
 
 Tagushi was the first to propose a way to take in account the uncertainties in design. As it is nearly inevitable for such pioneering work, his approach suffers from several limitations. As the number of parameters increases, so do the number of experiments (for $N$ parameters and $M$ noise factors we need $2^N$ designs and $M2^N$ experiments). Moreover, the statistical measures proposed by Tagushi has been subject to much debate (for a discussion of these measures see \cite{nair1992taguchi}). However, Tagushi opened the way for the other methods in the field.
 
 \subsection{Uncertainties in Multidisciplinary Optimization}
 
-The modeling of uncertainties in MDO problem is not fundamentally different from any other optimization problems. As with the other aspects of optimization, it is the complexity of the problem which make classical uncertainty propagation methods unfeasible in practice since too costly, as well as the heterogeneity of formalisms brought by different teams working in the different domains of the problem.
+The modeling of uncertainties in MDO problem is not fundamentally different from any other optimization problems. As with the other aspects of optimization, it is the complexity of the problem which makes classical uncertainty propagation methods unfeasible in practice as well as the heterogeneity of formalisms brought by different teams working in the different domains of the problem.
 
-Doing a global uncertainty analysis on a MDO problem can be even most costly than a system analysis. Several strategies have been proposed for the propagation of uncertainties. Many of them suppose an uniform representation of uncertainties (for example \cite{du2005collaborative,liu2006probabilistic} assume the uncertainties are modeled by normal law, while \cite{gu2000worst,li2008multiobjective} use interval definition). Whatever the strategy, propagating uncertainties will require costly additional evaluations of the disciplines, and often of the entire problem. This statistical approach for taking into account uncertainties makes an already costly problem even more expensive to evaluate \cite{koch1999statistical}. Often, it is necessary to fall back on approximate models in order to reduce the computational cost of evaluating uncertainties \cite{allen2006robust}. Of course the drawback is that the uncertainties evaluation will be more imprecise on these approximate models.
-
+Doing a global uncertainty analysis on a MDO problem can be even most costly than a system analysis. Several strategies have been proposed for the propagation of uncertainties. Many of them suppose an uniform representation of uncertainties (for example \cite{du2005collaborative,liu2006probabilistic} assume the uncertainties are modeled by probabilistic normal laws, while \cite{gu2000worst,li2008multiobjective} use interval definition). Whatever the strategy, propagating uncertainties will require costly additional evaluations of the disciplines, and often of the entire problem. This statistical approach for taking into account uncertainties makes an already costly problem even more expensive to evaluate \cite{koch1999statistical}. It is often necessary to fall back on approximate models in order to reduce the computational cost of evaluating uncertainties \cite{allen2006robust}. Of course the drawback is that the uncertainties evaluation will be more imprecise on these approximate models.
 
 We have already noted that an additional and somewhat unique challenge of MDO comes from the need to integrate heterogeneous disciplines potentially coming from different experts teams with different concerns. Surprisingly, while this fact have been put in front to justify the usefulness of multi-level MDO methods, its implications regarding the uncertainties manipulation are not so much discussed. We already saw in the previous chapter that multiple concurrent uncertainties representations have been developed, each one with its advantages and drawbacks. Without doubts different experts would have different preferences in regard of which modeling to chose. However current propagation techniques require a homogeneous uncertainties representation for the problem.
 
 \section{Analysis of MDO}
 
-MDO methods try to address the problem of complex continuous optimization problems. The principal difficulty of such problems is not their large size, but the inherent coupling and interrelationships between the different parts, as well as the costly and heavy computational models they involve. These properties make classical optimization techniques inefficient. MDO methods propose to reduce the complexity of the problem by separating it into different \emph{disciplines}. While the dividing strategy can vary depending on the method, the main idea is to identify loosely coupled \enquote{blocks} in the problems, which are independent enough to be separated without impacting too much the solving process and which are simple enough to be solved using known optimization techniques.
+MDO methods try to address the problem of complex continuous optimization problems. The principal difficulty of such problems is not their large size, but the inherent coupling and interrelationships between the different parts, as well as the costly and heavy computational models they involve. These properties make classical optimization techniques inefficient. MDO methods propose to reduce the complexity of the problem by separating it into different \emph{disciplines}. While the dividing strategy can vary depending on the method, the main idea is to identify loosely coupled \enquote{blocks} in the problems, which are independent enough to be separated without impacting too much the solving process, and which are simple enough to be solved using known optimization techniques.
 
 This transformation of a highly coupled system to a loosely coupled one cannot fail to remember the comparison of Wilden \cite{wilden2003system} between \enquote{hot} (complex) and \enquote{cold} (complicated) systems, the first ones being highly connected and integrated networks, the second ones loosely integrated and mostly in a tree-like structures (we will indeed see in the next parts how this representation of the system as an integrated network of components is relevant).\\
-By reducing the complexity of the problem, MDO methods indeed ease the optimization process, but the price of this transformation is the necessity to include intermediate steps in order to re-establish a coherent \enquote{view} of the whole system. By taking a reductionist approach, the MDO methods are bound to suffer for this additional cost, requiring multiple back-and-forth due to their maimed modeling.
+By reducing the complexity of the problem, MDO methods indeed ease the optimization process, but the price of this transformation is the necessity to include intermediate steps in order to re-establish a coherent \enquote{view} of the whole system. By taking a reductionist approach, MDO methods are bound to suffer for this additional cost, requiring multiple back-and-forth due to their maimed representation.
 
-On a side note, we can wonder about the existence of inherently identifiable, separable disciplines. One can argue that this distinction between discipline does not correspond to a natural separation inherent to the system to design, but is a consequence of the current division on experts into separate expertise fields. Is the fact that an airplane design problem can be decomposed between aerodynamic, geometry, \emph{etc.} an inherent property due to the nature of the problem ? Or is the reason that this problem was constructed in the first place by aggregating the work of experts coming from these fields? In this context, it is not really surprising that the disciplines corresponding to these fields will be strongly internally connected and only weakly connected to the others. And on another hand, it is easy to imagine how experts from these different fields will tend to favor a divide into disciplines which correspond to their specific expertise field. Consequently, by maintaining this division between these arbitrary disciplines, MDO methods are bound by the reductionism which led to the distinction between these disciplines in the first place.
+On a side note, we can wonder about the existence of inherently identifiable, separable disciplines. One can argue that this distinction between disciplines does not correspond to a natural separation inherent to the system to design, but is a consequence of the current division on experts into separate expertise fields. Is the fact that an airplane design problem can be decomposed between aerodynamic, geometry, \emph{etc.} an inherent property due to the nature of the problem? Or is the reason that this problem was constructed in the first place by aggregating the work of experts coming from these fields? In this context, it is not really surprising that the disciplines corresponding to these fields will be strongly internally connected and only weakly connected to the others. And on another hand, it is easy to imagine how experts from these different fields will tend to favor a divide into disciplines which correspond to their specific expertise field.\\ Consequently, by maintaining this division between potentially arbitrary disciplines, MDO methods are bound by the same reductionism which led to the distinction between these disciplines in the first place.
 
 Beyond this fundamental limitation, one major shortcomings of these methods is the heavy work and expertise they require from the engineer to be put in practice. To actually perform the optimization process, one must have a deep understanding of the models involved as well as of the chosen method itself. This is mandatory to be able to correctly reformulate the models according to the formalism the method requires, as well as to work out what is the most efficient way to organize the models in regard to the method. Since by definition MDO involves disciplines of different natures, it is often impossible for one person to possess all the required knowledge, needing the involvement of a whole team in the process. Moreover, answering all these requirements implies a lot of work \emph{before} even starting the optimization process.
 
-Interestingly, different comparisons of multiple methods \cite{perez2004evaluation,Yi2008} showed that complex, multi-level methods (BLISS, CSSO ...) did not consistently outperform more \enquote{simple} mono-level methods (IDF, AAO ...) in regards of optimization performances (quality of solution, number of evaluations). In each case, the authors advanced that the advantages of complex MDO methods were more about an \enquote{organizational efficiency}, as these methods are more flexible and can more easily be adapted to existing organizational structures. While the ways to measure such properties can make such analysis debatable, this argument illustrates an important point about MDO methods: the complexity of the problem to solve is such that the main goal is not so much to efficiently solve it than to provide experts with simple and adapted tools in order to explore it. Sadly, the same evaluation works concluded that the more portable and flexible solutions were also the more difficult to put in practice. Consequently, it seems that MDO methods suffer from a gap, not in regard to their computational efficiency (which seems nearly to be a secondary goal) but from the lack of a method which would be both flexible and simple to put in practice.
+Interestingly, different comparisons of multiple methods \cite{perez2004evaluation,Yi2008} showed that complex, multi-level methods (BLISS, CSSO...) did not consistently outperform more \enquote{simple} mono-level methods (IDF, AAO...) in regard of optimization performances (quality of solution, number of evaluations). In each case, the authors advocated that the advantages of complex MDO methods were more about an \enquote{organizational efficiency}, as these methods are more flexible and can more easily be adapted to existing organizational structures. While the ways to measure such properties can make such analysis debatable, this argument illustrates an important point about MDO methods: the complexity of the problem to solve is such that the main goal is not so much to efficiently solve it than to provide experts with simple and adapted tools in order to explore it. Sadly, the same evaluation works concluded that the more portable and flexible solutions were also the more difficult to put in practice.
+
+Consequently, it seems that MDO methods suffer from a gap, not in regard to their computational efficiency (which seems nearly to be a secondary goal) but from the lack of a method which would be both flexible and simple to put in practice.
 
 \chapter*{Conclusion on Optimization}
 
 We have seen how different types of optimization problems have been defined over time, depending on their topology, their complexity, their specificities.
 
-Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure. Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. And a multi-disciplinary problem is basically an optimization problem so complex that standard optimization techniques fail. These distinctions are in no way indicative of a fundamental distinction between these different kinds of problems, but come solely from the limitations of the existing optimization techniques, which have to choose between being applicable in the general case and being efficient.
+Something worth noticing is the fact that all these types of problems are not \emph{inherently} different, but share a common structure. Indeed, a mono-objective optimization problem is just a special case of a multi-objective problem. And a multi-disciplinary problem is basically an optimization problem so complex that standard optimization techniques fail. These differences are in no way indicative of a fundamental distinction between these different kinds of problems, but come solely from the limitations of the existing optimization techniques, which have to choose between being applicable in the general case and being efficient.
 
-An interesting observation concerning MDO techniques is the fact that, to evaluate their performances, they are sometimes applied to simple optimization problems, solvable by continuous optimization techniques (see for example \cite{Kroo:1994:MOM} for an application of CO to the Rosenbrock's valley problem). This observation illustrates the fact that all optimization problems share a common structure and differ only in their complexity (as already stated by the quote from Martin and Lamb mentioned in the beginning of chapter \ref{MDO_chapter}). Of course these examples are usually only used as illustration, as MDO methods are too heavy to be interesting to use for such problems.
+An interesting observation concerning MDO techniques is the fact that, to evaluate their performances, they are sometimes applied to simple optimization problems, solvable by classical optimization techniques (see for example \cite{Kroo:1994:MOM} for an application of CO to the Rosenbrock's valley problem). This observation illustrates the fact that all optimization problems share a common structure and differ only in their complexity (as already stated by the quote from Martin and Lamb mentioned in the beginning of chapter \ref{MDO_chapter}). Of course these examples are usually only used as illustration, as MDO methods are too heavy to be interesting to use for such problems.
 
 These conclusions raise an interesting question: could it be possible to create an optimization technique which would scale from simple optimization problems to complex ones?
 
