@@ -163,7 +163,8 @@ One of the main contributions of this thesis is to rectify to this deficiency by
 
 \subsection{Theorem of Functional Adequacy}
 
-The design of a MAS for problem solving is not an easy endeavor. We can observe that most of the MAS algorithms dedicated to problem solving proposed by the scientific community are nature-inspired (ants, flocks, bees, bats etc.) \cite{di2011self}. Indeed, Nature had a long time to experiment on several arduous problem and plenty of subjects at hand. Why would we not take advantage of that? However, such a strategy presents a severe limitation, as it can bring us existing solutions to apply to potential problems, but ultimately cannot help us to find potential solution to some existing problems. By restricting ourselves to nature-inspired mechanisms we are bound to their application field.\\
+The design of a MAS for problem solving is not an easy endeavor. We can observe that many of the MAS for problem solving proposed by the scientific community are nature-inspired (ants, flocks, bees, bats etc.) \cite{di2011self}. Indeed, Nature had a long time to experiment on several arduous problem and plenty of subjects at hand. Why would we not take advantage of that? However, such a strategy presents a severe limitation, as it is ultimately restricted into the potential solutions it can provide.
+%However, such a strategy presents a severe limitation, as it can bring us existing solutions to apply to potential problems but ultimately cannot help us to find potential solution to some existing problems. By restricting ourselves to nature-inspired mechanisms we are bound to their application field.\\
 %The inspiration for things such as the internal combustion engine was not found in nature, since no other biological organism than men ever bothered with something in appearance so foolish as trying to reach for the Moon\footnote{In total honesty, it is possible that some other organisms already tried to reach for the Moon. But it seems such behavior did not give them enough significant evolutionary advantage to be noteworthy (except of course for a specific cow in the popular nursery rhyme \cite[p.~203--204]{opie1997oxford}).}.
 
 In order to overcome this limitation, we need to rely on a more theoretical approach which would help us in the design of MAS for which we do not know any existing applicable mechanisms. Such an approach is provided by the Adaptive Multi-Agent Systems (AMAS) theory.
@@ -172,9 +173,9 @@ The AMAS theory was developed by the SMAC team and formalized in \cite{glize2001
 
 %This modeling is holonic \cite{koestler1989ghost} at its core, since the agents themselves can also be viewed as systems for which the environment consists of the other agents and the environment of the encompassing system.
 
-At the basis of the theory is the modeling of a system as a set of entities, the agents, interacting with each others and with their environment. The system can be deemed to be \emph{functionally adequate} by an external observer if this latter judges that the system as a whole correctly accomplishes its function in regard to the environment. This external observer can be considered to be a perfect oracle, in a way similar to the Laplace's demon, knowing exactly which will be the consequences of each interactions between the system and its environment.
+At the base of the theory is the modeling of a system as a set of entities, the agents, interacting with each others and with their environment. The system can be deemed to be \emph{functionally adequate} by an external observer if this latter judges that the system as a whole correctly accomplishes its function in regard to the environment. This external observer can be considered to be a perfect oracle, in a way similar to the Laplace's demon, knowing exactly which what be the consequences of each interactions between the system and its environment.
 
-It is important to understand that, from a theoretical point of view, the notion of functional adequacy is inherently subjective, and depends on the observer. In practice it is however usually easier to attain a reasonable consensus. For example a natural system will usually be deemed adequate if it survives and thrives in a sustainable way. For an artificial system it is often even easier since the functional adequacy correspond to the function expected by the designer of the system.
+It is important to understand that, from a theoretical point of view, the notion of functional adequacy is inherently subjective, and depends on the observer. In practice it is however usually easier to attain a reasonable consensus. For example a natural system will usually be deemed adequate if it survives and thrives in a sustainable way. For an artificial system it is often even easier since the functional adequacy corresponds to the function expected by the designer of the system.
 
 The AMAS theory identifies three categories of interactions between a system and its environment:
 \begin{compactitem}
@@ -193,23 +194,23 @@ From this categorization, the theory draws its formal definition (and fundamenta
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{system_non_adequate}
-		\caption{non functionally adequate system.}\label{adequacy_comp_1}
+		\caption{Non functionally adequate system.}\label{adequacy_comp_1}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{system_adequate}
-		\caption{functionally adequate system.}\label{adequacy_comp_2}
+		\caption{Functionally adequate system.}\label{adequacy_comp_2}
 	\end{subfigure}
 	
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{system_non_cooperative}
-		\caption{non internal cooperative medium system.}\label{internal_cooperative_comp_1}
+		\caption{Non internal cooperative medium system.}\label{internal_cooperative_comp_1}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{system_cooperative}
-		\caption{internal cooperative medium system.}\label{internal_cooperative_comp_2}
+		\caption{Internal cooperative medium system.}\label{internal_cooperative_comp_2}
 	\end{subfigure}
 	
 	\begin{subfigure}[b]{0.7\textwidth}
@@ -223,27 +224,26 @@ From this categorization, the theory draws its formal definition (and fundamenta
 
 An illustration this axiom is shown on \figurename{} \ref{adequacy_comp_1} and \figurename{} \ref{adequacy_comp_2}.
 
-
 %\definition{Internal cooperative medium system}{A system in which the agents only have cooperative interactions with each others or their environment[[?]]}
 
-Using this axiom, several properties have been demonstrated concerning a specific set of \emph{internal cooperative medium systems}, defined as systems in which the agents do not have any antinomic or neutral interaction (illustrated on \figurename{} \ref{internal_cooperative_comp_1} and \figurename{} \ref{internal_cooperative_comp_2}). We will not enter here in the details of these properties and their demonstration, the interested reader can refer to \cite{glize2001adaptation, gleizes1999theory}. It suffice to say that these properties lead to the central theorem of functional adequacy:
+Using this axiom, several properties have been demonstrated concerning the specific set of \emph{internal cooperative medium systems}, defined as systems in which the agents do not have any antinomic or neutral interaction (illustrated on \figurename{} \ref{internal_cooperative_comp_1} and \figurename{} \ref{internal_cooperative_comp_2}). We will not enter here in the details of these properties and their demonstration, the interested reader can refer to \cite{glize2001adaptation, gleizes1999theory}. Suffice to say that these properties lead to the central theorem of functional adequacy:
 
 \definition{Theorem of Functional Adequacy}{For each functionally adequate system there exists an internal cooperative medium system also functionally adequate in the same environment}
 
 This theorem is at the core of the AMAS approach of system design. We already know that for each problem there is possibly an infinity of equivalent systems producing the same adequate functioning. Using the theorem of functional adequacy we can concentrate on designing an internal cooperative medium system, that is, designing a system were the agents cooperate among themselves and with their environment. The goal of a designer using this approach is thus to study the nature of the interactions between the entities of the problem domain, and to see how the non cooperative situations could be corrected in order to obtain an internal cooperative medium system.
 
-In addition to providing us with a theoretical context, this approach gives us another interesting property: as the design of the system is focused on the local interactions of the agents, we do not need to explicitly take into account the global function of the system. This property is extremely significant. If the global function is complex, it can be extremely difficult to successfully design a system which explicitly tries to achieve the global function (top-down approach). By concentrating on the local functions of the agents, we can spread the complexity and ease the design of the system (bottom-up approach). As such, this approach strongly relies on the emergence phenomenon and is often referred to as \enquote{Emergent Problem Solving} \cite{quinqueton2000emergent}.
+In addition to providing us with a theoretical context, this approach gives us another interesting property: as the design of the system is focused on the local interactions of the agents, we do not need to explicitly take into account the global function of the system. This property is extremely significant. If the global function is complex, it can be extremely difficult to successfully design a system which explicitly tries to achieve the global function (top-down approach). By concentrating on the local functions of the agents, we can spread the complexity and ease the design of the system (bottom-up approach). As such, this approach strongly relies on emergence phenomenons and is often referred to as \enquote{Emergent Problem Solving} \cite{quinqueton2000emergent}.
 
 \subsection{Cooperative Agents and Non Cooperative Situations}
 
 To guide the designer during the building of such internal cooperative medium system, the conditions of what makes an agent a \emph{cooperative agent} have been further formalized. An agent is said to be cooperative if it satisfies three conditions:
 \begin{compactitem}
-\item $C_{perception}$ Every perceived signal can be understood without ambiguity
-\item $C_{decision}$ Every interpretation must produces useful information
-\item $C_{action}$ Every action done based on the decision must be useful
+\item $C_{perception}$ Every perceived signal can be understood without ambiguity.
+\item $C_{decision}$ Every interpretation must produces useful information.
+\item $C_{action}$ Every action done based on the decision must be useful.
 \end{compactitem}
 
-Based on these conditions, a set of \emph{Non Cooperative Situations}(NCS) has been identified. These NCS[[s]] correspond to interactions which are not cooperative and must be removed for the system to be an internal cooperative medium system. The NCS[[s]] are classified based on the condition they violate. The table in \figurename{} \ref{NCS} shows this classification.
+Based on these conditions, a set of \emph{Non Cooperative Situations}(NCSs) has been identified. These NCSs correspond to interactions which are not cooperative, and must be removed for the system to be an internal cooperative medium system. The NCSs are classified based on the condition they violate. The table in \figurename{} \ref{NCS} shows this classification.
 
 \begin{figure}
 \centering
@@ -262,7 +262,7 @@ $C_{action}$ & Uselessness, Competition, Conflict\\
 \label{NCS}
 \end{figure}
 
-The different NCS are:
+The different NCSs are:
 \begin{compactitem}
 \item\textbf{Incomprehension} The agent is not able to extract information from a received message.
 \item\textbf{Ambiguity} The exact meaning of a message cannot be determined, or lacks required informations.
@@ -273,7 +273,7 @@ The different NCS are:
 \item\textbf{Uselessness} The action of the agent has no effect on itself or its environment.
 \end{compactitem}
 
-A cooperative agent actively tries to avoid these NCS and, should this fail, to solve them to the best of its capabilities. To this end, three distinct mechanisms can be used\cite{bonjean2009engineering}:
+A cooperative agent actively tries to avoid these NCSs and, should this fail, to solve them to the best of its capabilities. To this end, three distinct mechanisms can be used\cite{bonjean2009engineering}:
 
 \begin{compactitem}
 \item\textbf{1. Tuning} The agent can change one or several of its internal parameters (\textit{e.g.}, adjusting the priorities of its behavior rules).
@@ -281,13 +281,14 @@ A cooperative agent actively tries to avoid these NCS and, should this fail, to 
 \item\textbf{3. Evolution} The agent can change the nature of its environment (\textit{e.g.}, removing or creating new agents).
 \end{compactitem}
 
-The order of these mechanisms usually correspond to their level of disruption (\textit{i.e.}, adjusting its parameters usually has less consequences than creating and removing agents). In general, it is preferable to make the less disruptive possible adjustment. One can for example design the agents based on an escalation principle, where the agents try to solve NCS first by using tuning, escalating to a more disruptive mechanism only when the previous ones failed to solve the NCS. Of course, a NCS situation being by itself disruptive, it is sometime more efficient to immediately make a more radical adjustment in order to solve the NCS more quickly. The designer will have to balance these concerns according to the specificities of the system.
+The order of these mechanisms usually correspond to their level of disruption (\textit{i.e.}, adjusting its parameters usually has less consequences than creating and removing agents). In general, it is preferable to make the less disruptive possible adjustment. One can for example design the agents based on an escalation principle, where the agents try to solve a NCS first by using tuning, escalating to a more disruptive mechanism only when the previous ones failed to solve the NCS. Of course, a NCS situation being by itself disruptive, it is sometime more efficient to immediately make a more radical adjustment in order to solve the NCS more quickly. The designer will have to balance these concerns according to the specificities of the system.
 
 \subsection{The Importance of Locality}
 
-A primordial aspect of the AMAS theory is the importance of locality. The theory insists on the need to consider and consider only the partial knowledge and local interactions between the agents, without trying to provide a \enquote{bigger picture}. While this concern can be linked to specific notions like the concept of emergence, we believe that a direct explanation can be found regarding preoccupation about the \emph{scalability} of the system.
+A primordial aspect of the AMAS theory is the importance of locality. The theory insists on the need to consider and consider only the partial knowledge and local interactions between the agents, without trying to provide a \enquote{bigger picture}. While this concern can be linked to specific notions like the concept of emergence, we believe that a direct explanation can be found regarding preoccupations about the \emph{scalability} of the system.
 
-The AMAS theory concerns systems which aim to solve complex problems. By definition the difficulty of such problem increases exponentially with its size. To design a MAS able to scale with the size of the problem, the designer has in general two possibilities: he can increase the size of the system or increase the complexity of the agents. The key difference between these two operations is their marginal costs. While adding a new agent to the system should usually represent a constant cost (in terms of complexity, computational requirements ...), increasing the complexity of the agents will be more and more difficult, since the agents will individually reach the same limitations as centralized methods. The principle of locality is a good example for this argument. Suppose a hierarchical system where one of the agent is in charge of a whole subsystem. If the increase of the complexity of the problems results in an increase of complexity of the subsystem, after some limits the agent will not be able to handle correctly the subsystem, resulting in a limit to the scalability of the system as a whole.
+The AMAS theory concerns systems which aim to solve complex problems. By definition the difficulty of such problem increases exponentially with its size. To design a MAS able to scale with the size of the problem, the designer has in general two possibilities: he can increase the size of the system or increase the complexity of the agents. The key difference between these two operations is their marginal costs.\\
+While adding a new agent to the system should usually represent a constant cost (in terms of complexity, computational requirements	...), increasing the complexity of the agents will be more and more difficult, since the agents will individually reach the same limitations as centralized methods. The principle of locality is a good example for this argument. Suppose a hierarchical system where one of the agent is in charge of a whole subsystem. If the increase of the complexity of the problems results in an increase of complexity of the subsystem, after some limits the agent will not be able to handle correctly the subsystem, resulting in a limit to the scalability of the system as a whole.
 
 The software engineer will not miss the uncanny similarity of this argument with the relatively recent trend regarding scalability concerns for computer infrastructures (for \emph{e.g.} web servers, distributed databases \emph{etc.}). The two main categories for scaling resources in such systems are \emph{vertical scalability} (scaling \enquote{up}) and \emph{horizontal scalability} (scaling \enquote{out}). Vertical scalability is the improvement of existing resources for them to be able to handle more data/traffic/..., while horizontal scalability consists in adding more resources to spread the workload. While in the past vertical scalability was the dominant practice, the current consensus seems to be that horizontal scalability is easier and provides better performances increase \cite{michael2007scale}.\\
 Of course such comparison must be made with caution, as the context of the two fields are quite different. However it is interesting to note how similar concerns from these different fields led to a similar evolution in the approaches.
@@ -296,22 +297,20 @@ Obviously, such general principles cannot hold systematically true and some prob
 
 \subsection{ADELFE - A Method for Designing AMAS}\label{AMAS-ADELFE}
 
-ADELFE \cite{bernon2003adelfe} is a method dedicated to the development of AMAS. The name \enquote{ADELFE} is the French acronym for \enquote{toolkit to develop software with emergent functionality} (\textit{Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente}). While ADELFE is not the only method devoted to guide the design of a MAS, its specificity concerns the fact that it is specifically tailored for AMAS.
+ADELFE \cite{bernon2003adelfe} is a method dedicated to the development of AMAS. The name \enquote{ADELFE} is the French acronym for \enquote{toolkit to develop software with emergent functionality} (\textit{Atelier pour le DEveloppement de Logiciels à Fonctionnalité Emergente}). While ADELFE is not the only method devoted to guide the design of a MAS, it is the only one specifically tailored for AMAS.
 
-The ambition of ADELFE is to provide be-all and end-all method to guide engineers during all the phases of the design of an AMAS, from the high-level requirements to the \enquote{nuts and bolts} implantation details. This ambition was the driving factor for multiple projects with the objective of improve or complement ADELFE with additional tools, such as the Make Agents Yourself (MAY) framework \cite{No2012.2}, used to automatically generate agent architecture implementations.
+The ambition of ADELFE is to provide be-all and end-all method to guide engineers during all the phases of the design of an AMAS, from the high-level requirements to the \enquote{nuts and bolts} implantation details. This ambition was the driving factor for multiple projects with the objective to improve or complement ADELFE with additional tools, such as the Make Agents Yourself (MAY) framework \cite{No2012.2}, used to automatically generate agent architecture implementations.
 
-However, as for most general engineering methods, a current limitation of ADELFE is that it only provide high-level guidelines concerning the behavior and architecture of the agents, staying at a general, abstract level. This current limitation makes difficult for a non-expert in AMAS to actually provide an adequate instantiation for the problem he wants to solve. It is the same analysis in \cite{Ka2011.6} which led the author to prone a specialized variant of the method containing additional guidelines and tools for applying AMAS in the context of problem solving.
+However, as for most general engineering methods, a current limitation of ADELFE is that it only provides high-level guidelines concerning the behavior and architecture of the agents, staying at a general, abstract level. This current limitation makes difficult for a non-expert in AMAS to actually provide an adequate instantiation for the problem he wants to solve. It is the same analysis in \cite{Ka2011.6} which led the author to prone a specialized variant of the method containing additional guidelines and tools for applying AMAS in the context of problem solving.
 
 We will go into greater details concerning the inner workings of ADELFE and how this method was involved in the context of this thesis in chapter \ref{ADELFE_chapter}.
 
 \subsection{Conclusion on the Adaptive Multi-Agent Systems Theory}
 
-We presented here the AMAS theory. This theory presents a way to model systems by their constituting parts, the interactions between themselves as well as with the environment and identify the special category of internal cooperative medium systems.
+We presented here the AMAS theory. This theory proposes a way to model systems by their constituting parts, the interactions between themselves as well as with the environment, and identify the special category of internal cooperative medium systems.
 
-An interesting aspect of this theory is that it provides a guidance to build a multi-agent system based on the problem to solve. Classical solving methods often use a very rigid formalism which needs to be followed. For example, genetic algorithms are a very powerful technique, but they require the problem to fit the genetic representation/fitness function model. To use these kinds of methods, one would now be presented to a whole new problem: \enquote{how can I express my problem to fit the solution I want to employ ?}
+An interesting aspect of this theory is that it provides a guidance to build a multi-agent system based on the problem to solve. Classical solving methods often use a very rigid formalism which needs to be followed. For example, genetic algorithms are a very powerful technique, but they require the problem to fit the genetic representation/fitness function model. To use these kinds of methods, one would now be presented with a whole new problem: \enquote{how can I express my problem to fit the solution I want to employ?}
 
 While a non-negligible part of real-world problems are more or less straightforwardly translatable in such formalisms, there is still a whole range of problems for which this translation is not so easy. This can be either because no method adequate enough for the domain was proposed, or because there is no consensual representation of the domain. For these problems, the AMAS theory can provide an interesting asset as the design of the MAS is based on the problem domain. The solution is adapted to the problem, instead of requiring the problem to be adapted to the solution.
 
-We can say that, while the AMAS approach can be applied to any kind of problem, it seems to be especially adequate when trying to solve problems which are still in an exploratory phase, where no \enquote{clear-cut} solution exists.
-
-
+We can say that, while the AMAS approach can be applied to any kind of problem, it seems to be especially adequate when trying to solve problems that are still in an exploratory phase, where no \enquote{clear-cut} solution exists.
