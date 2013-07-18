@@ -1,14 +1,12 @@
 \part{A Multi-Agent System for Continuous Optimization}\label{MAS4Optim_part}
 
-[[talk about self-adaptive capabilities]]
-
 In the previous part we discussed an inherent limitation of the current continuous optimization approaches. Not only are the current methods highly specialized, but they are also limited by the size, and ultimately by the complexity of the problem. The most complex problems require specific approaches (MDO methods) in order to distribute this complexity while keeping a coherent view. However, these approaches are often complicated to put in practice and tend themselves to be specialized to certain problem types.
 
 In this part we present the main contribution of this thesis: a novel approach to solve complex continuous optimization problems using a MAS. We start by creating a new modeling of continuous optimization problems as entities graphs, and agentify these entities to produce a MAS. We then design agent behaviors and specific mechanisms for the MAS to be able to solve the optimization problem in a distributed way, while maintaining a coherent view of the problem by propagating messages from neighbors to neighbors. 
 
 First we propose a new way to model a continuous optimization as a MAS. We want our modeling must be general enough to allow any continuous optimization problem to be transformed in such a way. We also want it simple enough to be automated, which is not only a requirement in the case of big problems, but also a way for the MAS to work \enquote{behind the scenes}, without requiring the user of the system to have a specific knowledge of multi-agent related concepts. Since optimization specialists often possess expert knowledge and techniques associated to the problems they want to solve, we would like our modeling to be able to integrate with external optimization tools. Our last requirement is to allow the persons in charge of the optimization process to be able to express the problem in the formulation which is the most natural for them, without requiring the problem to be reformulated in any way.
 
-After presenting our modeling, we design an agent-based algorithm for the solving of complex continuous optimization problems. We expose the basic, nominal workflow of the system, how the agents try to optimize the different parts of the system and exchanges inform and request messages in order to propagate changes and coordinate the optimization process. We then see how specific configurations related to complex continuous optimization problems can cause this nominal optimization workflow to fail. Using the AMAS theory, we categorize these configurations into different non cooperative situations. For each of these NCSs we propose additional cooperative mechanisms in order to detect, solve the NCS and re-establish the correct optimization process.
+After presenting our modeling, we design an agent-based algorithm for the solving of complex continuous optimization problems. We expose the basic, nominal workflow of the system, how the agents try to optimize the different parts of the system and exchange inform and request messages in order to propagate changes and coordinate the optimization process. We then see how specific configurations related to complex continuous optimization problems can cause this nominal optimization workflow to fail. Using the AMAS theory, we categorize these configurations into different non cooperative situations. For each of these NCSs we propose additional cooperative mechanisms in order to detect, solve the NCS and re-establish the correct optimization process.
 
 At last, we see how our agent modeling can be extended, by proposing some modifications in our system to take in account the handling of uncertainties during the optimization process. We first see how the expression of the problem is changed by the integration of uncertainties. We modify the structure of the information exchanged by the agents and identify some key operations they require in order to be able to manipulate exchanged data. Finally we propose a generic mechanism for experts to be able to express how different representations of uncertainties can be propagated in the context of the problem to solve.
 
@@ -16,7 +14,7 @@ At last, we see how our agent modeling can be extended, by proposing some modifi
 
 \section{NDMO: A Natural Domain Modeling for Optimization}\label{modeling}
 
-As we previously stated, when solving complex continuous problems existing techniques (\emph{i.e.} MDO) usually require a transformation of the initial formulation in order to satisfy some requirements for the technique to be applied. Beside the fact that correctly applying these changes can be a demanding task for the designers, imposing such modifications changes the problem beyond this original, natural meaning. What we propose here is an agent-based modeling where the original structure, the original meaning of the problem is preserved, because it represents the formulation which is the most natural and easiest for the expert to manipulate. This modeling decomposes the elements of the problem into a graph of entities, which can then be instantiated as agents. We call this modeling \emph{Natural Domain Modeling for Optimization} (NDMO).
+As we previously stated, when solving complex continuous problems existing techniques (\emph{i.e.} MDO methods) usually require a transformation of the initial formulation, in order to satisfy some requirements for the technique to be applied. Beside the fact that correctly applying these changes can be a demanding task for the designers, imposing such modifications changes the problem beyond its original, natural meaning. What we propose here is an agent-based modeling where the original structure, the original meaning of the problem is preserved, because it represents the formulation which is the most natural and easiest for the expert to manipulate. This modeling decomposes the elements of the problem into a graph of entities, which can then be instantiated as agents. We call this modeling \emph{Natural Domain Modeling for Optimization} (NDMO).
 
 \begin{figure}[]
 	\centering
@@ -249,7 +247,7 @@ This agent modeling is the most direct and inclusive, considering every element 
 
 We will now discuss the behavior of the five agent types identified in the previous chapter. The functioning of the system can be divided into two main tasks: problem simulation and collective solving.
 
-Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the propagation of the values of design variables to the models and criteria based on the value. For this part, the agents will exchange \emph{inform} messages which contain calculated values. The \enquote{message flow} is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents. An illustration of the simulation messages flow is shown on \figurename{} \ref{messages_flow:inf}.
+Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the propagation of the values of design variables to the models and criteria. For this part, the agents will exchange \emph{inform} messages that contain calculated values. The \enquote{message flow} is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents. An illustration of the simulation messages flow is shown on \figurename{} \ref{messages_flow:inf}.
 
 Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contain desired variations of values. The \enquote{message flow} is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents. An illustration of the solving messages flow is shown on \figurename{} \ref{messages_flow:req}.
 
@@ -475,7 +473,33 @@ This capability to take into account a changing solution allows the variable age
 
 While changing value based not on the value requested but on the direction can seem paradoxical, it is necessary. Since all agents have only a local view of the system (itself plus its neighbors) the requests they make are often approximate. Consequently they need to iterate several times. If the search space is large, the system could take time to converge toward the solution. By using a near-dichotomous strategy, we greatly accelerate this convergence.
 
-[[Give analytical formulation of the AVT]]
+The algorithm of the AVT is the following. Given the following variables:
+\begin{itemize}
+\item $v_t \in [v_{min};v_{max}]$ the current value of the AVT.
+\item $\Delta_t \in [\Delta_{min};\Delta_{max}]$ the last variation of $v_t$.
+\item $\lambda_i$ the increase coefficient of the AVT ($\lambda_i > 1$).
+\item $\lambda_d$ the decrease coefficient of the AVT ($0 < \lambda_d < 1$).
+\end{itemize}
+
+When receiving a new adjustment feedback $Fb_t \in \{\uparrow ; \downarrow ; \sim\}$ (corresponding respectively to \enquote{increase current value}, \enquote{decrease current value} and \enquote{keep current value}), a new value $v_{t+1}$ is calculated using \tablename{} \ref{tab:avt}. 
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ c  c  c  c  c  }
+\toprule
+& &\multicolumn{3}{c}{$Fb_t$} \\
+  &             & $\uparrow$ & $\downarrow$ & $\sim$ \\ \toprule
+  & \multirow{2}*{$\uparrow$}  &  $\Delta_t = \Delta_{t-1} \times \lambda_i$  & $\Delta_t = \Delta_{t-1} \times \lambda_d$  &   $\Delta_t = \Delta_{t-1} \times \lambda_d$      \\ 
+    &   &  $v_{t+1} = v_t + \Delta_t$  &   $v_{t+1} = v_t - \Delta_t$  &  $v_{t+1} = v_t $       \\ \cmidrule{2-5}
+\multirow{2}*{$Fb_{t-1}$}  & \multirow{2}*{$\downarrow$}  &  $\Delta_t = \Delta_{t-1} \times \lambda_d$  & $\Delta_t = \Delta_{t-1} \times \lambda_i$  &   $\Delta_t = \Delta_{t-1} \times \lambda_d$      \\ 
+  &   &  $v_{t+1} = v_t + \Delta_t$  &   $v_{t+1} = v_t - \Delta_t$  &  $v_{t+1} = v_t $       \\ \cmidrule{2-5}
+    & \multirow{2}*{$\sim$}  & $\Delta_t = \Delta_{t-1} $  &   $\Delta_t = \Delta_{t-1}$ &  $\Delta_t = \Delta_{t-1} \times \lambda_d$     \\ 
+  &   &  $v_{t+1} = v_t + \Delta_t$  &   $v_{t+1} = v_t - \Delta_t$  &  $v_{t+1} = v_t $  \\ \bottomrule
+\end{tabular}
+\caption{AVT behavior}\label{tab:avt}
+\end{table}
+
+In our experiments we kept the default proposed values of $\lambda_i = 2$ and  $\lambda_d = \dfrac{1}{3}$.
 
 One could wonder why the variable agent uses such a seemingly contrived method instead of just taking the requested value. It should be remembered that the variable agent can be connected to several parts of the problem and can receive contradictory requests from different origins over time (as we said, the case where the variable receives contradictory requests at the same time will also be studied later). Thus, the variable agent must have a way to take into account these contradictory requirements to find an adequate compromise. Moreover, until the system (or at least this part of it) has stabilized, the values requested has very little chance of being exact. The value can thus be considered as an indication of the direction in which the requesting agent desire the variable to go. As the system stabilizes, the precision of the AVT is improved and the value of the variable is closer and closer to the exact correct value.
 
