@@ -60,7 +60,7 @@ On \figurename{} \ref{turbofan:math}, the analytic expression of this optimizati
 
 \end{figure}
 
-Let's now see in more details the roles of each of these fives entities: \emph{model}, \emph{variable}, \emph{output}, \emph{constraint} and \emph{objective}.
+Let us now see in more details the roles of each of these fives entities: \emph{model}, \emph{variable}, \emph{output}, \emph{constraint} and \emph{objective}.
 
 \subsection{Models}
 
@@ -438,9 +438,7 @@ Their behavior is summarized in algorithm \ref{algo_simulating_criterion}.
 During solving, the criteria agents try to improve their local goal. That is, the constraints agents try to keep their constraint satisfied, while the objective agents try to improve their objective. To this end, they send \emph{Request} messages to the agents controlling their inputs, asking them to change value. The others agents have to propagate these requests toward the variable agents in the most adequate way.
 
 However a specific difficulty arises. As explained in the previous section, model, constraint and objective agents manipulate the underlying equations (or algorithms, or responses surfaces \emph{etc.}) of the problem through internal models, which are in most cases black boxes. In this case, how can constraint agents know which values to ask to satisfy their constraint? How can objective agents know which values improve their objective? How can model agents know which values for their outputs could produce the values required by their outputs?\\
-For the internal models agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer the following: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by a classical optimization method. As the agents manipulate black boxes, it is (nearly\footnote{We will see in section \ref{model_agent_solving} how the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which has a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them. In the most general case it can be assumed that each agent in charge of an internal model uses its own specific optimizer. However in practice several instances of the same optimizer can be used by different agents, if the designer deems that their models present sufficient similar characteristics for the optimization method to be efficient for each of them. An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
-
-[[TODO UNPLOC]]In order to keep the presentation of the agents behavior simple, we will assume for the moment that no agent ever receives simultaneous contradictory requests. We will see in section \ref{NCS_pres} the advanced selection mechanisms used by the agents to handle such cases.
+For the internal models agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer the following: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by a classical optimization method.As the agents manipulate black boxes, it is (nearly\footnote{We will see in section \ref{model_agent_solving} how the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which has a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them. In the most general case it can be assumed that each agent in charge of an internal model uses its own specific optimizer. However in practice several instances of the same optimizer can be used by different agents, if the designer deems that their models present sufficient similar characteristics for the optimization method to be efficient for each of them. An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
 
 \begin{figure}
 	\centering
@@ -464,7 +462,9 @@ For the internal models agents to be able to work, the designer must supply them
 	\caption{Use of an external optimizer.}\label{optim_use}
 \end{figure}
 
-With this specificity in mind, let's now examine the behavior of the different agent types in the context of collective solving.
+As a remark, finding the inputs corresponding to a desired value is not directly an optimization problem, but is trivial to translate into one. For example, the problem can be formulated as finding $I$ that minimizes $(f(I) - O)^2$. Alternatively, the objective-function can be replaced by a constraint such as $f(I) = O$. We do not impose a specific transformation method, letting the expert which implements the optimizer chooses which transformation is the most efficient in regard to the specificities of the optimization method.
+
+With this specificity in mind, let us now examine the behavior of the different agent types in the context of collective solving.
 
 \subsection{Variable Agent}\label{variable_agent_solving}
 
@@ -766,7 +766,7 @@ However the system designer has the difficult task to provide the agents which a
 
 %%
 In the proposed system, criticality is initially provided by constraint and objective agents and is propagated in the system through their requests.
-Let's illustrate this with a constraint of the type \(g(X) \leq t\), with \emph{X} input of the constraint, \emph{g(X)} the constraint equation and \emph{t} the threshold under which the constraint is satisfied. The basic requirements regarding the criticality of this agent is to be low when the constraint is satisfied and high when the constraint is violated. Thus, the criticality of this agent is function of its current value and of the threshold.
+Let us illustrate this with a constraint of the type \(g(X) \leq t\), with \emph{X} input of the constraint, \emph{g(X)} the constraint equation and \emph{t} the threshold under which the constraint is satisfied. The basic requirements regarding the criticality of this agent is to be low when the constraint is satisfied and high when the constraint is violated. Thus, the criticality of this agent is function of its current value and of the threshold.
 
 \begin{figure}
 	\centering
@@ -1042,7 +1042,7 @@ Such cycles in the problem formulation can pose severe challenge for the optimiz
 
 The most basic situation regarding such cycles concerns two directly interdependent models (i.e each one using an output of the other as its input). However, much complex cycles topologies may be encountered. For example, an arbitrary high number of models can be successively chained together in one giant multi-step cycle, or several models can present multiple interdependencies with each other.The solution for which such a cycle is stable (if it exists) is called the \emph{fixed point}.
 
-As the system must work by iterating over these black boxes, the values of the outputs will be iteratively recalculated and propagated between the models involved in the cycle. Depending on the exact structure of the cycle, its effects on the problem solving can be radically different. To illustrate this, let's take the simple following example:
+As the system must work by iterating over these black boxes, the values of the outputs will be iteratively recalculated and propagated between the models involved in the cycle. Depending on the exact structure of the cycle, its effects on the problem solving can be radically different. To illustrate this, let us take the simple following example:
 \begin{gather*}
 y = a1 \times x \\
 x = a2 \times y
