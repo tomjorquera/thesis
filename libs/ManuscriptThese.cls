@@ -756,8 +756,6 @@ Jury members~:}\\[5mm]}
 % FancyHeadings
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\fancyheadoffset{\textwidth}
-
 \newcommand{\blob}{\setlength{\unitlength}{30mm}
 	\begin{picture}(0,0)
 		\colorbox{black}{
@@ -778,7 +776,6 @@ Jury members~:}\\[5mm]}
 	\end{picture}%
 	\leftmark
 }
-
 
 \RequirePackage{doublebox}
 \RequirePackage{color}
