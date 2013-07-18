@@ -54,7 +54,7 @@ In the context of this thesis, we will concern ourselves more specifically with 
 
 \subsection{No Free Lunch Theorem}
 
-The No Free Lunch (NFL) Theorems for optimization are important results in the field, formalized by Wolpert and Macready \cite{585893}. The basic idea behind these theorems is that no optimization method outperforms the others when regarding the class of all the possible problems or, as the authors themselves say:
+The No Free Lunch (NFL) Theorems\footnote{The term \enquote{no free lunch} comes from the popular English saying \enquote{there ain't no such thing as a free lunch}, meaning that it is impossible to get something for nothing.} for optimization are important results in the field, formalized by Wolpert and Macready \cite{585893}. The basic idea behind these theorems is that no optimization method outperforms the others when regarding the class of all the possible problems or, as the authors themselves say:
 \begin{quote}\textit{
 \enquote{any two algorithms are equivalent when their performance is averaged across all possible problems.}}
 \end{quote}
@@ -83,7 +83,7 @@ However, as we will see in the next sections, the variety of \enquote{interestin
 
 One consequence of the NFL is that selecting an efficient optimization method for a given problem requires to have at least a minimum insight on the properties of the problem. No algorithm can be deemed to be the most efficient in the general case.
 
-On a side note, it can be added that, in addition to the case of continuous optimization, the possible existence of free lunches has been demonstrated for coevolutionary \cite{1545946} as well as multiobjective \cite{1299403} optimization problems.
+On a side note, it can be added that, in addition to the case of continuous optimization, the possible existence of free lunches (\emph{i.e.} there exist optimization methods strictly better than some others) has been demonstrated for coevolutionary \cite{1545946} as well as multi-objective \cite{1299403} optimization problems.
 
 \section{Continuous Optimization Methods}
 
@@ -634,7 +634,7 @@ Mono-level methods use a single optimizer and a non hierarchical structure, whil
 %
 %[[What tot do with this ??]]
 %
-%To illustrate the difficulties caused by coupled system, let's introduce the Fixed Point problem.
+%To illustrate the difficulties caused by coupled system, let us introduce the Fixed Point problem.
 %
 %\subsection{Fixed Point problem}
 %
@@ -866,7 +866,7 @@ The probability theory is based on the axiom of \emph{additivity}, which says th
 
 The possibility theory contains instead an axiom of \emph{sub-additivity}, saying that for two disjoints sets $U$ and $V$, $\Pi(U \cup V) = \text{max }(\Pi(U), \Pi(V))$ (where $\Pi(X)$ reads as \enquote{possibility of X}).
 
-Let's take the basic example of a door which can be either open or closed. If we assume \enquote{the door is closed} has a probability of 0.9, it must follow that \enquote{the door is open} has a probability of 0.1, since the sum of these two complementary events must be 1. The probability of the door to be either open or closed is $0.9+0.1 = 1$.
+Let us take the basic example of a door which can be either open or closed. If we assume \enquote{the door is closed} has a probability of 0.9, it must follow that \enquote{the door is open} has a probability of 0.1, since the sum of these two complementary events must be 1. The probability of the door to be either open or closed is $0.9+0.1 = 1$.
 
 In the context of possibility theory, if we state that the possibility of \enquote{the door is closed} is 0.9, it is not incompatible with the possibility of the door to be open to be, for example, 0.4. The possibility of the door to be either open or closed is $max(0.9,0.4) = 0.9$.
 
