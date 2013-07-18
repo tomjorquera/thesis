@@ -651,7 +651,7 @@ $v \leftarrow $ current value\;
 $\Delta_{t-1} \leftarrow $ last variation of value \;
 
 \BlankLine
-$\{ \Delta^*_i \} \leftarrow Optimizer(v - Delta_{t-1})$\;
+$\{ \Delta^*_i \} \leftarrow Optimizer(v - \Delta_{t-1})$\;
 \tcp{can be either external optimizer or internal optimization mechanism}
 \For{$i \leftarrow inputs$}{
 	\tcp{change the estimated target value to the input}
@@ -840,7 +840,9 @@ An illustration on this mechanism can be seen on \figurename{} \ref{NCS_1_confli
 
 This simple comparison of the criticalities at a given instant is the main way criticality was used in previous application of the AMAS theory. Since the goal of the agents is to reduce the maximal criticality among their neighbors, selecting the request of the most critical neighbor is a basic heuristic to achieve this end. We provide here an additional refinement by making the agents anticipate the effects of their action on the criticality of the other agents.\\
 The agent will memorize the requests and observe how the criticality of the next requests vary based on its actions. From on this observation, the agent makes an estimation of the impact of its action on the criticality of the senders, using the approximation hypothesis that varying in the same direction will cause the same variation of criticality on the senders. These estimations allow the agent to make a prediction on the future criticality of the senders if it increases or decreases.\\
-Consequently, the agent deems two requests $r_1$ and $r_2$, where $crit_{r_1} > crit-{r_2}$ to be of equivalent criticality if the difference between their criticality $|crit_{r_1} - crit_{r_2}|$ is lower than a given threshold $t_{crit}$ (which we set at 2\% of the maximum criticality) and if the difference between their anticipated criticality $| (crit_{r_1} + \Delta_1^{crit}) - (crit_{r_2} + \Delta_2^{crit})|$ is greater than $t_{crit}$.
+Consequently, the agent deems two requests $r_1$ and $r_2$, where $crit_{r_1} > crit_{r_2}$ to be of equivalent criticality if the difference between their criticality $|crit_{r_1} - crit_{r_2}|$ is lower than a given threshold $t_{crit}$ (which we set at 2\% of the maximum criticality) and if the difference between their anticipated criticality $| (crit_{r_1} + \Delta_1^{crit}) - (crit_{r_2} + \Delta_2^{crit})|$ is greater than $t_{crit}$.
+
+[[TODO: this is false => to correct]]
 
 \begin{algorithm}
 \caption{Detecting Equivalent Contradictory Requests using Criticality Anticipation}
@@ -896,7 +898,8 @@ After updating $tt$, the agent will do the following:
 	$\sigma_r \leftarrow \left\{
  									\begin{array}{rcr}
  									-1 & if &\Delta_r < 0 \\
- 									0 & if &\Delta_r = 0\\ 										1 & if &\Delta_r > 0 \\
+ 									0 & if &\Delta_r = 0\\ 
+ 									1 & if &\Delta_r > 0 \\
 								\end{array}
 								\right.$\;
 	\BlankLine
