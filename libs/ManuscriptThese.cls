@@ -544,7 +544,7 @@ Jury members~:}\\[5mm]}
   \newpage
   \@cover@hook
   \thispagestyle{empty}
- \begin{changemargin}{-0.7cm}{-0.5cm}
+ \begin{changemargin}{-0.7cm}{-0.7cm}
     \@thesis@titlep@gebody
   \end{changemargin}
   \newpage  
@@ -695,32 +695,33 @@ Jury members~:}\\[5mm]}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\topmargin 0mm
-\headheight 10mm
-\headsep 10mm
-\footskip 10mm
-\columnsep 6mm
-\columnseprule 0pt
+%\topmargin 0mm
+%\headheight 10mm
+%\headsep 10mm
+%\footskip 10mm
+%\columnsep 6mm
+%\columnseprule 0pt
 
-\sloppy
-\parindent 2.5cm
-\leftmargini 2em
-\leftmargin\leftmargini
-\leftmarginv .5em
-\leftmarginvi .5em
+%\sloppy
+%\parindent 2.5cm
+%\leftmargini 2em
+%\leftmargin\leftmargini
+%\leftmarginv .5em
+%\leftmarginvi .5em
 
-\if@twoside
-\setlength{\oddsidemargin}{0cm}
-\setlength{\evensidemargin}{0cm} 
-\else
-\oddsidemargin  0.0cm  
-\evensidemargin 0.0cm  
-\fi
 
-\marginparwidth 1.5cm   %   Width of marginal notes.
-\textwidth      15.5cm  
-\voffset        -1.0cm  % Decalage vertical vers le haut
-\textheight     23.5cm
+%\if@twoside
+%\setlength{\oddsidemargin}{0cm}
+%\setlength{\evensidemargin}{0cm} 
+%\else
+%\oddsidemargin  0.0cm  
+%\evensidemargin 0.0cm  
+%\fi
+
+%\marginparwidth 1.5cm   %   Width of marginal notes.
+%\textwidth      15.5cm  
+%\voffset       0cm  % Decalage vertical vers le haut
+%\textheight     23.5cm
 
 
 % on détermine le nombre de flottants autorisés par page,
@@ -749,10 +750,13 @@ Jury members~:}\\[5mm]}
 % on commence en chiffres romains jusqu'a \mainmatter
 \pagenumbering{roman} 
 
+\usepackage[bindingoffset=1.5cm,margin=2cm, ,tmargin=3cm,bmargin=2.5cm]{geometry}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FancyHeadings
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\fancyheadoffset{\textwidth}
 
 \newcommand{\blob}{\setlength{\unitlength}{30mm}
 	\begin{picture}(0,0)
@@ -764,13 +768,13 @@ Jury members~:}\\[5mm]}
 
 \newcommand\rblob{\setlength{\unitlength}{30mm}
 	\begin{picture}(0,0)
-	\put(0.43,-\value{part}){\blob}
+	\put(0.12,-\value{part}){\blob}
 	\end{picture}}
 	
 \newcommand\lblob{%
 	\setlength{\unitlength}{30mm}
 	\begin{picture}(0,0)
-	\put(-0.88,-\value{part}){\blob}
+	\put(-0.705,-\value{part}){\blob}
 	\end{picture}%
 	\leftmark
 }
@@ -789,7 +793,7 @@ Jury members~:}\\[5mm]}
 \fancyhead[LE]{\nouppercase{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\small\selectfont\lblob}}
 \fancyhead[RO]{\nouppercase{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\small\selectfont\rightmark\rblob}}
 \fancyfoot[LE,RO]{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\selectfont\small\thepage}
-\fancyfoot[RE]{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\selectfont\small\@ThesisAbbrv}
+\fancyfoot[RE]{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\selectfont\small\@ThesisAuthorFirstName\ \@ThesisAuthorLastName}
 \fancyfoot[LO]{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\selectfont\small\@ThesisAbbrv}
 \else
 \fancyhf{} % clear all fields
@@ -801,7 +805,8 @@ Jury members~:}\\[5mm]}
 \fi
 
 \renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}}
+\renewcommand{\footrulewidth}{0.4pt}
+}
 
 \fancypagestyle{mystyle3}{
 \if@twoside
@@ -809,7 +814,7 @@ Jury members~:}\\[5mm]}
 \fancyhead[LE]{\nouppercase{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\small\selectfont\leftmark}}
 \fancyhead[RO]{\nouppercase{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\small\selectfont\leftmark}}
 \fancyfoot[LE,RO]{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\selectfont\small\thepage}
-\fancyfoot[RE]{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\selectfont\small\@ThesisAbbrv}
+\fancyfoot[RE]{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\selectfont\small\@ThesisAuthorFirstName\ \@ThesisAuthorLastName}
 \fancyfoot[LO]{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\selectfont\small\@ThesisAbbrv}
 \else
 \fancyhf{} % clear all fields
