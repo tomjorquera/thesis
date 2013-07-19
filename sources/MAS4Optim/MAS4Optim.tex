@@ -165,13 +165,13 @@ A \emph{model agent} takes charge of a model of the problem. It interacts with t
 \begin{subfigure}{0.35\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{agent_behav_model_inform}
-		\caption{Inform handling:\\1. receive informs\\2. recalculate outputs\\3. propagate informs}\label{agent_behav_model:inf}
+		\caption{Inform handling:\\1. receive informs.\\2. recalculate outputs.\\3. propagate informs.}\label{agent_behav_model:inf}
 \end{subfigure}
 \qquad
 \begin{subfigure}{0.35\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{agent_behav_model_request}
-		\caption{Request handling:\\1. receive request\\2. estimate inputs changes\\3. propagate request}\label{agent_behav_model:req}
+		\caption{Request handling:\\1. receive request.\\2. estimate inputs changes.\\3. propagate request.}\label{agent_behav_model:req}
 \end{subfigure}
 \caption{Model agent behavior.}\label{agent_behav_model}
 \end{figure}
@@ -186,7 +186,7 @@ This agent represents a \emph{design variable} of the problem. Its individual go
 \begin{figure}
 \centering
 \includegraphics[width=0.3\textwidth]{agent_behav_variable}
-\caption{Variable agent behavior:\\1. receive request\\2. answer with inform}\label{agent_behav_variable}
+\caption{Variable agent behavior:\\1. receive request.\\2. answer with inform.}\label{agent_behav_variable}
 \end{figure}
 
 \subsection{Output Agent}
@@ -197,15 +197,15 @@ The \emph{output agent} takes charge of an output of a model. \emph{Output agent
 \begin{subfigure}{0.25\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{agent_behav_output_inform}
-		\caption{Inform handling:\\1. receive inform\\2. propagate inform}\label{agent_behav_output:inf}
+		\caption{Inform handling:\\1. receive inform.\\2. propagate inform.}\label{agent_behav_output:inf}
 \end{subfigure}
 \qquad
 \begin{subfigure}{0.25\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{agent_behav_output_request}
-		\caption{Request handling:\\1. receive request\\2. propagate request}\label{agent_behav_output:req}
+		\caption{Request handling:\\1. receive request.\\2. propagate request.}\label{agent_behav_output:req}
 \end{subfigure}
-\caption{Output agent behavior}\label{agent_behav_output.}
+\caption{Output agent behavior.}\label{agent_behav_output}
 \end{figure}
 
 %As we will see in the next section, the \emph{output agent} is distinct from the \emph{variable agent} in the way that it can be involved in cycles. A cycle is a situation of interdependent models (that is, models which depend of each other to calculate their outputs).
@@ -217,14 +217,14 @@ The \emph{output agent} takes charge of an output of a model. \emph{Output agent
 \centering
 \begin{subfigure}{0.3\textwidth}
 	\includegraphics[width=\textwidth]{agent_behav_constraint}
-	\caption{Constraint agent behavior:\\1. receive inform\\2. answer with request}\label{agent_behav_constraint}
+	\caption{Constraint agent behavior:\\1. receive inform.\\2. answer with request.}\label{agent_behav_constraint}
 \end{subfigure}
 \qquad
 \begin{subfigure}{0.3\textwidth}
 	\includegraphics[width=\textwidth]{agent_behav_objective}
-	\caption{Objective agent behavior:\\1. receive inform\\2. answer with request}\label{agent_behav_objective}
+	\caption{Objective agent behavior:\\1. receive inform.\\2. answer with request.}\label{agent_behav_objective}
 \end{subfigure}
-\caption{Constraint and objective agents behavior}\label{agent_behav_constraint_and_objective}
+\caption{Constraint and objective agents behavior.}\label{agent_behav_constraint_and_objective}
 \end{figure}
 
 It should be noted that, to estimate the input values required to satisfy the constraint on its computed value, this agent employs the same technique as the \emph{model agent} (\textit{i.e.} an external optimizer).
@@ -234,13 +234,12 @@ The \emph{objective agent} is in charge of an objective of the problem. This age
 
 This agent uses an external optimizer to estimate input values that would improve the objective, in the same way than the \emph{model} and \emph{constraint agents}.
 
-\paragraph*{}
-
 \begin{figure}
-\includegraphics[width=\textwidth]{agent_class_diag}
+\includegraphics[width=0.9\textwidth]{agent_class_diag}
 \caption{MAS class diagram.}\label{MAS_class_diagram}
 \end{figure}
 
+\paragraph*{}
 This agent modeling is the most direct and inclusive, considering every element of the problem as an autonomous agent. On \figurename{} \ref{MAS_class_diagram} we represent a class diagram of the agents, which is a slightly modified version of the domain class diagram of \figurename{} \ref{class_diag}. This modified class diagram puts more clearly in light what are the effective agents and how the agents are related with each others by input/output relationships. The bipartite nature of the graph in regard of \emph{value agents} and \emph{internal model agents} is clearly apparent. Two additional, non-agent entities, the \emph{internal model} and the \emph{external optimizer} also made an appearance. The respective roles of these two entities will be detailed in the next chapters.
 
 \chapter{Agents Behavior}\label{agent_behav_chap}
@@ -326,11 +325,12 @@ The behavior of the variable agent is summarized in algorithm \ref{algo_simulati
 	}
 	
 	\tcp{send its value to new contacts}
+	\tcp{even if it did not change}
 	\If{$C' \neq \emptyset$}{
 		\ForEach{agent $a \in C'$}{
 			send($a$, new Inform($v$))\;
 		}
-		$C \leftarrow C + C'$\tcp{memorize new connected agents}
+		$C \leftarrow C \bigcup C'$\tcp{memorize new connected agents}
 	}
 	
 \end{algorithm}
@@ -351,24 +351,25 @@ The behavior of the model agent is summarized in algorithm \ref{algo_simulating_
 
 	$C \leftarrow$ previously connected output agents\;
 	$C'\leftarrow$ newly connected output agents\;
-	
+	$\{v_o\} \leftarrow$ previous output values\;
 	$\{v_i\} \leftarrow$ new input values\;
-			
+
 	\If{$\{v_i\} \neq \emptyset$}{
-		$\{v_o\} \leftarrow$ previous output values\;
-		$\{v'_o\}\leftarrow Internal\_Model(\{v_i\})$\tcp{use internal model to recalculate outputs}
-		\ForEach{agent $o \in C$}{
+		\tcp{use internal model to recalculate outputs}
+		$\{v_o\}\leftarrow Internal\_Model(\{v_i\})$\;
+		\ForEach{agent $a_o \in C$}{
 			\tcp{inform output agents of their new value}
-			send($o$, new Inform($v'_o$))\;
+			send($a_o$, new Inform($v_o$))\;
 		}
 	}
 	
 	\tcp{send their values to new outputs}
+	\tcp{even if they did not change}
 	\If{$C' \neq \emptyset$}{
-		\ForEach{agent $o \in C'$}{
-			send($o$, new Inform($v'_o$))\;
+		\ForEach{agent $a_o \in C'$}{
+			send($a_o$, new Inform($v_o$))\;
 		}
-		$C \leftarrow C + C'$\tcp{memorize new outputs agents}
+		$C \leftarrow C \bigcup C'$\tcp{memorize new outputs agents}
 	}
 	
 \end{algorithm}
@@ -389,13 +390,13 @@ The behavior of the output agent is summarized in algorithm \ref{algo_simulating
 \caption{Problem Simulation - Output Agent Behavior}
 \label{algo_simulating_output}
 
-	$C \leftarrow$ previously connected agents\;
-	$C'\leftarrow$ newly connected agents\;
+	$C \leftarrow$ previously connected output agents\;
+	$C'\leftarrow$ newly connected output agents\;
 		
 	$v \leftarrow$ previous value\;
 	$v'\leftarrow$ new value\;
 	
-	\tcp{notify contacts of value change}
+	\tcp{notify output contacts of value change}
 	\If{$v \neq v'$}{
 		$v \leftarrow v'$\;
 		\ForEach{agent $a \in C$}{
@@ -403,12 +404,13 @@ The behavior of the output agent is summarized in algorithm \ref{algo_simulating
 		}
 	}
 	
-	\tcp{send its value to new contacts}
+	\tcp{send its value to new output contacts,}
+	\tcp{even if it did not change}
 	\If{$C' \neq \emptyset$}{
 		\ForEach{agent $a \in C'$}{
 			send($a$, new Inform($v$))\;
 		}
-		$C \leftarrow C + C'$\tcp{memorize new connected agents}
+		$C \leftarrow C \bigcup C'$\tcp{memorize new connected agents}
 	}
 	
 \end{algorithm}
@@ -428,7 +430,8 @@ Their behavior is summarized in algorithm \ref{algo_simulating_criterion}.
 	$\{v_i\} \leftarrow$ new input values\;
 			
 	\If{$\{v_i\} \neq \emptyset$}{
-		$\{v'_o\}\leftarrow Internal\_Model(\{v_i\})$\tcp{use internal model to recalculate outputs}
+		\tcp{use internal model to recalculate outputs}
+		$\{v'_o\}\leftarrow Internal\_Model(\{v_i\})$
 	}
 
 \end{algorithm}
@@ -506,12 +509,12 @@ One could wonder why the variable agent uses such a seemingly contrived method i
 This behavior is summarized in algorithm \ref{algo_solving_variable}.
 
 \begin{algorithm}
-\caption{Collective Solving - Value Agent Behavior}
+\caption{Collective Solving - Variable Agent Behavior}
 \label{algo_solving_variable}
 
 	$v \leftarrow$ old value\;
 	$v_r \leftarrow$ requested value\;
-	$avt \leftarrow$ agent AVT \;
+	$avt \leftarrow$ Adaptive Value Tracker module \;
 	
 	\eIf{$v < v_r$}{
 		$feedback \leftarrow$ INCREASE\;
@@ -538,15 +541,16 @@ The behavior of the model agent is summarized in algorithm \ref{algo_solving_mod
 	$M \leftarrow$ the internal model of the agent\;
 	$O \leftarrow$ associated optimizer\;
 	
-	$\{v_r^i\} \leftarrow $O($v_r$, $M$) \tcp{get the input values estimated by the optimizer}\;
-	\ForAll{$i \in$ input controlling agents}{
+	\tcp{get the corresponding input values}
+	\tcp{estimated by the optimizer}
+	$\{v_r^i\} \leftarrow $O($v_r$, $M$)\;
+	\ForEach{$i \in$ input controlling agents}{
+		\tcp{send the requests corresponding to the estimated values}
 		send($i$, new Request($v_r^i$))\;
 	}	
 \end{algorithm}
 
 \subsubsection*{Using an Internal Optimization Algorithm as an Alternative to External Optimizers}
-
-[[Explain here ? if not, need to changes refs to label model_agent_solving]]
 
 At the start of the section we stated that, since its internal model is a black box, the model agent cannot in itself perform the \enquote{bottom-up} translation from the values requested by its outputs to values to ask to its inputs, requiring an external optimizer to carry such task. While this is true at the start of the process, the model agent can at runtime observe the values returned by the model and make some estimations about its internal topology. We present now such a mechanism which can be integrated into model agents, capable of taking advantage of the functioning of the agent using simple black box optimization techniques.
 
@@ -558,31 +562,32 @@ The complete formula when several inputs are involved in the calculus of $o$ is 
 \caption{Collective Solving - Internal Optimizer Algorithm}
 \label{algo_solving_internaloptim}
 
-\tcp{estimating correlation deltas}\;
-$I \leftarrow$ current input values\;
+\tcp{estimating correlation deltas}$I \leftarrow$ current input values\;
 $O \leftarrow$ current output values\;
-	\For{$inform \leftarrow $ \{received inform messages\}}{
-		$i_{t-1} \leftarrow $ old value of $i_{inform}$\;
-		$i_{t} \leftarrow $ new value of $i_{inform}$\;
+	\ForEach{$inform \in $ \{received inform messages\}}{
+		$input \leftarrow$ the input concerned by $inform$\;
+		$i_{t-1} \leftarrow $ old value of $input$\;
+		$i_{t} \leftarrow $ new value of $input$\;
 		
 		$\{o_{t-1}\} \leftarrow \{$ old value of $o, \forall o \in O\}$\;
 		\BlankLine
-		\tcp{reevaluate the outputs using the new input value}
-		$I_{t} \leftarrow \{i \in I, i \neq i_{t-1}\} \cup \{i_t\}$\;
+		\tcp{reevaluate the outputs using the new value of the inform}
+		\tcp{(the others inputs are not updated)}
+		$I_t \leftarrow \{i \in I, i \neq i_{t-1}\} \cup \{i_t\}$\;
 		$\{o_{t}\} \leftarrow M(	I_{t})$\;
 		\BlankLine
 		\tcp{for each output, calculate the new correlation $\delta$}
-		\For{$o \leftarrow O$}{
-			$\delta_{i_{inform}, o} \leftarrow \dfrac{o_{t} - o_{t-1}}{i_{t} - i_{t-1}}$\;
+		\ForEach{$o \in O$}{
+			$\delta_{i, o} \leftarrow \dfrac{o_{t} - o_{t-1}}{i_{t} - i_{t-1}}$\;
 		}
 	}
 
 \BlankLine\BlankLine
-\tcp{linear approximation optimization}\;
+\tcp{linear approximation optimization}
 $o^* \leftarrow $ target value for $o$\;
 $\Delta_o \leftarrow o^* - o_{current}$\;
 $\{\delta_i\} \leftarrow $ estimated correlations between all the inputs and the output\;
-\For{$i \leftarrow $ inputs}{
+\ForEach{$i \in $ inputs}{
 	\tcp{calculate the input variation}
 	$\Delta_i \leftarrow \Delta_o \times \dfrac{\delta_i}{\displaystyle\sum_{i \in \text{inputs}}{\delta_i}}$\;
 }
@@ -593,7 +598,7 @@ Interestingly, our approximation technique can also be used to create local line
 
 \subsection{Output Agent}
 
-Like for simulation, output agents have a similar role to variable agents during problem solving. However, as it depends of a model agent for its value, an output agent will simply transmits the requests it receives to its model, as summarized in algorithm \ref{algo_solving_output}.
+Output agents have more \enquote{passive} role than variable agents during problem solving. As it depends on a model agent for its value, an output agent will simply transmits the requests it receives to its model, as summarized in algorithm \ref{algo_solving_output}.
 
 \begin{algorithm}
 \caption{Collective Solving - Output Agent Behavior}
@@ -602,7 +607,7 @@ Like for simulation, output agents have a similar role to variable agents during
 	$v_r \leftarrow$ requested value\;
 	$m \leftarrow$ the model agent responsible of the output \;
 	
-	send($m$, $v_r$) \tcp{forward the request to the model agent}\;
+	send($m$, new Request($v_r$)) \tcp{forward the request to the model agent}\;
 	
 \end{algorithm}
 
@@ -624,11 +629,11 @@ $v_t \leftarrow $ threshold value\;
 $\Delta^* \leftarrow |v - v_t|$\;
 
 \BlankLine
-$\{ \Delta^*_i \} \leftarrow Optimizer(v - \Delta^*)$\;
+$\{v_i^* \} \leftarrow Optimizer(v - \Delta^*)$\;
 \tcp{can be either external optimizer or internal optimization mechanism}
-\For{$i \leftarrow inputs$}{
+\ForEach{$i \leftarrow inputs$}{
 	\tcp{change the estimated target value to the input}
-	send($i$, $\Delta^*_i$)\;
+	send($i$, new Request($v_i^*$))\;
 }
 \end{algorithm}
 
@@ -651,11 +656,11 @@ $v \leftarrow $ current value\;
 $\Delta_{t-1} \leftarrow $ last variation of value \;
 
 \BlankLine
-$\{ \Delta^*_i \} \leftarrow Optimizer(v - \Delta_{t-1})$\;
+$\{v_i^* \} \leftarrow Optimizer(v - \Delta_{t-1})$\;
 \tcp{can be either external optimizer or internal optimization mechanism}
-\For{$i \leftarrow inputs$}{
+\ForEach{$i \leftarrow inputs$}{
 	\tcp{change the estimated target value to the input}
-	send($i$, $\Delta^*_i$)\;
+	send($i$, $v_i^*$)\;
 }
 	
 \end{algorithm}
@@ -748,8 +753,6 @@ We will now present some additional mechanisms to handle some specific problemat
 
 \subsection{Conflicting Requests}
 
-[[mettre les refs vers les travaux existants sur la criticité plutot dans la partie sur les CPSP ?]]
-
 The first problematic configuration, and arguably the most obvious, is the one where an agent is in position of receiving simultaneous conflicting requests. This situation concerns every agent which is susceptible to receive requests: variable, model and output agents. This situation can be qualified as a \emph{Conflict} NCS, as the requesting agents ask for contradictory modifications of their environment. A minimal example of configuration in which conflicting requests may appear is shown in \figurename{} \ref{NCS_conflicting_requests}.
 
 \begin{figure}
@@ -764,7 +767,6 @@ When such an agent receives contradictory requests, it needs a way to select whi
 To this end, we introduce a new mechanism based on a specific measure called \emph{criticality}. This measure represents the state of dissatisfaction of the agent regarding its local goal. Each agent is in charge of estimating its own criticality and providing it to the other agents\footnote{We do not concern ourselves with the problematic of trust here, each agent is assumed to provide the most trustful and accurate information without cheating or lying. The use of measures such as criticality in open and untrusted environments is in itself an interesting question to say the least.}. The role of this measure is to aggregate into a single comparable value all the relevant indicators regarding the state of the agent. Having a single indicator of the state of the agent is interesting as it simplifies the reasoning of the agents. In addition, this mechanism has the interesting property of limiting the informations transmitted to the others agents, which can be of interest in case of a distributed optimization where data privacy is an issue.
 However the system designer has the difficult task to provide the agents which adequate means to calculate their criticality. Also, in specific cases, this information on the state of the agents is not sufficient to take the correct decision, as we will see in the following sections.
 
-%%
 In the proposed system, criticality is initially provided by constraint and objective agents and is propagated in the system through their requests.
 Let us illustrate this with a constraint of the type \(g(X) \leq t\), with \emph{X} input of the constraint, \emph{g(X)} the constraint equation and \emph{t} the threshold under which the constraint is satisfied. The basic requirements regarding the criticality of this agent is to be low when the constraint is satisfied and high when the constraint is violated. Thus, the criticality of this agent is function of its current value and of the threshold.
 
@@ -803,10 +805,6 @@ The \(\epsilon\) can be adjusted by a domain expert if needed: the higher it is,
 In our experiments, we used $\epsilon = 0.1$ and $\eta$ was set to roughly a third of $\epsilon$, \textit{i.e.} 0.03.
 This function allows a smooth transition between two states and provides several interesting properties: it is continuous, differentiable, requires few parameters, is computed quickly and is relatively easy to grasp.
 
-[[Faire référence aux fonctions barrières présentées auparavant ?]]
-
-[[Remercier IMT]]
-
 \noindent The criticality of the other agents is determined as follow:
 
 \begin{compactitem}
@@ -836,39 +834,10 @@ An illustration on this mechanism can be seen on \figurename{} \ref{NCS_1_confli
 \caption{Criticality mechanism (the criticality of the requests is indicated in parenthesis).}\label{NCS_1_conflicting_requests}
 \end{figure}
 
-\paragraph*{Anticipating Criticality Variations of Conflicting Requests}
-
-This simple comparison of the criticalities at a given instant is the main way criticality was used in previous application of the AMAS theory. Since the goal of the agents is to reduce the maximal criticality among their neighbors, selecting the request of the most critical neighbor is a basic heuristic to achieve this end. We provide here an additional refinement by making the agents anticipate the effects of their action on the criticality of the other agents.\\
-The agent will memorize the requests and observe how the criticality of the next requests vary based on its actions. From on this observation, the agent makes an estimation of the impact of its action on the criticality of the senders, using the approximation hypothesis that varying in the same direction will cause the same variation of criticality on the senders. These estimations allow the agent to make a prediction on the future criticality of the senders if it increases or decreases.\\
-Consequently, the agent deems two requests $r_1$ and $r_2$, where $crit_{r_1} > crit_{r_2}$ to be of equivalent criticality if the difference between their criticality $|crit_{r_1} - crit_{r_2}|$ is lower than a given threshold $t_{crit}$ (which we set at 2\% of the maximum criticality) and if the difference between their anticipated criticality $| (crit_{r_1} + \Delta_1^{crit}) - (crit_{r_2} + \Delta_2^{crit})|$ is greater than $t_{crit}$.
-
-[[TODO: this is false => to correct]]
-
-\begin{algorithm}
-\caption{Detecting Equivalent Contradictory Requests using Criticality Anticipation}
-\label{algo_criticality_anticipation}
-	$R \leftarrow $ received requests\;
-	$R_{mem} \leftarrow $ the previous memorized requests\;
-	
-	$t \leftarrow$ criticality comparison threshold\;
-	\BlankLine
-	\tcp{calculate criticality variations}
-	\ForEach{$r \in R$}{
-		$\Delta_c^r \leftarrow | criticality_r - criticality_{r_{mem}} |$\;
-	}
-	$r_{max} \leftarrow \displaystyle\operatorname*{arg\,max}_{r \in R}criticality_r$\;
-	$R_{equiv} \leftarrow \{ r \in R-\{r_{max}\}: | criticality_{r_{max}} - criticality_{r} | < t_{crit} 		\wedge 	(criticality_{r} + \Delta_c^{r}) - (criticality_{r_{max}} - \Delta_c^{r_{max}}) > t_{crit}\} $\;
-	\BlankLine
-	\tcp{update memory}
-	$R_{mem} \leftarrow R$\;
-\end{algorithm}
-
-By taking in account not only the \enquote{spacial} aspect (which neighbor has what criticality) but also on the \enquote{temporal} aspect of its action (what will be the consequence of my action on my neighbors), the agent can make a more adequate decision.
-
 \paragraph*{Maintaining a Correct Trajectory with Successive Contradictory Requests}
 
-A last aspect of the handling of contradictory requests concerns th possibility for the agent to receive successively contradictory requests, possibly from the same origin. This situation can arise from the fact that some problem topologies requires the agents to move in a coordinated way across the search space. This difficulty is illustrated on \figurename{} \ref{basin_fun_illustration}. On this figure is presented a 2-inputs functions we want to minimize (top-right corner), and 3 different trajectories. For each of these trajectories, the two inputs vary in the same direction, but with different strengths.\\
-We can see that, for the two dashed trajectories, the objective-function increases as the variation of one of the input is much greater than the variation of the other. Only on the non-dashed trajectory the objective is actually improved. The implication is that, even if all the inputs vary in the correct direction, if they do not coordinate the strengths of their variations they can cause a degradation of the objective.
+Another aspect of the handling of contradictory requests concerns the possibility for the agent to receive successively contradictory requests, possibly from the same origin. This situation can arise from the fact that some problem topologies requires the agents to move in a coordinated way across the search space. This difficulty is illustrated on \figurename{} \ref{basin_fun_illustration}. On this figure is presented a 2-inputs functions we want to minimize (top-right corner), and 3 different trajectories. For each of these trajectories, the two inputs vary in the same direction, but with different strengths.\\
+We can see that, for the two dashed trajectories, the objective-function increases as the variation of one of the input is much greater than the variation of the other. Only on the non-dashed trajectory the objective is actually improved. The implication is that, even if all the inputs vary in the correct direction, they can cause a degradation of the objective if they do not coordinate the strengths of their variations.
 
 \begin{figure}
 \centering
@@ -889,7 +858,7 @@ After updating $tt$, the agent will do the following:
 \end{compactitem}
 
 \begin{algorithm}
-\caption{Cooperative Trajectory - Speed Coordination}
+\caption{Conflicting Requests - Speed Coordination}
 \label{algo_speed_coordination}
 	$r_s \leftarrow$ selected request\;
 	\BlankLine
@@ -912,7 +881,7 @@ After updating $tt$, the agent will do the following:
 \end{algorithm}
 
 \begin{table}[htbp]
-\caption{Cooperative Trajectories - Coordination Actions}\label{coord_act}
+\caption{Conflicting Requests - Coordination Actions}\label{coord_act}
 \centering
 \begin{tabular}{l|ll}
 		\toprule
@@ -926,7 +895,49 @@ After updating $tt$, the agent will do the following:
 \end{tabular}
 \end{table}
 
-\subsection{Cooperative Trajectories}
+\paragraph*{Anticipating Criticality Variations of Conflicting Requests}
+
+This simple comparison of the criticalities at a given instant is the main way criticality was used in previous application of the AMAS theory. Since the goal of the agents is to reduce the maximal criticality among their neighbors, selecting the request of the most critical neighbor is a basic heuristic to achieve this end. We provide here an additional refinement by making the agents anticipate the effects of their actions on the criticality of the other agents.\\
+The agent will memorize the requests and observe how the criticality of the next requests vary based on its actions. From on this observation, the agent makes an estimation of the impact of its action on the criticality of the senders, using the approximation hypothesis that varying in the same direction will cause the same variation of criticality on the senders. These estimations allow the agent to make a prediction on the future criticalities of the senders in the cases where it increases or decreases.
+
+By taking in account not only the \enquote{spacial} aspect (which neighbor has what criticality) but also on the \enquote{temporal} aspect of its action (what will be the consequence of my action on my neighbors), the agent can make a more adequate decision.
+
+The agent deems two requests $r_{max}$ and $r$, where $crit_{r_{max}} > crit_{r}$, to be equivalent in three cases:
+\begin{compactitem}
+\item When the difference between their criticalities is lower than a given threshold $t_{crit}$ \\$|crit_{r_{max}} - crit_{r}|< t_{crit}$.
+\item When the predicted difference between their criticalities is lower than $t_{crit}$\\ $|(criticality_{r_{max}} + \Delta_{r_{max}}) - (criticality_{r}+ \Delta_r ) |& < t_{crit}$.
+\item When the predicted criticality of the least critical request $r$ is greater than the predicted criticality of the most critical one $r_{max}$\\$criticality_{r_{max}} + \Delta_{r_{max}} < criticality_{r}+ \Delta_r$.
+\end{compactitem}
+This behavior is presented in algorithm \ref{algo_criticality_anticipation}.
+
+(We chose in our experiments to assign the comparison threshold $t_{crit}$ a somewhat arbitrary value of 2\% of the maximum criticality)
+
+Each of these cases represent a situation where the two conflicting agents are reaching an equilibrium state. In these cases the agent cannot simply discriminate using only the criticality information. We will now see in section \ref{coop_traj_descr} an additional mechanism for such cases.
+
+\begin{algorithm}
+\caption{Detecting Equivalent Contradictory Requests using Criticality Anticipation}
+\label{algo_criticality_anticipation}
+	$R \leftarrow $ received requests\;
+	$R_{mem} \leftarrow $ the previous memorized requests\;
+	
+	$t \leftarrow$ criticality comparison threshold\;
+	\BlankLine
+	\tcp{calculate criticality variations}
+	\ForEach{$r \in R$}{
+		$\Delta_c^r \leftarrow | criticality_r - criticality_{r_{mem}} |$\;
+	}
+	$r_{max} \leftarrow \displaystyle\operatorname*{arg\,max}_{r \in R}criticality_r$\;
+	$R_{equiv} \leftarrow r \in R-\{r_{max}\} \text{ such as }\begin{cases}
+															 									&| criticality_{r_{max}} - criticality_{r} | < t_{crit} \\
+															 									\text{or} & | (criticality_{r_{max}} + \Delta_{r_{max}}) - (criticality_{r}+ \Delta_r ) | < t_{crit}\\ 
+															 									\text{or} & criticality_{r_{max}} + \Delta_{r_{max}} < criticality_{r}+ \Delta_r \\
+																							\end{cases}$\;
+	\BlankLine
+	\tcp{update memory}
+	$R_{mem} \leftarrow R$\;
+\end{algorithm}
+
+\subsection{Cooperative Trajectories}\label{coop_traj_descr}
 
 \subsubsection{For Variable Agents}
 
@@ -953,9 +964,11 @@ With this mechanism, the variable agents only have two possibilities: fully sati
 In such cases, the agents would start by fully helping the most critical to stabilize to a point where the criticalities of both requests are balanced., even if the point is not the most optimal.
 
 \paragraph*{Cooperative Trajectories using Participations}
-This observation leads to a third possibility: trying to satisfy both requests at once by satisfying for each variable agent the request on which it has the most \enquote{impact}. Doing so allows a most efficient exploration of the search space by improving several criteria at once.
+This observation leads to a third possibility: trying to satisfy both requests at once by satisfying for each variable agent the request on which it has the most \enquote{impact}. Doing so allows a most efficient exploration of the search space by improving several criteria at once. 
 
-This cooperative behavior intervenes only when the variable agent receives multiple contradictory requests with equivalent criticalities (\emph{i.e.}, the agents have reached the point where the criticalities are balanced). In this case, the agent cannot discriminate between the requests using the Conflicting requests cooperative mechanism, as the requests are deemed to be equally important. In order for the agent to be able to do the most helpful action, we introduce a new measure called \emph{participation}, propagated with the requests exchanged between agent.
+This cooperative behavior intervenes only when the variable agent receives multiple contradictory requests with equivalent criticalities (\emph{i.e.}, the agents have reached the point where the criticalities are balanced). In this case, the agent cannot discriminate between the requests using the Conflicting requests cooperative mechanism, as the requests are deemed to be equally important. When the criticalities of the contradictory agents are balanced, the helping agents must now try to improve the situations of both agents \emph{simultaneously}. The goal is to improve the situation of both contradictory agents while keeping the equilibrium.
+
+As the criticalities of the contradictory agents are balanced, the variable agents need an additional information in order to make an adequate action. To do so, we introduce a new measure called \emph{participation}, propagated with the requests exchanged between agent.
 
 The meaning of this measure is the following: when an agent $A$ receives a request from an agent $B$, containing a participation $p$, it means that $B$ estimated the relative impact of $A$ on the request regarding the impact of its others inputs to be $p$ ($p \in [0,1]$).
 
@@ -990,6 +1003,9 @@ When a variable agent receives contradictory requests which are deemed to be of 
 			}
 		}
 \end{algorithm}
+
+This mechanism allows for several variable agents to make a coordinated action and to improve simultaneously the situation of each requesting agent. Interestingly this coordinated action is made without any explicit communication between the different variable agents, or without these agents even knowing each others existence. The participation measure provides sufficient information to the agent by giving it its relative participation, giving also an implicit information about the relative participation of the \emph{rest of the system}.
+
 
 \subsubsection{For Model Agents}
 
