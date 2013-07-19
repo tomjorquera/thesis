@@ -101,24 +101,17 @@ As a remark, a measure of dissatisfaction presents an advantage over a measure o
 
 \subsection{Cooperative Trajectories}
 
-[[TODO]]
+This CPSP is an extension of the Conflicting Requests CPSP. In this case, several providers agents are solicited by conflicting solicitors. However the impact of each provider on each solicitor is different. Consequently the provider agents should be able to coordinate in order to improve every solicitors, but fail to do so because they cannot discriminate between the contradictory requests.
+
+The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_coop_traj}.
 
 \begin{figure}
 \centering
-	\begin{subfigure}{0.49\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{blueprint_coop_traj_var.pdf}
-		\caption{Direct.}
-	\end{subfigure}
-	\begin{subfigure}{0.49\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{blueprint_coop_traj_model.pdf}
-		\caption{With a Transformer agent.}
-	\end{subfigure}
+\includegraphics[width=0.6\textwidth]{blueprint_coop_traj_var.pdf}
 \caption{Cooperative Trajectories.}\label{blueprint_coop_traj}
 \end{figure}
 
-[[REALLY DO TWO FIGURES ? ONE IS BASICALLY A VARIANT OF THE OTHER]]
+To apply the blueprint, the designer should introduce, in addition to a criticality measure, a participation measure representing for a solicitor the impact of a provider regarding the rest of the system.
 
 \subsection{Cycle Solving}
 
