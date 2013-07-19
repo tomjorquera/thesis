@@ -190,7 +190,7 @@ where $d_i$ is the direction vector and $s_i$ the step size coefficient.
 \paragraph{Line search}
 
 Line search is the most basic approach. It first determines which direction would improve the objective function, then decide of a step size to move toward it.
-Some of the most well-known linear search methods are gradient descent, Newton's and Quasi-Newton methods \cite{dennis1983numerical}. The gradient method simply uses a step size proportional to the value of the gradient. The Newton's and Quasi-Newton methods however try to find a solution to the equation $\nabla f(x)=0$ ($\nabla f(x)$ being the gradient of $f$). The Newton's method uses the gradient and the Hessian matrix of $f$ to estimate a good step size, while Quasi-Newton methods avoids the disadvantages of using the Hessian (which can involve costly operations), for example by replacing it with an approximation based on the variations of the gradient.
+Some of the most well-known linear search methods are gradient descent, Newton's and Quasi-Newton methods \cite{dennis1983numerical}. The gradient method simply uses a step size proportional to the value of the gradient. The Newton's and Quasi-Newton methods however try to find a solution to the equation $\nabla f(x)=0$, where $\nabla f(x)$ is the gradient of $f$. The Newton's method uses the gradient and the Hessian matrix of $f$ to estimate a good step size, while Quasi-Newton methods avoids the disadvantages of using the Hessian (which can involve costly operations), for example by replacing it with an approximation based on the variations of the gradient.
 
 \paragraph{Trust region}
 
@@ -242,7 +242,7 @@ An illustration of the Nelder-Mead algorithm is shown on \figurename{} \ref{neld
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{Nelder-Mead}
-\caption{Illustration of Nelder-Mead algorithm.}\label{nelder-mead}
+\caption{Illustration of the Nelder-Mead algorithm.}\label{nelder-mead}
 \end{figure}
 
 Several derivative-free algorithms interpolate the objective-function with a simpler one. These methods starting with several evaluation points of the objective-function to build a simpler function on which it is possible to apply a known optimization method. Based on the result of the optimization, we can update the interpolation model and reiterate. Some possible interpolation methods include various polynomial interpolation methods, kriging \emph{etc.}
@@ -335,7 +335,7 @@ Most genetic algorithms proposals work on variations on these two phases. For ex
 Swarm algorithms focus on the decentralized exploration of the search space by a population of entities (commonly called \emph{agents} or \emph{boids}). These entities usually have only a local perception of the search space and individually decide how to move using simple rules.
 
 Particle Swarm Optimization (PSO) \cite{kennedy1995particle} is inspired from the flocking behavior of social animals (such as birds, fishes or bees). PSO consists of a swarm of particles initially spread across the search space. Each particle $i$ can perceive its neighborhood and moves according to its current position $x_i$ and velocity vector $\overrightarrow{v_i}$.
-During solving, each particle memorizes the best solution it found so far $x_i^*$. Based this information, a global best $x_g^*$ is calculated and provided to each particle for the next iteration.
+During solving, each particle memorizes the best solution it found so far $x_i^*$. Based on this information, a global best $x_g^*$ is calculated and provided for each particle for the next iteration.
 At each step, a particle updates its velocity based on the current velocity, its local best value and the global best value found. Then it moves according to its current position and velocity. The influence of these various parameters can be modulated using the coefficients $w$, representing the inertia, $c_l$ representing the influence of the local best solution and $c_g$, representing the influence of the global best solution.
 
 Algorithm \ref{PSO_algo} presents the principle of an iteration of PSO.
@@ -344,7 +344,8 @@ Algorithm \ref{PSO_algo} presents the principle of an iteration of PSO.
 \caption{PSO iteration}\label{PSO_algo}
 
 	\ForEach{particle}{
-		$\overrightarrow{v_i}(t) = w.\overrightarrow{v_i}(t-1) + c_l.rnd(x_i^*(t-1)-x_i(t-1)) + c_g.rnd(x_g^*(t-1)-x_i(t-1))$\;
+		$r_l, r_g \leftarrow$ random numbers $\in [0,1]$\;
+		$\overrightarrow{v_i}(t) = w  \overrightarrow{v_i}(t-1) + c_l  r_l  (x_i^*(t-1)-x_i(t-1)) + c_g  r_g (x_g^*(t-1)-x_i(t-1))$\;
 		$x_i(t) = x_i(t-1)+\overrightarrow{v_i}(t)$\;
 		\If{$x_i(t)$ better than $x_i^*$}{
 			$x_i^*$ = $x_i(t)$\;
