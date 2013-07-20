@@ -598,7 +598,7 @@ Interestingly, our approximation technique can also be used to create local line
 
 \subsection{Output Agent}
 
-Output agents have more \enquote{passive} role than variable agents during problem solving. As it depends on a model agent for its value, an output agent will simply transmits the requests it receives to its model, as summarized in algorithm \ref{algo_solving_output}.
+Output agents have a more \enquote{passive} role than variable agents during problem solving. As it depends on a model agent for its value, an output agent will simply transmit the requests it receives to its model, as summarized in algorithm \ref{algo_solving_output}.
 
 \begin{algorithm}
 \caption{Collective Solving - Output Agent Behavior}
@@ -649,7 +649,7 @@ Like the constraint and model agents, the objective agent can use an external op
 The behavior of an objective agent with a \enquote{minimize} objective is described in algorithm \ref{algo_solving_objective}. This algorithm is easily adapted to a maximization objective.
 
 \begin{algorithm}
-\caption{Collective Solving - Constraint Agent Behavior}
+\caption{Collective Solving - Objective Agent Behavior}
 \label{algo_solving_objective}
 
 $v \leftarrow $ current value\;
@@ -658,9 +658,9 @@ $\Delta_{t-1} \leftarrow $ last variation of value \;
 \BlankLine
 $\{v_i^* \} \leftarrow Optimizer(v - \Delta_{t-1})$\;
 \tcp{can be either external optimizer or internal optimization mechanism}
-\ForEach{$i \leftarrow inputs$}{
+\ForEach{$i \in inputs$}{
 	\tcp{change the estimated target value to the input}
-	send($i$, $v_i^*$)\;
+	send($i$, new Request($v_i^*$))\;
 }
 	
 \end{algorithm}
@@ -670,7 +670,7 @@ It is interesting to note that an objective agent exhibits a behavior similar to
 An important point is that each agent only has a partial knowledge local strategy. No agent is in charge of the optimization of the system as a whole, or even of a subset of the other agents. Contrary to the classical MDO methods presented earlier, the solving of the problem is not directed by a predefined methodology, but by the structure of the problem itself. The emerging global strategy is unique and adapted to the problem.
 
 \begin{algorithm}
-\caption{Agents Behaviors}\label{agent_algo}
+\caption{Agents Behaviors Synthesis}\label{agent_algo}
 
 \SetKwProg{Bv}{behavior of }{}{}
 
@@ -692,7 +692,6 @@ An important point is that each agent only has a partial knowledge local strateg
 	\Repeat{resolution end}{
 		analyze received messages\;
 		\If{received new requests}{
-			select most important\;
 			adjust value\;
 			inform depending agents\;
 		}
@@ -707,8 +706,7 @@ An important point is that each agent only has a partial knowledge local strateg
 		inform depending agents\;
 		}
 		\If{received new requests}{
-			select most important\;
-			transmit selected request to model agent\;
+			transmit requests to model agent\;
 		}
 	}
 }
@@ -849,13 +847,14 @@ With the nominal behavior, the agents would iterate and notice their mistake, co
 
 The basic idea is for the variable agent to create a representation of the trajectory it is following (in the 1-dimension space). It uses a \emph{trending trajectory} measure, noted $tt$, whose value varies between -1 and 1. A positive value for $tt$ means that the variable follow an \emph{increase} trajectory, while a negative value implies a \emph{decrease} trajectory. The higher the value of $|tt|$, the stronger the confidence of the agent into the trajectory.
 
-After the variable agent has selected a request, it updates $tt$ based on the direction requested. If the selected request asks the variable agent to decrease, $tt$ is decreased and \emph{vice versa}. The exact impact of the new request on $tt$ is controlled by a trending coefficient noted $\alpha_{trend}$, to which we attributed a value of 0.9.\\
+After the variable agent has selected a request, it updates $tt$ based on the direction requested. If the selected request asks the variable agent to decrease, $tt$ is decreased and \emph{vice versa}. The exact impact of the new request on $tt$ is controlled by a trending coefficient noted $\alpha_{trend}$, to which we attributed a value of 0.9, indicating a strong preference for maintaining a consistent trajectory.\\
 After updating $tt$, the agent will do the following:
 \begin{compactitem}
-\item $tt$ if low ($|tt|< 0.1$) or does not contradict the request (both the request and $tt$ indicate the same direction), the request is applied as is
-\item if $tt$ is high ($|tt|> 0.1$) and contradicts the request (the request and $tt$ indicate opposite directions), the agent does not apply the request, choosing instead to not change its value
-\item in the special case where the request asks the agent not to change value, the agent does so whatever the value of $tt$
+\item $tt$ if low ($|tt|< 0.1$) or does not contradict the request (both the request and $tt$ indicate the same direction), the request is applied as is.
+\item if $tt$ is high ($|tt|> 0.1$) and contradicts the request (the request and $tt$ indicate opposite directions), the agent does not apply the request, choosing instead to not change its value.
+\item in the special case where the request asks the agent not to change value, the agent does so whatever the value of $tt$.
 \end{compactitem}
+This behavior is described in algorithm \ref{algo_speed_coordination}.
 
 \begin{algorithm}
 \caption{Conflicting Requests - Speed Coordination}
@@ -883,7 +882,7 @@ After updating $tt$, the agent will do the following:
 \begin{table}[htbp]
 \caption{Conflicting Requests - Coordination Actions}\label{coord_act}
 \centering
-\begin{tabular}{l|ll}
+\begin{tabular}{lll}
 		\toprule
 		$\boldsymbol{tt}$ & $>-0.1$ & $< 0.1$\\
 		\midrule
@@ -920,18 +919,20 @@ Each of these cases represent a situation where the two conflicting agents are r
 	$R \leftarrow $ received requests\;
 	$R_{mem} \leftarrow $ the previous memorized requests\;
 	
-	$t \leftarrow$ criticality comparison threshold\;
+	$t_{crit} \leftarrow$ criticality comparison threshold\;
 	\BlankLine
 	\tcp{calculate criticality variations}
 	\ForEach{$r \in R$}{
 		$\Delta_c^r \leftarrow | criticality_r - criticality_{r_{mem}} |$\;
 	}
-	$r_{max} \leftarrow \displaystyle\operatorname*{arg\,max}_{r \in R}criticality_r$\;
-	$R_{equiv} \leftarrow r \in R-\{r_{max}\} \text{ such as }\begin{cases}
-															 									&| criticality_{r_{max}} - criticality_{r} | < t_{crit} \\
-															 									\text{or} & | (criticality_{r_{max}} + \Delta_{r_{max}}) - (criticality_{r}+ \Delta_r ) | < t_{crit}\\ 
-															 									\text{or} & criticality_{r_{max}} + \Delta_{r_{max}} < criticality_{r}+ \Delta_r \\
-																							\end{cases}$\;
+	\tcp{select most critical request}
+	$r_{max} \leftarrow \displaystyle\operatorname*{arg\,max}_{r \in R} criticality_r$\;
+	\tcp{find equivalent requests}
+	$R_{eq} \leftarrow r \in R-\{r_{max}\}: \begin{cases}
+															 			&| criticality_{r_{max}} - criticality_{r} | < t_{crit} \\
+															 			\text{or} & | (criticality_{r_{max}} + \Delta_{r_{max}}) - (criticality_{r}+ \Delta_r ) | < t_{crit}\\ 
+															 			\text{or} & criticality_{r_{max}} + \Delta_{r_{max}} < criticality_{r}+ \Delta_r \\
+																\end{cases}$\;
 	\BlankLine
 	\tcp{update memory}
 	$R_{mem} \leftarrow R$\;
@@ -979,7 +980,7 @@ To estimate the participation, we base ourselves on the correlation estimation m
 \item Variable agent: the $participation$ of the received request is propagated as is
 \end{compactitem}
 
-When a variable agent receives contradictory requests which are deemed to be of equivalent criticality, it chooses to move in the direction which for which the total participation of the requests is the highest.
+When a variable agent receives contradictory requests which are deemed to be of equivalent criticality, it chooses to move in the direction which for which the total participation of the requests is the highest. This behavior is described in algorithm \ref{algo_cooperative_trajectory_variable}.
 
 \begin{algorithm}
 \caption{Cooperative Trajectory - Variable Agent}
@@ -1029,7 +1030,8 @@ b_2 = &a_1 + 2a_2\\
 
 Using this new formulation, the model agent will aggregate the requests it receives and only transmit one request to each variable agent. Consequently the variable agents will not be able to perceive the potential cooperative trajectory. In this case, it is the model agent which must detect the possibility of a cooperative trajectory.
 
-To this end, the model agent will use the same mechanisms than the variable agents. First it translates the requests sent by its outputs in requests on its inputs (using the classical propagation mechanisms). Then, for each input, the model agent will take the role of a variable agent and apply the cooperative trajectory mechanism for selecting a request among the requests destined to this input. After a request is selected for each input, the model agent will send the requests to its inputs agents.
+To this end, the model agent will use the same mechanisms than the variable agents. First it translates the requests sent by its outputs in requests on its inputs (using the classical propagation mechanisms). Then, for each input, the model agent will take the role of a variable agent and apply the cooperative trajectory mechanism for selecting a request among the requests destined to this input. After a request is selected for each input, the model agent will send the requests to its inputs agents.\\
+This behavior is described in algorithm \ref{algo_cooperative_trajectory_model}.
 
 \begin{algorithm}
 \caption{Cooperative Trajectory - Model Agent}
@@ -1041,9 +1043,10 @@ To this end, the model agent will use the same mechanisms than the variable agen
 		\tcp{translate received requests into requests on the input}
 		$R_i^{in} \leftarrow \{O(r^{out}), \forall r^{out} \in R^{out}\}$\;
 		\tcp{apply variable cooperative trajectory on the input}
+		\tcp{(as described in algorithm \ref{algo_cooperative_trajectory_model})}
 		$r_i^* \leftarrow cooperative\_trajectory(i, R_i^{in})$\;
 		\tcp{send the selected request to $i$}
-		$send(i, r_i^*)$\;
+		send($i$, new Request($r_i^*$))\;
 	}
 \end{algorithm}
 
@@ -1056,8 +1059,6 @@ O_R = &Range(O_M)
 \end{align*}
 
 Such cycles in the problem formulation can pose severe challenge for the optimization process. Once more, we must keep in mind that models must be handled as black boxes; Consequently an analytical solving of the cycle is impossible. Consequently, it is the burden of the agents to detect cycle and take correcting actions of required.
-
-[[Reprendre le passage sur les fixed point iteration du SoA]]
 
 The most basic situation regarding such cycles concerns two directly interdependent models (i.e each one using an output of the other as its input). However, much complex cycles topologies may be encountered. For example, an arbitrary high number of models can be successively chained together in one giant multi-step cycle, or several models can present multiple interdependencies with each other.The solution for which such a cycle is stable (if it exists) is called the \emph{fixed point}.
 
@@ -1110,7 +1111,9 @@ If the cycle is converging, the output agent does not need to do any special act
 
 The fact that each agent has only a local and limited view of the problem is a requirement for the system to be able to scale to arbitrary large problems. However this restriction can prove to be problematic when, due to its limited perceptions, an agent makes a wrongful assumption regarding its neighbors. The \emph{hidden dependency} NCS happens when an agent considers that the requests its makes to its input agents are independent while the two agents are in fact dependent. The mistake of the requesting agent comes from the fact that the dependency link between its two input agents is beyond its perception range.
 
-\figurename{} \ref{NCS_hidden_dependencies} is an illustration of a configuration which will lead to a hidden dependency NCS. In this example, the objective agent $\text{min }a_1 + a_2$ will assume that the variable agents $a_1$ and $a_2$ are independent, while the value of $a_2$ is in fact completely dependent from the one of $a_1$ (more precisely $a_2 = -\frac{1}{2} a_1$). In this context, the objective agent will send separate requests to the two variable agents, asking them both to decrease. Since $a_2$ is an output variable, it will transmit the request to its model agent, which will in turn transmit it to $a_1$. And since $a_2$ and $a_1$ are negatively correlated, the transmitted request will ask $a_1$ to increase. Consequently $a_1$ will receive two requests, one (directly from the objective) asking it to decrease, and one (transmitted by $a_2$) asking it to increase.
+\figurename{} \ref{NCS_hidden_dependencies} is an illustration of a configuration which will lead to a hidden dependency NCS. In this example, the objective agent $\text{min }a_1 + a_2$ will assume that the variable agents $a_1$ and $a_2$ are independent, while the value of $a_2$ is in fact completely dependent from the one of $a_1$ (more precisely $a_2 = -\frac{1}{2} a_1$). In this context, the objective agent will send separate requests to the two variable agents, asking them both to decrease. Since $a_2$ is an output variable, it will transmit the request to its model agent, which will in turn transmit it to $a_1$. And since $a_2$ and $a_1$ are negatively correlated, the transmitted request will ask $a_1$ to increase. Consequently $a_1$ will receive two requests, one (directly from the objective) asking it to decrease, and one (transmitted by $a_2$) asking it to increase.\\
+This behavior is described in algorithm \ref{NCS_hidden_dependencies}.
+
 
 \begin{figure}
 \centering
@@ -1130,7 +1133,8 @@ In our example, the solution is quite obvious. We want to minimize $a_1 + a_2$, 
 Let us now change a little this problem, considering instead $a_2$ to be equal to $ -2a_1$. In this case the problem can be rewritten as (after simplifying) minimizing $-a_1$, or maximizing $a_1$. In this case the correct behavior for $a_1$ would be to increase.
 
 It is now obvious that the correct behavior for the agent $a_1$ is extremely dependent on the coefficient of the intermediate model. The same can be said about the coefficients of the objective, and could be said in the general case about any of the intermediate models which could happen to be between the objective and the variable agents. Conceptually, we could say that the variable agent is linked to the objective agent by different \enquote{branches}, with each branch having a specific influence on the objective. In our original example the two \enquote{branches} would have influences of respectively $+1$ and $-\frac{1}{2}$ (and $+1$ and $-2$ in the modified example). That is, the impact of a change of $a_1$ of $\delta_{a_1}$ is of 1 considering the direct branch, and of $-\frac{1}{2}$ considering the branch passing by $a_2$, for a total influence of $\frac{1}{2}$.\\
-If we can provide this information to the variable $a_1$, then the agent will be able to solve the NCS by selecting the request coming from the most influent branch(es), ensuring it action will be beneficial for the origin of the requests. We will now see how, by adding a new information with the requests, the agents are able to propagate their local influence to the variable agent, allowing it to solve the NCS.
+If we can provide this information to the variable $a_1$, then the agent will be able to solve the NCS by selecting the request coming from the most influent branch(es), ensuring it action will be beneficial for the origin of the requests. We will now see how, by adding a new information with the requests, the agents are able to propagate their local influence to the variable agent, allowing it to solve the NCS.\\
+This behavior is described in algorithm \ref{algo_hidden_dependency_influence_propagation}.
 
 \begin{algorithm}
 \caption{Influence propagation by internal model agents}
@@ -1158,7 +1162,6 @@ If we can provide this information to the variable $a_1$, then the agent will be
 
 \end{algorithm}
 
-
 \paragraph*{Influence Propagation Mechanism}
 Before presenting the exact propagation mechanism, we need to make a quick clarification. In our example, we reasoned on linear models by looking at their coefficients in order to know the different influences. Such reasoning could not be applied to the general black boxes models that the agents use. However, we presented in section \ref{model_agent_solving} a general algorithm which allows the agents to create local linear approximations of any black box models by observing the correlations between the inputs and the outputs of the internal model. Consequently we can assume that each agent with an internal model can always extract the linear factors corresponding to the model, either because they were given to them by the designer, or because they used the aforementioned method to create a local linear approximation (using the observed correlations). During the rest of this section, we will assume that the agents apply the estimation algorithm and use the observed correlations as approximate linear factors of the problem.
 
@@ -1172,15 +1175,16 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 \label{algo_hidden_dependency_solving}
 
 	$R_{received} \leftarrow $ received requests\;
-	$R_{selected} \leftarrow \{ r \in R_{received} : \displaystyle\operatorname*{arg\,max}_{r \in R_{received}}(criticality_r) \}$\;
+	\tcp{select most critical request}
+	$R_{selected} \leftarrow \displaystyle\operatorname*{arg\,max}_{r \in R_{received}} criticality_r$\;
 
-	\If{$|R_{selected}| > 1 \wedge \forall( r_1, r_2 \in R_{selected}: origin_{r_1} = origin_{r_2})$}{
+	\If{$|R_{selected}| \geq 2 \wedge \forall( r_1, r_2 \in R_{selected}: origin_{r_1} = origin_{r_2})$}{
 
 		$R_- \leftarrow \{r \in R_{selected} : value_{r} < value_{current}$\}\;
 		$R_+ \leftarrow \{r \in R_{selected} : value_{r} > value_{current}$\}\;
 		
 		\If{$R_- \neq \emptyset \wedge R_+ \neq \emptyset$}{
-			\tcp{a hidden dependency NCS is detected}
+			\tcp{a conflicting hidden dependency NCS is detected}
 			$Inf_- = \displaystyle\sum_{r \in R_{-}}{influence_r}$\;
 			$Inf_+ =\displaystyle\sum_{r \in R_{+}}{influence_r}$\;
 	
@@ -1191,7 +1195,7 @@ We can say that, in the same way that we \enquote{collapsed} the intermediate mo
 			{
 				$R_{selected} \leftarrow R_+$\;
 			}
-			apply $R_{selected}$\;
+			handle $R_{selected}$\;
 		}
 	}
 
