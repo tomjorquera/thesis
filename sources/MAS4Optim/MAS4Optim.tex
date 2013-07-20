@@ -903,8 +903,8 @@ By taking in account not only the \enquote{spacial} aspect (which neighbor has w
 
 The agent deems two requests $r_{max}$ and $r$, where $crit_{r_{max}} > crit_{r}$, to be equivalent in three cases:
 \begin{compactitem}
-\item When the difference between their criticalities is lower than a given threshold $t_{crit}$ \\$|crit_{r_{max}} - crit_{r}|< t_{crit}$.
-\item When the predicted difference between their criticalities is lower than $t_{crit}$\\ $|(criticality_{r_{max}} + \Delta_{r_{max}}) - (criticality_{r}+ \Delta_r ) |& < t_{crit}$.
+\item When the difference between their criticalities is lower than a given threshold $t_{crit}$\\$|crit_{r_{max}} - crit_{r}|< t_{crit}$.
+\item When the predicted difference between their criticalities is lower than $t_{crit}$\\$|(criticality_{r_{max}} + \Delta_{r_{max}}) - (criticality_{r} + \Delta_r)| < t_{crit}$.
 \item When the predicted criticality of the least critical request $r$ is greater than the predicted criticality of the most critical one $r_{max}$\\$criticality_{r_{max}} + \Delta_{r_{max}} < criticality_{r}+ \Delta_r$.
 \end{compactitem}
 This behavior is presented in algorithm \ref{algo_criticality_anticipation}.
