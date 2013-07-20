@@ -1170,6 +1170,8 @@ An intermediate variable agent will propagate the request without modifying this
 When a variable agent detect a hidden dependency NCS, it separates the requests coming from the origin in two groups: the requests asking the variable to increase, and the requests asking the variable to decrease. For each group the agent calculates the sum of the influences of each request in the group, then compare the \emph{absolute values} of the total influences. The agent will select the action corresponding to the biggest influence (in absolute value). If the agent is a design variable, it will change accordingly, if it is an output variable it will propagate a request with the same origin and information, but replacing the influence value with the sum of the influences of the winning group.\\
 We can say that, in the same way that we \enquote{collapsed} the intermediate models when we wanted to find the solution to our example problem, the intermediate correlations are \enquote{collapsed} into the influence information for the variable agent to be able to solve the NCS.
 
+The detection and solving of a hidden dependency NCS by the variable agents is described in algorithm \ref{algo_hidden_dependency_solving}.
+
 \begin{algorithm}
 \caption{Hidden dependency detection and solving by variable agents}
 \label{algo_hidden_dependency_solving}
@@ -1219,9 +1221,11 @@ We propose a somewhat middle ground mechanism, where the agents try to estimate 
 The solving mechanism for this algorithm is composed of two parts, regarding how the agents make their estimations for respectively the request messages or the inform messages they expect to receive.
 \begin{enumerate}
 \item Concerning the requests they expect to receive, the agents base their reasoning on the fact that requests are only sent in answer to previously received inform messages. Consequently they except an answer for the inform messages they previously send. So the agent assume at least one request message by output agent to which it sends an inform message. As the agents are cooperative, each output agent should forward at most one request (the one deemed the most important to handle) back to the agent. Consequently, an agent can expect to receive one and only one request message in response to the informs it send. Once it received a request message from each of its output agents, it can take its decision (either forwarding the most important request to its input(s) or, in the case of a design variable, changing its value and sending new inform messages).\\
-The only modification which needs to be done for this mechanism to work concerns (non-criterion) agents which are not linked to any output agents. Previously, when receiving inform messages, these agents would change their value accordingly, but would not send back any message (as they have no request to do). In order for the \enquote{upstream} agents not to be blocked waiting for an answer, an agent that neither has requests to send or informs to forward must answer to its input agent with an \emph{allgood} message, signaling that it has taken into account the inform message and that non other action is pending. An agent receiving such \emph{allgood} message knows that it no longer needs to wait for this output for taking its decision.
+The only modification which needs to be done for this mechanism to work concerns (non-criterion) agents which are not linked to any output agents. Previously, when receiving inform messages, these agents would change their value accordingly, but would not send back any message (as they have no request to do). In order for the \enquote{upstream} agents not to be blocked waiting for an answer, an agent that neither has requests to send or informs to forward must answer to its input agent with an \emph{allgood} message, signaling that it has taken into account the inform message and that non other action is pending. An agent receiving such \emph{allgood} message knows that it no longer needs to wait for this output for taking its decision.\\
+This behavior is described in algorithm \ref{algo_waiting_requests}.
 
-\item In the same way that an agent waits for requests messages after having sent informs, an agent which has send request messages should wait to receive enough relevant inform messages before taking further steps. In the same way that an agent sending informs expects to receive request messages in return, an agent sending requests expects to receive inform messages in response. A basic solution is thus to apply the same algorithm. In this case however, the agent is not strictly required to wait for all the inform messages to take a relevant decision. We presented in section \ref{model_agent_solving} how the internal model agents can get an indication of the impact of their inputs in regard of their outputs using correlation information. Consequently, such agents can wait until they estimate that they received informs from their inputs corresponding to a total of more than 50\% of the total \enquote{impact} on the value of each output (variables agents, having only one input, always have to wait for this input and this input only, which correspond of 100\% of the total \enquote{impact} on its value) .
+\item In the same way that an agent waits for requests messages after having sent informs, an agent which has send request messages should wait to receive enough relevant inform messages before taking further steps. In the same way that an agent sending informs expects to receive request messages in return, an agent sending requests expects to receive inform messages in response. A basic solution is thus to apply the same algorithm. In this case however, the agent is not strictly required to wait for all the inform messages to take a relevant decision. We presented in section \ref{model_agent_solving} how the internal model agents can get an indication of the impact of their inputs in regard of their outputs using correlation information. Consequently, such agents can wait until they estimate that they received informs from their inputs corresponding to a total of more than 50\% of the total \enquote{impact} on the value of each output (variables agents, having only one input, always have to wait for this input and this input only, which correspond of 100\% of the total \enquote{impact} on its value).\\
+This behavior is described in algorithm \ref{algo_waiting_inform}.
 \end{enumerate}
 
 \begin{algorithm}
@@ -1254,7 +1258,7 @@ In this section we presented several problematic configurations (NCS) which can 
 \begin{table}
 \caption{Non Cooperative Situations Summary}\label{NCS_summary}
 \centering
-\begin{tabular}{lp{5.5cm}p{4.5cm}}
+\begin{tabular}{lp{6.5cm}p{3cm}}
 	\toprule
 	NCS & Description & Cooperative Mechanisms\\
 	\midrule
@@ -1274,14 +1278,14 @@ In each case, we proposed general mechanisms for the agents to be able to detect
 \begin{table}
 \caption{Non Cooperative Situations Solving Mechanisms}\label{NCS_mechanisms_summary}
 \centering
-\begin{tabular}{lp{4cm}p{4cm}p{3.5cm}}
+\begin{tabular}{lp{6cm}p{5.5cm}}
 	\toprule
-	Mechanism & Description & NCS Involved & Properties\\
+	Mechanism & Description & Properties\\
 	\midrule
-	Criticality & A aggregated measure to indicate the state of the agent & Conflicting Requests & Comparable between different agents\\
-	Signature & A unique signature composed of the unique id of the sender/origin of the message and a (local) timestamp & Cycles Solving, Hidden Dependencies, Asynchronous Messages & Comparable, allows a partial ordering of the messages by sender/origin\\
-	Influence & An indicator of the impact value of the receiver on the origin & Hidden Dependencies & Comparable by origin\\
-	 Participation & An indicator of the relative impact of the receiver on the origin relative to the rest of the system & Cooperative Trajectories & Comparable between different senders\\
+	Criticality & A aggregated measure to indicate the state of the agent & Comparable between different agents\\
+	Signature & A unique signature composed of the unique id of the sender/origin of the message and a (local) timestamp & Comparable, allows a partial ordering of the messages by sender/origin\\
+	Influence & An indicator of the impact value of the receiver on the origin & Comparable by origin\\
+	 Participation & An indicator of the relative impact of the receiver on the origin relative to the rest of the system & Comparable between different senders\\
 	\bottomrule
 \end{tabular}
 \end{table}
