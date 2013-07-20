@@ -1,13 +1,13 @@
 \part{Design, Implementation and Extending the AMAS4Opt Building Blocks}
 
-The work presented in this thesis is part on the ongoing ID4CS project. ID4CS (\emph{Integrated Design for Complex Systems}) funded by the French \emph{Agence Nationale de la Recherche} (National Research Agency)\footnote{COSINUS program, ANR-09-
+The work presented in this thesis is part of the ongoing ID4CS project. ID4CS (\emph{Integrated Design for Complex Systems}) is funded by the French \emph{Agence Nationale de la Recherche} (National Research Agency)\footnote{COSINUS program, ANR-09-
 COSI-005 reference} and involves nine partners, both from the academic and industrial work. The goal of the ID4CS project is to use the MAS approach to provide new tools for the design of complex systems. Our industrial partners, Airbus and Snecma, are involved in aeronautical design, and are thus fully concerned by the problematic of complex continuous optimization for system design.
 
-For this reason, one of our concerns was not only to propose a new approach for continuous optimization, but also to put this approach in practice by integrating it into a working prototype which could be used by our partners. To this end we worked with our partners, including optimization specialists and software development experts, to propose such a tool, basing ourselves upon the ADELFE method. This method aims to guide the development of AMAS-based softwares from high level user requirements to the implementation nuts and bolts. Using ADELFE we made a comprehensive analysis of the domain and actors involved in the use of such a tool.
+For this reason, one of our goals was not only to propose a new approach for continuous optimization, but also to put this approach in practice by integrating it into a working prototype which could be used by our partners. To this end we worked with our partners, including optimization specialists and software development experts, to propose such a tool, basing ourselves upon the ADELFE method. This method aims to guide the development of AMAS-based softwares from high level user requirements to the implementation nuts and bolts. Using ADELFE we made a comprehensive analysis of the domain and actors involved in the use of such a tool.
 
-We also use the design tools provided with ADELFE to instantiate our MAS and integrate it into the prototype. Among these tools, we used notably the recent MAY framework. The goal of MAY is to provide suitable abstractions as well as reusable software components for the development of agents and multi-agents systems. We contributed to the enrichment of its components library by developing a general and modular agent architecture consistent with the AMAS theory, notably by proposing a modular skill stack principle, where different skills can be composed to address specific requirements.
+We also use the design tools provided with ADELFE to instantiate our MAS and integrate it into the prototype, among which the recent MAY framework. The goal of MAY is to provide suitable abstractions as well as reusable software components for the development of agents and multi-agents systems. We contributed to the enrichment of its components library by developing a general and modular agent architecture consistent with the AMAS theory, notably by proposing a \emph{modular skill stack principle}, where different skills can be composed to address specific requirements.
 
-While such work could seems to concerns software engineering experts more than computer scientists, we will see how existing MAS oriented methods such as ADELFE are still too high-level to be successfully directly applied to any domain (and more so to continuous optimization) without an important agent expertise and extensive research work. We will detail how the scientific work we produced and presented in the previous part, especially the identification of various NCS[[s]] and the mechanisms to solve them, can be generalized into \enquote{building blocks}. These building blocks could then be reused to guide the design of other MAS in the domain of problem solving. This work places itself into a more general effort to provide a general reusable toolbox for assisting non experts in applying AMAS to the domain of optimization, under the name \emph{AMAS4Opt} (AMAS for Optimization).
+While such work could seem to concern software engineering experts more than artificial intelligence specialists, we will see how existing MAS oriented methods such as ADELFE are still too high-level to be successfully directly applied to any domain (and more so to continuous optimization) without an important agent expertise and extensive research work. We will detail how the scientific work we produced and presented in the previous part, especially the identification of various NCSs and the mechanisms to solve them, can be generalized into \enquote{building blocks}. These \emph{building blocks} could then be reused to guide the design of other MAS in the domain of problem solving. This work places itself into a more general effort to provide a general reusable toolbox for assisting non experts in applying AMAS to the domain of optimization, under the name \emph{AMAS4Opt} (AMAS for Optimization).
 
 \chapter{ADELFE and MAY Architecture}\label{ADELFE_chapter}
 
@@ -22,15 +22,13 @@ The ADELFE method in itself is based on the Rational Unifed Process (RUP) and is
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{AdelfePhases}
-\caption{Overview of the ADELFE Method}\label{ADELFE_phases}
+\caption{Overview of the ADELFE Method.}\label{ADELFE_phases}
 \end{figure}
 
 In regard of the RUP, ADELFE adds supplementary activities and roles which are specific to its approach for the design of AMAS compliant software.\\
 The final requirement study ($WD_2$), was complemented with activities 6 and 7-2 concerning the characterization of the system environment and the identification of cooperation failures during the determining of the use cases. During the analysis ($WD_3$), additional activities 11 and 12 respectively check for the adequacy of AMAS to the problem and identify the agents involved in the system being built, while activity 13 is complemented with a step concerning the study of the relationships between agents. During the design ($WD_4$), activities 15 et 16 concerns the design of the system and the agents, while activity 17 concerning fast prototyping was added in order to be able to quickly test the proposed behavior of the agents. The development phase ($WD5$) concerns the architecture and the implementation of the agents and the system.
 
-\section{The ID4CS Project: Applying ADELFE for the Design of a Continuous Optimization Tool}
-
-[[TALK ABOUT ID4CS]]
+\section{Applying ADELFE for the Design of a Continuous Optimization Tool}
 
 Based on the guidelines of the ADELFE methodology we defined the requirements of the tool we proposed to develop. The following functionalities were identified:
 \begin{compactitem}
@@ -52,7 +50,7 @@ Based on the guidelines of the ADELFE methodology we defined the requirements of
 \begin{figure}
 \centering
 \includegraphics[width= \textwidth]{Use_cases}
-\caption{Actors and use cases identified during requirements studies for ID4CS}\label{Use_cases}
+\caption{Actors and use cases identified during requirements studies for ID4CS.}\label{Use_cases}
 \end{figure}
 
 Several entities interacting with the tool were also identified. The \emph{Method expert} adds new optimization methods into the system. The expert field can be optimization methods (classic methods, AMAS methods ...) or uncertainties. The \emph{Model expert} adds new models into the system. The role of the \emph{Engineer} is to use the different elements defined by the other experts to define new problem for the system to solve and to monitor the functioning of the system. At last, the \emph{AMAS expert} has to define and tune the agents of the system. The system should also be able to integrate with external optimization and modeling tool, in order to accommodate the existing workflow and constraints of the users.
@@ -76,7 +74,7 @@ The components of a MAY architecture are connected by \emph{ports}. A port can b
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{amasmlAgent}
-\caption{AMAS agent architecture (as defined in ADELFE)}\label{AMAS-ML_agent}
+\caption{AMAS agent architecture (as defined in ADELFE).}\label{AMAS-ML_agent}
 \end{figure}
 
 An illustration of this composition mechanism is shown on \figurename{} \ref{Speadl_example}. Two components $A$ and $B$ are present. The component $A$ exposes a port $P$ as available, which is required and used by the component $B$. Consequently, this last component is now able to call the operations declared by $A$ through this port, operations which are supposedly necessary for the good functioning of $B$. The way ports are used to connect otherwise independent components is in this way not too dissimilar to the role interfaces play in the context of \emph{dependency injection} design pattern.
@@ -84,7 +82,7 @@ An illustration of this composition mechanism is shown on \figurename{} \ref{Spe
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{Speadl_example}
-\caption{Example of MAY composition}\label{Speadl_example}
+\caption{Example of MAY composition.}\label{Speadl_example}
 \end{figure}
 
 For the sake of clarity, the agent architecture is separated in three views: the \emph{behavior}, \emph{communication} and \emph{monitoring} views.
@@ -95,8 +93,8 @@ The \emph{behavior} view (\figurename{} \ref{Arch-behavior}) contains the compon
 
 \begin{figure}
 \centering
-\includegraphics[width=0.6\paperwidth]{ID4CS_Speadl_behav}
-\caption{Agent Architecture - Behavior view.}
+\includegraphics[width=\textwidth]{ID4CS_Speadl_behav}
+\caption{Agent Architecture --- Behavior view.}
 \label{Arch-behavior}
 \end{figure}
 
@@ -140,7 +138,7 @@ This tree-like structure of the skills components is not only a good way from en
 
 \begin{figure}
 \centering
-\includegraphics[width=0.6\paperwidth]{ID4CS_Speadl_skills_NCS}
+\includegraphics[width=\textwidth]{ID4CS_Speadl_skills_NCS}
 \caption{Skills components dependencies tree with corresponding NCS.}\label{skills:NCS}
 \end{figure}
 
@@ -150,8 +148,8 @@ The \emph{communication} view (\figurename{} \ref{Arch-comm}) presents the compo
 
 \begin{figure}
 \centering
-\includegraphics[width=0.6\paperwidth]{ID4CS_Speadl_comm}
-\caption{Agent Architecture - Communication view.}
+\includegraphics[width=\textwidth]{ID4CS_Speadl_comm}
+\caption{Agent Architecture --- Communication view.}
 \label{Arch-comm}
 \end{figure}
 
@@ -169,8 +167,8 @@ In order to provide its capabilities, the monitor component needs to be informed
 
 \begin{figure}
 \centering
-\includegraphics[width=0.6\paperwidth]{ID4CS_Speadl_monitoring}
-\caption{Agent Architecture - Monitoring view.}
+\includegraphics[width=\textwidth]{ID4CS_Speadl_monitoring}
+\caption{Agent Architecture --- Monitoring view.}
 \label{Arch-monitor}
 \end{figure}
 
@@ -180,7 +178,7 @@ The MAY framework does not only allow to design the architecture of the agents, 
 
 \begin{figure}
 \includegraphics[width=\textwidth]{ID4CS_Speadl_system}
-\caption{MAS Architecture}\label{Arch-MAS}
+\caption{MAS Architecture.}\label{Arch-MAS}
 \end{figure}
 
 In order to support the integration of multiple agent instances into the global system architecture, MAY provides the concept of \emph{transverse}. A transverse is a special kind of component which makes the liaison between a component on one side and multiple instances of a component on the other. The main use of transverses is to connect all agents instances to the others components of the system.
@@ -219,5 +217,5 @@ By combining these three modules, we obtained a prototype which can be used to c
 
 \begin{figure}
 \includegraphics[width=\textwidth]{tool}
-\caption{User Interface of our prototype (problem canvas view)}\label{tool}
+\caption{User Interface of our prototype (problem canvas view).}\label{tool}
 \end{figure}
