@@ -246,31 +246,31 @@ This agent modeling is the most direct and inclusive, considering every element 
 
 We will now discuss the behavior of the five agent types identified in the previous chapter. The functioning of the system can be divided into two main tasks: problem simulation and collective solving.
 
-Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the propagation of the values of design variables to the models and criteria. For this part, the agents will exchange \emph{inform} messages that contain calculated values. The \enquote{message flow} is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents. An illustration of the simulation messages flow is shown on \figurename{} \ref{messages_flow:inf}.
+Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the propagation of the values of design variables to the models and criteria. For this part, the agents will exchange \emph{inform} messages that contain calculated values. The \enquote{messages flow} is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents. An illustration of the simulation messages flow is shown on \figurename{} \ref{messages_flow:inf}.
 
-Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contain desired variations of values. The \enquote{message flow} is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents. An illustration of the solving messages flow is shown on \figurename{} \ref{messages_flow:req}.
+Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contain desired variations of values. The \enquote{messages flow} is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents. An illustration of the solving messages flow is shown on \figurename{} \ref{messages_flow:req}.
 
 \begin{figure}[h]
 	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{testcases-Turbofan-informs}
-		\caption{Informs flow for simulation}\label{messages_flow:inf}
+		\caption{Informs flow for simulation.}\label{messages_flow:inf}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{testcases-Turbofan-requests}
-		\caption{Requests flow for solving}\label{messages_flow:req}
+		\caption{Requests flow for solving.}\label{messages_flow:req}
 	\end{subfigure}
 
 	%new line
 	\centering
 	 \begin{subfigure}[b]{0.4\textwidth}
 		\includegraphics[width=\textwidth]{testcases-Turbofan-informs_requests}
-		\caption{Effective messages flow}\label{messages_flow:eff}
+		\caption{Effective messages flow.}\label{messages_flow:eff}
 	\end{subfigure}
 	
-	\caption{Messages flow for simulation and solving}
+	\caption{Messages flow for simulation and solving.}
 	\label{messages_flow}
 
 \end{figure}
@@ -756,7 +756,7 @@ The first problematic configuration, and arguably the most obvious, is the one w
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{NCS_conflicting_requests}
-\caption{Conflicting trajectories example}\label{NCS_conflicting_requests}
+\caption{Conflicting trajectories example.}\label{NCS_conflicting_requests}
 \end{figure}
 
 When such an agent receives contradictory requests, it needs a way to select which request to apply and which request to reject. We can intuitively see how this decision should be based on the current state of the requesting agents. For example, when receiving requests both a satisfied and a non-satisfied constraint, a variable agent should favor the non-satisfied one. In order for the agents to be able to make this decision, we need to provide them a way to compare the states of different agents.
@@ -956,7 +956,7 @@ The graphical representation of this problem is shown in \figurename{} \ref{NCS_
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{NCS_cooperatives_trajectories_variables}
-\caption{Cooperative trajectories for variables agents example}\label{NCS_cooperatives_trajectories_variables}
+\caption{Cooperative trajectories for variable agents example.}\label{NCS_cooperatives_trajectories_variables}
 \end{figure}
 
 Using conflicting requests mechanisms, each variable agent would, upon receiving requests coming from the objective and constraint agents, choose to fully satisfy the most critical request, disregarding completely the other. In this example, if the request of $b_1$, the first objective agent, is the most critical, $a_1$ and $a_2$ would both to decrease, they would both to increase if the request of $b_2$, the second objective agent, was the most critical.\\
@@ -1015,7 +1015,7 @@ We have seen in the previous section how it could be possible in some cases to p
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{NCS_cooperatives_trajectories_models}
-\caption{Cooperative trajectories for model agent example}\label{NCS_cooperatives_trajectories_models}
+\caption{Cooperative trajectories for model agent example.}\label{NCS_cooperatives_trajectories_models}
 \end{figure}
 
 \begin{align*}
@@ -1088,7 +1088,7 @@ An example of diverging cycle is shown in \figurename{} \ref{NCS_cycles_fig}
 \begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{NCS_cycles}
-\caption{Diverging cycle example}\label{NCS_cycles_fig}
+\caption{Diverging cycle example.}\label{NCS_cycles_fig}
 \end{figure}
 
 [[TOFIX: will probably be outdated + must write the synthesis algorithm]]
@@ -1118,7 +1118,7 @@ This behavior is described in algorithm \ref{NCS_hidden_dependencies}.
 \begin{figure}
 \centering
 \includegraphics[width=0.3\textwidth]{NCS_hidden_dependencies}
-\caption{Hidden dependency example}\label{NCS_hidden_dependencies}
+\caption{Hidden dependency example.}\label{NCS_hidden_dependencies}
 \end{figure}
 
 This situation is clearly a NCS, as two requests having the same origin should not require an agent to do contradictory actions. We will now propose a mechanism to allow the variable agent $a_1$ to solve the NCS efficiently.
@@ -1210,7 +1210,7 @@ The last NCS addresses an underlying assumption we have made until now. When we 
 \begin{figure}
 \centering
 \includegraphics[width=0.3\textwidth]{NCS_hidden_dependencies}
-\caption{Hidden dependency example (reproduced)}\label{NCS_async_requests}
+\caption{Hidden dependency example (reproduced).}\label{NCS_async_requests}
 \end{figure}
 
 Many of the previous mechanisms we proposed rely on a timely information delivery, for example for the agents to be able to detect some NCS. Based on this, it results that, without an adequate \enquote{synchronization} mechanism, many of them would fail to work correctly. On the other hand, having a fully synchronized system, where all the agents would make lengthy checks to ensure the complete propagation of all messages to all recipients, would be undesirable. Indeed, complex continuous optimization problems create big but loosely connected graphs, for which such full synchronized mechanism would be both costly and inefficient. Moreover, if we take in account the dynamic aspects of the problem (having a designer which can add or remove agent at any moment during solving), obtaining such synchronization guarantee can be nearly impossible.
