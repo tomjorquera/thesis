@@ -41,7 +41,7 @@ On \figurename{} \ref{snecma_res}, the system is executed 100 times with random 
 		\centering
 		\includegraphics[width = \textwidth]{./R_figs/generated/o2}	
 	\end{subfigure}
-	\caption{Convergence of the Turbofan objectives for 100 random starting points}
+	\caption{Convergence of the Turbofan objectives for 100 random starting points.}
 	\label{snecma_res}
 \end{figure}
 
@@ -73,7 +73,7 @@ The Viennet1 test case is part of a series of problems proposed in \cite{viennet
 		\centering
 		\includegraphics[width = \textwidth]{./R_figs/generated/viennet_o3}	
 	\end{subfigure}
-	\caption{Convergence of Viennet1 objectives for 100 random starting points}
+	\caption{Convergence of Viennet1 objectives for 100 random starting points.}
 	\label{viennet_res}
 \end{figure}
 
@@ -90,24 +90,25 @@ The results presented on \figurename{} \ref{rosenbrock_res} are for the two-dime
 
 \begin{figure}
 \centering
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}{0.45\textwidth}
 		\includegraphics[width=\textwidth]{Rosenbrock_function}
-		\caption{Rosenbrock's valley (from \href{http://commons.wikimedia.org/wiki/File:Rosenbrock_function.svg}{Martin Doege})}\label{rosenbrock_plot}
+		\caption{Rosenbrock's valley (from \href{http://commons.wikimedia.org/wiki/File:Rosenbrock_function.svg}{Martin Doege}).}\label{rosenbrock_plot}
 	\end{subfigure}
 	%
 	\hfill%for spacing
 	%
-	\begin{subfigure}[b]{0.45\textwidth}	
+	\begin{subfigure}{0.45\textwidth}	
 		\centering
 		\includegraphics[width=\textwidth]{cooperative_trajectories_example}
-		\caption{Example of cooperative trajectories on Rosebrock's valley (starting point (-2, 4))}\label{collective_traj_rosenbrock_plot}
+		\caption{Example of cooperative trajectories on Rosebrock's valley (starting point (-2, 4)).}\label{collective_traj_rosenbrock_plot}
 	\end{subfigure}
 	
 	\begin{subfigure}{0.4\textwidth}
 		\centering
 		\includegraphics[width = \textwidth]{./R_figs/generated/objective}	
-		\caption{Convergence of Rosenbrock objective for 100 random starting points}\label{rosenbrock_res}
+		\caption{Convergence of Rosenbrock objective for 100 random starting points.}\label{rosenbrock_res}
 	\end{subfigure}
+\caption{Rosenbrock's valley.}
 \end{figure}
 
 This problem was also used in \cite{Ilan:1994:MOM:887207} as an application example of the Collaborative Optimization method, presented in chapter \ref{MDO_chapter} (with performances varying from 141 to 1556 total iterations depending on the additional information used).
@@ -132,11 +133,11 @@ The mathematical formulation of the problem and the corresponding agent graph ca
 		\caption{mathematical formulation.}\label{alexandrov:math}
 	\end{subfigure}
 	\hfill%for spacing
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.59\textwidth}
 		\includegraphics[width=\textwidth]{testcases-Alexandrov}%screen_Alexandrov}%}
 		\caption{corresponding agent graph.}\label{alexandrov:graph}
 	\end{subfigure}
-\caption{Alexandrov problem}\label{alexandrov}
+\caption{Alexandrov problem.}\label{alexandrov}
 %\vspace{-20pt}
 \end{figure}
 
@@ -171,7 +172,7 @@ On \figurename{} \ref{alexandrov_res_one}, the behavior of the \emph{design vari
 		\label{alexandrov_res_one:o}
 	\end{subfigure}
 	
-	\caption{Alexandrov agents behavior}
+	\caption{Alexandrov agents behavior.}
 	\label{alexandrov_res_one}
 
 \end{figure}
@@ -181,7 +182,7 @@ On \figurename{} \ref{alexandrov_res}, we show the evolution of the objective ov
 \begin{figure}
 \centering
 	\includegraphics[width=0.4\textwidth]{./R_figs/generated/o}
-	\caption{Convergence of the Alexandrov objective for 100 random starting points}
+	\caption{Convergence of the Alexandrov objective for 100 random starting points.}
 	\label{alexandrov_res}
 \end{figure}
 
@@ -255,7 +256,7 @@ On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the m
 		\label{alexandrov_res_pert:o}
 	\end{subfigure}
 	
-	\caption{Alexandrov agents behavior with perturbation (constraint change at dotted line)}
+	\caption{Alexandrov agents behavior with perturbation (constraint change at dotted line).}
 	\label{alexandrov_res_pert}
 	
 \end{figure}
@@ -297,7 +298,7 @@ On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the m
 		\label{turbofan_res_pert:c2}
 	\end{minipage}}
 	
-	\caption{Turbofan agents behavior with perturbations (changes at dotted lines)}
+	\caption{Turbofan agents behavior with perturbations (changes at dotted lines).}
 	\label{turbofan_res_pert}
 \end{figure*}
 
@@ -373,16 +374,16 @@ The \emph{Transparency} criterion is the less well-defined and the can be percei
 		\toprule
 			& Accuracy & Efficiency & Transparency & Simplicity & Portability\\
 		\midrule
-		b\tn{a1}est& \textbf{AMAS} & \textbf{AMAS} & \textbf{AMAS} & MDF & \textbf{AMAS}\\
-			& MDF & IDF & MDF & IDF, \textbf{AMAS} & CO\\
+		best & \textbf{AMAS} & \textbf{AMAS} & \textbf{AMAS} & MDF & \textbf{AMAS}\\
+		\mknode{n1}	& MDF & IDF & MDF & IDF, \textbf{AMAS} & CO\\
 			& IDF & BLISS & IDF &  & CSSO\\
 			& BLISS & CSSO & CO & CO & BLISS\\
-			& CO & CO & CSSO & CSSO & IDF\\
-		wo\tn{a2}rst& CSSO & MDF & BLISS & BLISS & MDF\\
+		\mknode{n2}	& CO & CO & CSSO & CSSO & IDF\\
+		worst & CSSO & MDF & BLISS & BLISS & MDF\\
 		\bottomrule
 \end{tabular}
 \tikz[remember picture,overlay]
-	\path[->, very thick] (a1.south) edge (a2.north -| a1.south);
+	\path[->, very thick] (n1.north) edge (n2.north);
 \end{table}
 
 \chapter{Evaluating Performances using Generated Test Cases and Scalability}
@@ -402,19 +403,19 @@ The generation method is summarized in \ref{algo_graph_generation}. After all th
 \begin{algorithm}
 \caption{Problem graph generation}
 \label{algo_graph_generation}
-	$n \leftarrow$ initialization number
+	$n \leftarrow$ initialization number\;
 	$G(nodes, arcs) \leftarrow GraphGenerator(n)$\;
 			
 		\ForEach{$currentNode \in G.nodes$}{
 			tag($currentNode$, \enquote{variable})\;
-			$enteringArcs \leftarrow \{arc \in G.arcs, isHeadOf(arc, currentNode)\}$
+			$enteringArcs \leftarrow \{arc \in G.arcs, isHeadOf(arc, currentNode)\}$\;
 			\If{$enteringArcs \neq \emptyset$}{
 				\tcp{$currentNode$ is an output variable}
 				$modelNode \leftarrow $ new node\;
 				tag($modelNode$, \enquote{model})\;
 				$G$.add($modelNode$)\;
 				$G$.createArcBetween($modelNode$, $currentNode$)\;
-				\ForEach{$arc \leftarrow enteringArcs$}{
+				\ForEach{$arc \in enteringArcs$}{
 					$tailNode \leftarrow arc.tail$\;
 					$G$.removeArc($arc$)\;
 					$G$.createArcBetween($tailNode$, $modelNode$)\;
