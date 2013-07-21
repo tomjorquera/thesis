@@ -286,15 +286,15 @@ When exact methods are too costly or non-applicable, it is often sufficient to g
 
 For example, a simple strategy can be to run a local optimization technique several times with different initialization points, in order to increase the coverage of the search space.
 
-Expanding on this strategy is the \emph{Tabu search} metaheuristic. The idea of Tabu search is to execute the same algorithm several times. To avoid converging toward the same point, the previous solutions are memorized and are not allowed to be revisited. Thus the method has less chances to be quickly trapped in local optima.
+Expanding on this strategy is the \emph{Tabu search} metaheuristic \cite{glover1989tabu}. The idea of Tabu search is to execute the same algorithm several times. To avoid converging toward the same point, the previous solutions are memorized and are not allowed to be revisited. Thus the method has less chances to be quickly trapped in local optima.
 The Tabu search can be extended with several levels of memory to influence the search toward the most interesting regions of the search space.
 
 Another class of heuristics introduces randomization into the search process in order to obtain a good coverage of the search space. These strategies are said to be \emph{stochastic}.
 
-A very simple example of stochastic method is the Monte-Carlo algorithm. We start by choosing a point at random. Then we iteratively draw new points around the old one until we cannot improve the solution. Then we start again from another random point of the search space and continue until we reach an arbitrary termination criterion.
+A very simple example of stochastic method is the Monte-Carlo method \cite{robert2004monte}. We start by choosing a point at random. Then we iteratively draw new points around the old one until we cannot improve the solution. Then we start again from another random point of the search space and continue until we reach an arbitrary termination criterion.
 This method is very easy to put in practice, but can be quite costly in number of evaluations.
 
-Another well-known technique is Simulated Annealing. This method is inspired from the annealing technique in metallurgy used to control the heating and cooling of a material in order to increase its properties.
+Another well-known technique is Simulated Annealing \cite{kirkpatrick1983optimization}. This method is inspired from the annealing technique in metallurgy used to control the heating and cooling of a material in order to increase its properties.
 Simulated annealing associate a global temperature and an energy measure to the state of the system (which represent the objective-function). Consequently the goal of the system is to minimize its energy. At each step, the method considers moving to one of the neighbors of the current point. The higher the temperature of the system, the more the system is susceptible to move, even if the neighbor is worse than the current point. As the temperature decreases, the system will favor more and more consistently solutions that decrease its energy.
 The temperature of the system is reduced over time following a specific cooling schedule. For example the temperature could be decreased a each step, or could be reduced only when the system reached an equilibrium.
 
