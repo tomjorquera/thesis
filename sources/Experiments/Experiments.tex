@@ -266,37 +266,37 @@ On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the m
 \begin{figure*}
 \centering
 
-	\subfloat{\begin{minipage}{0.32\textwidth}
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_pi_c}
 		\label{turbofan_res_pert:pi_c}
-	\end{minipage}}
-	\subfloat{\begin{minipage}{0.32\textwidth}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_o1}
 		\label{turbofan_res_pert:o1}
-	\end{minipage}}
-	\subfloat{\begin{minipage}{0.32\textwidth}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_c1}
 		\label{turbofan_res_pert:c1}
-	\end{minipage}}
+	\end{subfigure}
 
-	\subfloat{\begin{minipage}{0.32\textwidth}
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_bpr}
 		\label{turbofan_res_pert:bpr}
-	\end{minipage}}
-	\subfloat{\begin{minipage}{0.32\textwidth}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_o2}
 		\label{turbofan_res_pert:o2}
-	\end{minipage}}
-	\subfloat{\begin{minipage}{0.32\textwidth}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{./R_figs/generated/turbofan_perturbated_c2}
 		\label{turbofan_res_pert:c2}
-	\end{minipage}}
+	\end{subfigure}
 	
 	\caption{Turbofan agents behavior with perturbations (changes at dotted lines).}
 	\label{turbofan_res_pert}
@@ -335,37 +335,116 @@ For our evaluation we use the test cases provided by \cite{Yi2008} and compare t
 
 In order to obtain comparable results with MDO methods, we adopted a problem modeling based on the disciplines dividing proposed in the works. To this end, we considered that, for every test cases, the natural formulation of the problem matched the discipline division proposed. Consequently, for each test case, the mathematical models represented by our models agents correspond to the proposed disciplines.
 
+\subsection{Comparison Criteria}
+
+For our comparisons we use the criteria proposed in \cite{perez2004evaluation}, which are defined as follow:
+\begin{compactitem}
+\item \emph{Accuracy}: the quality of the solution proposed by the method, based on the distance between the solution and the real optimal values.
+\item \emph{Efficiency}: the computational cost to find the proposed solution, based on the number of disciplinary evaluations.
+\item \emph{Simplicity}: the ease to instantiate and apply the method to different problems, based on the number of optimizers and variables required to implement the examples.
+\item \emph{Transparency}: the capability to understand, modify or extend the method.
+ item \emph{Portability}: the feasibility to apply the method in the context of an existing work organization, based on the distributivity capabilities of the method.
+\end{compactitem}
+ 
+The \emph{Accuracy} criterion reflects the aptitude of the method to find the input values corresponding to the optimum of the problem.
+ 
+The \emph{Efficiency} criterion concerns the computational cost required by the method to provide its solution. When counting the number of evaluation calls, a distinction is made between discipline evaluations and full problem evaluations, the latter being considered considerably more costly than the former. Our MAS does not require any full problem evaluation, using only disciplines evaluations.
+ 
+The \emph{Simplicity} criterion concerns the amount of work required to instantiate the method to suit different optimization problem. The original authors chose to evaluate this criterion using to measures: the number of optimizers involved and the number of additional variable required by the method.
+
+The \emph{Transparency} criterion is the less well-defined and the can be perceived as somewhat subjective. The original authors give as an example \enquote{a probability-based method can be seamlessly integrated into a transparent formulation, which does not require major changes of the architecture to accomplish the integration.}
+
+The \emph{Portability} criterion concerns the feasibility to integrate the method into an existing organizational structure. This evaluation criterion is based on the capabilities of the method to divide the concerns to match existing expert teams or specializations.
+
+\subsection{Comparison Problem 1}
+
+Our first comparison test case comes from \cite{perez2004evaluation}. It was originally introduced in \cite{sellar1996response} to study the performances of the CSSO method. Its formulation is the following:
+
+\begin{align*}
+\text{min }		&	f =x_2^2 + x_3 + y_1 + e^{-y_2}\\
+\text{s.t. }	&	g1 = \dfrac{y_1}{3.16} - 1 \geq 0\\ 
+				&	g2 = 1 - \dfrac{y_2}{24} \geq 0\\
+\text{where }	&	y_1 = x_1^2 + x_2 + x_3 - 0.2y_2\\
+				&	y_2 = \sqrt{y_1} + x_1 + x_3\\
+\text{with }	& -10 \leq x_1 \leq 10\\
+				& 0 \leq x_2, x_3 \leq 10
+\end{align*}
+
+The authors use the same initial points $x_1 = 1$, $x_2 = 5$, $x_3 = 2$ for each analysis. The optimum for this problem is located at $x_1 = 1.9776$, $x_2 = 0$, $x_3 = 0$, for which the value of $f$ is $3.1834$.
+
+We present here the comparison of our method with the ones evaluated in \cite{perez2004evaluation}, based on the different comparison criteria. The authors originally compared the MDF, IDF, CSSO, CO and BLISS methods. We reproduce their results here and add our method to the comparisons under the term \textbf{AMAS}.
+
+Regarding the simplicity criterion, the relevant measures are shown in \tablename{} \ref{bench1_simplicity}.
+
+\begin{table}
+\caption{Simplicity}\label{bench1_simplicity}
+\centering
+\begin{tabular}{ccc}
+\toprule
+Method & No. Optimizers & Additional variables\\
+\midrule
+MDF				&	1	&	0	\\
+IDF				&	1	&	2	\\
+CSSO			& 	3	&	3	\\
+CO				&	3	&	9	\\
+BLISS			&	3	&	3	\\
+\textbf{AMAS}	&	2	&	0	\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In regard of the transparency criterion, the authors in \cite{perez2004evaluation} note that MDF and IDF are the most transparent, as the mathematical models and objectives are easily formulated and modified. The CO method requires a little more attention in the formulation of the disciplinary objectives. CSSO and BLISS are the more complex, needing respectively approximation models and a sensitivity analysis.\\
+Our method, as MDF can be directly derived from the analytical expression of the problem, without requiring further work from the expert. However, as the problem is divided in two disciplines, it will require two optimizers.
+
+Concerning the portability criterion, the authors note that  MDF and IDF, being centralized methods, are not flexible and cannot adapt to existing organizational structures. CO, CSSO and BLISS on the other hand can be adapted to existing organization or distributed computing requirements. However CSSO requires not only for each discipline to provide an approximation of their state but need also a entire system analysis at each iteration. BLISS requires additional calculations to calculate the sensitivities of the disciplines.\\
+Our method is similar to CO, CSSO and BLISS as the experts can choose how to divide the problem to match the organization of the disciplinary groups, without imposing additional requirements concerning the formulation of the problem. It is also naturally distributable, as each agent is an independent process.
+
+In regard of the efficiency, the number of evaluations for each methods is detailed in \tablename{} \ref{bench1_efficiency}.
+
+\begin{table}
+\caption{Efficiency}\label{bench1_efficiency}
+\centering
+\begin{tabular}{cccc}
+\toprule
+Method & Coordination evaluations & Discipline 1 Evaluations & Discipline 2 Evaluations\\
+\midrule
+MDF				&	24	&	216	&	216	\\
+IDF				&	62	&	54	&	54	\\
+CSSO			&	20	&	528	&	528	\\
+CO				&	249	&	6106	&	4515	\\
+BLISS			&	40	&	95	&	95	\\
+\textbf{AMAS}	&	[[?]]	&	[[?]]	&	[[?]]	\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Results for the accuracy are shown on \tablename{} \ref{bench1_accuracy}. While MDF and IDF find the correct solution, CSSO, CO and BLISS present slight errors. The authors note that CO and CSSO introduce discrepancies in the computation of the outputs due to the approximation these methods make.
+
+\begin{table}
+\caption{Accuracy}\label{bench1_accuracy}
+\centering
+\begin{tabular}{ccccccc}
+\toprule
+Method & $x_1$ & $x_2$ & $x_3$ & $y_1$ & $y_2$ & $f$ \\
+\midrule
+MDF				&	1.9776	&	0	&	0	&	3.16	&	3.7553	&	3.1834\\
+IDF				&	1.9776	&	0	&	0	&	3.16	&	3.7553	&	3.1834\\
+CSSO			&	1.9778	&	0	&	0	&	3.16	&	3.7675	&	3.1831\\
+CO				&	1.9776	&	0	&	0	&	3.16	&	3.7556	&	3.1835\\
+BLISS			&	1.9770 	&	0	&	0	&	3.15	&	3.7544	&	3.1804\\
+\textbf{AMAS}	&	[[?]]	&	[[?]]	&	[[?]]	&	[[?]]	&	[[?]]	&	[[?]]	\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Comparison Problem 2}
+
+[[TODO]]
+
 \subsection{Comparison Synthesis}
  
- Here we present a synthesis of the comparison between our system and existing MDO methods. For this comparison we use the criteria proposed in \cite{perez2004evaluation}, which are defined as follow:
- \begin{compactitem}
- \item \emph{Accuracy}: the quality of the solution proposed by the method, based on the distance between the solution and the real optimal values.
- \item \emph{Efficiency}: the computational cost to find the proposed solution, based on the number of disciplinary evaluations.
- \item \emph{Portability}: the feasibility to apply the method in the context of an existing work organization, based on the distributivity capabilities of the method.
- \item \emph{Simplicity}: the ease to instantiate and apply the method to different problems, based on the number of optimizers and variables required to implement the examples.
- \item \emph{Transparency}: the capability to understand, modify or extend the method.
- \end{compactitem}
- 
- \paragraph*{}
- The \emph{Accuracy} criterion [[TODO]]
- 
- \paragraph*{}
- The \emph{Efficiency} criterion [[TODO]]
-When counting the number of evaluation calls, a distinction is made between discipline evaluations and full problem evaluations, the latter being considered considerably more costly than the former.
+Here we present a synthesis of the comparison between our system and existing MDO methods. the only method dominating our own in regard of this criterion is MDF. Our method can be considered on part with IDF, as neither of them dominate the other on both measures.
 
-Our MAS does not require any full problem evaluation, using only disciplines evaluations.
- 
-\paragraph*{}
-The \emph{Portability} criterion concerns the feasibility to integrate the method into an existing organizational structure. This evaluation criterion is based on the capabilities of the method to divide the concerns to match existing expert teams or specializations. In this regard, our method is extremely portable as it support multiple levels of modeling and multiple reformulations of the problem. Consequently the problem can be \enquote{tailored} to fit the existing organizational structure. Contrary to the MDO methods, our method does not mandate a \emph{central} authority as the responsibility to maintaining consistency is distributed in the system.
- 
-\paragraph*{}
-The \emph{Simplicity} criterion concerns the amount of work required to instantiate the method to suit different optimization problem. The original authors chose to evaluate this criterion using to measures: the number of optimizers involved and the number of additional variable required by the method. Regarding the number of objectives, our method requires $n$ optimizers ($n$ being the number of models involved). In this regard it is less efficient than MDF and IDF, which only require 1 optimizer, but is better than the other methods which require $n+1$ optimizers (1 by model plus 1 global optimizer). In regard of the number of additional variables, our method in on part with MDF, the best method in regard of this measure, as neither of them require any additional variable.
-Consequently, the only method dominating our own in regard of this criterion is MDF. Our method can be considered on part with IDF, as neither of them dominate the other on both measures.
-
-\paragraph*{}
-The \emph{Transparency} criterion is the less well-defined and the can be perceived as somewhat subjective. The original authors give as an example \enquote{a probability-based method can be seamlessly integrated into a transparent formulation, which does not require major changes of the architecture to accomplish the integration.} In this regard we have shown that our approach was modular and extensible, due to the distribution of roles between the agents and to the explicity encapsulation of mathematical tools (analytical models, external optimizers). We demonstrated this modularity with the addition of uncertainty propagation mechanisms into the MAS.
- 
- \paragraph*{}
 
 \begin{table}
 \caption{Classification by criteria (based on \cite{perez2004evaluation})}
@@ -385,6 +464,16 @@ The \emph{Transparency} criterion is the less well-defined and the can be percei
 \tikz[remember picture,overlay]
 	\path[->, very thick] (n1.north) edge (n2.north);
 \end{table}
+
+In regard of the accuracy criterion, [[TODO]].
+
+In regard of the efficiency criterion, [[TODO]].
+
+In regard of the simplicity criterion, for the number of objectives, our method requires $n$ optimizers ($n$ being the number of models involved). In this regard it is less efficient than MDF and IDF, which only require 1 optimizer, but is better than the other methods which require $n+1$ optimizers (1 by model plus 1 global optimizer). For the number of additional variables, our method in on part with MDF, the best method in regard of this measure, as neither of them require any additional variable.
+
+In regard of the transparency criterion, we have shown that our approach was modular and extensible, due to the distribution of roles between the agents and to the explicitly encapsulation of mathematical tools (analytical models, external optimizers). We demonstrated this modularity with the addition of uncertainty propagation mechanisms into the MAS.
+
+In regard of the portability criterion, our method is extremely flexible as it support multiple levels of modeling and multiple reformulations of the problem. Consequently the problem can be \enquote{tailored} to fit the existing organizational structure. Contrary to the MDO methods, our method does not mandate a \emph{central} authority as the responsibility to maintaining consistency is distributed in the system.
 
 \chapter{Evaluating Performances using Generated Test Cases and Scalability}
 
