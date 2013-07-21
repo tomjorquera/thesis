@@ -115,7 +115,9 @@ To apply the blueprint, the designer should introduce, in addition to a critical
 
 \subsection{Cycle Solving}
 
-[[TODO]]
+This CPSP happens when several transformer agents are dependent of each others to provide their resources. It can lead to cycling behaviors where one agent sends a request to the other agent, which sends back a request to the first agent \emph{etc.} Depending on the nature of the system and the configuration of the problem, this cycle can naturally converges toward a fixed point, or diverges, never managing to reach an equilibrium.
+
+The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_cycles}.
 
 \begin{figure}
 \centering
@@ -123,9 +125,13 @@ To apply the blueprint, the designer should introduce, in addition to a critical
 \caption{Cycle Solving blueprint.}\label{blueprint_cycles}
 \end{figure}
 
+To apply the blueprint, the designer must add to the exchanged messages a unique signature allowing to identify without ambiguity the agent at the origin of a message.
+
 \subsection{Hidden Dependencies}
 
-The hidden Dependency CPSP arises when a solicitor agent assumes the agents to which it sends requests are independent providers, while one of them is in fact dependent of the other (transformer role). This pattern leads to a suboptimal behavior when the solicitor agent sends requests which are contradictory for the \enquote{top-most} provider agent. The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_hidden_dep}.
+The hidden Dependency CPSP arises when a solicitor agent assumes the agents to which it sends requests are independent providers, while one of them is in fact dependent of the other (transformer role). This pattern leads to a suboptimal behavior when the solicitor agent sends requests which are contradictory for the \enquote{top-most} provider agent.
+
+The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_hidden_dep}.
 
 \begin{figure}
 \centering
@@ -133,11 +139,13 @@ The hidden Dependency CPSP arises when a solicitor agent assumes the agents to w
 \caption{Hidden Dependencies blueprint.}\label{blueprint_hidden_dep}
 \end{figure}
 
-To apply this blueprint, the designer has to complement the messages exchanged by the agents with unique signatures containing an immutable \emph{origin}, which uniquely identify the agent that is the origin of the request. The designer must also be able to define an \emph{influence} measure to be transmitted with the request, that represent the impact of the recipient on the solicitor. These \emph{influences} measures must be comparable for a same origin.
+To apply this blueprint, the designer has to complement the messages exchanged by the agents with unique signatures which uniquely identify the agent that is the origin of the messages. The designer must also be able to define an \emph{influence} measure to be transmitted with the request, that represent the impact of the recipient on the solicitor. These \emph{influences} measures must be comparable for a same origin.
 
 \subsection{Asynchronous Requests}
 
-This CPSP arises when a provider agent receives requests from multiple solicitor agents, but these requests arrive in a desynchronized manner. A possible suboptimal behavior can happen when the provider agent decides to satisfy a request from a solicitor, and receives afterward a more important request contradicting the first one. The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_async}.
+This CPSP arises when a provider agent receives requests from multiple solicitor agents, but these requests arrive in a desynchronized manner. A possible suboptimal behavior can happen when the provider agent decides to satisfy a request from a solicitor, and receives afterward a more important request contradicting the first one.
+
+The blueprint of this CPSP is shown on \figurename{} \ref{blueprint_async}.
 
 \begin{figure}
 \centering
