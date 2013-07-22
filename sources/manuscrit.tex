@@ -35,10 +35,36 @@
 
 \usepackage[tight]{shorttoc} %used to create an additional shorter table of content
 \usepackage{tocloft}%to customize the ToC
-\usepackage[nottoc]{tocbibind}%for the biblio to appear in the ToC
+%\usepackage[nottoc]{tocbibind}%for the biblio to appear in the ToC
 
 %where to find the figures
 \graphicspath{ {StateoftheArt/figs/} {AMAS/figs/} {MAS4Optim/figs/} {Implem/figs/} {CPSP/figs/} {Experiments/figs/} }
+
+%%%%%% 
+%	biblio packages and config
+\usepackage[backend=bibtex,style=authoryear,dashed=false]{biblatex}	% dashed: replace name by dash when multiple items with same authors
+
+\bibliography{StateoftheArt/SoA,AMAS/AMAS,MAS4Optim/MAS4Optim,Implem/Implem,CPSP/CPSP,Experiments/Experiments}
+\bibliography{Prelude/mybiblio}
+
+% The following definition is copied from authortitle.bbx/authoryear.bbx*
+% (avoid the key before items in personal bib)
+\defbibenvironment{nolabelbib}
+  {\list
+     {}
+     {\setlength{\leftmargin}{\bibhang}%
+      \setlength{\itemindent}{-\leftmargin}%
+      \setlength{\itemsep}{\bibitemsep}%
+      \setlength{\parsep}{\bibparsep}}}
+  {\endlist}
+  {\item}
+  
+%%%	Allow finer selection of displayed articles in each biblio
+\nocite{*}
+\DeclareBibliographyCategory{cited}
+\AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
+%%%
+
 
 %%%%%%%%%%%%%%%%%%%
 % custom commands
@@ -114,7 +140,6 @@
 
 %%%%%%%%%%%%%%%%%%%
 
-
 \input{Prelude/Conclusion}
 
 %%%%%%%%%%%%%%%%%%%
@@ -122,13 +147,17 @@
 \appendix
 \Partie{Appendix}
 
-%\chapter{Une annexe}
-
 %%%%%%%%%%%%%%%%%%%
 
-\bibliographystyle{alpha}
-%\nocite{*} %to include all bibtex, even non-cited articles
-\bibliography{StateoftheArt/SoA,AMAS/AMAS,MAS4Optim/MAS4Optim,Implem/Implem,CPSP/CPSP.bib,Experiments/Experiments}
+\chapter*{Author's Bibliography}	% my biblio
+\addcontentsline{toc}{chapter}{Author's Bibliography}
+\printbibliography[env=nolabelbib,heading=subbibliography,title=International Conferences and Workshops with Proceedings,keyword=mine,maxnames=99,keyword=international,keyword=proceedings]
+\printbibliography[env=nolabelbib,heading=subbibliography,title=International Conferences and Workshops without Proceedings,keyword=mine,maxnames=99,keyword=international,keyword=noproceedings]
+\printbibliography[env=nolabelbib,heading=subbibliography,title=National Conferences and Workshops without Proceedings,keyword=mine,maxnames=99,keyword=national,keyword=noproceedings]
+\printbibliography[env=nolabelbib,heading=subbibliography,title=Others,keyword=mine,maxnames=99,keyword=other]
+
+%biblio
+\printbibliography[heading=bibintoc,notkeyword=mine,category=cited] %display only cited articles
 
 %%%%%%%%%%%%%%%%%%%
 

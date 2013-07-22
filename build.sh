@@ -63,7 +63,7 @@ fi
 export TEXINPUTS=./$SOURCES:./$LIBS:$TEXINPUTS
 
 #do the same for bibtex
-export BIBINPUTS=./$SOURCES:$BIBINPUTS	#where to find bib files
+export BIBINPUTS=./$SOURCES:./$OUT:$BIBINPUTS	#where to find bib files
 export BSTINPUTS=./$LIBS:$BSTINPUTS	#where to find bib style files
 
 # check if output folder exists, if not create it
@@ -80,9 +80,13 @@ TEXMFOUTPUT=./$OUT
 # generate first version (for .aux used by bibtex)
 pdflatex -interaction=nonstopmode -output-directory=./$OUT ./$SOURCES/$1.tex
 
-if [ $OPT_FAST_BUILD = 0 ]; then	#full build
-	# generate bib
-	bibtex ./$OUT/$1.aux
+#full build
+if [ $OPT_FAST_BUILD = 0 ]; then
+	# generate bib (possible that there are multiple .aux files)
+	ls -1 ./$OUT/*.aux | while read f
+	do
+		bibtex $f
+	done	
 
 	# generate final pdf (why do pdflatex two times ? Because LateX, that's why)
 	pdflatex -interaction=nonstopmode -output-directory=./$OUT ./$SOURCES/$1.tex	# first one to insert reference indicators
