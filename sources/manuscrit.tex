@@ -42,7 +42,7 @@
 
 %%%%%% 
 %	biblio packages and config
-\usepackage[backend=bibtex,style=authoryear,dashed=false]{biblatex}	% dashed: replace name by dash when multiple items with same authors
+\usepackage[backend=bibtex,style=alphabetic,dashed=false]{biblatex}	% dashed: replace name by dash when multiple items with same authors
 
 \bibliography{StateoftheArt/SoA,AMAS/AMAS,MAS4Optim/MAS4Optim,Implem/Implem,CPSP/CPSP,Experiments/Experiments}
 \bibliography{Prelude/mybiblio}
@@ -151,10 +151,10 @@
 
 \chapter*{Author's Bibliography}	% my biblio
 \addcontentsline{toc}{chapter}{Author's Bibliography}
-\printbibliography[env=nolabelbib,heading=subbibliography,title=International Conferences and Workshops with Proceedings,keyword=mine,maxnames=99,keyword=international,keyword=proceedings]
-\printbibliography[env=nolabelbib,heading=subbibliography,title=International Conferences and Workshops without Proceedings,keyword=mine,maxnames=99,keyword=international,keyword=noproceedings]
-\printbibliography[env=nolabelbib,heading=subbibliography,title=National Conferences and Workshops without Proceedings,keyword=mine,maxnames=99,keyword=national,keyword=noproceedings]
-\printbibliography[env=nolabelbib,heading=subbibliography,title=Others,keyword=mine,maxnames=99,keyword=other]
+\printbibliography[env=nolabelbib,heading=subbibliography,title=International Conferences and Workshops with\\Referenced Proceedings,keyword=mine,maxnames=99,keyword=international,keyword=proceedings]
+\printbibliography[env=nolabelbib,heading=subbibliography,title=International Conferences and Workshops without\\Referenced Proceedings,keyword=mine,maxnames=99,keyword=international,keyword=noproceedings]
+\printbibliography[env=nolabelbib,heading=subbibliography,title=National Conferences and Workshops without\\Referenced Proceedings,keyword=mine,maxnames=99,keyword=national,keyword=noproceedings]
+\printbibliography[env=nolabelbib,heading=subbibliography,title=Demos and Posters,keyword=mine,maxnames=99,keyword=other]
 
 %biblio
 \printbibliography[heading=bibintoc,notkeyword=mine,category=cited] %display only cited articles
