@@ -117,7 +117,7 @@ This problem was also used in \cite{Ilan:1994:MOM:887207} as an application exam
 
 \section{Alexandrov Problem}
 
-Our last test case is inspired from an academic example taken in literature by Alexandrov and al\cite{alexandrov2002analytical}. This example presents many of the commons characteristics of MDO problems: a cycle (albeit converging) and multiple criteria requiring cooperative trajectories. In the original article, the example was used to illustrate some properties of Collaborative Optimization, which we presented earlier, in terms of reformulation. While the paper only gave the structure of the problem, we adapted it with meaningful values and equations.
+Our last test case is inspired from an academic example taken in literature by Alexandrov \emph{et al}\cite{alexandrov2002analytical}. This example presents many of the commons characteristics of MDO problems: a cycle (albeit converging) and multiple criteria requiring cooperative trajectories. In the original article, the example was used to illustrate some properties of Collaborative Optimization, which we presented earlier, in terms of reformulation. While the paper only gave the structure of the problem, we adapted it with meaningful values and equations.
 
 The mathematical formulation of the problem and the corresponding agent graph can be seen in \figurename{} \ref{alexandrov}. Interestingly, the NDMO representation is quite similar to the one adopted by the original authors of the problem.
 
@@ -192,7 +192,7 @@ On \figurename{} \ref{alexandrov_res}, we show the evolution of the objective ov
 
 In this section we presented several academic test cases exhibiting classical properties of complex continuous optimization problems. We shown how the system was able to consistently converge on each test case toward an optimum solution, for multiple starting points.
 
-Summarized results illustrating the convergence of the system. are presented on \tablename{} \ref{experiments_res}. The first group of values represents the number of evaluations which was needed for respectively 10\%, 50\% and 90\% of the instances to find the best solution. The second group represent the average distance to the best solution (trucated at $10^{-3}$) among all instances at different times (0\% being the start 100\% being the end of the solving in the worst case).
+Summarized results illustrating the convergence of the system. are presented on \tablename{} \ref{experiments_res}. The first group of values represents the number of evaluations which was needed for respectively 10\%, 50\% and 90\% of the instances to find the best solution. The second group represent the average distance to the best solution (truncated at $10^{-3}$) among all instances at different times (0\% being the start 100\% being the end of the solving in the worst case).
 
 \begin{table}
 \caption{Summary of experiments results for the tests cases}\label{experiments_res}
@@ -226,7 +226,31 @@ We will now present the second part of our validation, by making experiment on l
 
 \section{Optimization under Uncertainties}
 
-[[TODO]]
+While it is not the focus of our system, we worked with our partners to illustrate the uncertainties propagation capabilities presented in section \ref{mas_uncertainties}. To this end, we were provided with a preliminary aircraft design test case inspired from \cite{scholz2008preliminary}. The test case declined into two versions: a deterministic optimization problem and an optimization problem with uncertainties.
+
+The deterministic version is the following:
+
+\begin{align*}
+	\text{min }& f = \dfrac{2 g^3 L \sigma S_d}{C_L (A M^m {\sigma}^n \eta_{P,Cr} E)^2 \sigma (H)} \dfrac{1}{ \left( \dfrac{m_{MTO}}{S_W} \right) } \left(\dfrac{P_{TO}}{m_{MTO}}\right)^3  \\
+	\text{s.t. } & g_1 = \dfrac{m_{MTO}}{S_W} - \dfrac{k_L \sigma C_{L, max, L} S_{LFL}}{ m_{ML}/m_{MTO}}\leq 0 \\
+						&	g_2 = \dfrac{k_{TO} V g }{s_{TOFL} \sigma C_{L, max, TO} \eta_{P, TO}} - \dfrac{P_{TO}/m_{MTO}}{m_{MTO}/S_W} \leq 0\\
+						&	g_3 = V_{CR}\dfrac{V_{md}}{E \eta_{P, CR} A M^m {\sigma}^n} \sqrt{\dfrac{\pi A e {\rho}_0 \sigma(H)g}{4 E_{max}}} - \dfrac{P_{TO}}{M_{MTO}} \sqrt{\dfrac{m_{MTO}}{S_W}} \leq \\
+\end{align}
+
+where $\dfrac{m_{MTO}}{S_W}$ and $\dfrac{P_{TO}}{m_{MTO}}$ are the two design variables of the problem, representing respectively the power/mass ratio and the wing loading of the aircraft, and the other values are constants [[TODO: give the value of each constant ?]]. The three constraints concerns respectively the takeoff length, landing length and cruising speed. The solution to the deterministic problem is $\dfrac{m_{MTO}}{S_W} = 376.26$ and $\dfrac{P_{TO}}{m_{MTO}} = 219.95$, for a $f = 3.47 \times{} 10^8$/
+
+In the version with uncertainties, the objective is not to minimize $f$ but to minimize $E(f)$, the expected value of the function. The new constraints are $P(g_i \leq 0) \geq 0.9, \; \forall i \in \{1, 2, 3\}$. [[TODO: give uncertainties laws]]
+
+[[
+	public static IUncertainValue<Double> C_LmaxL = normalVariable(2.5, 2.5 * 10.0 / 100.0);
+	public static IUncertainValue<Double> C_LmaxTO = normalVariable(2.1, 2.1 * 10.0 / 100.0);
+	public static IUncertainValue<Double> E = normalVariable(12.49, 12.49 * 10.0 / 100.0);
+	public static IUncertainValue<Double> eta_PCr = normalVariable(0.86, 0.86 * 10.0 / 100.0);
+
+]]
+We slightly adapted our MAS to a classical sequential optimization scheme. The basic idea of this type of method is to start by doing a deterministic optimization of the problem and, when the optimization has converged, to switch to an optimization under uncertainties. For our MAS, we instantiated this method by making the agents start doing a deterministic optimization. When a certain convergence condition is detected, the agents automatically switch to  an optimization under uncertainties: the 
+
+[[TODO: Complete]]
 
 \section{Adaptation to Perturbations}
 
