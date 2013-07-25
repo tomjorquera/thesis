@@ -16,6 +16,8 @@ The second type of optimization problems correspond to complex continuous optimi
 
 The third type of optimization problems are algorithmically generated with the purpose of producing a base of problems of different sizes and topologies. This allows us to study the behavior when modifying the size of the problems to solve.
 
+In every experiments, we tested the system with only the internal optimization mechanisms of the agents, without providing them with external optimization tools.
+
 \chapter{Behavior Validation using Academic Test Cases}
 
 This section presents some of the results we obtained on several test cases: Turbofan Problem, Viennet1, Rosenbrock's valley and Alexandrov. These test cases are not big enough to be truly qualified of \enquote{complex}, but exhibit specific properties which can be found in complex test cases. Consequently they are useful to study and validate the cooperative behavior of the agents.
@@ -325,34 +327,34 @@ The experiments show that the system consistently reacts to these perturbations 
 
 \section{Comparison with Existing Methods}
 
-In this section we provide a comparison of our MAS with existing MDO methods. This comparison is based on the work of \cite{perez2004evaluation, Yi2008}. These two works are complementary as both of them concerns a common subset of representative MDO methods: MDF, IDF, CSSO, BLISS and CO.
+In this section we provide a comparison of our MAS with existing MDO methods. This comparison is based on the work of \cite{perez2004evaluation, Yi2008}. These two works are complementary as both of them concern a common subset of representative MDO methods: MDF, IDF, CSSO, BLISS and CO.
 
 The work of \cite{perez2004evaluation} presents an analysis of these methods based on two test cases and rank them on multiple criteria: \emph{Accuracy, Efficiency, Transparency, Simplicity, Portability}.
 
-The analysis of \cite{Yi2008} is based on different criteria, concentrating on the performances regarding the number of functions calls and the additional informations required by each methods. An interesting aspect of this comparison is that it provide several mathematical test cases on which the methods are applied.
+The analysis of \cite{Yi2008} is based on different criteria, concentrating on the performances regarding the number of functions calls and the additional informations required by each methods. An interesting aspect of this comparison is that it provides several mathematical test cases on which the methods are applied.
 
-For our evaluation we use the test cases provided by \cite{Yi2008} and compare the performances of the system to the existing MDO methods. We then provide a comparison synthesis based on the criteria and analysis presented in \cite{perez2004evaluation}.
+||TODO: false]]For our evaluation we use test cases provided by both works and compare the performances of our system to the existing MDO methods. We then provide a comparison synthesis based on the criteria and analysis presented in \cite{perez2004evaluation}.
 
-In order to obtain comparable results with MDO methods, we adopted a problem modeling based on the disciplines dividing proposed in the works. To this end, we considered that, for every test cases, the natural formulation of the problem matched the discipline division proposed. Consequently, for each test case, the mathematical models represented by our models agents correspond to the proposed disciplines.
+In order to obtain comparable results with MDO methods, we adopted a problem modeling based on the disciplines division proposed in these works. To this end, we considered that, for each test case, the natural formulation of the problem matched the proposed disciplines division. Consequently, for each test case, the mathematical models represented by our model agents correspond to the proposed disciplines.
 
 \subsection{Comparison Criteria}
 
 For our comparisons we use the criteria proposed in \cite{perez2004evaluation}, which are defined as follow:
 \begin{compactitem}
-\item \emph{Accuracy}: the quality of the solution proposed by the method, based on the distance between the solution and the real optimal values.
+\item \emph{Accuracy}: the quality of the solution proposed by the method, based on the distance between the proposed solution and the real optimal values.
 \item \emph{Efficiency}: the computational cost to find the proposed solution, based on the number of disciplinary evaluations.
 \item \emph{Simplicity}: the ease to instantiate and apply the method to different problems, based on the number of optimizers and variables required to implement the examples.
 \item \emph{Transparency}: the capability to understand, modify or extend the method.
- item \emph{Portability}: the feasibility to apply the method in the context of an existing work organization, based on the distributivity capabilities of the method.
+\item \emph{Portability}: the feasibility to apply the method in the context of an existing work organization, based on the distributivity capabilities of the method.
 \end{compactitem}
  
 The \emph{Accuracy} criterion reflects the aptitude of the method to find the input values corresponding to the optimum of the problem.
  
 The \emph{Efficiency} criterion concerns the computational cost required by the method to provide its solution. When counting the number of evaluation calls, a distinction is made between discipline evaluations and full problem evaluations, the latter being considered considerably more costly than the former. Our MAS does not require any full problem evaluation, using only disciplines evaluations.
  
-The \emph{Simplicity} criterion concerns the amount of work required to instantiate the method to suit different optimization problem. The original authors chose to evaluate this criterion using to measures: the number of optimizers involved and the number of additional variable required by the method.
+The \emph{Simplicity} criterion concerns the amount of work required to instantiate the method to suit different optimization problem. The original authors chose to evaluate this criterion using to measures: the number of optimizers involved and the number of additional variables required by the method.
 
-The \emph{Transparency} criterion is the less well-defined and the can be perceived as somewhat subjective. The original authors give as an example \enquote{a probability-based method can be seamlessly integrated into a transparent formulation, which does not require major changes of the architecture to accomplish the integration.}
+The \emph{Transparency} criterion is the less well-defined and can be perceived as somewhat subjective. The original authors give as an example that \enquote{a probability-based method can be seamlessly integrated into a transparent formulation, which does not require major changes of the architecture to accomplish the integration.}
 
 The \emph{Portability} criterion concerns the feasibility to integrate the method into an existing organizational structure. This evaluation criterion is based on the capabilities of the method to divide the concerns to match existing expert teams or specializations.
 
@@ -362,32 +364,32 @@ Our first comparison test case comes from \cite{perez2004evaluation}. It was ori
 
 \begin{align*}
 \text{min }		&	f =x_2^2 + x_3 + y_1 + e^{-y_2}\\
-\text{s.t. }	&	g1 = \dfrac{y_1}{3.16} - 1 \geq 0\\ 
-				&	g2 = 1 - \dfrac{y_2}{24} \geq 0\\
+\text{s.t. }			&	g_1 = \dfrac{y_1}{3.16} - 1 \geq 0\\ 
+							&	g_2 = 1 - \dfrac{y_2}{24} \geq 0\\
 \text{where }	&	y_1 = x_1^2 + x_2 + x_3 - 0.2y_2\\
-				&	y_2 = \sqrt{y_1} + x_1 + x_3\\
-\text{with }	& -10 \leq x_1 \leq 10\\
-				& 0 \leq x_2, x_3 \leq 10
+							&	y_2 = \sqrt{y_1} + x_1 + x_3\\
+\text{with }		& -10 \leq x_1 \leq 10\\
+							& 0 \leq x_2, x_3 \leq 10
 \end{align*}
 
-The authors use the same initial points $x_1 = 1$, $x_2 = 5$, $x_3 = 2$ for each analysis. The optimum for this problem is located at $x_1 = 1.9776$, $x_2 = 0$, $x_3 = 0$, for which the value of $f$ is $3.1834$.
+The problem is divided into two disciples. The discipline 1 corresponds to the computation of $y_1$ and $g_1$, while the discipline 2 corresponds to the computation of  $y_2$ and $g_2$. The authors use the same initial points $x_1 = 1$, $x_2 = 5$, $x_3 = 2$ for each analysis. The optimum for this problem is located at $x_1 = 1.9776$, $x_2 = 0$, $x_3 = 0$, for which the value of $f$ is $3.1834$.
 
 We present here the comparison of our method with the ones evaluated in \cite{perez2004evaluation}, based on the different comparison criteria. The authors originally compared the MDF, IDF, CSSO, CO and BLISS methods. We reproduce their results here and add our method to the comparisons under the term \textbf{AMAS}.
 
 Regarding the simplicity criterion, the relevant measures are shown in \tablename{} \ref{bench1_simplicity}.
 
 \begin{table}
-\caption{Simplicity}\label{bench1_simplicity}
+\caption{Comparison Problem 1 -- Simplicity}\label{bench1_simplicity}
 \centering
-\begin{tabular}{ccc}
+\begin{tabular}{lrr}
 \toprule
 Method & No. Optimizers & Additional variables\\
 \midrule
-MDF				&	1	&	0	\\
-IDF				&	1	&	2	\\
-CSSO			& 	3	&	3	\\
-CO				&	3	&	9	\\
-BLISS			&	3	&	3	\\
+MDF					&	1	&	0	\\
+IDF						&	1	&	2	\\
+CSSO					& 3	&	3	\\
+CO						&	3	&	9	\\
+BLISS					&	3	&	3	\\
 \textbf{AMAS}	&	2	&	0	\\
 \bottomrule
 \end{tabular}
@@ -396,24 +398,24 @@ BLISS			&	3	&	3	\\
 In regard of the transparency criterion, the authors in \cite{perez2004evaluation} note that MDF and IDF are the most transparent, as the mathematical models and objectives are easily formulated and modified. The CO method requires a little more attention in the formulation of the disciplinary objectives. CSSO and BLISS are the more complex, needing respectively approximation models and a sensitivity analysis.\\
 Our method, as MDF can be directly derived from the analytical expression of the problem, without requiring further work from the expert. However, as the problem is divided in two disciplines, it will require two optimizers.
 
-Concerning the portability criterion, the authors note that  MDF and IDF, being centralized methods, are not flexible and cannot adapt to existing organizational structures. CO, CSSO and BLISS on the other hand can be adapted to existing organization or distributed computing requirements. However CSSO requires not only for each discipline to provide an approximation of their state but need also a entire system analysis at each iteration. BLISS requires additional calculations to calculate the sensitivities of the disciplines.\\
+Concerning the portability criterion, the authors note that  MDF and IDF, being centralized methods, are not flexible and cannot adapt to existing organizational structures. CO, CSSO and BLISS on the other hand can be adapted to existing organization or distributed computing requirements. However CSSO requires not only for each discipline to provide an approximation of their state but need also an entire system analysis at each iteration. BLISS requires additional calculations to calculate the sensitivities of the disciplines.\\
 Our method is similar to CO, CSSO and BLISS as the experts can choose how to divide the problem to match the organization of the disciplinary groups, without imposing additional requirements concerning the formulation of the problem. It is also naturally distributable, as each agent is an independent process.
 
 In regard of the efficiency, the number of evaluations for each methods is detailed in \tablename{} \ref{bench1_efficiency}.
 
 \begin{table}
-\caption{Efficiency}\label{bench1_efficiency}
+\caption{Comparison Problem 1 -- Efficiency}\label{bench1_efficiency}
 \centering
-\begin{tabular}{cccc}
+\begin{tabular}{lrrr}
 \toprule
 Method & Coordination evaluations & Discipline 1 Evaluations & Discipline 2 Evaluations\\
 \midrule
-MDF				&	24	&	216	&	216	\\
-IDF				&	62	&	54	&	54	\\
-CSSO			&	20	&	528	&	528	\\
-CO				&	249	&	6106	&	4515	\\
-BLISS			&	40	&	95	&	95	\\
-\textbf{AMAS}	&	[[?]]	&	[[?]]	&	[[?]]	\\
+MDF					&	24	&	216		&	216	\\
+IDF						&	62	&	54		&	54	\\
+CSSO					&	20	&	528		&	528	\\
+CO						&	249	&	6106	&	4515	\\
+BLISS					&	40	&	95		&	95	\\
+\textbf{AMAS}	&	0	&	201	&	201	\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -421,59 +423,135 @@ BLISS			&	40	&	95	&	95	\\
 Results for the accuracy are shown on \tablename{} \ref{bench1_accuracy}. While MDF and IDF find the correct solution, CSSO, CO and BLISS present slight errors. The authors note that CO and CSSO introduce discrepancies in the computation of the outputs due to the approximation these methods make.
 
 \begin{table}
-\caption{Accuracy}\label{bench1_accuracy}
+\caption{Comparison Problem 1 -- Accuracy}\label{bench1_accuracy}
 \centering
-\begin{tabular}{ccccccc}
+\begin{tabular}{lllllll}
 \toprule
 Method & $x_1$ & $x_2$ & $x_3$ & $y_1$ & $y_2$ & $f$ \\
 \midrule
-MDF				&	1.9776	&	0	&	0	&	3.16	&	3.7553	&	3.1834\\
-IDF				&	1.9776	&	0	&	0	&	3.16	&	3.7553	&	3.1834\\
-CSSO			&	1.9778	&	0	&	0	&	3.16	&	3.7675	&	3.1831\\
-CO				&	1.9776	&	0	&	0	&	3.16	&	3.7556	&	3.1835\\
-BLISS			&	1.9770 	&	0	&	0	&	3.15	&	3.7544	&	3.1804\\
-\textbf{AMAS}	&	[[?]]	&	[[?]]	&	[[?]]	&	[[?]]	&	[[?]]	&	[[?]]	\\
+MDF					&	1.9776	&	0	&	0	&	3.16	&	3.7553	&	3.1834	\\
+IDF						&	1.9776	&	0	&	0	&	3.16	&	3.7553	&	3.1834	\\
+CSSO					&	1.9778	&	0	&	0	&	3.16	&	3.7675	&	3.1831	\\
+CO						&	1.9776	&	0	&	0	&	3.16	&	3.7556	&	3.1835	\\
+BLISS					&	1.9770 	&	0	&	0	&	3.15	&	3.7544	&	3.1804	\\
+\textbf{AMAS}	&	1.97764	&	0	&	0	&	3.16	&	3.75528	&	3.18339	\\
 \bottomrule
 \end{tabular}
 \end{table}
 
+Note that in our case, the rounding is done at a lower precision than in the other test cases. This is voluntary to illustrate the fact that the constraint $y_2$ is actually violated, but this violation is lower than the rounding decimal, as per the criticality mechanism of constraint agents we explained in \ref{conflicting_requests_mechanism}.
+
 \subsection{Comparison Problem 2}
 
-[[TODO]]
+For our second comparison test case, we selected one of the problems presented in  \cite{Yi2008}\footnote{the original authors originally introduced two additional variables $z_1^{nc}$ and $z_2^{nc}$. However these variables had no impact on the problem in itself, consequently we did not reproduce them here}:
+
+\begin{align*}
+\text{min }		&	f =(z_1 - 0.5)^2  + (z_2 - 0.5)^2\\
+\text{s.t. }			&	g_1 = 1.0 -  z_1 \leq 0\\ 
+							&	g_2 = 1.0 -  z_2 \leq 0\\ 
+\text{where }	& z_1 = (b_1 - 2.5) + (b_c -2.0) -0.5z_2\\
+							& z_2 = (b_2 - 3.5) + (b_c -2.0) -0.7z_1\\
+\end{align*}
+
+The problem is divided into two disciplines, the first one corresponding to the computation of $z_1$ and $g_1$, while the second one corresponds to the computation of $z_2$ and $g_2$.
+
+We did not include MDOIS in the comparisons, as it is a specialized method applicable only to specific problem topologies, and not a general MDO method (see section \ref{MDOIS_desc}). On \tablename{} \ref{bench2_simplicity} is shown the number of design variables and additional equality constraint for each method.
+
+\begin{table}
+\caption{Comparison Problem 2 -- Simplicity}\label{bench2_simplicity}
+\centering
+\begin{tabular}{lrr}
+\toprule
+Method & No. Design Variables & No. Equality Constraints\\
+\midrule
+MDF					&	3	&	0 \\
+IDF						&	5	&	2 \\
+AAO					& 7	&	4 \\
+CSSO					&	7	&	2 \\
+BLISS					&	3	&	0	\\
+CO						&	9	&	2	\\
+\textbf{AMAS}&	3	&	0	\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Sadly, the authors did not provide the starting points they used for evaluating the number of evaluations of the different methods. Consequently we cannot provide a meaningful comparison of our method on this criterion. For our experiments, we choose to make 100 instances of the problem, with random starting value for the variables drawn between -100 and 100. As an indication, the median number of evaluations for the disciplines required by our method to find the solution is indicated in \tablename{}  \ref{bench2_efficiency}. In \tablename{} \ref{bench2_accuracy} we show the median value obtained over all the experiments for $f$. 
+
+\begin{savenotes}
+\begin{table}
+\caption{Results on Comparison Problem 2  -- Efficiency}\label{bench2_efficiency}
+\centering
+\begin{tabular}{lrrrrrr}
+\toprule
+Method & Coordination evaluations & Discipline 1 Evaluations & Discipline 2 Evaluations \\
+\midrule
+MDF					&	292	&	0			&	584	\\
+IDF						&	0		&	50		&	50	\\
+AAO					&	0		&	178		&	178	\\
+CSSO					&	449	&	1096	&	445	\\
+BLISS					&	358	&	752		&	744	\\
+CO						&	0		&	969		&	948	\\
+\textbf{AMAS}\footnote{results are median values over 100 iterations}	&	0	&	709	&	709	\\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{savenotes}
+
+\begin{savenotes}
+\begin{table}[h]
+\caption{Results on Comparison Problem 2 -- Accuracy}\label{bench2_accuracy}
+\centering
+\begin{tabular}{lr}
+\toprule
+Method & f value \\
+\midrule
+MDF			&		0.50001	\\
+IDF				&		0.49999	\\
+AAO			&		0.49957	\\
+CSSO			&		0.50992	\\
+BLISS			&		0.50105	\\
+CO				&		0.49223	\\
+\textbf{AMAS}\footnote{results is median value obtained over 100 iterations}	&	0.50001	 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{savenotes}
 
 \subsection{Comparison Synthesis}
  
-Here we present a synthesis of the comparison between our system and existing MDO methods. the only method dominating our own in regard of this criterion is MDF. Our method can be considered on part with IDF, as neither of them dominate the other on both measures.
+Here we present a synthesis of the comparison between our system and existing MDO methods.
 
+On \tablename{} \ref{comparison_synthesis}, we reproduce the analysis of \cite{perez2004evaluation} and add our own method (indicated as \textbf{AMAS}) to the comparison. Note that the classification of the existing MDO methods is based on the original work. 
 
 \begin{table}
-\caption{Classification by criteria (based on \cite{perez2004evaluation})}
+\caption{Classification by criteria (based on \cite{perez2004evaluation})}\label{comparison_synthesis}
 \centering
 \begin{tabular}{cccccc}
 		\toprule
-			& Accuracy & Efficiency & Transparency & Simplicity & Portability\\
+									& Accuracy								& Efficiency						& Transparency	& Simplicity					& Portability			\\
 		\midrule
-		best & \textbf{AMAS} & \textbf{AMAS} & \textbf{AMAS} & MDF & \textbf{AMAS}\\
-		\mknode{n1}	& MDF & IDF & MDF & IDF, \textbf{AMAS} & CO\\
-			& IDF & BLISS & IDF &  & CSSO\\
-			& BLISS & CSSO & CO & CO & BLISS\\
-		\mknode{n2}	& CO & CO & CSSO & CSSO & IDF\\
-		worst & CSSO & MDF & BLISS & BLISS & MDF\\
+		best 					& MDF										& IDF									& \textbf{AMAS}	& MDF							& \textbf{AMAS}	\\
+		\mknode{n1}	& \textbf{AMAS} 					& BLISS, \textbf{AMAS}	& MDF					& IDF, \textbf{AMAS}	& CO						\\
+									& IDF											&  		 								& IDF						&  									& CSSO					\\
+									& BLISS 										& CSSO								& CO						& CO 								& BLISS					\\
+		\mknode{n2}	& CO											& CO									& CSSO					& CSSO 							& IDF						\\
+		worst 					& CSSO										& MDF								& BLISS					& BLISS 							& MDF					\\
 		\bottomrule
 \end{tabular}
 \tikz[remember picture,overlay]
 	\path[->, very thick] (n1.north) edge (n2.north);
 \end{table}
 
-In regard of the accuracy criterion, [[TODO]].
+In regard of the accuracy criterion, our method provides good results, consistently converging toward the optimum in both benchmarks. We classed it under MDF, as our method still need to be provided with a precision, and allow for constraint violation under this precision. 
 
-In regard of the efficiency criterion, [[TODO]].
+In regard of the efficiency criterion, our method is on part with the most efficient MDO methods.Moreover, our experiments were done using only the agents internal optimization mechanisms. Even better results could be expected if the agents were provided with adequate external optimizers.
 
-In regard of the simplicity criterion, for the number of objectives, our method requires $n$ optimizers ($n$ being the number of models involved). In this regard it is less efficient than MDF and IDF, which only require 1 optimizer, but is better than the other methods which require $n+1$ optimizers (1 by model plus 1 global optimizer). For the number of additional variables, our method in on part with MDF, the best method in regard of this measure, as neither of them require any additional variable.
+In regard of the simplicity criterion, for the number of objectives, our method requires $n$ optimizers ($n$ being the number of models involved). In this regard it is less efficient than MDF and IDF, which only require 1 optimizer, but is better than the other methods which require $n+1$ optimizers (1 by model plus 1 global optimizer). For the number of additional variables, our method in on par with MDF, the best method in regard of this measure, as neither of them require any additional variable.\\
+The only method dominating our own in regard of this criterion is MDF. Our method can be considered on part with IDF, as neither of them dominate the other on both measures.
 
 In regard of the transparency criterion, we have shown that our approach was modular and extensible, due to the distribution of roles between the agents and to the explicitly encapsulation of mathematical tools (analytical models, external optimizers). We demonstrated this modularity with the addition of uncertainty propagation mechanisms into the MAS.
 
-In regard of the portability criterion, our method is extremely flexible as it support multiple levels of modeling and multiple reformulations of the problem. Consequently the problem can be \enquote{tailored} to fit the existing organizational structure. Contrary to the MDO methods, our method does not mandate a \emph{central} authority as the responsibility to maintaining consistency is distributed in the system.
+In regard of the portability criterion, our method is extremely flexible as it support multiple levels of modeling and multiple reformulations of the problem. Consequently the problem can be \enquote{tailored} to fit the existing organizational structure. Contrary to the MDO methods, our method does not require a \emph{central} authority as the responsibility to maintaining consistency is distributed in the system.
 
 \chapter{Evaluating Performances using Generated Test Cases and Scalability}
 
@@ -487,7 +565,7 @@ We propose a very simple method to generate simple problem graphs. First we use 
 The next step is to insert models. As we stated, the optimization problem in itself is of little importance in this part. Consequently our only requirement for the model is that they must be able to take an arbitrary number of inputs and produce one output. In our experiments we used a simple \emph{Sum} function. For each output variable, we insert a node representing the model in the graph. The links going to the output variable node are redirected to the model node, and a link going from the model node to the output node is create.\\
 After this step, criteria are randomly added to variable nodes. In our experiments, we given a 20\% probability of a variable node to be linked to a criterion, with half the chance for the criterion to be an objective and half the change for it to be a constraint. Once more, in order to simplify the problem generation, all objectives are about minimizing the variable, and are constraints are about having the variable higher of equal to zero.
 
-The generation method is summarized in \ref{algo_graph_generation}. After all these steps, the graph is a valid [[(if not useful)]] NDMO graph and can be directly transformed into an agent graph.
+The generation method is summarized in \ref{algo_graph_generation}. After all these steps, the graph is a valid NDMO graph and can be directly transformed into an agent graph.
 
 \begin{algorithm}
 \caption{Problem graph generation}
@@ -564,7 +642,7 @@ Regarding our experiments, we tried to mitigate possible bias by taking the two 
 \end{compactitem}
 We believe that these precautions are sufficient to obtain sufficiently meaningful results. Nevertheless, the reader should be warned not to consider the presented values as exact measurements of the system performances.
 
-On \figurename{} \ref{time_by_size_perfo} are presented the results of the execution time of problems of different sizes. We generated agent graphs of different sizes using both Small-Word and Random Euclidean algorithms. On the figure are presented the mean time needed for all the agents of the problem to execute 800 behavior cycle. Interestingly, while the time performances in regard of small-world based problems graphs increase linearly with the size of the problems, the time needed in the case of random problem graphs seems to increase exponentially.
+On \figurename{} \ref{time_by_size_perfo} are presented the results of the execution time of problems of different sizes. We generated agent graphs of different sizes using both Small-Word and Random Euclidean algorithms. On the figure are presented the median time needed for all the agents of the problem to execute 800 behavior cycle. Interestingly, while the time performances in regard of small-world based problems graphs increase linearly with the size of the problems, the time needed in the case of random problem graphs seems to increase exponentially.
 
 \begin{figure}
 \centering
@@ -581,15 +659,15 @@ On \figurename{} \ref{time_by_size_perfo} are presented the results of the execu
 \caption{Time performances by MAS size.}\label{time_by_size_perfo}
 \end{figure}
 
-This seemingly poor performance can however easily be explained by looking at \figurename{} \ref{degree_by_size}, on which are shown the mean degree (that is, the number of arcs entering of exiting a node) of the nodes in each generated problems. We can see, that, whatever the size of the problem, the mean degree of a node in Small-World problems is mostly constant. However, in the case of Random Euclidean graphs, the mean degree increases linearly with the size of the problem. Consequently, the exponential increase in time regarding Random Euclidean graphs can be explained by the conjugated effects of the increase in number of agents and the increase of the neighborhood size of the agents (whose impact in the behavior algorithm complexity has been exposed in section \ref{NCS_pres}).
+This seemingly poor performance can however easily be explained by looking at \figurename{} \ref{degree_by_size}, on which are shown the median degree (that is, the number of arcs entering of exiting a node) of the nodes in each generated problems. We can see, that, whatever the size of the problem, the median degree of a node in Small-World problems is mostly constant. However, in the case of Random Euclidean graphs, the median degree increases linearly with the size of the problem. Consequently, the exponential increase in time regarding Random Euclidean graphs can be explained by the conjugated effects of the increase in number of agents and the increase of the neighborhood size of the agents (whose impact in the behavior algorithm complexity has been exposed in section \ref{NCS_pres}).
 
 \begin{figure}
 \centering
 			\includegraphics[width=0.45\textwidth]{R_figs/graph_problems/degree_by_size_comparison}
-\caption{Comparison of nodes mean degree by graph type.}\label{degree_by_size}
+\caption{Comparison of nodes median degree by graph type.}\label{degree_by_size}
 \end{figure}
 
-In order to corroborate this analysis, we studied the impact increasing the nodes degree has on the execution time of the MAS. On \figurename{} \ref{experiment_degrees}, we show the results of another experiment using agent graphs generated using a Barabasi-Albert generator, which has the advantage of being able to easily generate graphs with different mean degree sizes at the cost of only a slight increase of node numbers. On the figure is shown the average time for all the agents to make a behavior cycle in function of the mean degree of the agents (using Barabasi-Albert based graphs of sizes between 510 and 550 nodes). We can see that the neighborhood size of the agents (the degree of the node) has the predicted effect on the time needed by the agents to execute their behavior.
+In order to corroborate this analysis, we studied the impact increasing the nodes degree has on the execution time of the MAS. On \figurename{} \ref{experiment_degrees}, we show the results of another experiment using agent graphs generated using a Barabasi-Albert generator, which has the advantage of being able to easily generate graphs with different median degree sizes at the cost of only a slight increase of node numbers. On the figure is shown the average time for all the agents to make a behavior cycle in function of the median degree of the agents (using Barabasi-Albert based graphs of sizes between 510 and 550 nodes). We can see that the neighborhood size of the agents (the degree of the node) has the predicted effect on the time needed by the agents to execute their behavior.
 
 \begin{figure}
 \centering
@@ -599,7 +677,7 @@ In order to corroborate this analysis, we studied the impact increasing the node
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{R_figs/graph_problems/time_by_degree_barabasi_albert}
-		\caption{Average time for a step (by mean degree).}\label{experiment_degrees:res}
+		\caption{Average time for a step (by median degree).}\label{experiment_degrees:res}
 	\end{subfigure}
 \caption{Time performances by node degree.}
 \label{experiment_degrees}
