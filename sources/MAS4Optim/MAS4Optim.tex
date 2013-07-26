@@ -1344,8 +1344,6 @@ To answer these difficulties we will present a general mechanism inspired by the
 
 \section{From Deterministic Optimization to Optimization under Uncertainties}
 
-[[Reformulation d'un probleme d'optim - > cf these_Vicent_Baudoui_Optimization_robuste]]
-
 We previously explained that uncertainties can be present at several levels in the optimization problem. We consider here the two following types of uncertainties:
 \begin{compactitem}
 \item \textbf{Variable uncertainties}, which are brought by the fact that we cannot perfectly control the value which will be effectively assigned by the design variable.
@@ -1353,13 +1351,9 @@ We previously explained that uncertainties can be present at several levels in t
 \end{compactitem}
 
 Taking in account these uncertainties leads to a modification of the criteria formulation. Indeed, the constraint $x < 10$ makes sense in the context of deterministic optimization, but not so much when the value of $x$ is uncertain. Is the constraint satisfied when $x$ is an uncertain value, for example represented by an interval ranging from 8 to 12?\\
-One can instead propose the following probabilistic constraint $P(x < 10) > 90\%$, which can still be evaluated when manipulating uncertain values. It is possible to propose others criteria formulations manipulating uncertain values, for example one could consider a deterministic constraint concerning the mean of an uncertain variable. Usually, constraints are expressed in a probabilistic form, while objectives use the mean of the variables[[NEED TO REF THIS ?]].
-
-[[Give an example of transformation of a deterministic problem to a non deterministic one]]
+One can instead propose the following probabilistic constraint $P(x < 10) > 90\%$, which can still be evaluated when manipulating uncertain values. It is possible to propose others criteria formulations manipulating uncertain values, for example one could consider a deterministic constraint concerning the mean of an uncertain variable. Usually, constraints are expressed in a probabilistic form, while objectives use the mean of the variables.
 
 \section{Manipulating Uncertain Values}
-
-[[Bien expliquer que la surcharge des operateurs ne concerne que les agents, et non pas le contenu des boites noires]]
 
 Taking in account uncertainties requires modifications at several levels. The most obvious concerns the data structure. On the deterministic version, the data exchanged by the agent were simply real values \footnote{With the obvious limitation of the representation of real numbers on a machine.}. To be able to exchange uncertain values, the agents require a more complex data structure.
 
@@ -1399,14 +1393,14 @@ As we can see, for a simple representation as intervals the required information
 
 \paragraph{Monte Carlo Experiments}
 
-The Monte Carlo Experiment is not an uncertainty law \emph{per se} but a series of random drawings to obtain experiment points. If the number of drawings is big enough, then the series can provide an adequate information about the uncertainties governing the variable. Suppose $\{x_n\}$ a series of $n$ drawings over $x$. We suppose the values to be ordered (that is, $x_i < x_j$ 
+The Monte Carlo Experiment is not an uncertainty law \emph{per se} but a series of random drawings to obtain experiment points. If the number of drawings is big enough, then the series can provide an adequate information about the uncertainties governing the variable. Suppose $\{x_n\}$ a series of $n$ drawings over $x$. We suppose the values to be ordered (that is, $x_i < x_j$). 
 
 \begin{compactitem}
-\item the mean can be obtained with $\dfrac{\displaystyle\sum_n{x_n}}{n}$.
+\item the mean can be obtained with $\dfrac{1}{n}\displaystyle\sum_n{x_n}$.
 \item the standard deviation is obtained by first calculating the variance using the formula $Var(X) = E(X^2) - E(X)^2$ (possible as we can calculate the mean), then taking the square root to obtain the standard deviation.
 \item the drawing of a random value consists of drawing a value $i$ between $1$ and $n$ and returning the corresponding point $x_i$
 \item the cumulative probability of $t$ is calculated as $P(X < t) = \dfrac{|\{x_i, \forall x_i < t\}|}{|\{x_n\}|}$ (where $|\{x\}|$ is the cardinality of the set $\{x\}$), \emph{i.e.} the number of elements lower than $t$ divided by the total number of elements.
-\item the inverse cumulative probability of $p$ is obtained as $ t = $ [[TODO]].
+\item the inverse cumulative probability of $p$ is obtained as $ t = x_i$, where $i = p \times  n$.
 \end{compactitem}
 
 Even with very specific, non-analytical representation of uncertainties such as datasets from Monte Carlo experiments, we can provide the needed informations without much hassle.
