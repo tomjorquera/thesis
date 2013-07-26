@@ -341,7 +341,7 @@ A model agent must maintain consistency between its inputs and outputs. That is,
 
 All outputs of a model agent are not necessarily associated with an output agent. For example, if the designer is not interested by the value represented by one of the outputs, he is not required to represent it by an agent. In this case the model agent will silently calculate the new value of the output at the same time than the others, but will not propagate it\footnote{Remember that the internal model of the agent is a black box, consequently the agent cannot choose to evaluate it partially. If the evaluation of the output could has been done independently from the others, it could be preferable to create two separate models}.
 
-However, as the problem is dynamic[[TO EXPLAIN]], the designer can decide at any time to connect a new output agent to a previously unconnected output. In this case, the model agent must send to the output agent the last value it calculated for this output.
+However, as the problem is dynamic, the designer can decide at any time to connect a new output agent to a previously unconnected output. In this case, the model agent must send to the output agent the last value it calculated for this output.
 
 The behavior of the model agent is summarized in algorithm \ref{algo_simulating_model}.
 
@@ -1091,7 +1091,6 @@ An example of diverging cycle is shown in \figurename{} \ref{NCS_cycles_fig}
 \caption{Diverging cycle example.}\label{NCS_cycles_fig}
 \end{figure}
 
-[[TOFIX: will probably be outdated + must write the synthesis algorithm]]
 \paragraph*{Detecting Cycles using Messages Signatures}
 To address the detection of cycles, each message is uniquely signed to register its origin. When an agent initiates a message sending by itself (i.e. not as the result of a received message), it \emph{signs} the message with its unique agent \enquote{ID} and an unique message number. The association of these two elements is the \emph{origin signature}.
 
@@ -1105,7 +1104,6 @@ To detect a cycle, the output agent creates a correspondence table associating f
 In case of a cycle, the output agent must now determine if the cycle is converging or diverging towards the fixed point. As in the general case all models are black boxes, the output agent needs to observe the evolution of output values while iterating through the cycle. If the difference between successive values is decreasing, the cycle is converging towards the fixed point, else the cycle is diverging as the variables are going in the \enquote{wrong direction}. To this end, the output agent memorizes the difference between its old and new value, and continues as usual. When receiving the next message from the cycle, it calculates the new difference which enables it to decide if the cycle is converging or not towards the fixed point.
 
 If the cycle is converging, the output agent does not need to do any special action. But in case of a diverging cycle, instead of taking the requested value, the agent emits to its model a request for the opposite direction (\emph{i.e.}, if the value of the output should have increased of \emph{n}, the agent will request a new value corresponding to a decrease of \emph{n}). The request will propagate through the cycle until the fixed point is found.
-[[END TOFIX]]
 
 \subsection{Hidden Dependencies}\label{hidden_deps}
 
@@ -1271,7 +1269,6 @@ In this section we presented several problematic configurations (NCS) which can 
 \end{tabular}
 
 \end{table}
-[[TODO complete the table]]
 
 In each case, we proposed general mechanisms for the agents to be able to detect and correct the NCS in order to maintain a correct and efficient optimization process. In general, we had to provide enough information for the involved agents to detect and correct the NCS. The different mechanisms are summarized in \tablename{} \ref{NCS_mechanisms_summary}
 
@@ -1416,8 +1413,6 @@ The difficulty here is twofold. Not only the model agent must be able to take in
 
 \section{Uncertainties Propagators}
 
-[[Need to illustrate how the propagator is used at runtime (diagram)]]
-
 In the same way we encapsulated expert knowledge on numerical optimization using external optimizers, we propose to encapsulate the knowledge related to the propagation of uncertainties into dedicated modules we call \emph{uncertainties propagators}. While external optimizers are used by the agents to solve local optimization problems, the uncertainties propagators are used by the agents to propagate the uncertainties associated with their inputs and model into uncertainties on their outputs.
 
 The role of an uncertainties propagator is to determine the uncertainties associated with the outputs values of the model based on:
@@ -1441,13 +1436,6 @@ As the outputs values cannot be determined by simply evaluating the (determinist
 This approach shows several advantages. First it allow to keep the functioning of the agents nearly untouched, which in itself is a good sign. Handling uncertain values can be deemed to be an orthogonal concern to the previous ones, and orthogonal concerns should lead to orthogonal changes. Thus this modification of our system to handle uncertainties show that \emph{our modeling is flexible and can be extended easily}.\\
 This approach also permit to reduce the work of the designers, which only need to \emph{define the needed propagators once and reuse them} on several problems. This aspect is particularly important as defining a correct way to propagate uncertainties across different disciplines can be an extensive work involving experts from different domains. Providing a way to encapsulate the result of this work in a reusable component leads to a more efficient work process (this concern is especially recognized by software engineers, which created the well-known acronym: DRY - \enquote{Don't Repeat Yourself}).\\
 Finally, by strictly encapsulating the required knowledge, we provide a highly modular and adaptable mechanism. \emph{If the needs regarding the modeling of the uncertainties changes, the consequences on the problem are limited solely to the uncertainties representation and/or propagators}. For example, if a designer needs to change the uncertainties associated with a model, he only has to change the uncertainty representation of the model and to use the appropriate propagator (or create it if no adequate propagator already exists).
-
-[[Dire que les propagateurs peuvent être très génériques et très réutilisables, ou au contraire extremement specifiques et adhoc => transition sur la partie suivante]]
-
-
-\subsection{Examples of Propagators}
-
-[[TODO]]
 
 \section{Conclusion on Uncertainties Handling}
 
