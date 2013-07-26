@@ -5,14 +5,14 @@ In this part we present some of the results we obtained with our system on sever
 Our validation approach for our system was divided in three phases:
 \begin{compactitem}
 \item Validating the mechanisms of our system on simple representative test cases
-\item Evaluating the optimization performances on bigger, \enquote{real-world} test cases provided by our partners, and comparison with existing methods on benchmark test cases
+\item Evaluating the optimization performances and comparison with existing methods on benchmark test cases
 \item Testing the raw performances and scalability capabilities of our stytem using automatically generated optimization problems.
 \end{compactitem}
 
 The first type of optimization problems are small enough to be solved by classical optimization techniques, however they exhibit interesting properties representative of complex optimization problem. We used these problem to identify and tune the required cooperative mechanisms for our system.\\
 We also made additional experiments in order to evaluate others functionalities of our systems: uncertainties propagation and adaptations to changes.
 
-The second type of optimization problems correspond to complex continuous optimization problems. They are either provided by our industrial partners (representing real-world cases of complex design optimization problems), or are used by the scientific community as benchmark for comparing MDO methods.
+The second type of optimization problems correspond to test cases used by the scientific community as benchmark for comparing MDO methods.
 
 The third type of optimization problems are algorithmically generated with the purpose of producing a base of problems of different sizes and topologies. This allows us to study the behavior when modifying the size of the problems to solve.
 
@@ -237,7 +237,7 @@ The deterministic version is the following:
 						&	g_3 = V_{CR}\dfrac{V_{md}}{E \eta_{P, CR} A M^m {\sigma}^n} \sqrt{\dfrac{\pi A e {\rho}_0 \sigma(H)g}{4 E_{max}}} - \dfrac{P_{TO}}{M_{MTO}} \sqrt{\dfrac{m_{MTO}}{S_W}} \leq \\
 \end{align*}
 
-where $\dfrac{m_{MTO}}{S_W}$ and $\dfrac{P_{TO}}{m_{MTO}}$ are the two design variables of the problem, representing respectively the power/mass ratio and the wing loading of the aircraft, and the other values are constants [[TODO: give the value of each constant ?]]. The three constraints concern respectively the takeoff length, landing length and cruising speed. The solution to the deterministic problem is $\dfrac{m_{MTO}}{S_W} = 377$ and $\dfrac{P_{TO}}{m_{MTO}} = 187$, for $f = 2.15E+08$.
+where $\dfrac{m_{MTO}}{S_W}$ and $\dfrac{P_{TO}}{m_{MTO}}$ are the two design variables of the problem, representing respectively the power/mass ratio and the wing loading of the aircraft, and the other values are constants. The three constraints concern respectively the takeoff length, landing length and cruising speed. The solution to the deterministic problem is $\dfrac{m_{MTO}}{S_W} = 377$ and $\dfrac{P_{TO}}{m_{MTO}} = 187$, for $f = 2.15E+08$.
 
 In the version with uncertainties, normal distribution laws are associated with some variables of the problem. The variables and associated uncertainties are shown in \tablename{} \ref{uncertainties_values}
 
@@ -258,7 +258,7 @@ $\eta_{P, CR}$			&	0.86		&	0.086	\\
 
 The new objective is not to minimize $f$ but to minimize $E(f)$, the expected value of the function. The new constraints are $P(g_i \leq 0) \geq 0.9, \; \forall i \in \{1, 2, 3\}$.
 
-We slightly adapted our MAS to mimick a classical sequential optimization scheme. The basic idea of this type of method is to start by doing a deterministic optimization of the problem and, when the optimization has converged, to switch to an optimization under uncertainties using the deterministic solution point as a starting point. For our MAS, we instantiated this method by making the agents start doing a deterministic optimization. When a certain convergence condition is detected, the agents automatically switch to  optimization under uncertainties. A difference is that the system is not interrupted between the deterministic optimization and optimization under uncertainties. The agents handle the transition automatically by switching to uncertain values.
+We slightly adapted our MAS to mimic a classical sequential optimization scheme. The basic idea of this type of method is to start by doing a deterministic optimization of the problem and, when the optimization has converged, to switch to an optimization under uncertainties using the deterministic solution point as a starting point. For our MAS, we instantiated this method by making the agents start doing a deterministic optimization. When a certain convergence condition is detected, the agents automatically switch to  optimization under uncertainties. A difference is that the system is not interrupted between the deterministic optimization and optimization under uncertainties. The agents handle the transition automatically by switching to uncertain values.
 
 The solution to the problem under uncertainties is $\dfrac{m_{MTO}}{S_W} = 329$ and $\dfrac{P_{TO}}{m_{MTO}} = 244$
 
@@ -363,25 +363,19 @@ First we create strong changes by modifying simultaneously both a constraint and
 \end{description}
 The experiments show that the system consistently reacts to these perturbations by adapting itself in order to find a new solution for the modified problem.
 
-\chapter{Large Tests Cases and Comparison with Existing Methods}
+\chapter{Comparison with Existing Methods}
 
-\section{Preliminary Aircraft Design}
-
-\section{Snecma 2}
-
-\section{Comparison with Existing Methods}
-
-In this section we provide a comparison of our MAS with existing MDO methods. This comparison is based on the work of \cite{perez2004evaluation, Yi2008}. These two works are complementary as both of them concern a common subset of representative MDO methods: MDF, IDF, CSSO, BLISS and CO.
+In this chapter we provide a comparison of our MAS with existing MDO methods. This comparison is based on the work of \cite{perez2004evaluation, Yi2008}. These two works are complementary as both of them concern a common subset of representative MDO methods: MDF, IDF, CSSO, BLISS and CO.
 
 The work of \cite{perez2004evaluation} presents an analysis of these methods based on two test cases and rank them on multiple criteria: \emph{Accuracy, Efficiency, Transparency, Simplicity, Portability}.
 
 The analysis of \cite{Yi2008} is based on different criteria, concentrating on the performances regarding the number of functions calls and the additional informations required by each methods. An interesting aspect of this comparison is that it provides several mathematical test cases on which the methods are applied.
 
-||TODO: false]]For our evaluation we use test cases provided by both works and compare the performances of our system to the existing MDO methods. We then provide a comparison synthesis based on the criteria and analysis presented in \cite{perez2004evaluation}.
+For our evaluation we use test cases provided by both works and compare the performances of our system to the existing MDO methods. We then provide a comparison synthesis based on the criteria and analysis presented in \cite{perez2004evaluation}.
 
 In order to obtain comparable results with MDO methods, we adopted a problem modeling based on the disciplines division proposed in these works. To this end, we considered that, for each test case, the natural formulation of the problem matched the proposed disciplines division. Consequently, for each test case, the mathematical models represented by our model agents correspond to the proposed disciplines.
 
-\subsection{Comparison Criteria}
+\section{Comparison Criteria}
 
 For our comparisons we use the criteria proposed in \cite{perez2004evaluation}, which are defined as follow:
 \begin{compactitem}
@@ -402,7 +396,7 @@ The \emph{Transparency} criterion is the less well-defined and can be perceived 
 
 The \emph{Portability} criterion concerns the feasibility to integrate the method into an existing organizational structure. This evaluation criterion is based on the capabilities of the method to divide the concerns to match existing expert teams or specializations.
 
-\subsection{Comparison Problem 1}
+\section{Comparison Problem 1}
 
 Our first comparison test case comes from \cite{perez2004evaluation}. It was originally introduced in \cite{sellar1996response} to study the performances of the CSSO method. Its formulation is the following:
 
@@ -485,7 +479,7 @@ BLISS					&	1.9770 	&	0	&	0	&	3.15	&	3.7544	&	3.1804	\\
 
 Note that in our case, the rounding is done at a lower precision than in the other test cases. This is voluntary to illustrate the fact that the constraint $y_2$ is actually violated, but this violation is lower than the rounding decimal, as per the criticality mechanism of constraint agents we explained in \ref{conflicting_requests_mechanism}.
 
-\subsection{Comparison Problem 2}
+\section{Comparison Problem 2}
 
 For our second comparison test case, we selected one of the problems presented in  \cite{Yi2008}\footnote{the original authors originally introduced two additional variables $z_1^{nc}$ and $z_2^{nc}$. However these variables had no impact on the problem in itself, consequently we did not reproduce them here}:
 
@@ -561,7 +555,7 @@ CO				&		0.49223	\\
 \end{table}
 \end{savenotes}
 
-\subsection{Comparison Synthesis}
+\section{Comparison Synthesis}
  
 Here we present a synthesis of the comparison between our system and existing MDO methods.
 
@@ -599,7 +593,7 @@ In regard of the portability criterion, our method is extremely flexible as it s
 
 \chapter{Evaluating Performances using Generated Test Cases and Scalability}
 
-In this section we present some measures we established in regard of the scalability performances of our MAS. [[TOCHANGE if spring networks are integrated]] For this part of the experiments we were not concerned with the optimization performances of the system, but more with its capability to handle large agent graphs without suffering from performances degradation.
+In this section we present some measures we established in regard of the scalability performances of our MAS. For this part of the experiments we were not concerned with the optimization performances of the system, but more with its capability to handle large agent graphs without suffering from performances degradation.
 
 \section{Generating NDMO Agent Graphs}
 
