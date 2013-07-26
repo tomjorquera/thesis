@@ -226,7 +226,7 @@ We will now present the second part of our validation, by making experiment on l
 
 \section{Optimization under Uncertainties}
 
-While it is not the focus of our system, we worked with our partners to illustrate the uncertainties propagation capabilities presented in section \ref{mas_uncertainties}. To this end, we were provided with a preliminary aircraft design test case inspired from \cite{scholz2008preliminary}. The test case declined into two versions: a deterministic optimization problem and an optimization problem with uncertainties.
+While it is not the focus of our system, we worked with our partners of the ID4CS project to illustrate the uncertainties propagation capabilities presented in section \ref{mas_uncertainties}. To this end, we were provided with a preliminary aircraft design test case inspired from \cite{scholz2008preliminary}. The test case is declined into two versions: a deterministic optimization problem and an optimization problem under uncertainties.
 
 The deterministic version is the following:
 
@@ -237,20 +237,40 @@ The deterministic version is the following:
 						&	g_3 = V_{CR}\dfrac{V_{md}}{E \eta_{P, CR} A M^m {\sigma}^n} \sqrt{\dfrac{\pi A e {\rho}_0 \sigma(H)g}{4 E_{max}}} - \dfrac{P_{TO}}{M_{MTO}} \sqrt{\dfrac{m_{MTO}}{S_W}} \leq \\
 \end{align*}
 
-where $\dfrac{m_{MTO}}{S_W}$ and $\dfrac{P_{TO}}{m_{MTO}}$ are the two design variables of the problem, representing respectively the power/mass ratio and the wing loading of the aircraft, and the other values are constants [[TODO: give the value of each constant ?]]. The three constraints concerns respectively the takeoff length, landing length and cruising speed. The solution to the deterministic problem is $\dfrac{m_{MTO}}{S_W} = 376.26$ and $\dfrac{P_{TO}}{m_{MTO}} = 219.95$, for a $f = 3.47 \times{} 10^8$/
+where $\dfrac{m_{MTO}}{S_W}$ and $\dfrac{P_{TO}}{m_{MTO}}$ are the two design variables of the problem, representing respectively the power/mass ratio and the wing loading of the aircraft, and the other values are constants [[TODO: give the value of each constant ?]]. The three constraints concern respectively the takeoff length, landing length and cruising speed. The solution to the deterministic problem is $\dfrac{m_{MTO}}{S_W} = 377$ and $\dfrac{P_{TO}}{m_{MTO}} = 187$, for $f = 2.15E+08$.
 
-In the version with uncertainties, the objective is not to minimize $f$ but to minimize $E(f)$, the expected value of the function. The new constraints are $P(g_i \leq 0) \geq 0.9, \; \forall i \in \{1, 2, 3\}$. [[TODO: give uncertainties laws]]
+In the version with uncertainties, normal distribution laws are associated with some variables of the problem. The variables and associated uncertainties are shown in \tablename{} \ref{uncertainties_values}
 
-[[
-	public static IUncertainValue<Double> C_LmaxL = normalVariable(2.5, 2.5 * 10.0 / 100.0);
-	public static IUncertainValue<Double> C_LmaxTO = normalVariable(2.1, 2.1 * 10.0 / 100.0);
-	public static IUncertainValue<Double> E = normalVariable(12.49, 12.49 * 10.0 / 100.0);
-	public static IUncertainValue<Double> eta_PCr = normalVariable(0.86, 0.86 * 10.0 / 100.0);
+\begin{table}
+\caption{Uncertainties associated with the variables}\label{uncertainties_values}
+\centering
+\begin{tabular}{lrr}
+\toprule
+Variable & Expected value & Standard deviation\\
+\midrule
+$C_{L,max,L}$			&	2.50		&	0.250	\\
+$C_{L, max, TO}$	&	2.10		&	0.210	\\
+$E$								&	12.49	&	1.249	\\
+$\eta_{P, CR}$			&	0.86		&	0.086	\\
+\bottomrule
+\end{tabular}
+\end{table}
 
-]]
-We slightly adapted our MAS to a classical sequential optimization scheme. The basic idea of this type of method is to start by doing a deterministic optimization of the problem and, when the optimization has converged, to switch to an optimization under uncertainties. For our MAS, we instantiated this method by making the agents start doing a deterministic optimization. When a certain convergence condition is detected, the agents automatically switch to  an optimization under uncertainties: the 
+The new objective is not to minimize $f$ but to minimize $E(f)$, the expected value of the function. The new constraints are $P(g_i \leq 0) \geq 0.9, \; \forall i \in \{1, 2, 3\}$.
 
-[[TODO: Complete]]
+We slightly adapted our MAS to mimick a classical sequential optimization scheme. The basic idea of this type of method is to start by doing a deterministic optimization of the problem and, when the optimization has converged, to switch to an optimization under uncertainties using the deterministic solution point as a starting point. For our MAS, we instantiated this method by making the agents start doing a deterministic optimization. When a certain convergence condition is detected, the agents automatically switch to  optimization under uncertainties. A difference is that the system is not interrupted between the deterministic optimization and optimization under uncertainties. The agents handle the transition automatically by switching to uncertain values.
+
+The solution to the problem under uncertainties is $\dfrac{m_{MTO}}{S_W} = 329$ and $\dfrac{P_{TO}}{m_{MTO}} = 244$
+
+For the uncertainties propagations, the agents are provided with Monte-Carlo propagators. These propagators draw 50000 random values on the inputs following the uncertainties associated with each input, and return a set of points for each outputs. The constraints and objectives can directly use these sets of points, as explained in chapter \ref{mas_uncertainties}.
+
+The trajectory of the system is shown on \figurename{} \ref{sequential_optim_fig}. The red dashed curves represent the deterministic constraints. The blue and green circles represent respectively the deterministic and robust solution points. The starting point (300, 300) is indicated by the letter S. We can see on the figure how, in the first part, the system converges toward the deterministic solution point and, on the second part, how it switches to uncertainties and changes its direction to converges on the robust solution point.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{uncertainties/uncertainties}
+\caption{Sequential optimization trajectory.}\label{sequential_optim_fig}
+\end{figure}
 
 \section{Adaptation to Perturbations}
 
