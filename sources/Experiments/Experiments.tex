@@ -6,13 +6,13 @@ Our validation approach for our system was divided in three phases:
 \begin{compactitem}
 \item Validating the mechanisms of our system on simple representative test cases
 \item Evaluating the optimization performances and comparison with existing methods on benchmark test cases
-\item Testing the raw performances and scalability capabilities of our stytem using automatically generated optimization problems.
+\item Testing the raw performances and scalability capabilities of our system using automatically generated optimization problems.
 \end{compactitem}
 
 The first type of optimization problems are small enough to be solved by classical optimization techniques, however they exhibit interesting properties representative of complex optimization problem. We used these problem to identify and tune the required cooperative mechanisms for our system.\\
 We also made additional experiments in order to evaluate others functionalities of our systems: uncertainties propagation and adaptations to changes.
 
-The second type of optimization problems correspond to test cases used by the scientific community as benchmark for comparing MDO methods.
+The second type of optimization problems correspond to test cases used by the scientific community as benchmarks for comparing MDO methods.
 
 The third type of optimization problems are algorithmically generated with the purpose of producing a base of problems of different sizes and topologies. This allows us to study the behavior when modifying the size of the problems to solve.
 
@@ -513,7 +513,7 @@ CO						&	9	&	2	\\
 \end{tabular}
 \end{table}
 
-Sadly, the authors did not provide the starting points they used for evaluating the number of evaluations of the different methods. Consequently we cannot provide a meaningful comparison of our method on this criterion. For our experiments, we choose to make 100 instances of the problem, with random starting value for the variables drawn between -100 and 100. As an indication, the median number of evaluations for the disciplines required by our method to find the solution is indicated in \tablename{}  \ref{bench2_efficiency}. In \tablename{} \ref{bench2_accuracy} we show the median value obtained over all the experiments for $f$. 
+Sadly, the authors did not provide the starting points they used for evaluating the number of evaluations of the different methods. Consequently we cannot provide a meaningful comparison of our method on this criterion. For our experiments, we choose to make 100 instances of the problem, with random starting value for the variables drawn between -100 and 100. As an indication, the median number of evaluations for the disciplines required by our method to find the solution is indicated in \tablename{} \ref{bench2_efficiency}. In \tablename{} \ref{bench2_accuracy} we show the median value obtained over all the experiments for $f$. 
 
 \begin{savenotes}
 \begin{table}
@@ -731,33 +731,31 @@ As a remark, let us add that our implementation of the agent behavior was far fr
 
 \section{Springs Networks}
 
-The automated agents graphs we detailed in the previous sections are useful to study raw scalability performances on different problem sizes. They are limited, however, by the fact that the problems they represent are meaningless. Consequently this kind of automated graphs are not useful to study the performances of the system in regard to the convergence toward a solution.
+The automated agents graphs we detailed in the previous sections are useful to study raw scalability performances on different problem sizes. They are limited, however, by the fact that the problems they represent are meaningless. Consequently this kind of automated graphs are not useful to study the performances of the system in regard to the convergence toward a correct solution.
 
 In this section, we propose a method to automatically generate another kind of problems graphs. The idea is to use graphs representing springs networks, where the edges linking the vertices represent springs whose extremities are tied together. Some of the nodes are fixed to arbitrary positions, while the goal of the problem is to find the position of the free nodes for which the spring network is stable, that is, where all the tensions of the springs connected to a node are at an equilibrium.\\
-The interest of such problem is that the springs network can be generated using classical graph generator algorithms and that there is a unique (as long as at least one node has a fixed position) and easily verifiable solution.
+The interest of such problem is that the springs network can be generated using classical graph generator algorithms, and that there is a unique (as long as at least one node has a fixed position) and easily verifiable solution.
 
 \subsection{Representing Springs Networks with NDMO}
 
-A major difference with the previous generated problems is that, in the case of the springs networks, the generated graph does not represent directly the agent graph. We must propose a NDMO modeling of the springs network in order to be able to apply our method.
+A major difference with the previous generated problems is that, in the case of the springs networks, the generated graph does not represent directly the agents graph. We must propose a NDMO modeling of the springs network in order to be able to apply our method.
 
-The springs networks can be represented in 1, 2 or even more dimensions, each additional dimension adding a new coordinate for the position of the nodes. Interestingly, each dimension is independent in the sense that the strengths applied by the springs to the nodes can be computed independently for each dimension.
+The springs networks can be represented in 1, 2 or even more dimensions, each additional dimension adding a new coordinate for the position of the nodes. Interestingly, each dimension is independent in the sense that the strengths applied by the springs to the nodes can be computed independently. Consequently the agents graph representing a spring network in n dimensions will be composed of n independant connected components.
 
 We present here the procedure to generate the NDMO graph for springs of one dimension, which can easily be generalized to n dimensions:
 \begin{compactitem}
 \item First of all the springs network is generated using a given graph generator.
 \item Each spring (\emph{i.e.} the edges of the graph) is given a random tension strength. In our experiments the tension strengths were drawn randomly between 1 and 100.
-\item Each node has a random chance of becoming a fixed node (in our experiments this probability was fixed to 0.3). If the node is fixed, then its current coordinate is set as a constant value.
-\item For each free node, a variable agents are created, representing its coordinate.
-\item For each spring linked to at least one free node, a model agent is created, representing the current tension of the spring based on its initial tension and the coordinate of the nodes to which the spring is linked. The exact computations for calculating the tension strength of a spring is shown on \figurename{} \ref{springs_model}. This model takes in input the value of the variable agents of the linked nodes (if one of the node is fixed, its coordinate is used as a constant value). For each model agent an output agent is created representing the output value of the model.
-\item For each variable agents, a model agent is created, representing the sum of the spring strengths applied to the node. This model agent takes in input the output agents representing the strengths applied by the linked springs.
-\item For each of these model agents, an output agent is created. To this output agent is linked a constraint agent representing the fact that the value of this output must be equal to 0 (the springs strengths are at
-equilibrium).
+\item Each node has a random chance of becoming a fixed node (in our experiments this probability was fixed to 0.3). If the node is fixed, its current coordinate is set as a constant value.
+\item For each free node, a variable agent is created, representing its coordinate.
+\item For each spring linked to at least one free node, a model agent is created, representing the current tension of the spring based on its initial tension and the coordinates of the nodes to which the spring is linked. The exact computations for calculating the tension strength of a spring is shown on \figurename{} \ref{springs_model}. This model takes in input the value of the variable agents of the linked nodes (if one of the node is fixed, its coordinate is used as a constant). For each model agent, an output agent is created representing the output value of the model.
+\item For each variable agent, a model agent is created, representing the sum of the spring strengths applied to the node. This model agent takes in input the output agents representing the strengths applied by the linked springs.
+\item For each of these model agents, an output agent is created. To this output agent is linked a constraint agent representing the constraint that the value of this output must be equal to 0 when the springs strengths are at equilibrium.
 \end{compactitem}
 
 
 \begin{figure}
-TODO
-
+[[TODO - put formula]]
 \caption{Sum of springs strengths model computation.}\label{springs_model}
 \end{figure}
 
@@ -819,8 +817,8 @@ The generation procedure is synthesized in algorithm \ref{algo_springs}.
 	}
 \end{algorithm}
 
-An example of transformation is presented on \figurename{} \ref{springs_example}. On \figurename{} \ref{springs_example:springs} is shown a simple springs network with a fixed node A and two free nodes B and C. The nodes are linked by edges 1 and 2. The corresponding agent graph (for one dimension) is shown on \figurename{} \ref{springs_example:agents}.\\
-Notice how, since the node A is fixed, the model $tension_1$ takes in input only the coordinate of B. It can also be seen that, since B is linked to two springs, the model $sum_B$ representing the sum of strengths applied to B takes two values as inputs, while, since C is linked to only one spring, $sum_C$ only takes one input.
+An example of transformation is presented on \figurename{} \ref{springs_example}. On \figurename{} \ref{springs_example:springs} is shown a simple springs network with a fixed node A and two free nodes B and C. The nodes are linked by edges 1 and 2. The corresponding agents graph (for one dimension) is shown on \figurename{} \ref{springs_example:agents}.\\
+Notice how, since the node A is fixed, the model $tension_1$ only takes the coordinate of B in input. It can also be seen that, since B is linked to two springs, the model $sum_B$, representing the sum of strengths applied to B, takes two values as inputs while, since C is linked to only one spring, $sum_C$ only takes one input.
 
 \begin{figure}
 \centering
@@ -839,7 +837,7 @@ Notice how, since the node A is fixed, the model $tension_1$ takes in input only
 
 \subsection{Springs Networks Experiments}
 
-In this section we study the impact of the problem size on the problem on the convergence speed of the system. To this end we created 2D springs networks generated with the presented procedure, using Small-World graph generators to obtain graphs of different sizes. In each instance we executed the system until it found the correct solution (\emph{i.e.} the positions of the nodes for which the system is at equilibrium). On \figurename{} \ref{springs_res} is show the result of our experiments. Each dot corresponds to an instance, with the agents number and the number of evaluations required to find the correct solution. We also shown the linear regression trend line corresponding to the data set as a red dotted line.
+In this section we study the impact of the problem size on the convergence speed of the system. To this end we created 2D springs networks generated with the previously detailed procedure, using Small-World graph generators to obtain graphs of different sizes. In each instance we executed the system until it found the correct solution (\emph{i.e.} the positions of the nodes for which the system is at equilibrium). On \figurename{} \ref{springs_res} is shown the result of our experiments. Each dot corresponds to a problem instance, with the agents number and the number of evaluations required to find the correct solution. We also show the linear regression trend line corresponding to the data set as a red dotted line.
 
 \begin{figure}
 \centering
@@ -847,18 +845,18 @@ In this section we study the impact of the problem size on the problem on the co
 \caption{Number of evaluations required by agents number}\label{springs_res}
 \end{figure}
 
-We can see that, while the number of evaluations can vary greatly for two instances of similar sizes, the number of agents has a relatively weak impact on the convergence time of the system. These two observations are consistent with our previous analysis, confirming that the convergence is greatly impacted by the topology of the problem, but is able to scale with the size of the problem.
+We can see that, while the number of evaluations can vary greatly for two instances of similar sizes, the number of agents has a relatively low impact on the convergence time of the system. These two observations are consistent with our previous analysis, confirming that the convergence is greatly impacted by the topology of the problem, but that the system is able to scale with the size of the problem.
 
 \newpage
 \section*{Analysis of Experiments and Future Works}
 
 In this part we presented several of the experiments we did on our system. These experiments show the validity of our agents behaviors on classical optimization problems, as well as the good performances of our system compared to other complex problems optimization methods. We also demonstrated the adaptation capabilities of our system, as well as its extensibility using uncertainties.\\
-Using automatically generated problems, we were able to study the scalability properties of our system and the impact of various criteria on its performances. The observations we made were coherent with our analysis of the agents behaviors.
+Using automatically generated problems, we were able to study the scalability properties of our system, and the impact of various criteria on its performances. The observations we made were coherent with our analysis of the agents behaviors.
 
-Of course, the results presented in this part, especially for the comparison with MDO methods and the scalability properties, can only show a limited view of our system.\\
-For this reason, we continue our experiments in the different categories of test cases we have presented. New academics test cases are experimented upon in order to detect potential new NCSs. In the context of the ID4CS project, we are currently in a validation phase using real-world large optimization problems provided by our industrial partners (such as the one illustrated on \figurename{} \ref{test_case_airbus}).\\
-We also continue to work on new ways to experiments on optimization with uncertainties using different optimization schemes. In parallel, we continue our comparison work by applying our system on additional benchmark test cases.\\
-At last, we have seen that the scalability properties of the system is influenced by the topology of the agents graph. For this reason we pursue our scalability experiments on generated test cases, using addition graph generation algorithms in order to study more in depth what are the more relevant impacting criteria.
+Of course, the results presented in this part can only show a limited view of our system. For this reason, we continue our experiments in the different categories of test cases we have presented.\\
+New academics test cases are experimented upon in order to detect potential new NCSs. In the context of the ID4CS project, we are currently in a validation phase using real-world large optimization problems, provided by our industrial partners (such as the one illustrated on \figurename{} \ref{test_case_airbus}).\\
+We also continue to work on new ways to experiments on optimization under uncertainties using different optimization schemes. Simultaneously, we continue our comparison work by applying our system on additional benchmark test cases.\\
+At last, we have seen that the scalability properties of the system are influenced by the topology of the agents graph. For this reason we pursue our scalability experiments on generated test cases, using addition graph generation algorithms in order to study more in depth the effects of the different criteria.
 
 \begin{figure}[b]
 \centering
