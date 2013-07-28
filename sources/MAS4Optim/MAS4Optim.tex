@@ -246,7 +246,7 @@ This agent modeling is the most direct and inclusive, considering every element 
 
 We will now discuss the behavior of the five agent types identified in the previous chapter. The functioning of the system can be divided into two main tasks: problem simulation and collective solving.
 
-Problem simulation can be seen as the equivalent of the analysis of classical MDO method. The agents behavioral rules related to problem simulation concern the propagation of the values of design variables to the models and criteria. For this part, the agents will exchange \emph{inform} messages that contain calculated values. The \enquote{messages flow} is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents. An illustration of the simulation messages flow is shown on \figurename{} \ref{messages_flow:inf}.
+Problem simulation can be seen as the equivalent of the analysis of classical MDO methods. The agents behavioral rules related to problem simulation concern the propagation of the values of design variables to the models and criteria. For this part, the agents will exchange \emph{inform} messages that contain calculated values. The \enquote{messages flow} is top-down: the initial inform messages will be emitted by the variable agents and will be propagated down to the criteria agents. An illustration of the simulation messages flow is shown on \figurename{} \ref{messages_flow:inf}.
 
 Collective solving concerns the optimization of the problem. The agent behavioral rules related to collective solving are about satisfying the constraints while improving the objectives. For this part, the agents will exchange \emph{request} messages which contain desired variations of values. The \enquote{messages flow} is bottom-up: the initial request messages will be emitted by the criteria agents and propagated up to variable agents. An illustration of the solving messages flow is shown on \figurename{} \ref{messages_flow:req}.
 
@@ -275,16 +275,16 @@ Collective solving concerns the optimization of the problem. The agent behaviora
 
 \end{figure}
 
-The agents behaviors regarding these two parts can be studied quite independently, we will thus present them separately. It is however important to remember that these two parts are not executed separately. At runtime the agents will simulate the problem and solve it in parallel. Moreover, the different parts of the system will not necessarily work in a synchronous fashion. The effective messages flow of the system will more probably be akin to the \figurename{} \ref{messages_flow:eff}.
+The agents behaviors regarding these two parts can be studied independently, we will thus present them separately. It is however important to remember that these two parts are executed simultaneously. At runtime the agents will simulate the problem and solve it in parallel. Moreover, the different parts of the system will not necessarily work in a synchronous fashion. The effective messages flow of the system will more probably be akin to the \figurename{} \ref{messages_flow:eff}.
 
 \section{Problem Simulation}
 
-In this section we will present the agents behavior related to the simulation of the problem. Regarding this part, the main concern of the agents is to ensure consistency between the values of the design variables and the produced output. To this end, the agents will propagate \emph{Inform} messages through the system.
+In this section we will present the agents behaviors related to the simulation of the problem. Regarding this part, the main concern of the agents is to ensure consistency between the values of the design variables and the produced outputs. To this end, the agents will propagate \emph{Inform} messages through the system.
 
-An inform message carry a new value $v$. The exact semantic of this information slightly changes depending on which agents are involved:
+An inform message carries a new value $v$. The exact semantic of this information slightly changes depending on which agents are involved:
 
 \begin{itemize}
-\item If the message is sent from a value agent (variable or output) to a model or criterion agent, it indicates to the receiving agent that the sending agent has changed value.
+\item If the message is sent from a value agent (variable or output) to a model or criterion agent, it indicates to the receiving agent that the sending agent has changed of value.
 
 \item If the message is sent from a model agent to an output agent, it indicates to the receiving agent that the model has calculated its new value.
 \end{itemize}
@@ -299,15 +299,15 @@ While in some cases specific informations can be known regarding the nature of a
 Regarding problem simulation, the role of the variable agent is to ensure that the agents to which it is connected know its current value.
 A variable agent has to send new Inform messages when:
 \begin{compactitem}
-\item new agents are connected to it (typically at the creation of the system)
-\item it decides to change its value based on received requests (see \ref{variable_agent_solving})
-\item the designer changed its value
+\item new agents are connected to it (typically at the creation of the system).
+\item it decides to change its value based on received requests (see \ref{variable_agent_solving}).
+\item the designer changed its value.
 \end{compactitem}
 
-The behavior of the variable agent is summarized in algorithm \ref{algo_simulating_variable}. First of all the variable checks if it changed its value (typically as the consequence of receiving requests during the solving phase). If it is the case it send its new value to its contacts. It then check if new agents have requested to be added to its contacts, if it is the case it add them and send them its current value, whether its value changed or not, in order for the new contacts to be informed of the current value of the variable.
+The behavior of the variable agent is summarized in algorithm \ref{algo_simulating_variable}. First of all the variable checks if it changed its value (typically as the consequence of receiving requests during the solving phase). If it is the case it sends its new value to its contacts. It then checks if new agents have requested to be added to its contacts. If it is the case, it adds them and sends them its current value, whether its value changed or not, in order for the new contacts to be informed of the current value of the variable.
 
 \begin{algorithm}
-\caption{Problem Simulation - Variable Agent Behavior}
+\caption{Problem Simulation -- Variable Agent Behavior}
 \label{algo_simulating_variable}
 
 	$C \leftarrow$ previously connected agents\;
@@ -337,16 +337,16 @@ The behavior of the variable agent is summarized in algorithm \ref{algo_simulati
 
 \subsection{Model Agent}\label{simulation_model}
 
-A model agent must maintain consistency between its inputs and outputs. That is, it must ensure that the agents handling its output variables are informed of their new values when the inputs changes. When receiving an Inform message from one of the agents controlling its inputs, the model agent reevaluates its internal model taking the new value into account. Using the new values produced by the internal model, the model agent then sends Inform messages to the agents responsible of its outputs.
+A model agent must maintain consistency between its inputs and outputs. That is, it must ensure that the agents handling its output variables are informed of their new values when the inputs changes. When receiving an Inform message from one of the agents controlling its inputs, the model agent reevaluates its internal model, taking the new value into account. Using the new values produced by the internal model, the model agent then sends Inform messages to the agents responsible of its outputs.
 
-All outputs of a model agent are not necessarily associated with an output agent. For example, if the designer is not interested by the value represented by one of the outputs, he is not required to represent it by an agent. In this case the model agent will silently calculate the new value of the output at the same time than the others, but will not propagate it\footnote{Remember that the internal model of the agent is a black box, consequently the agent cannot choose to evaluate it partially. If the evaluation of the output could has been done independently from the others, it could be preferable to create two separate models}.
+All outputs of a model agent are not necessarily associated with an output agent. For example, if the designer is not interested by the value represented by one of the outputs, he is not required to represent it by an agent. In this case the model agent will silently calculate the new value of the output at the same time than the others, but will not propagate it\footnote{Remember that the internal model of the agent is a black box, consequently the agent cannot choose to evaluate it partially. If the evaluation of the output could has been done independently from the others, it may be preferable to create two separate models}.
 
 However, as the problem is dynamic, the designer can decide at any time to connect a new output agent to a previously unconnected output. In this case, the model agent must send to the output agent the last value it calculated for this output.
 
 The behavior of the model agent is summarized in algorithm \ref{algo_simulating_model}.
 
 \begin{algorithm}
-\caption{Problem Simulation - Model Agent Behavior}
+\caption{Problem Simulation -- Model Agent Behavior}
 \label{algo_simulating_model}
 
 	$C \leftarrow$ previously connected output agents\;
@@ -378,8 +378,8 @@ The behavior of the model agent is summarized in algorithm \ref{algo_simulating_
 
 For the problem simulation, the output agent has a very similar role to the variable agent. It tries to ensure that the agents to which it is connected know its current value. It has to change new inform messages when:
 \begin{compactitem}
-\item new agents are connected to it
-\item it receives an inform message from its model agent, indicating it its new value
+\item new agents are connected to it.
+\item it receives an inform message from its model agent, indicating it its new value.
 \end{compactitem}
 
 Unlike the variable agent, the output agent value should not be directly changed by the designer, as it represents a non-free variable.
@@ -387,7 +387,7 @@ Unlike the variable agent, the output agent value should not be directly changed
 The behavior of the output agent is summarized in algorithm \ref{algo_simulating_output}.
 
 \begin{algorithm}
-\caption{Problem Simulation - Output Agent Behavior}
+\caption{Problem Simulation -- Output Agent Behavior}
 \label{algo_simulating_output}
 
 	$C \leftarrow$ previously connected output agents\;
@@ -415,16 +415,16 @@ The behavior of the output agent is summarized in algorithm \ref{algo_simulating
 	
 \end{algorithm}
 
-At runtime the designer can interact with the MAS. Among the possible interactions, the designer can remove the model calculating an output. In this case the output agent would become a variable agent and change its behavior accordingly. The inverse transformation is also possible, a variable agent could suddenly be \enquote{plugged} in output of a model and would become an output agent.
+At runtime, the designer can interact with the MAS. Among the possible interactions, the designer can remove the model calculating an output. In this case the output agent would become a variable agent and change its behavior accordingly. The inverse transformation is also possible, a variable agent could suddenly be \enquote{plugged} in an output of a model and would become an output agent.
 
 \subsection{Constraint/Objective Agent}
 
-In regard to problem simulation, constraint and objectives agents only role is to update their value based on the Inform they receive from their inputs.
+In regard to problem simulation, constraint and objective agents only role is to update their value based on the Inform they receive from their inputs.
 
 Their behavior is summarized in algorithm \ref{algo_simulating_criterion}.
 
 \begin{algorithm}
-\caption{Problem Simulation - Constraint/Objective Agent Behavior}
+\caption{Problem Simulation -- Constraint/Objective Agent Behavior}
 \label{algo_simulating_criterion}
 
 	$\{v_i\} \leftarrow$ new input values\;
@@ -438,10 +438,10 @@ Their behavior is summarized in algorithm \ref{algo_simulating_criterion}.
 
 \section{Collective Solving}\label{collective_solv}
 
-During solving, the criteria agents try to improve their local goal. That is, the constraints agents try to keep their constraint satisfied, while the objective agents try to improve their objective. To this end, they send \emph{Request} messages to the agents controlling their inputs, asking them to change value. The others agents have to propagate these requests toward the variable agents in the most adequate way.
+During solving, the criteria agents try to improve their local goals. That is, the constraint agents try to keep their constraint satisfied, while the objective agents try to improve their objective. To this end, they send \emph{Request} messages to the agents controlling their inputs, asking them to change value. The others agents have to propagate these requests toward the variable agents in the most adequate way.
 
-However a specific difficulty arises. As explained in the previous section, model, constraint and objective agents manipulate the underlying equations (or algorithms, or responses surfaces \emph{etc.}) of the problem through internal models, which are in most cases black boxes. In this case, how can constraint agents know which values to ask to satisfy their constraint? How can objective agents know which values improve their objective? How can model agents know which values for their outputs could produce the values required by their outputs?\\
-For the internal models agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer the following: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by a classical optimization method.As the agents manipulate black boxes, it is (nearly\footnote{We will see in section \ref{model_agent_solving} how the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which has a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them. In the most general case it can be assumed that each agent in charge of an internal model uses its own specific optimizer. However in practice several instances of the same optimizer can be used by different agents, if the designer deems that their models present sufficient similar characteristics for the optimization method to be efficient for each of them. An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
+However a specific difficulty arises. As explained in the previous section, model, constraint and objective agents manipulate the underlying equations (or algorithms, or responses surfaces \emph{etc.}) of the problem through internal models, which are in most cases black boxes. In this case, how can constraint agents know which values to ask to satisfy their constraint? How can objective agents know the values that improve their objective? How can model agents know which values for their inputs could produce the values required by their outputs?\\
+For the internal model agents to be able to work, the designer must supply them with an \emph{external optimizer}. The role of this optimizer is the following: if we see an internal model as a function\footnote{Calling an internal model a function is a simplification. Since it is a black box it may have an internal state. Consequently the same inputs may not always produce the same outputs} providing an output $O$ from a set of input $I$, what we need is to be able to estimate the inverse function, providing the values of $I$ corresponding to a specific $O$. This specific problem can easily be expressed as a classical optimization problem in itself, which can be solved by classical optimization methods. As the agents manipulate black boxes, it is (nearly\footnote{We will see in section \ref{model_agent_solving} how the agents can extract enough information at runtime to provide their own basic optimizer}) impossible for them to do this estimation by themselves. The designer, which has a more advanced knowledge of the internal models, can provide an adequate optimization method for each of them. In the most general case it can be assumed that each agent in charge of an internal model uses its own specific optimizer. However in practice several instances of the same optimizer can be used by different agents, if the designer deems that their models present sufficient similar characteristics for the optimization method to be efficient for each of them. An example of use of an external optimizer by a model agent can be seen on \figurename{} \ref{optim_use}.
 
 \begin{figure}
 	\centering
@@ -471,10 +471,8 @@ With this specificity in mind, let us now examine the behavior of the different 
 
 \subsection{Variable Agent}\label{variable_agent_solving}
 
-During solving, a variable agent is susceptible to receive change requests from others agents. When a variable agent receives a change request, it tries to change its own value in order to accommodate the requester while taking into account the previous demands of the rest of its neighbors. To this end, the variable agent uses an exploration strategy based on \emph{Adaptive Value Tracker} (AVT) \cite{Lemouzy_2011}. The AVT is an adaptation of dichotomous search for dynamic values. The idea is to change value according to the direction which is requested and the direction of the past requests. While the value varies in the same direction, the variation delta is increased so the value varies more and more. As soon as the requested variation changes, it means that the variable went past the good value, so the variation delta is reduced.
+During solving, a variable agent is susceptible to receive change requests from other agents. When a variable agent receives a change request, it tries to change its own value in order to accommodate the requester while taking into account the previous demands of the rest of its neighbors. To this end, the variable agent uses an exploration strategy based on \emph{Adaptive Value Tracker} (AVT) \cite{Lemouzy_2011}. The AVT is an adaptation of dichotomous search for dynamic values. The idea is to change value according to the direction which is requested and the direction of the past requests. While the value varies in the same direction, the variation delta is increased so the value varies more and more. As soon as the requested variation changes, it means that the variable went past the good value, so the variation delta is reduced.
 This capability to take into account a changing solution allows the variable agent to continuously search for an unknown dynamic target value. This capability is required for the system to be able to adapt to changes made by the engineer during the solving process.
-
-While changing value based not on the value requested but on the direction can seem paradoxical, it is necessary. Since all agents have only a local view of the system (itself plus its neighbors) the requests they make are often approximate. Consequently they need to iterate several times. If the search space is large, the system could take time to converge toward the solution. By using a near-dichotomous strategy, we greatly accelerate this convergence.
 
 The algorithm of the AVT is the following. Given the following variables:
 \begin{itemize}
@@ -506,10 +504,13 @@ In our experiments we kept the default proposed values of $\lambda_i = 2$ and  $
 
 One could wonder why the variable agent uses such a seemingly contrived method instead of just taking the requested value. It should be remembered that the variable agent can be connected to several parts of the problem and can receive contradictory requests from different origins over time (as we said, the case where the variable receives contradictory requests at the same time will also be studied later). Thus, the variable agent must have a way to take into account these contradictory requirements to find an adequate compromise. Moreover, until the system (or at least this part of it) has stabilized, the values requested has very little chance of being exact. The value can thus be considered as an indication of the direction in which the requesting agent desire the variable to go. As the system stabilizes, the precision of the AVT is improved and the value of the variable is closer and closer to the exact correct value.
 
+While changing value based not on the value requested but on the direction can seem paradoxical, it is necessary. Since all agents have only a local view of the system (itself plus its neighbors) the requests they make are often approximate. Consequently they need to iterate several times. If the search space is large, the system could take a long time to converge toward the solution. By using a near-dichotomous strategy, we greatly accelerate this convergence.
+
+
 This behavior is summarized in algorithm \ref{algo_solving_variable}.
 
 \begin{algorithm}
-\caption{Collective Solving - Variable Agent Behavior}
+\caption{Collective Solving -- Variable Agent Behavior}
 \label{algo_solving_variable}
 
 	$v \leftarrow$ old value\;
@@ -527,14 +528,13 @@ This behavior is summarized in algorithm \ref{algo_solving_variable}.
 
 \subsection{Model Agent}\label{model_agent_solving}
 
-The model agent is responsible for transmitting requests it received from its outputs to its inputs. To be able to translate the ingoing requests to its inputs, the model agent uses an external optimizer, as presented at the start of the section. When receiving a request from one of its outputs, the model agent calls the external optimizer, which provides it with the adequate inputs values corresponding to the request. The model agent then sends requests corresponding to these values to its inputs.
-While the model agent can seem to be very simplistic, we will see in section \ref{collective_solv} how its 
-behavior can be expanded to handle multiple problematic cases.
+The model agent is responsible for transmitting requests it receives from its outputs to its inputs. To be able to translate the ingoing requests to its inputs, the model agent uses an external optimizer, as presented at the start of the section. When receiving a request from one of its outputs, the model agent calls the external optimizer, which provides it with the adequate input values corresponding to the request. The model agent then sends requests corresponding to these values to its inputs.
+While the model agent can seem to be very simplistic, we will see in section \ref{NCS_pres} how its behavior can be expanded to handle multiple problematic cases.
 
 The behavior of the model agent is summarized in algorithm \ref{algo_solving_model}.
 
 \begin{algorithm}
-\caption{Collective Solving - Model Agent Behavior}
+\caption{Collective Solving -- Model Agent Behavior}
 \label{algo_solving_model}
 
 	$v_r \leftarrow$ requested value from output\;
@@ -552,14 +552,14 @@ The behavior of the model agent is summarized in algorithm \ref{algo_solving_mod
 
 \subsubsection*{Using an Internal Optimization Algorithm as an Alternative to External Optimizers}
 
-At the start of the section we stated that, since its internal model is a black box, the model agent cannot in itself perform the \enquote{bottom-up} translation from the values requested by its outputs to values to ask to its inputs, requiring an external optimizer to carry such task. While this is true at the start of the process, the model agent can at runtime observe the values returned by the model and make some estimations about its internal topology. We present now such a mechanism which can be integrated into model agents, capable of taking advantage of the functioning of the agent using simple black box optimization techniques.
+At the start of the section we stated that, since its internal model is a black box, the model agent cannot in itself perform the \enquote{bottom-up} translation from the values requested by its outputs to values for its inputs, requiring an external optimizer to carry such task. While this is true at the start of the process, the model agent can at runtime observe the values returned by the internal model and make some estimations about its internal topology. We present now such a mechanism which can be integrated into model agents, capable of taking advantage of the functioning of the agent using simple black box optimization techniques.
 
-This mechanism integrates itself during the simulation behavior of the agent. Remember that, as presented in section \ref{simulation_model}, when receiving a new value from one of its input the model agent calls its internal model to recalculate the values of its outputs. At this step, instead of passing all the the agent can observe the impact of the variation of variation of the input on each output. We call \emph{correlation} between the input $i$ and output $o$ the variation of $o$ relative to the variation of $i$, calculated as $\dfrac{v_o^{t+1} - v_o^t}{v_i^{t+1} - v_i^t}$. This correlation can be seen as a local linear approximation of the partial derivative $\dfrac{\delta o}{\delta i}$.This correlation can then be used during solving to estimate the required changes from the inputs to satisfy a change requested by an output.\\
-For example, suppose a model with one input $i$ and one output $o$. During simulating, the value of $i$ changes from 1 to 2. As a consequence the internal model provides a change of $o$ from -2 to -4. Thus the correlation between $i$ and $o$ is $\dfrac{-4 - (-2)}{2 - 1} = -2$. The output $o$ then sends a request to the model agent to take the value 4. The agent can estimate that for $o$ to take the value 4, $i$ needs to take the value $\dfrac{4}{-2} = -2$.
+This mechanism integrates itself during the simulation behavior of the agent. Remember that, as presented in section \ref{simulation_model}, when receiving a new value from one of its inputs the model agent calls its internal model to recalculate the values of its outputs. At this step, the agent can observe the impact of the variation of the input on each output. We call \emph{correlation} between the input $i$ and output $o$ the variation of $o$ relative to the variation of $i$, calculated as $\dfrac{v_o^{t+1} - v_o^t}{v_i^{t+1} - v_i^t}$. This correlation can be seen as a local linear approximation of the partial derivative $\dfrac{\delta o}{\delta i}$. This correlation can then be used during solving to estimate the required changes from the inputs to satisfy a change requested by an output.\\
+For example, suppose a model with one input $i$ and one output $o$. During simulation, the value of $i$ changes from 1 to 2. As a consequence the internal model provides a change of $o$ from -2 to -4. Thus the correlation between $i$ and $o$ is $\dfrac{-4 - (-2)}{2 - 1} = -2$. The output $o$ then sends a request to the model agent to take the value 4. The agent can estimate that for $o$ to take the value 4, $i$ needs to take the value $\dfrac{4}{-2} = -2$.
 The complete formula when several inputs are involved in the calculus of $o$ is presented with the summary of the mechanism in algorithm \ref{algo_solving_internaloptim}.
 
 \begin{algorithm}
-\caption{Collective Solving - Internal Optimizer Algorithm}
+\caption{Collective Solving -- Internal Optimizer Algorithm}
 \label{algo_solving_internaloptim}
 
 \tcp{estimating correlation deltas}$I \leftarrow$ current input values\;
@@ -601,7 +601,7 @@ Interestingly, our approximation technique can also be used to create local line
 Output agents have a more \enquote{passive} role than variable agents during problem solving. As it depends on a model agent for its value, an output agent will simply transmit the requests it receives to its model, as summarized in algorithm \ref{algo_solving_output}.
 
 \begin{algorithm}
-\caption{Collective Solving - Output Agent Behavior}
+\caption{Collective Solving -- Output Agent Behavior}
 \label{algo_solving_output}
 
 	$v_r \leftarrow$ requested value\;
@@ -613,15 +613,15 @@ Output agents have a more \enquote{passive} role than variable agents during pro
 
 \subsection{Constraint Agent}
 
-With the objective agents, the constraint agents are the origins of the requests which are propagated into the system. The goal of a constraint agent is to ensure the constraint of which it is in charge is satisfied. To this end, the constraint agent calculates a target value for the constraint, estimates corresponding target values for its inputs and sends them as requests to the agents in charge of these inputs. When the constraint is satisfied, the constraint agent tries to ensure it will keep being satisfied. To this end it continues to send requests to move its current value further and further from the threshold.
+With the objective agents, the constraint agents are the origins of the requests which are propagated into the system. The goal of a constraint agent is to ensure its constraint is satisfied. To this end, the constraint agent calculates a target value for the constraint, estimates corresponding target values for its inputs and sends them as requests to the agents in charge of these inputs. When the constraint is satisfied, the constraint agent tries to ensure it will keep being satisfied. To this end it continues to send requests to move its current value further and further from the constraint threshold.
 
-The problematic behind finding corresponding input values for the target value is similar to the one of the model agent of finding adequate inputs values from the outputs. As we said at the end of section \ref{modeling}, constraint agents (and objective agents) are similar to model agents in the fact that both have control of an \emph{internal model}. Thus, constraint agents can use an external optimizer to find adequate target values for its inputs. The only difference with model agents being that, instead of having a value requested by an output, the constraint agent estimates itself its own target value.\\
-In the same way, constraint agents can use the same internal optimization mechanism than model agents, presented in algorithm \ref{algo_solving_internaloptim}, when not provided with an external optimizer.
+The problem of finding corresponding input values for its target value is similar to the one of the model agent of finding adequate input values from the outputs. As we said at the end of section \ref{modeling}, constraint agents (and objective agents) are similar to model agents in the fact that both have control of an \emph{internal model}. Thus, constraint agents can use an external optimizer to find adequate target values for its inputs. The only difference with model agents being that, instead of having a value requested by an output, the constraint agent estimates itself its own target value.\\
+In the same way, constraint agents can use the same internal optimization mechanism than model agents presented in algorithm \ref{algo_solving_internaloptim}, when not provided with an external optimizer.
 
 The behavior of a constraint agent with a \enquote{lower or equal} constraint is described in algorithm \ref{algo_solving_constraint}. This algorithm is easily adapted to the others constraint types.
 
 \begin{algorithm}
-\caption{Collective Solving - Constraint Agent Behavior}
+\caption{Collective Solving -- Constraint Agent Behavior}
 \label{algo_solving_constraint}
 
 $v \leftarrow $ current value\;
@@ -637,19 +637,19 @@ $\{v_i^* \} \leftarrow Optimizer(v - \Delta^*)$\;
 }
 \end{algorithm}
 
-It should be noted that, even when the constraint is satisfied, the constraint agent continues to send requests to its inputs. This behavior can be justified by several reasons. First of all, the goal of the constraint agent is to ensure its constraint stays satisfied, so when the constraint is already satisfied the constraint agent has interest in \enquote{pushing} its current value afar from the frontier.\\
-The other reason is to help its neighbors agents to keep a coherent view of their relations. Indeed, as the system is interactive, the designer can decide at any time to remove or change the constraint. As a consequence it is not possible for the agents to simply keep in memory the constraints they are linked to, as these informations can become obsolete at any time. A simple way to remedy to this situation is for the constraint to not assume the others agents will memorize its requirements and to keep sending them requests.
+It should be noted that, even when the constraint is satisfied, the constraint agent continues to send requests to its inputs. This behavior can be justified by several reasons. First of all, the goal of the constraint agent is to ensure its constraint stays satisfied, so when the constraint is already satisfied the constraint agent has interest in \enquote{pushing} its current value afar from the constraint frontier.\\
+The other reason is to help its neighbors agents to keep a coherent view of their relations. Indeed, as the system is interactive, the designer can decide at any time to remove or change the constraint. As a consequence it is not possible for the agents to simply keep in memory the constraints they are linked to, as these informations can become obsolete at any time. A simple way to remedy this situation is for the constraint to not assume that the others agents will memorize its requirements, and to keep sending them requests.
 
 \subsection{Objective Agent}
 
-Along with constraint agents, the objective agents are the origins of the requests which are propagated into the system. The goal of an objective agent is to improve the objective of which it is in charge. To this end, the objective agent iteratively estimates a new target value for its objective, finds the corresponding input target values and sends them as requests to the input agents. The behavior of the objective agent in this regard is quite similar to the one of the constraint agent. The difference is that, while the constraint agent has a reference value to target (the threshold value), the objective agent has no such value. Instead, the objective agent will target a new value based on the last variation of its value.
+Along with constraint agents, the objective agents are the origins of the requests which are propagated into the system. The goal of an objective agent is to improve its objective. To this end, the objective agent iteratively estimates a new target value for its objective, finds the corresponding input target values and sends them as requests to the input agents. The behavior of the objective agent in this regard is quite similar to the one of the constraint agent. The difference is that, while the constraint agent has a reference value to target (the threshold value), the objective agent has no such value. Instead, the objective agent will target a new value based on the last variation of its value.
 
-Like the constraint and model agents, the objective agent can use an external optimizer to find the corresponding intput values, or can use the internal optimization mechanism presented in algorithm \ref{algo_solving_internaloptim}.
+Like the constraint and model agents, the objective agent can use an external optimizer to find the corresponding input values, or can use the internal optimization mechanism presented in algorithm \ref{algo_solving_internaloptim}.
 
 The behavior of an objective agent with a \enquote{minimize} objective is described in algorithm \ref{algo_solving_objective}. This algorithm is easily adapted to a maximization objective.
 
 \begin{algorithm}
-\caption{Collective Solving - Objective Agent Behavior}
+\caption{Collective Solving -- Objective Agent Behavior}
 \label{algo_solving_objective}
 
 $v \leftarrow $ current value\;
@@ -665,9 +665,9 @@ $\{v_i^* \} \leftarrow Optimizer(v - \Delta_{t-1})$\;
 	
 \end{algorithm}
 
-It is interesting to note that an objective agent exhibits a behavior similar to the one of the constraint agent, but for slightly different reasons. While the constraint agent continuously send requests in order to make its constraint safer and safer, the objective agent continuously send requests because it can never know if it reached the best value for the objective it handles. An objective agent is essentially \enquote{blind}, as the objective is a black box, and must rely on the external optimizer (or the internal optimization mechanism) in order to improve it. Consequently, the objective agent never stops trying to find a better value. As with constraint agents, this mechanism is quite handy in the context of interactive optimization, as the designer can at any moment completely change the nature of the objective.
+It is interesting to note that an objective agent exhibits a behavior similar to the one of the constraint agent, but for slightly different reasons. While the constraint agent continuously sends requests in order to make its constraint safer and safer, the objective agent continuously sends requests because it can never know if it reached the best value for its objective. An objective agent is essentially \enquote{blind}, as the objective is a black box, and must rely on the external optimizer (or the internal optimization mechanism) in order to improve it. Consequently, the objective agent never stops trying to find a better value. As with constraint agents, this mechanism is quite handy in the context of interactive optimization, as the designer can completely change the nature of the objective at any moment.
 \\\\\\
-An important point is that each agent only has a partial knowledge local strategy. No agent is in charge of the optimization of the system as a whole, or even of a subset of the other agents. Contrary to the classical MDO methods presented earlier, the solving of the problem is not directed by a predefined methodology, but by the structure of the problem itself. The emerging global strategy is unique and adapted to the problem.
+An important point is that each agent only has a partial knowledge and local strategy. No agent is in charge of the optimization of the system as a whole, or even of a subset of the other agents. Contrary to the classical MDO methods presented earlier, the solving of the problem is not directed by a predefined methodology, but by the structure of the problem itself. The emerging global strategy is unique and adapted to the problem.
 
 \begin{algorithm}
 \caption{Agents Behaviors Synthesis}\label{agent_algo}
