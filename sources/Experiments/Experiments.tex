@@ -740,7 +740,7 @@ The interest of such problem is that the springs network can be generated using 
 
 A major difference with the previous generated problems is that, in the case of the springs networks, the generated graph does not represent directly the agents graph. We must propose a NDMO modeling of the springs network in order to be able to apply our method.
 
-The springs networks can be represented in 1, 2 or even more dimensions, each additional dimension adding a new coordinate for the position of the nodes. Interestingly, each dimension is independent in the sense that the strengths applied by the springs to the nodes can be computed independently. Consequently the agents graph representing a spring network in n dimensions will be composed of n independant connected components.
+The springs networks can be represented in 1, 2 or even more dimensions, each additional dimension adding a new coordinate for the position of the nodes. Interestingly, each dimension is independent in the sense that the strengths applied by the springs to the nodes can be computed independently. Consequently the agents graph representing a spring network in n dimensions will be composed of n independent connected components.
 
 We present here the procedure to generate the NDMO graph for springs of one dimension, which can easily be generalized to n dimensions:
 \begin{compactitem}
@@ -748,16 +748,10 @@ We present here the procedure to generate the NDMO graph for springs of one dime
 \item Each spring (\emph{i.e.} the edges of the graph) is given a random tension strength. In our experiments the tension strengths were drawn randomly between 1 and 100.
 \item Each node has a random chance of becoming a fixed node (in our experiments this probability was fixed to 0.3). If the node is fixed, its current coordinate is set as a constant value.
 \item For each free node, a variable agent is created, representing its coordinate.
-\item For each spring linked to at least one free node, a model agent is created, representing the current tension of the spring based on its initial tension and the coordinates of the nodes to which the spring is linked. The exact computations for calculating the tension strength of a spring is shown on \figurename{} \ref{springs_model}. This model takes in input the value of the variable agents of the linked nodes (if one of the node is fixed, its coordinate is used as a constant). For each model agent, an output agent is created representing the output value of the model.
+\item For each spring linked to at least one free node, a model agent is created, representing the current tension of the spring based on its initial tension and the coordinates of the nodes to which the spring is linked. The exact computations for calculating the tension strength of a spring is $(x_1 - x_2) \times k$, where $x_1, x_2$ are the coordinates of the linked nodes and $k$ is the initial tension of the spring. This model takes in input the value of the variable agents of the linked nodes (if one of the node is fixed, its coordinate is used as a constant). For each model agent, an output agent is created representing the output value of the model.
 \item For each variable agent, a model agent is created, representing the sum of the spring strengths applied to the node. This model agent takes in input the output agents representing the strengths applied by the linked springs.
 \item For each of these model agents, an output agent is created. To this output agent is linked a constraint agent representing the constraint that the value of this output must be equal to 0 when the springs strengths are at equilibrium.
 \end{compactitem}
-
-
-\begin{figure}
-[[TODO - put formula]]
-\caption{Sum of springs strengths model computation.}\label{springs_model}
-\end{figure}
 
 The generation procedure is synthesized in algorithm \ref{algo_springs}.
 
