@@ -733,22 +733,22 @@ As a remark, let us add that our implementation of the agent behavior was far fr
 
 The automated agents graphs we detailed in the previous sections are useful to study raw scalability performances on different problem sizes. They are limited, however, by the fact that the problems they represent are meaningless. Consequently this kind of automated graphs are not useful to study the performances of the system in regard to the convergence toward a correct solution.
 
-In this section, we propose a method to automatically generate another kind of problems graphs. The idea is to use graphs representing springs networks, where the edges linking the vertices represent springs whose extremities are tied together. Some of the nodes are fixed to arbitrary positions, while the goal of the problem is to find the position of the free nodes for which the spring network is stable, that is, where all the tensions of the springs connected to a node are at an equilibrium.\\
+In this section, we propose a method to automatically generate another kind of problems graphs. The idea is to use graphs representing springs networks, where the edges linking the vertices represent springs whose extremities are tied together. Some of the nodes are fixed to arbitrary positions, while the goal of the problem is to find the position of the free nodes for which the spring network is stable, that is, where all the forces of the springs connected to a node are at an equilibrium.\\
 The interest of such problem is that the springs network can be generated using classical graph generator algorithms, and that there is a unique (as long as at least one node has a fixed position) and easily verifiable solution.
 
 \subsection{Representing Springs Networks with NDMO}
 
 A major difference with the previous generated problems is that, in the case of the springs networks, the generated graph does not represent directly the agents graph. We must propose a NDMO modeling of the springs network in order to be able to apply our method.
 
-The springs networks can be represented in 1, 2 or even more dimensions, each additional dimension adding a new coordinate for the position of the nodes. Interestingly, each dimension is independent in the sense that the strengths applied by the springs to the nodes can be computed independently. Consequently the agents graph representing a spring network in n dimensions will be composed of n independent connected components.
+The springs networks can be represented in 1, 2 or even more dimensions, each additional dimension adding a new coordinate for the position of the nodes. Interestingly, each dimension is independent in the sense that the strengths applied by the springs to the nodes can be computed independently\footnote{This is only true because we make the simplifying hypothesis that the springs can have a size of zero}. Consequently the agents graph representing a spring network in n dimensions will be composed of n independent connected components.
 
 We present here the procedure to generate the NDMO graph for springs of one dimension, which can easily be generalized to n dimensions:
 \begin{compactitem}
 \item First of all the springs network is generated using a given graph generator.
-\item Each spring (\emph{i.e.} the edges of the graph) is given a random tension strength. In our experiments the tension strengths were drawn randomly between 1 and 100.
+\item Each spring (\emph{i.e.} the edges of the graph) is given a random force constant. In our experiments the forces were drawn randomly between 1 and 100.
 \item Each node has a random chance of becoming a fixed node (in our experiments this probability was fixed to 0.3). If the node is fixed, its current coordinate is set as a constant value.
 \item For each free node, a variable agent is created, representing its coordinate.
-\item For each spring linked to at least one free node, a model agent is created, representing the current tension of the spring based on its initial tension and the coordinates of the nodes to which the spring is linked. The exact computations for calculating the tension strength of a spring is $(x_1 - x_2) \times k$, where $x_1, x_2$ are the coordinates of the linked nodes and $k$ is the initial tension of the spring. This model takes in input the value of the variable agents of the linked nodes (if one of the node is fixed, its coordinate is used as a constant). For each model agent, an output agent is created representing the output value of the model.
+\item For each spring end linked to a free node, a model agent is created, representing the force applied to the node connected at this spring end, based on the spring constant and the coordinate. The exact computations for calculating the force of a spring is $(x_1 - x_2) \times k$, where $x_1, x_2$ are the coordinates of the nodes linked to the spring and $k$ is the initial force of the spring. This model takes in input the value of the variable agents of the linked nodes (if one of the node is fixed, its coordinate is used as a constant). For each model agent, an output agent is created representing the output value of the model.
 \item For each variable agent, a model agent is created, representing the sum of the spring strengths applied to the node. This model agent takes in input the output agents representing the strengths applied by the linked springs.
 \item For each of these model agents, an output agent is created. To this output agent is linked a constraint agent representing the constraint that the value of this output must be equal to 0 when the springs strengths are at equilibrium.
 \end{compactitem}
@@ -762,7 +762,7 @@ The generation procedure is synthesized in algorithm \ref{algo_springs}.
 	$G(nodes, edges) \leftarrow GraphGenerator(n)$\;
 	
 	\ForEach{$e \in G.edges$}{
-		$e.initTension \leftarrow random(1,100)$\;
+		$e.initForce \leftarrow random(1,100)$\;
 	}
 			
 	\ForEach{$n_i \in G.nodes$}{
@@ -779,32 +779,34 @@ The generation procedure is synthesized in algorithm \ref{algo_springs}.
 		}
 	}
 	\ForEach{$e_i \in G.edges$}{
-		\If{ ($e_i.n_1$ is free) $\vee$ ($e_i.n_2$ is free)}{
-			\tcp{create tension model}
-			$tension_i \leftarrow$ new tension model agent\;
-			\eIf{$e_i.n_1$ is free}{
-				link($x_{n_1}$, $tension_i$)\;				
-			}{
-				addConstant($c_{n_1}$, $tension_i$)\;
-			}
-			\eIf{$e_i.n_2$ is free}{
-				link($x_{n_2}$, $tension_i$)\;				
-			}{
-				addConstant($c_{n_2}$, $tension_i$)\;
-			}
-			$t_i \leftarrow$ new output agent\;
-			link($tension_i$, $t_i$)\;
+		
+		\ForEach{$n_i \in e_i.linked\_nodes$}{
+			\If{$e_i.n_i$ is free}{
+				\tcp{create new force model for this free node}	
+				$force_{i,n_i} \leftarrow$ new force model agent\;
+				link($x_{n_i}$, $force_{i,n_i}$)\;
+								
+				\eIf{$e_i.n_{j \neq i}$ is free}{
+					\tcp{if the other node is free, add it as input..}
+					link($x_{n_j}$, $force_{i,n_j}$)\;				
+				}{
+					\tcp{...else add it as constant}
+					addConstant($c_{n_j}$, $force_{i,n_i}$)\;
+				}
+				
+				$f_{i,n_i} \leftarrow$ new output agent\;
+				link($force_{i,n_i}$, $f_{i,n_i}$)\
+			}		
 		}
 	}
 	\ForEach{$x_i \in $ Variable agents}{
-		\tcp{create sum of strengths model agent}
+		\tcp{create sum of forces model agent}
 		$sum_i \leftarrow $ new sum model agent\;
 		\ForEach{$e_j \in n_i.edges$}{
-			link($t_j$, $sum_i$)\;
+			link($f_j$, $sum_i$)\;
 		}
-		$s_i \leftarrow $ new output agent\;
+		$s_i \leftarrow$ new output agent\;
 		link($sum_i$, $s_i$)\;
-		\;
 		\tcp{create constraint}
 		$c_i \leftarrow$ new constraint agent\;
 		link($s_i$, $c_i$)\;
@@ -812,7 +814,7 @@ The generation procedure is synthesized in algorithm \ref{algo_springs}.
 \end{algorithm}
 
 An example of transformation is presented on \figurename{} \ref{springs_example}. On \figurename{} \ref{springs_example:springs} is shown a simple springs network with a fixed node A and two free nodes B and C. The nodes are linked by edges 1 and 2. The corresponding agents graph (for one dimension) is shown on \figurename{} \ref{springs_example:agents}.\\
-Notice how, since the node A is fixed, the model $tension_1$ only takes the coordinate of B in input. It can also be seen that, since B is linked to two springs, the model $sum_B$, representing the sum of strengths applied to B, takes two values as inputs while, since C is linked to only one spring, $sum_C$ only takes one input.
+Notice how, since the node A is fixed, the model $force_{1,B}$ only takes the coordinate of B in input. It can also be seen that, since B is linked to two springs, the model $sum_B$, representing the sum of strengths applied to B, takes two values as inputs while, since C is linked to only one spring, $sum_C$ only takes one input.
 
 \begin{figure}
 \centering
@@ -821,7 +823,7 @@ Notice how, since the node A is fixed, the model $tension_1$ only takes the coor
 \caption{Spring network.}\label{springs_example:springs}
 \end{subfigure}
 \qquad
-\begin{subfigure}[b]{0.35\textwidth}
+\begin{subfigure}[b]{0.45\textwidth}
 \includegraphics[width=\textwidth]{springs_example_NDMO}
 \caption{Corresponding agents graph.}\label{springs_example:agents}
 \end{subfigure}
