@@ -742,13 +742,13 @@ A major difference with the previous generated problems is that, in the case of 
 
 The springs networks can be represented in 1, 2 or even more dimensions, each additional dimension adding a new coordinate for the position of the nodes. Interestingly, each dimension is independent in the sense that the strengths applied by the springs to the nodes can be computed independently\footnote{This is only true because we make the simplifying hypothesis that the springs can have a size of zero}. Consequently the agents graph representing a spring network in n dimensions will be composed of n independent connected components.
 
-We present here the procedure to generate the NDMO graph for springs of one dimension, which can easily be generalized to n dimensions:
+We present here the procedure to generate the NDMO graph \emph{for springs of one dimension}, which can easily be generalized to n dimensions:
 \begin{compactitem}
 \item First of all the springs network is generated using a given graph generator.
 \item Each spring (\emph{i.e.} the edges of the graph) is given a random force constant. In our experiments the forces were drawn randomly between 1 and 100.
 \item Each node has a random chance of becoming a fixed node (in our experiments this probability was fixed to 0.3). If the node is fixed, its current coordinate is set as a constant value.
 \item For each free node, a variable agent is created, representing its coordinate.
-\item For each spring end linked to a free node, a model agent is created, representing the force applied to the node connected at this spring end, based on the spring constant and the coordinate. The exact computations for calculating the force of a spring is $(x_1 - x_2) \times k$, where $x_1, x_2$ are the coordinates of the nodes linked to the spring and $k$ is the initial force of the spring. This model takes in input the value of the variable agents of the linked nodes (if one of the node is fixed, its coordinate is used as a constant). For each model agent, an output agent is created representing the output value of the model.
+\item For each spring end linked to a free node, a model agent is created, representing the force applied to the node connected at this spring end, based on the spring constant and the coordinate. The exact computations for calculating the force of a spring on a linked node $n_1$ is $(x_2 - x_1) \times k$, where $x_1, x_2$ are the coordinates of the nodes linked to the spring and $k$ is the initial force of the spring. This model takes in input the value of the variable agents of the linked nodes (if one of the node is fixed, its coordinate is used as a constant). For each model agent, an output agent is created representing the output value of the model.
 \item For each variable agent, a model agent is created, representing the sum of the spring strengths applied to the node. This model agent takes in input the output agents representing the strengths applied by the linked springs.
 \item For each of these model agents, an output agent is created. To this output agent is linked a constraint agent representing the constraint that the value of this output must be equal to 0 when the springs strengths are at equilibrium.
 \end{compactitem}
@@ -825,7 +825,7 @@ Notice how, since the node A is fixed, the model $force_{1,B}$ only takes the co
 \qquad
 \begin{subfigure}[b]{0.45\textwidth}
 \includegraphics[width=\textwidth]{springs_example_NDMO}
-\caption{Corresponding agents graph.}\label{springs_example:agents}
+\caption{Corresponding agents graph (for one dimension).}\label{springs_example:agents}
 \end{subfigure}
 
 \caption{Example of springs network transformation.}\label{springs_example}
