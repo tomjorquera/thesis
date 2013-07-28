@@ -736,8 +736,8 @@ Therefore we can say that, by forcing ourselves to keep the agent behavior at a 
 
 \section{Non-Cooperative Situations}\label{NCS_pres}
 
-In the previous sections, we presented the basic agent behavior of our system. Algorithm \ref{agent_algo} is a synthesis of the behavior of each agent type. While this basic behavior could suffice in very simple test cases, it is not sufficient to handle the specificities of most continuous optimization problem configurations. In these situations, the nominal agent behavior (presented in the previous section) would lead to a suboptimal result.\\
-Based on the AMAS theory (presented in section \ref{amas_theory}), we can consider these configurations to be Non Cooperative Situations (NCS), as they represent a situation where, because of a shortcoming in the behavior of the agents, the system does not produce an adequate functionality (in our case, the optimization of the problem).\\
+In the previous sections, we presented the basic agents behaviors of our system. Algorithm \ref{agent_algo} is a synthesis of the behavior of each agent type. While this basic behavior could suffice in very simple test cases, it is not sufficient to handle the specificities of most continuous optimization problem configurations. In these situations, this nominal agent behavior would lead to a suboptimal result.\\
+Based on the AMAS theory (presented in section \ref{amas_theory}), we can consider these configurations to be Non Cooperative Situations (NCSs), as they represent a situation where, because of a shortcoming in the behavior of the agents, the system does not produce an adequate functionality (in our case, the optimization of the problem).\\
 Consequently, we need for each NCS to provide the agents with specific mechanisms to:
 \begin{compactenum}
 \item detect occurring instances of the NCS
@@ -745,9 +745,9 @@ Consequently, we need for each NCS to provide the agents with specific mechanism
 \item if possible, anticipate future instances of the NCS and avoid them
 \end{compactenum}
 
-Methodologically, by studying how the system handles specific problems with characteristics which are specific to continuous optimization (interdependencies, conflicting criteria \emph{etc.}), we identified several problematic configuration types, and defined different cooperation mechanisms for the agents that enable the system to correctly solve problems which exhibit these characteristics.
+Methodologically, by studying how the system handles specific problems with characteristics which are specific to continuous optimization (interdependencies, conflicting criteria \emph{etc.}), we identified several problematic configuration types, and defined different cooperation mechanisms for the agents that allow the system to correctly solve problems which exhibit these characteristics.
 
-We will now present some additional mechanisms to handle some specific problematic cases we identified.
+We will now present the NCSs we identified as well as the solving mechanisms we propose to handle them.
 
 \subsection{Conflicting Requests}\label{conflicting_requests_mechanism}
 
@@ -813,7 +813,7 @@ This function allows a smooth transition between two states and provides several
 When the system converges to a solution, it stabilizes at a point where the maximum of the criticalities of the agents is minimized.
 %%
 
-An illustration on this mechanism can be seen on \figurename{} \ref{NCS_1_conflicting_requests}. In this example, a variable agent (with a current value of 3) receives contradictories requests from an objective (decrease) and a constraint (increase). As the constraint is not satisfied, the criticality associated to its request (0.85) is higher than the one of the objective (0.5). As a consequence the variable agent selects the request of the constraint agent and increases its value.
+An illustration of this mechanism can be seen on \figurename{} \ref{NCS_1_conflicting_requests}. In this example, a variable agent (with a current value of 3) receives contradictories requests from an objective (decrease) and a constraint (increase). As the constraint is not satisfied, the criticality associated to its request (0.85) is higher than the one of the objective (0.5). As a consequence the variable agent selects the request of the constraint agent and increases its value.
 
 \begin{figure}
 	\centering
@@ -1465,4 +1465,4 @@ The AMAS theory has proved to be an effective guide to the conception of our sys
 
 We then showed how both our modeling and solving mechanisms are modular enough to be extended in order to handle additional concerns by proposing some modifications which allow to take in account the handling of uncertainties during the optimization process. We detailed the requirements for the agents to be able to handle uncertain values instead of normal numerical values, and we introduced the new concept of uncertainty propagator to provide, using the designers expertise of the uncertainties, an automatic mechanism for propagating heterogeneous uncertainties in the system.
 \\
-Uncertainties handling is an important concerns in design optimization. As design optimization problems are among the most complex continuous optimization problems, it seemed important to us to provide such functionalities for the system. A quite interesting work would be to propose new ways to extend the system, for example replacing numerical values by vectors, or by extending model agents to manipulate multiple models of different fidelity, experimenting with the possibilities (and the limits) of our proposed modeling.
+Uncertainties handling is an important concern in design optimization. As design optimization problems are among the most complex continuous optimization problems, it seemed important to us to provide such functionalities for the system. A quite interesting work would be to propose new ways to extend the system, for example replacing numerical values by vectors, or by extending model agents to manipulate multiple models of different fidelity, experimenting with the possibilities (and the limits) of our proposed modeling.
