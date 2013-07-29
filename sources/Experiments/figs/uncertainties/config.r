@@ -20,25 +20,23 @@ plot(
 	)
 #constraints
 points(	constraints[,1], constraints[,2],
-	lty = "dashed",col="red", type="l")
+	lty = "longdash",col="red", type="l")
 
 points(	constraints[,1], constraints[,3],
-	lty = "dashed",col="red", type="l")
+	lty = "longdash",col="red", type="l")
 
-#points(	constraints[,1], constraints[,4],
-#		col="red", type="l")
-
-abline(a=,b=,v=376.75,lty = "dashed",col="red") #draw vertical longdashed line
+points(	constraints[,4], constraints[,1],
+	lty = "longdash",col="red", type="l")
 
 #constraints robusts
 points(	constraints_robust[,1], constraints_robust[,2],
-	lty = "dotted",col="red", type="l")
+	lty = "dotted",col="red", type="l", lwd=1.5)
 
 points(	constraints_robust[,1], constraints_robust[,3],
-	lty = "dotted",col="red", type="l")
+	lty = "dotted",col="red", type="l", lwd=1.5)
 
-abline(a=,b=,v=329,lty = "dotted",col="red") #draw vertical longdashed line
-
+points(	constraints_robust[,4], constraints_robust[,1],
+	lty = "dotted",col="red", type="l", lwd=1.5)
 
 #solution points
 points(x = 376.26, y = 186.95, col = "blue", pch = 1, cex = 4)
