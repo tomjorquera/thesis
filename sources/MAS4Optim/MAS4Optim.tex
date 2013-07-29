@@ -1073,7 +1073,7 @@ The aim is to find coherent values for \emph{x} and \emph{y}. Since models are b
  
 \begin{compactitem}
 \item \(a1, a2 = 1\): in this case any value for both \emph{x} and \emph{y} satisfies the problem, there is an infinity of fixed points
-\item \(a1, a2 < 1\): in this case the system will converge towards the solution. The fixed point is said to be \emph{attractive}
+\item \(a1, a2 < 1\): in this case the system will converge toward the solution. The fixed point is said to be \emph{attractive}
 \item \(a1, a2 > 1\): in this case the system will diverge in the opposite direction of the fixed point, which is said to be \emph{repulsive}
 \end{compactitem}
 
@@ -1101,7 +1101,7 @@ The output agents will be in charge of detecting and handling cycles, as they ar
 To detect a cycle, the output agent creates a correspondence table associating for each origin agent the last signature it received from it. When receiving a message, the agent checks its origin. If the origin agent is not present in the table, the agent adds it. If it is present, it compares the new signature with the one it memorized. If the signatures are different, the agent replaces the old signature with the new one (as the new signature corresponds to a more recent request). If the two signatures match, then there is a cycle.
 
 \paragraph*{Finding Fixed Points}
-In case of a cycle, the output agent must now determine if the cycle is converging or diverging towards the fixed point. As in the general case all models are black boxes, the output agent needs to observe the evolution of output values while iterating through the cycle. If the difference between successive values is decreasing, the cycle is converging towards the fixed point, else the cycle is diverging as the variables are going in the \enquote{wrong direction}. To this end, the output agent memorizes the difference between its old and new value, and continues as usual. When receiving the next message from the cycle, it calculates the new difference which enables it to decide if the cycle is converging or not towards the fixed point.
+In case of a cycle, the output agent must now determine if the cycle is converging or diverging toward the fixed point. As in the general case all models are black boxes, the output agent needs to observe the evolution of output values while iterating through the cycle. If the difference between successive values is decreasing, the cycle is converging toward the fixed point, else the cycle is diverging as the variables are going in the \enquote{wrong direction}. To this end, the output agent memorizes the difference between its old and new value, and continues as usual. When receiving the next message from the cycle, it calculates the new difference which enables it to decide if the cycle is converging or not toward the fixed point.
 
 If the cycle is converging, the output agent does not need to do any special action. But in case of a diverging cycle, instead of taking the requested value, the agent emits to its model a request for the opposite direction (\emph{i.e.}, if the value of the output should have increased of \emph{n}, the agent will request a new value corresponding to a decrease of \emph{n}). The request will propagate through the cycle until the fixed point is found.
 
