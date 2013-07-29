@@ -4,34 +4,32 @@ In this part we present some of the results we obtained with our system on sever
 
 Our validation approach for our system was divided in three phases:
 \begin{compactitem}
-\item Validating the mechanisms of our system on simple representative test cases
+\item Validating the mechanisms on simple representative test cases
 \item Evaluating the optimization performances and comparison with existing methods on benchmark test cases
-\item Testing the raw performances and scalability capabilities of our system using automatically generated optimization problems.
+\item Testing the raw performances and scalability capabilities using automatically generated optimization problems.
 \end{compactitem}
 
-The first type of optimization problems are small enough to be solved by classical optimization techniques, however they exhibit interesting properties representative of complex optimization problem. We used these problem to identify and tune the required cooperative mechanisms for our system.\\
-We also made additional experiments in order to evaluate others functionalities of our systems: uncertainties propagation and adaptations to changes.
+The optimization problems of the first type are small enough to be solved by classical optimization techniques, however they exhibit interesting properties representative of complex optimization problems. We used these problems to identify and tune the required cooperative mechanisms for our system.\\
+We also made additional experiments in order to evaluate others functionalities: uncertainties propagation and adaptations to changes.
 
-The second type of optimization problems correspond to test cases used by the scientific community as benchmarks for comparing MDO methods.
+The optimization problems of the second type correspond to test cases used by the scientific community as benchmarks for comparing MDO methods.
 
-The third type of optimization problems are algorithmically generated with the purpose of producing a base of problems of different sizes and topologies. This allows us to study the behavior when modifying the size of the problems to solve.
+The optimization problems of the third type are algorithmically generated with the purpose of producing a base of problems of different sizes and topologies. This allows us to study the behavior when modifying the size of the problems to solve.
 
-In every experiments, we tested the system with only the internal optimization mechanisms of the agents, without providing them with external optimization tools.
+In every experiment, we tested the system with only the internal optimization mechanisms of the agents, without providing them with external optimization tools.
 
 \chapter{Behavior Validation using Academic Test Cases}
 
 This section presents some of the results we obtained on several test cases: Turbofan Problem, Viennet1, Rosenbrock's valley and Alexandrov. These test cases are not big enough to be truly qualified of \enquote{complex}, but exhibit specific properties which can be found in complex test cases. Consequently they are useful to study and validate the cooperative behavior of the agents.
-
-In each test cases, the MAS consistently converges towards the best (or one of the best) solution.
 
 \section{Turbofan Problem}
 
 We previously introduce the turbofan problem in \ref{modeling}. As stated before, the problem concerns two \emph{design variables} $pi\_c$ and $bpr$. $pi\_c$ is defined inside the interval [20 - 40] and $bpr$ inside [2 - 10]. The model produces three variables $Tdm0$, $s$ and $fr$.
 
 The problem has two objectives, maximizing $Tdm0$ and minimizing $s$, under the constraint \(s \leq 155\) and \(fr \geq 4\).
-This problem exhibit contradictory criteria that need to be handled at different levels ($min s$ and $s \leq 155$ needs to be handled by $s$, the resulting request from $s$ and the others criteria must be handled by $Turbofan Model$), with cooperative trajectory requirements for $bpr$ and $pi\_c$.
+This problem exhibits contradictory criteria that need to be handled at different levels ($min s$ and $s \leq 155$ needs to be handled by $s$, the resulting request from $s$ and the others criteria must be handled by $Turbofan Model$), with cooperative trajectory requirements for $bpr$ and $pi\_c$.
 
-On \figurename{} \ref{snecma_res}, the system is executed 100 times with random starting points for each \emph{design variable}, using only internal optimization mechanisms. As we can see, the system consistently converges toward the same optimal solution.
+On \figurename{} \ref{snecma_res}, the system is executed 100 times with random starting points for each \emph{design variable}, using only internal optimization mechanisms. As we can see, the system consistently converges toward the same optimal solution, \emph{i.e.} the system finds an optimal values of for the two objectives with the constraints satisfied.
 
 \begin{figure}[h]
 	\begin{subfigure}[b]{0.4\textwidth}
@@ -83,7 +81,7 @@ The Viennet1 test case is part of a series of problems proposed in \cite{viennet
 
 Rosenbrock's valley is non-convex function commonly used to test convergence capabilities of an optimization method \cite{Rosenbrock01011960}.
 
-The analytical formulation of this problem (for two dimensions) is 
+The analytical formulation of this problem (for two dimensions) is:
 $$\text{Minimize } f(x,y) = (1-x)^2 + 100(y - x^2)^2$$
 
 The Rosenbrock's valley problem is interesting in the fact that the global minimum is \enquote{hidden} into a narrow parabolic valley. The optimization method must thus get down into the valley and manage to follow its bottom until reaching the global optimum. Consequently it is a very adequate problem to test the cooperative trajectories mechanisms of our system.
@@ -117,7 +115,7 @@ This problem was also used in \cite{Ilan:1994:MOM:887207} as an application exam
 
 \section{Alexandrov Problem}
 
-Our last test case is inspired from an academic example taken in literature by Alexandrov \emph{et al}\cite{alexandrov2002analytical}. This example presents many of the commons characteristics of MDO problems: a cycle (albeit converging) and multiple criteria requiring cooperative trajectories. In the original article, the example was used to illustrate some properties of Collaborative Optimization, which we presented earlier, in terms of reformulation. While the paper only gave the structure of the problem, we adapted it with meaningful values and equations.
+Our last test case is inspired from an academic example taken in literature by Alexandrov \emph{et al}\cite{alexandrov2002analytical}. This example presents many of the commons characteristics of MDO problems: a cycle (albeit converging) and multiple criteria requiring cooperative trajectories. In the original study, the example was used to illustrate some properties of Collaborative Optimization, which we presented earlier, in terms of reformulation. While the original work only gave the structure of the problem, we adapted it with meaningful values and equations.
 
 The mathematical formulation of the problem and the corresponding agent graph can be seen in \figurename{} \ref{alexandrov}. Interestingly, the NDMO representation is quite similar to the one adopted by the original authors of the problem.
 
@@ -179,7 +177,7 @@ On \figurename{} \ref{alexandrov_res_one}, the behavior of the \emph{design vari
 
 \end{figure}
 
-On \figurename{} \ref{alexandrov_res}, we show the evolution of the objective over 100 iterations with starting points for each \emph{design variable} randomly drawn over the interval [-100; 100]. We can see how the system converges towards the same optimum despite the wildly different initial conditions.
+On \figurename{} \ref{alexandrov_res}, we show the evolution of the objective over 100 iterations with starting points for each \emph{design variable} randomly drawn over the interval [-100; 100]. We can see how the system converges toward the same optimum despite the wildly different initial conditions.
 
 \begin{figure}
 \centering
@@ -192,7 +190,7 @@ On \figurename{} \ref{alexandrov_res}, we show the evolution of the objective ov
 
 In this section we presented several academic test cases exhibiting classical properties of complex continuous optimization problems. We shown how the system was able to consistently converge on each test case toward an optimum solution, for multiple starting points.
 
-Summarized results illustrating the convergence of the system. are presented on \tablename{} \ref{experiments_res}. The first group of values represents the number of evaluations which was needed for respectively 10\%, 50\% and 90\% of the instances to find the best solution. The second group represent the average distance to the best solution (truncated at $10^{-3}$) among all instances at different times (0\% being the start 100\% being the end of the solving in the worst case).
+Summarized results illustrating the convergence of the system are presented on \tablename{} \ref{experiments_res}. The first group of values represents the number of evaluations which was needed for respectively 10\%, 50\% and 90\% of the instances to find the best solution. The second group represents the average distance to the best solution (truncated at $10^{-3}$) among all instances at different times (0\% being the start 100\% being the end of the solving in the worst case).
 
 \begin{table}
 \caption{Summary of experiments results for the tests cases}\label{experiments_res}
@@ -234,10 +232,10 @@ The deterministic version is the following:
 	\text{min }& f = \dfrac{2 g^3 L \sigma S_d}{C_L (A M^m {\sigma}^n \eta_{P,Cr} E)^2 \sigma (H)} \dfrac{1}{ \left( \dfrac{m_{MTO}}{S_W} \right) } \left(\dfrac{P_{TO}}{m_{MTO}}\right)^3  \\
 	\text{s.t. } & g_1 = \dfrac{m_{MTO}}{S_W} - \dfrac{k_L \sigma C_{L, max, L} S_{LFL}}{ m_{ML}/m_{MTO}}\leq 0 \\
 						&	g_2 = \dfrac{k_{TO} V g }{s_{TOFL} \sigma C_{L, max, TO} \eta_{P, TO}} - \dfrac{P_{TO}/m_{MTO}}{m_{MTO}/S_W} \leq 0\\
-						&	g_3 = V_{CR}\dfrac{V_{md}}{E \eta_{P, CR} A M^m {\sigma}^n} \sqrt{\dfrac{\pi A e {\rho}_0 \sigma(H)g}{4 E_{max}}} - \dfrac{P_{TO}}{M_{MTO}} \sqrt{\dfrac{m_{MTO}}{S_W}} \leq \\
+						&	g_3 = V_{CR}\dfrac{V_{md}}{E \eta_{P, CR} A M^m {\sigma}^n} \sqrt{\dfrac{\pi A e {\rho}_0 \sigma(H)g}{4 E_{max}}} - \dfrac{P_{TO}}{M_{MTO}} \sqrt{\dfrac{m_{MTO}}{S_W}} \leq 0\\
 \end{align*}
 
-where $\dfrac{m_{MTO}}{S_W}$ and $\dfrac{P_{TO}}{m_{MTO}}$ are the two design variables of the problem, representing respectively the power/mass ratio and the wing loading of the aircraft, and the other values are constants. The three constraints concern respectively the takeoff length, landing length and cruising speed. The solution to the deterministic problem is $\dfrac{m_{MTO}}{S_W} = 377$ and $\dfrac{P_{TO}}{m_{MTO}} = 187$, for $f = 2.15E+08$.
+where $\dfrac{m_{MTO}}{S_W}$ and $\dfrac{P_{TO}}{m_{MTO}}$ are the two design variables of the problem, representing respectively the power/mass ratio and the wing loading of the aircraft, and the other values are constant. The three constraints concern respectively the takeoff length, landing length and cruising speed. The solution to the deterministic problem is $\dfrac{m_{MTO}}{S_W} = 377$ and $\dfrac{P_{TO}}{m_{MTO}} = 187$, for $f = 2.15E+08$.
 
 In the version with uncertainties, normal distribution laws are associated with some variables of the problem. The variables and associated uncertainties are shown in \tablename{} \ref{uncertainties_values}
 
@@ -276,7 +274,7 @@ The trajectory of the system is shown on \figurename{} \ref{sequential_optim_fig
 
 \subsection{Perturbated Alexandrov Problem}
  
-On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous experimentation on the problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges towards a new solution which satisfies the updated constraint.
+On \figurename{} \ref{alexandrov_res_pert}, we can observe the reaction of the multi-agent system to a perturbation. During the solving of the previous experimentation on the problem, we changed the threshold of the constraint $s + l_1 \leq 1$ to $s + l_1 \leq -4$ (the change is indicated by a dotted line on the charts). The system dynamically adapts to the constraint changed and converges toward a new solution which satisfies the updated constraint.
 
 \begin{figure}[]
 \centering
@@ -365,7 +363,7 @@ The experiments show that the system consistently reacts to these perturbations 
 
 \chapter{Comparison with Existing Methods}
 
-In this chapter we provide a comparison of our MAS with existing MDO methods. This comparison is based on the work of \cite{perez2004evaluation, Yi2008}. These two works are complementary as both of them concern a common subset of representative MDO methods: MDF, IDF, CSSO, BLISS and CO.
+In this chapter we provide a comparison of our MAS with existing MDO methods. This comparison is based on the work of \cite{perez2004evaluation, Yi2008}. These two works are complementary as both of them concern a common subset of representative MDO methods: Multidisciplineary Feasible (MDF), Individual Discipline Feasible (IDF), Concurrent Subspace Optimization (CSSO), Bilevel Integrated System Synthesis (BLISS) and Collaborative Optimization (CO).
 
 The work of \cite{perez2004evaluation} presents an analysis of these methods based on two test cases and rank them on multiple criteria: \emph{Accuracy, Efficiency, Transparency, Simplicity, Portability}.
 
@@ -390,7 +388,7 @@ The \emph{Accuracy} criterion reflects the aptitude of the method to find the in
  
 The \emph{Efficiency} criterion concerns the computational cost required by the method to provide its solution. When counting the number of evaluation calls, a distinction is made between discipline evaluations and full problem evaluations, the latter being considered considerably more costly than the former. Our MAS does not require any full problem evaluation, using only disciplines evaluations.
  
-The \emph{Simplicity} criterion concerns the amount of work required to instantiate the method to suit different optimization problem. The original authors chose to evaluate this criterion using to measures: the number of optimizers involved and the number of additional variables required by the method.
+The \emph{Simplicity} criterion concerns the amount of work required to instantiate the method to suit different optimization problem. The original authors chose to evaluate this criterion using two measures: the number of optimizers involved and the number of additional variables required by the method.
 
 The \emph{Transparency} criterion is the less well-defined and can be perceived as somewhat subjective. The original authors give as an example that \enquote{a probability-based method can be seamlessly integrated into a transparent formulation, which does not require major changes of the architecture to accomplish the integration.}
 
@@ -410,9 +408,9 @@ Our first comparison test case comes from \cite{perez2004evaluation}. It was ori
 							& 0 \leq x_2, x_3 \leq 10
 \end{align*}
 
-The problem is divided into two disciples. The discipline 1 corresponds to the computation of $y_1$ and $g_1$, while the discipline 2 corresponds to the computation of  $y_2$ and $g_2$. The authors use the same initial points $x_1 = 1$, $x_2 = 5$, $x_3 = 2$ for each analysis. The optimum for this problem is located at $x_1 = 1.9776$, $x_2 = 0$, $x_3 = 0$, for which the value of $f$ is $3.1834$.
+The problem is divided into two disciplines. The discipline 1 corresponds to the computation of $y_1$ and $g_1$, while the discipline 2 corresponds to the computation of  $y_2$ and $g_2$. The authors use the same initial points $x_1 = 1$, $x_2 = 5$, $x_3 = 2$ for each analysis. The optimum for this problem is located at $x_1 = 1.9776$, $x_2 = 0$, $x_3 = 0$, for which the value of $f$ is $3.1834$.
 
-We present here the comparison of our method with the ones evaluated in \cite{perez2004evaluation}, based on the different comparison criteria. The authors originally compared the MDF, IDF, CSSO, CO and BLISS methods. We reproduce their results here and add our method to the comparisons under the term \textbf{AMAS}.
+We present here the comparison of our method with the ones evaluated in \cite{perez2004evaluation}. We reproduce their results here and add our method to the comparisons under the term \textbf{AMAS}.
 
 Regarding the simplicity criterion, the relevant measures are shown in \tablename{} \ref{bench1_simplicity}.
 
@@ -584,12 +582,12 @@ In regard of the accuracy criterion, our method provides good results, consisten
 
 In regard of the efficiency criterion, our method is on part with the most efficient MDO methods.Moreover, our experiments were done using only the agents internal optimization mechanisms. Even better results could be expected if the agents were provided with adequate external optimizers.
 
-In regard of the simplicity criterion, for the number of objectives, our method requires $n$ optimizers ($n$ being the number of models involved). In this regard it is less efficient than MDF and IDF, which only require 1 optimizer, but is better than the other methods which require $n+1$ optimizers (1 by model plus 1 global optimizer). For the number of additional variables, our method in on par with MDF, the best method in regard of this measure, as neither of them require any additional variable.\\
-The only method dominating our own in regard of this criterion is MDF. Our method can be considered on part with IDF, as neither of them dominate the other on both measures.
+In regard of the simplicity criterion, for the number of objectives, our method requires $n$ optimizers ($n$ being the number of models involved). In this regard it is less efficient than MDF and IDF, which only require 1 optimizer, but is better than the other methods which require $n+1$ optimizers (1 by model plus 1 global optimizer). For the number of additional variables, our method is on par with MDF, the best method in regard of this measure, as neither of them require any additional variable.\\
+The only method dominating our own in regard of this criterion is MDF. Our method can be considered on par with IDF, as neither of them dominate the other on both measures.
 
 In regard of the transparency criterion, we have shown that our approach was modular and extensible, due to the distribution of roles between the agents and to the explicitly encapsulation of mathematical tools (analytical models, external optimizers). We demonstrated this modularity with the addition of uncertainty propagation mechanisms into the MAS.
 
-In regard of the portability criterion, our method is extremely flexible as it support multiple levels of modeling and multiple reformulations of the problem. Consequently the problem can be \enquote{tailored} to fit the existing organizational structure. Contrary to the MDO methods, our method does not require a \emph{central} authority as the responsibility to maintaining consistency is distributed in the system.
+In regard of the portability criterion, our method is extremely flexible as it supports multiple levels of modeling and multiple reformulations of the problem. Consequently the problem can be \enquote{tailored} to fit the existing organizational structure. Contrary to the MDO methods, our method does not require a \emph{central} authority as the responsibility to maintaining consistency is distributed in the system.
 
 \chapter{Evaluating Scalability Performances using Generated Test Cases}
 
@@ -602,8 +600,8 @@ In this section we present some measures we established in regard of the scalabi
 In order to realize our experiments, we required a large number of test cases of several sizes and comparable complexity. Since such repository of continuous optimization problems is not readily available, we worked on a way to automatically generate them. To this end, we took advantage of the fact that, as demonstrated with our NDMO modeling, an optimization problem can be represented as a graph. Consequently it is possible to use well-known graph generation techniques and directly generate problem graphs.
 
 We propose a very simple method to generate simple problem graphs. First we use a graph generation algorithm to generate a directed graph of size $n$. The nodes of this graph represent the variables of the problem and the arcs their dependencies. If a node is not the head of any arc (\emph{i.e.} there is no arc going to this node), it is a design variable, otherwise it is an output variable.\\
-The next step is to insert models. As we stated, the optimization problem in itself is of little importance in this part. Consequently our only requirement for the model is that they must be able to take an arbitrary number of inputs and produce one output. In our experiments we used a simple \emph{Sum} function. For each output variable, we insert a node representing the model in the graph. The links going to the output variable node are redirected to the model node, and a link going from the model node to the output node is create.\\
-After this step, criteria are randomly added to variable nodes. In our experiments, we given a 20\% probability of a variable node to be linked to a criterion, with half the chance for the criterion to be an objective and half the change for it to be a constraint. Once more, in order to simplify the problem generation, all objectives are about minimizing the variable, and are constraints are about having the variable higher of equal to zero.
+The next step is to insert models. As we stated, the optimization problem in itself is of little importance in this part. Consequently our only requirement for the model is that they must be able to take an arbitrary number of inputs and produce one output. In our experiments we used a simple \emph{Sum} function. For each output variable, we insert a node representing the model in the graph. The links going to the output variable node are redirected to the model node, and a link going from the model node to the output node is created.\\
+After this step, criteria are randomly added to variable nodes. In our experiments, we given a 20\% probability of a variable node to be linked to a criterion, with half the chance for the criterion to be an objective and half the change for it to be a constraint. Once more, in order to simplify the problem generation, all objectives are about minimizing the variable, and all constraints are about having the variable higher of equal to zero.
 
 The generation method is summarized in \ref{algo_graph_generation}. After all these steps, the graph is a valid NDMO graph and can be directly transformed into an agent graph.
 
@@ -646,7 +644,7 @@ The generation method is summarized in \ref{algo_graph_generation}. After all th
 
 It must be noted that the final size of problems generated by this algorithm is not fixed, and can be significantly larger than the initialization value $n$. However problems produced using the same initialization number and the same graph generator are of comparable sizes.
 
-We used graph generators proposed by the GraphStream library \footnote{\url{http://www.graphstream-project.org/}}. On \figurename{} \ref{graph_generation_examples} some examples of graphs produced using these generators are visualized using GraphStream visualization tools. It should be noted that, because of the modifications we apply on the graph after it is created using the generator, the final agent graph does not necessarily respect the properties of the initial graph , however we can see on \figurename{} \ref{graph_generation_examples} that, the modifications we apply do not radically modify the characteristic topologies of the different graph types.
+We used graph generators proposed by the GraphStream library \footnote{\url{http://www.graphstream-project.org/}}. On \figurename{} \ref{graph_generation_examples} some examples of graphs produced using these generators are visualized using GraphStream visualization tools. It should be noted that, because of the modifications we apply on the graph after it is created using the generator, the final agent graph does not necessarily respect the properties of the initial graph , however we can see on \figurename{} \ref{graph_generation_examples} that the modifications we apply do not radically modify the characteristic topologies of the different graph types, which retain their characteristic topologies.
  
 \begin{figure}
 \centering
@@ -674,7 +672,7 @@ We used graph generators proposed by the GraphStream library \footnote{\url{http
 
 \subsection{Experimental Results}
 
-Before discussing the results we obtained, let us add a word of warning concerning measuring real-time performances of java applications (java being the programming language used to implement our prototype). The Java Virtual Machine (JVM), which executes java programs, applies a lot of complex optimization steps \emph{during} the execution process. Consequently making some precise and non-biased measurements can be hazardous.\\
+Before discussing the results we obtained, let us add a word of warning concerning measuring real-time performances of Java applications (Java being the programming language used to implement our prototype). The Java Virtual Machine (JVM), which executes Java programs, applies a lot of complex optimization steps \emph{during} the execution process. Consequently making some precise and non-biased measurements can be hazardous.\\
 Regarding our experiments, we tried to mitigate possible bias by taking the two following precautions:
 \begin{compactitem}
 \item before running the measured experiments, running multiple problems whose results were discarded, in order to \enquote{heat} the JVM and allowing it to apply its optimization procedures beforehand.
@@ -682,7 +680,7 @@ Regarding our experiments, we tried to mitigate possible bias by taking the two 
 \end{compactitem}
 We believe that these precautions are sufficient to obtain sufficiently meaningful results. Nevertheless, the reader should be warned not to consider the presented values as exact measurements of the system performances.
 
-On \figurename{} \ref{time_by_size_perfo} are presented the results of the execution time of problems of different sizes. We generated agent graphs of different sizes using both Small-World and Random Euclidean algorithms. On the figure are presented the median time needed for all the agents of the problem to execute 800 behavior cycle. Interestingly, while the time performances in regard of small-world based problems graphs increase linearly with the size of the problems, the time needed in the case of random problem graphs seems to increase exponentially.
+On \figurename{} \ref{time_by_size_perfo} are presented the results of the execution time of problems of different sizes. We generated agent graphs of different sizes using both Small-World and Random Euclidean algorithms. On the figure are presented the median time needed for all the agents of the problem to execute 800 behavior cycles. Interestingly, while the time performances in regard of small-world based problems graphs increase linearly with the size of the problems, the time needed in the case of random problem graphs seems to increase exponentially.
 
 \begin{figure}
 \centering
@@ -726,8 +724,8 @@ In order to corroborate this analysis, we studied the impact increasing the node
 \subsection{Analysis of Performances}
 
 Overall, we can conclude by observing these results that the time required for the agents to make a behavior cycle is not meaningfully impacted by the size of the problem. This property is an expected benefit of restricting the agents to local perception and decision process.\\
-The results also shown the impact of increasing the neighborhood size of the agents. The time increase correspond to the analysis we made concerning the computational complexity of the agent behavior (in \ref{NCS_pres}). This analysis illustrates once more the importance of maintaining the behavior of the agents at a local level. Had the agent decision process involved not only its immediate neighbors, but also a large group of agent, the computational cost would have increased even more sharply with the size of the problem.\\
-As a remark, let us add that our implementation of the agent behavior was far from optimal from a performances point of view. In order to modify and experiment more easily on the agents, we voluntary kept separated into distinct modules the different solving mechanism of the agents. A more efficient implementation could factor several of the treatments in order to reduce the computational complexity, obtaining a non-negligible performances improvement in the process.
+The results also shown the impact of increasing the neighborhood size of the agents. The time increase corresponds to the analysis we made concerning the computational complexity of the agent behavior (in \ref{NCS_pres}). This analysis illustrates once more the importance of maintaining the behavior of the agents at a local level. Had the agent decision process involved not only its immediate neighbors, but also a large group of agent, the computational cost would have increased even more sharply with the size of the problem.\\
+As a remark, let us add that our implementation of the agent behavior was far from optimal from a performances point of view. In order to modify and experiment more easily on the agents, we voluntary kept separated into distinct modules the different solving mechanisms of the agents. A more efficient implementation could factor several of the treatments in order to reduce the computational complexity, obtaining a non-negligible performances improvement in the process.
 
 \section{Springs Networks}
 
