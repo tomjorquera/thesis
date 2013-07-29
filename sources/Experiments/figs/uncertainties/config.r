@@ -2,6 +2,7 @@ fileName <- "res.csv"
 
 data <-read.csv(fileName, head=TRUE, sep=";")
 constraints <-read.csv("constraints.csv", head=TRUE, sep=";")
+constraints_robust <-read.csv("constraints_robust.csv", head=TRUE, sep=";")
 
 pdf("uncertainties.pdf")
 par(mar=c(5,5,1,1)) 						# bigger margins (needed by labels)
@@ -27,7 +28,16 @@ points(	constraints[,1], constraints[,3],
 #points(	constraints[,1], constraints[,4],
 #		col="red", type="l")
 
-abline(a=,b=,v=376.75,lty = "dashed",col="red") #draw vertical longdashed line*
+abline(a=,b=,v=376.75,lty = "dashed",col="red") #draw vertical longdashed line
+
+#constraints robusts
+points(	constraints_robust[,1], constraints_robust[,2],
+	lty = "dotted",col="red", type="l")
+
+points(	constraints_robust[,1], constraints_robust[,3],
+	lty = "dotted",col="red", type="l")
+
+abline(a=,b=,v=329,lty = "dotted",col="red") #draw vertical longdashed line
 
 
 #solution points

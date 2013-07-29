@@ -264,7 +264,7 @@ The solution to the problem under uncertainties is $\dfrac{m_{MTO}}{S_W} = 329$ 
 
 For the uncertainties propagations, the agents are provided with Monte-Carlo propagators. These propagators draw 50000 random values on the inputs following the uncertainties associated with each input, and return a set of points for each outputs. The constraints and objectives can directly use these sets of points, as explained in chapter \ref{mas_uncertainties}.
 
-The trajectory of the system is shown on \figurename{} \ref{sequential_optim_fig}. The red dashed curves represent the deterministic constraints. The blue and green circles represent respectively the deterministic and robust solution points. The starting point (300, 300) is indicated by the letter S. We can see on the figure how, in the first part, the system converges toward the deterministic solution point and, on the second part, how it switches to uncertainties and changes its direction to converges on the robust solution point.
+The trajectory of the system is shown on \figurename{} \ref{sequential_optim_fig}. The red dashed curves represent the deterministic constraints and the red dotted curves an approximation of the constraints with uncertainties. The blue and green circles represent respectively the deterministic and robust solution points. The starting point (300, 300) is indicated by the letter S. We can see on the figure how, in the first part, the system converges toward the deterministic solution point and, on the second part, how it switches to uncertainties and changes its direction to converges on the robust solution point.
 
 \begin{figure}
 \centering
