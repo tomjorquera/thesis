@@ -98,7 +98,7 @@ The \emph{behavior} view (\figurename{} \ref{Arch-behavior}) contains the compon
 \label{Arch-behavior}
 \end{figure}
 
-The \emph{Behavior} component contains the rules which dictate the behavior of the agent. This component can be seen as orchestrating the architecture. This component exposes to the outside of the environment the \emph{Step} port, which is used to make the agent execute a step. During a step the \emph{Behavior} component executes the agent rules. These rules will in return make use of the other components of the agent. [[RMK MPG: 1 exemple de règles cf 13.1 (??)]]
+The \emph{Behavior} component contains the rules which dictate the behavior of the agent. This component can be seen as orchestrating the architecture. This component exposes to the outside of the environment the \emph{Step} port, which is used to make the agent execute a step. During a step the \emph{Behavior} component executes the agent rules. These rules will in return make use of the other components of the agent.
 
 This behavior component contains the behavioral algorithms presented in chapter \ref{agent_behav_chap}. This component mostly contains the parts regarding the general steps of the agent behavior and making use of the more specialized methods implemented in the \emph{Skills} and \emph{Aptitudes} components (for example, the exact computations involved in the detection of NCS).
 
