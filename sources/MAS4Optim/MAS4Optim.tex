@@ -1305,7 +1305,7 @@ For models agents, the algorithm will need to be applied on each input, conseque
 
 \paragraph*{Cycle Solving}
 
-To detect a cycle, the agent need to compare the signature of each received message with the memorized origin signatures. The complexity of this comparison is $\mathcal{O}(n \times m)$, $n$ being the number of received messages and $m$ being the number of signatures.
+To detect a cycle, the agent needs to compare the signature of each received message with the memorized origin signatures. The complexity of this comparison is $\mathcal{O}(n \times m)$, $n$ being the number of received messages and $m$ being the number of signatures.
 
 \paragraph*{Hidden Dependencies}
 When solving this NCS, the agent needs to detect which selected requests come from the same origin, group them, before comparing the total influences of the two groups. The detection, grouping and total influence calculation can all be factorized into a single pass algorithm of complexity $\mathcal{O}(n)$ regarding the number of requests.\\
