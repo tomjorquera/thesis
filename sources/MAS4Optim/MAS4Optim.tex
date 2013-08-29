@@ -485,6 +485,7 @@ The algorithm of the AVT is the following. Given the following variables:
 When receiving a new adjustment feedback $Fb_t \in \{\uparrow ; \downarrow ; \sim\}$ (corresponding respectively to \enquote{increase current value}, \enquote{decrease current value} and \enquote{keep current value}), a new value $v_{t+1}$ is calculated using \tablename{} \ref{tab:avt}. 
 
 \begin{table}[h]
+\caption{AVT behavior}\label{tab:avt}
 \centering
 \begin{tabular}{ c  c  c  c  c  }
 \toprule
@@ -497,7 +498,6 @@ When receiving a new adjustment feedback $Fb_t \in \{\uparrow ; \downarrow ; \si
     & \multirow{2}*{$\sim$}  & $\Delta_t = \Delta_{t-1} $  &   $\Delta_t = \Delta_{t-1}$ &  $\Delta_t = \Delta_{t-1} \times \lambda_d$     \\ 
   &   &  $v_{t+1} = v_t + \Delta_t$  &   $v_{t+1} = v_t - \Delta_t$  &  $v_{t+1} = v_t $  \\ \bottomrule
 \end{tabular}
-\caption{AVT behavior}\label{tab:avt}
 \end{table}
 
 In our experiments we kept the default proposed values of $\lambda_i = 2$ and  $\lambda_d = \dfrac{1}{3}$.
