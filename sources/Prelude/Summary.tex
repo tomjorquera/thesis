@@ -1,0 +1,36 @@
+\if@doubleinterligne\renewcommand\baselinestretch{0.5}\fi
+  \thispagestyle{plain}
+  %\vspace*{2cm} 
+  %
+  %POUR DECALER VERS LE BAS LA PAGE DE TITRE%
+  \begin{center}
+    \Large Tom Jorquera\\
+    \addvspace{2mm}
+    \textsc{\textbf{An Adaptive Multi-Agent System for Self-Organizing Continuous Optimization}}\\
+	\addvspace{2mm}
+    \begin{center}
+   	 \large\normalfont Supervisors: Marie-Pierre \textsc{Gleizes}, Jean-Pierre \textsc{Georgé}\\
+   	  \large\normalfont \emph{Université de Toulouse III}\\
+     \end{center}
+     \\
+    \addvspace{3mm}
+    \textbf{\hrulefill~ Abstract ~\hrulefill}\\  
+    
+  \end{center}
+  \vspace{-0.3cm}
+        
+\normalsize \hspace{0.6cm}This thesis presents a novel approach to distribute complex continuous optimization processes among a network of cooperative agents. Continuous optimization is a very broad field, including multiple specialized sub-domains aiming at efficiently solving a specific subset of continuous optimization problems. While this approach has proven successful for multiple application domains, it has shown its limitations on highly complex optimization problems, such as complex system design optimization. This kind of problems usually involves a large number of heterogeneous models coming from several interdependent disciplines.
+
+In an effort to tackle such complex problems, the field of multidisciplinary optimization methods was proposed. Multidisciplinary optimization methods propose to distribute the optimization process, often by reformulating the original problem is a way that reduce the interconnections between the disciplines. However these methods present several drawbacks regarding the difficulty to correctly apply them, as well as their lack of flexibility.
+
+Using the AMAS (Adaptive Multi-Agent Systems) theory, we propose a multi-agent system which distributes the optimization process, applying local optimizations on the different parts of the problem while maintaining a consistent global state. The AMAS theory, developed by the SMAC team, focuses on cooperation as the fundamental mechanism for the design of complex artificial systems. The theory advocates the design of self-adaptive agents, interacting cooperatively at a local level in order to help each others to attain their local goals.
+
+Based on the AMAS theory, we propose a general agent-based representation of continuous optimization problems. From this representation we propose a nominal behavior for the agents in order to do the optimization process. We then identify some specific configurations which would disturb this nominal optimization process, and present a set of cooperative behaviors for the agents to identify and solve these problematic configurations.
+
+At last, we use the cooperation mechanisms we introduced as the basis for more general Collective Problem Solving Patterns. These patterns are high-level guideline to identify and solve potential problematic configurations which can arise in distributed problem solving systems. They provide a specific cooperative mechanism for the agents, using abstract indicators that are to be instantiated on the problem at hand.
+
+We validate our system on multiple test cases, using well-known classical optimization problems as well as multidisciplinary optimization benchmarks. In order to study the scalability properties of our system, we proposed two different ways to automatically generate valid optimization problems. Using these techniques we generate large test sets which allow us to validate several properties of our system.
+
+\vspace{-0.4cm}
+\begin{center}{\hrulefill}\end{center}
+\cleardoublepage
