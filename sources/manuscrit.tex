@@ -23,16 +23,19 @@
 \usepackage{makeidx}
 \usepackage{footnote}
 
+\usepackage[pdftex]{graphicx}
+\usepackage{wrapfig,subcaption}
+
 \usepackage{setspace,tikz} %used to draw figures
 \newcommand*{\mknode}[1]{\tikz[baseline,remember picture]\node[inner sep=0pt,anchor=base] (#1) {};}
 
 \usepackage{amsmath, amsthm, amssymb}	%draw nice maths
 \usepackage{paralist}	%for nice compact lists
 
-\usepackage[pdftex]{graphicx}
-\usepackage{wrapfig,subcaption}
-
 \usepackage{multirow, booktabs} %for nice tables
+\newcommand{\specialcell}[2][l]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}
+}
 
 \usepackage[tight]{shorttoc} %used to create an additional shorter table of content
 \usepackage{tocloft}%to customize the ToC
@@ -43,7 +46,7 @@
 
 %%%%%% 
 %	biblio packages and config
-\usepackage[backend=bibtex,style=alphabetic,dashed=false]{biblatex}	% dashed: replace name by dash when multiple items with same authors
+\usepackage[backend=bibtex,style=alphabetic]{biblatex}	% dashed: replace name by dash when multiple items with same authors
 
 \bibliography{StateoftheArt/SoA,AMAS/AMAS,MAS4Optim/MAS4Optim,Implem/Implem,CPSP/CPSP,Experiments/Experiments}
 \bibliography{Prelude/mybiblio}
