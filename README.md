@@ -20,7 +20,8 @@ The thesis is written in LaTeX, with bibliography in BibTeX format, thus adequat
 For convenience, a build.sh script is present at the project root. The script assume both pdflatex and bibtex to be present in your PATH.
 
 To run the script:
-	./build.sh manuscrit
+
+	`./build.sh manuscrit`
 
 This will create the `manuscrit.pdf` file in a `generated` folder at the root, along with some other intermediary files.
 
