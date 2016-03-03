@@ -1,4 +1,4 @@
-An Adaptive Multi-Agent System for Self-Organizing Contunuous Optimization
+An Adaptive Multi-Agent System for Self-Organizing Continuous Optimization
 ==========================================================================
 
 This repository contains the source files of my PhD thesis in Artificial Intelligence, which I successfully defended in October 2013.
@@ -11,13 +11,13 @@ The project is composed of the following folders:
 * `hooks` -- contains scripts executed by the VCS
 * `libs` -- LaTeX library files used for the document
 * `scripts` -- various scripts I created in an attempt to procrastinate on my thesis
-* `sources` -- the source files of my thesis`
+* `sources` -- the source files of my thesis
 
 Build
 -----
 
-The thesis is written in LaTeX, with bibliography in BibTeX format, thus adequate compilers are required for both format.
-For convenience, a build.sh script is present at the project root. The script assume both pdflatex and bibtex to be present in your PATH.
+The thesis is written in LaTeX, with bibliography in BibTeX, thus adequate compilers are required for both formats.
+For convenience, a build.sh script is present at the project root. The script assumes both pdflatex and bibtex to be in your PATH.
 
 To run the script:
 
@@ -25,7 +25,7 @@ To run the script:
 
 This will create the `manuscrit.pdf` file in a `generated` folder at the root, along with some other intermediary files.
 
-NOTE: the `sources` folder contains the file `these_couv_full.pdf` which correspond to the cover used by my university. It is not used for the generration and (optionally) has to be appended at the beggining of the file manually.
+NOTE: the `sources` folder contains the file `these_couv_full.pdf` which corresponds to the cover used by my university. It is not used for the generation and (optionally) has to be appended at the beginning of the file manually.
 
 License
 -------
